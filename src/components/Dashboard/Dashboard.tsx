@@ -2,7 +2,17 @@
 import { useState, useEffect } from "react";
 import { Row, Col, Container, Card, Spinner } from "react-bootstrap";
 import { Line, Pie } from "react-chartjs-2";
-import { Chart as ChartJS, CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend, PointElement, ArcElement } from "chart.js";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  ArcElement,
+} from "chart.js";
 import TrafficEventsTable from "./TrafficEventsTable";
 import DailyStatsTable from "./DailyStatsTable";
 import SEOKeywordsTable from "./SEOKeywordsTable";
@@ -12,7 +22,16 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import "./Dashboard.css";
 
-ChartJS.register(CategoryScale, LinearScale, LineElement, Title, Tooltip, Legend, PointElement, ArcElement);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  PointElement,
+  ArcElement
+);
 
 function Dashboard() {
   const [trafficData, setTrafficData] = useState<number[]>([0, 0]);
@@ -41,7 +60,8 @@ function Dashboard() {
       const pageViews = events.length;
       const uniqueVisitors = new Set(events.map((e: any) => e.ip_address)).size;
       const todayVisits = events.filter(
-        (e: any) => new Date(e.created_at).toDateString() === new Date().toDateString()
+        (e: any) =>
+          new Date(e.created_at).toDateString() === new Date().toDateString()
       ).length;
       setTrafficData([pageViews, uniqueVisitors]);
       setDailyVisits(todayVisits);
@@ -54,11 +74,19 @@ function Dashboard() {
     try {
       const response = await axios.get(`${url}/seo-keywords`);
       const keywords = response.data.payload;
-      const impressions = keywords.reduce((acc: number, k: any) => acc + k.impressions, 0);
-      const clicks = keywords.reduce((acc: number, k: any) => acc + k.clicks, 0);
-      const avgPosition = keywords.length > 0 
-        ? keywords.reduce((acc: number, k: any) => acc + k.avg_position, 0) / keywords.length
-        : 0;
+      const impressions = keywords.reduce(
+        (acc: number, k: any) => acc + k.impressions,
+        0
+      );
+      const clicks = keywords.reduce(
+        (acc: number, k: any) => acc + k.clicks,
+        0
+      );
+      const avgPosition =
+        keywords.length > 0
+          ? keywords.reduce((acc: number, k: any) => acc + k.avg_position, 0) /
+            keywords.length
+          : 0;
       setSeoData([impressions, clicks, avgPosition]);
     } catch (error) {
       console.error("Error fetching SEO data:", error);
@@ -83,7 +111,12 @@ function Dashboard() {
 
   return (
     <Container className="dashboard-container mt-4">
-      <motion.h1 className="dashboard-title" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.6 }}>
+      <motion.h1
+        className="dashboard-title"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.6 }}
+      >
         📊 Admin Dashboard
       </motion.h1>
 
@@ -125,7 +158,7 @@ function Dashboard() {
             <Col md={6}>
               <Card className="dashboard-card chart-card">
                 <h6>Traffic Trends</h6>
-                <Line 
+                <Line
                   data={{
                     labels: ["Total Page Views", "Unique Visitors"],
                     datasets: [
@@ -136,7 +169,7 @@ function Dashboard() {
                         backgroundColor: "rgba(78, 115, 223, 0.15)",
                         borderWidth: 3,
                         pointRadius: 4,
-                        pointBackgroundColor: "#4e73df"
+                        pointBackgroundColor: "#4e73df",
                       },
                     ],
                   }}
@@ -146,13 +179,18 @@ function Dashboard() {
             <Col md={6}>
               <Card className="dashboard-card chart-card">
                 <h6>Leads by Source</h6>
-                <Pie 
+                <Pie
                   data={{
                     labels: leadsLabels,
                     datasets: [
                       {
                         data: leadsData,
-                        backgroundColor: ["red", "#36a2eb", "#ffcd56", "#4bc0c0"],
+                        backgroundColor: [
+                          "red",
+                          "#36a2eb",
+                          "#ffcd56",
+                          "#4bc0c0",
+                        ],
                       },
                     ],
                   }}
@@ -162,11 +200,21 @@ function Dashboard() {
           </Row>
 
           <Row className="g-4">
-            <Col md={6}><TrafficEventsTable /></Col>
-            <Col md={6}><DailyStatsTable /></Col>
-            <Col md={6}><SEOKeywordsTable /></Col>
-            <Col md={6}><MarketingCampaignTable /></Col>
-            <Col md={6}><LeadsTable /></Col>
+            <Col md={6}>
+              <TrafficEventsTable />
+            </Col>
+            <Col md={6}>
+              <DailyStatsTable />
+            </Col>
+            <Col md={6}>
+              <SEOKeywordsTable />
+            </Col>
+            <Col md={6}>
+              <MarketingCampaignTable />
+            </Col>
+            <Col md={6}>
+              <LeadsTable />
+            </Col>
           </Row>
         </>
       )}

@@ -38,7 +38,10 @@ function SEOKeywordsTable() {
 
   return (
     <Container className="my-4">
-      <Card className="shadow-sm border-0 rounded-3 p-3" style={{ backgroundColor: "#ffffff" }}>
+      <Card
+        className="shadow-sm border-0 rounded-3 p-3"
+        style={{ backgroundColor: "#ffffff" }}
+      >
         <motion.div
           className="d-flex align-items-center justify-content-between mb-3"
           initial={{ opacity: 0, y: 20 }}
@@ -46,7 +49,9 @@ function SEOKeywordsTable() {
           transition={{ duration: 0.5 }}
         >
           <h4 className="mb-0 text-dark fw-bold">🔍 SEO Keywords Analytics</h4>
-          <span className="text-muted small">Last Updated: {new Date().toLocaleString()}</span>
+          <span className="text-muted small">
+            Last Updated: {new Date().toLocaleString()}
+          </span>
         </motion.div>
 
         {loading ? (
@@ -54,7 +59,9 @@ function SEOKeywordsTable() {
             <Spinner animation="border" variant="primary" />
           </div>
         ) : error ? (
-          <Alert variant="danger" className="text-center">{error}</Alert>
+          <Alert variant="danger" className="text-center">
+            {error}
+          </Alert>
         ) : (
           <motion.div
             className="table-responsive"
@@ -69,8 +76,20 @@ function SEOKeywordsTable() {
             animate={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
           >
-            <Table hover className="table-sm align-middle mb-0" style={{ fontSize: "0.9rem" }}>
-              <thead className="bg-light text-dark sticky-top" style={{ position: "sticky", top: 0, zIndex: 10, borderBottom: "2px solid #ddd" }}>
+            <Table
+              hover
+              className="table-sm align-middle mb-0"
+              style={{ fontSize: "0.9rem" }}
+            >
+              <thead
+                className="bg-light text-dark sticky-top"
+                style={{
+                  position: "sticky",
+                  top: 0,
+                  zIndex: 10,
+                  borderBottom: "2px solid #ddd",
+                }}
+              >
                 <tr>
                   <th className="fw-bold text-start">Keyword</th>
                   <th className="fw-bold text-center">Impressions</th>
@@ -84,12 +103,23 @@ function SEOKeywordsTable() {
                 {seoKeywords.length > 0 ? (
                   seoKeywords.slice(0, 20).map((keyword) => (
                     <tr key={keyword.id} className="hover-row">
-                      <td className="text-start text-truncate" style={{ maxWidth: "180px" }}>{keyword.keyword}</td>
-                      <td className="text-center">{keyword.impressions.toLocaleString()}</td>
-                      <td className="text-center">{keyword.clicks.toLocaleString()}</td>
+                      <td
+                        className="text-start text-truncate"
+                        style={{ maxWidth: "180px" }}
+                      >
+                        {keyword.keyword}
+                      </td>
+                      <td className="text-center">
+                        {keyword.impressions.toLocaleString()}
+                      </td>
+                      <td className="text-center">
+                        {keyword.clicks.toLocaleString()}
+                      </td>
                       <td className="text-center">{keyword.ctr}%</td>
                       <td className="text-center">{keyword.avg_position}</td>
-                      <td className="text-end text-muted small">{new Date(keyword.date).toLocaleDateString()}</td>
+                      <td className="text-end text-muted small">
+                        {new Date(keyword.date).toLocaleDateString()}
+                      </td>
                     </tr>
                   ))
                 ) : (
