@@ -35,25 +35,31 @@ function DailyStatsTable() {
   }, []);
 
   return (
-    <Container className="my-4">
-      <Card
-        className="shadow-sm border-0 rounded-3 p-3"
-        style={{ backgroundColor: "#ffffff" }}
-      >
+  <Container className="py-5">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <Card className="shadow-sm border-0 rounded-4 p-4 bg-white">
         <motion.div
-          className="d-flex align-items-center justify-content-between mb-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="d-flex align-items-center justify-content-between mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
         >
-          <h4 className="mb-0 text-dark fw-bold">📊 Daily Stats Analytics</h4>
-          <span className="text-muted small">
-            Last Updated: {new Date().toLocaleString()}
-          </span>
+          <h3 className="fw-bold text-dark m-0">
+            Daily Stats <span style={{ color: "#0d6efd" }}>Analytics</span>
+          </h3>
+              <small className="text-muted">
+            Last Updated: <br /><strong>{new Date().toLocaleString()}</strong>
+          </small>
         </motion.div>
 
         {loading ? (
-          <div className="text-center my-3">
+          <div className="text-center my-4">
             <Spinner animation="border" variant="primary" />
           </div>
         ) : error ? (
@@ -66,18 +72,19 @@ function DailyStatsTable() {
             style={{
               maxHeight: "350px",
               overflowY: "auto",
-              borderRadius: "8px",
-              border: "1px solid #e3e6f0",
+              borderRadius: "12px",
+              border: "4px solid #e3e6f0",
               boxShadow: "0 0 20px rgba(0, 0, 0, 0.05)",
             }}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            whileInView={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
+            viewport={{ once: true }}
           >
             <Table
               hover
-              className="table-sm align-middle mb-0"
-              style={{ fontSize: "0.9rem" }}
+              className="align-middle table-sm mb-0"
+              style={{ fontSize: "0.80rem" }}
             >
               <thead
                 className="bg-light text-dark sticky-top"
@@ -85,20 +92,20 @@ function DailyStatsTable() {
                   position: "sticky",
                   top: 0,
                   zIndex: 10,
-                  borderBottom: "2px solid #ddd",
+                  borderBottom: "2px solid #dee2e6",
                 }}
               >
                 <tr>
-                  <th className="fw-bold text-start">Date</th>
-                  <th className="fw-bold text-center">Total Visits</th>
-                  <th className="fw-bold text-center">Total Clicks</th>
-                  <th className="fw-bold text-center">Unique Visitors</th>
+                  <th className="fw-semibold text-start">Date</th>
+                  <th className="fw-semibold text-center">Total Visits</th>
+                  <th className="fw-semibold text-center">Total Clicks</th>
+                  <th className="fw-semibold text-center">Unique Visitors</th>
                 </tr>
               </thead>
               <tbody>
                 {dailyStats.length > 0 ? (
                   dailyStats.slice(0, 20).map((stat) => (
-                    <tr key={stat.id} className="hover-row">
+                    <tr key={stat.id}>
                       <td className="text-start">
                         {new Date(stat.date).toLocaleDateString()}
                       </td>
@@ -115,7 +122,7 @@ function DailyStatsTable() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={4} className="text-muted text-center py-3">
+                    <td colSpan={4} className="text-muted text-center py-4">
                       No daily stats recorded.
                     </td>
                   </tr>
@@ -125,8 +132,10 @@ function DailyStatsTable() {
           </motion.div>
         )}
       </Card>
-    </Container>
-  );
+    </motion.div>
+  </Container>
+);
+
 }
 
 export default DailyStatsTable;

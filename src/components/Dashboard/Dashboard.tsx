@@ -1,4 +1,3 @@
-// src/components/Dashboard/Dashboard.tsx
 import { useState, useEffect } from "react";
 import { Row, Col, Container, Card, Spinner } from "react-bootstrap";
 import { Line, Pie } from "react-chartjs-2";
@@ -21,6 +20,7 @@ import LeadsTable from "./LeadsTable";
 import axios from "axios";
 import { motion } from "framer-motion";
 import "./Dashboard.css";
+import { useAuth } from "../../context/AuthContext";
 
 ChartJS.register(
   CategoryScale,
@@ -40,7 +40,7 @@ function Dashboard() {
   const [leadsLabels, setLeadsLabels] = useState<string[]>([]);
   const [leadsData, setLeadsData] = useState<number[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-
+  const { user } = useAuth();
   const url = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
@@ -92,22 +92,35 @@ function Dashboard() {
       console.error("Error fetching SEO data:", error);
     }
   };
-
   const fetchLeadsData = async () => {
     try {
       const response = await axios.get(`${url}/leads`);
       const leads = response.data.payload;
+
       const sourceCounts: Record<string, number> = {};
       leads.forEach((lead: any) => {
         const source = lead.source ? lead.source.toLowerCase() : "unknown";
         sourceCounts[source] = (sourceCounts[source] || 0) + 1;
       });
+
       setLeadsLabels(Object.keys(sourceCounts));
       setLeadsData(Object.values(sourceCounts));
     } catch (error) {
       console.error("Error fetching leads data:", error);
     }
   };
+  const dynamicColors = [
+    "#4e73df",
+    "#1cc88a",
+    "#36b9cc",
+    "#f6c23e",
+    "#e74a3b",
+    "#858796",
+    "#5a5c69",
+    "#20c997",
+    "#fd7e14",
+    "#6610f2",
+  ];
 
   return (
     <Container className="dashboard-container mt-4">
@@ -117,9 +130,8 @@ function Dashboard() {
         animate={{ opacity: 1 }}
         transition={{ duration: 0.6 }}
       >
-        📊 Admin Dashboard
+        {user ? `Welcome  ${user.name}` : "Welcome"}
       </motion.h1>
-
       {loading ? (
         <div className="text-center my-5">
           <Spinner animation="border" variant="primary" />
@@ -160,18 +172,41 @@ function Dashboard() {
                 <h6>Traffic Trends</h6>
                 <Line
                   data={{
-                    labels: ["Total Page Views", "Unique Visitors"],
+                    labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
                     datasets: [
                       {
-                        label: "Traffic Stats",
+                        label: "Page Views",
                         data: trafficData,
-                        borderColor: "#4e73df",
-                        backgroundColor: "rgba(78, 115, 223, 0.15)",
-                        borderWidth: 3,
-                        pointRadius: 4,
-                        pointBackgroundColor: "#4e73df",
+                        fill: true,
+                        borderColor: "#0d6efd",
+                        backgroundColor: "rgba(13, 110, 253, 0.15)",
+                        tension: 0.4,
+                        pointRadius: 5,
+                        pointHoverRadius: 7,
+                        pointBackgroundColor: "#0d6efd",
                       },
                     ],
+                  }}
+                  options={{
+                    responsive: true,
+                    plugins: {
+                      legend: {
+                        display: true,
+                        labels: {
+                          color: "#333",
+                          font: { size: 13, weight: "bold" },
+                        },
+                      },
+                    },
+                    scales: {
+                      y: {
+                        beginAtZero: true,
+                        ticks: { color: "#666" },
+                      },
+                      x: {
+                        ticks: { color: "#666" },
+                      },
+                    },
                   }}
                 />
               </Card>
@@ -185,14 +220,25 @@ function Dashboard() {
                     datasets: [
                       {
                         data: leadsData,
-                        backgroundColor: [
-                          "red",
-                          "#36a2eb",
-                          "#ffcd56",
-                          "#4bc0c0",
-                        ],
+                        backgroundColor: leadsLabels.map(
+                          (_, i) => dynamicColors[i % dynamicColors.length]
+                        ),
+                        hoverOffset: 8,
+                        borderWidth: 1,
+                        borderColor: "#ffffff",
                       },
                     ],
+                  }}
+                  options={{
+                    plugins: {
+                      legend: {
+                        position: "bottom",
+                        labels: {
+                          color: "#4e4e4e",
+                          font: { size: 14 },
+                        },
+                      },
+                    },
                   }}
                 />
               </Card>
@@ -200,17 +246,17 @@ function Dashboard() {
           </Row>
 
           <Row className="g-4">
+            <Col md={12}>
+              <SEOKeywordsTable />
+            </Col>
             <Col md={6}>
-              <TrafficEventsTable />
+              <MarketingCampaignTable />
             </Col>
             <Col md={6}>
               <DailyStatsTable />
             </Col>
             <Col md={6}>
-              <SEOKeywordsTable />
-            </Col>
-            <Col md={6}>
-              <MarketingCampaignTable />
+              <TrafficEventsTable />
             </Col>
             <Col md={6}>
               <LeadsTable />

@@ -36,25 +36,31 @@ function LeadsTable() {
   }, []);
 
   return (
-    <Container className="my-4">
-      <Card
-        className="shadow-sm border-0 rounded-3 p-3"
-        style={{ backgroundColor: "#ffffff" }}
-      >
+  <Container className="py-5">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <Card className="shadow-sm border-0 rounded-4 p-4 bg-white">
         <motion.div
-          className="d-flex align-items-center justify-content-between mb-3"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
+          className="d-flex align-items-center justify-content-between mb-4"
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
+          viewport={{ once: true }}
         >
-          <h4 className="mb-0 text-dark fw-bold">📩 Leads Analytics</h4>
-          <span className="text-muted small">
-            Last Updated: {new Date().toLocaleString()}
-          </span>
+          <h3 className="fw-bold text-dark m-0">
+            Leads <span style={{ color: "#0d6efd" }}>Analytics</span>
+          </h3>
+             <small className="text-muted">
+            Last Updated: <br /><strong>{new Date().toLocaleString()}</strong>
+          </small>
         </motion.div>
 
         {loading ? (
-          <div className="text-center my-3">
+          <div className="text-center my-4">
             <Spinner animation="border" variant="primary" />
           </div>
         ) : error ? (
@@ -63,76 +69,55 @@ function LeadsTable() {
           </Alert>
         ) : (
           <motion.div
+            className="table-responsive"
             style={{
-              maxHeight: "350px",
+              maxWidth:"9",
+              maxHeight: "430px",
               overflowY: "auto",
-              borderRadius: "8px",
-              border: "1px solid #e3e6f0",
+              borderRadius: "12px",
+              border: "4px solid #e3e6f0",
               boxShadow: "0 0 20px rgba(0, 0, 0, 0.05)",
             }}
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
+            whileInView={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.2 }}
+            viewport={{ once: true }}
           >
             <Table
-              className="table-sm align-middle mb-0"
+              hover
+              className="align-middle table-sm mb-0"
               style={{
-                fontSize: "0.9rem",
-                tableLayout: "fixed",
-                width: "100%",
+                fontSize: "0.70rem",
+                tableLayout: "auto",
+                whiteSpace: "normal",
+                wordBreak: "break-word",
               }}
             >
               <thead
                 className="bg-light text-dark sticky-top"
-                style={{
+               style={{
                   position: "sticky",
                   top: 0,
                   zIndex: 10,
-                  borderBottom: "2px solid #ddd",
+                  borderBottom: "2px solid #dee2e6",
                 }}
               >
                 <tr>
-                  <th style={{ width: "15%" }} className="fw-bold text-start">
-                    Name
-                  </th>
-                  <th style={{ width: "20%" }} className="fw-bold text-start">
-                    Email
-                  </th>
-                  <th style={{ width: "35%" }} className="fw-bold text-start">
-                    Message
-                  </th>
-                  <th style={{ width: "15%" }} className="fw-bold text-center">
-                    Source
-                  </th>
-                  <th style={{ width: "15%" }} className="fw-bold text-end">
-                    Date
-                  </th>
+                  <th className="fw-semibold text-start">Name</th>
+                  <th className="fw-semibold text-start">Email</th>
+                  <th className="fw-semibold text-start">Message</th>
+                  <th className="fw-semibold text-center">Source</th>
+                  <th className="fw-semibold text-end">Date</th>
                 </tr>
               </thead>
               <tbody>
                 {leads.length > 0 ? (
                   leads.slice(0, 20).map((lead) => (
-                    <tr key={lead.id} className="hover-row">
-                      <td
-                        className="text-start text-truncate"
-                        style={{ maxWidth: "150px" }}
-                      >
-                        {lead.name}
-                      </td>
-                      <td
-                        className="text-start text-truncate"
-                        style={{ maxWidth: "180px" }}
-                      >
-                        {lead.email}
-                      </td>
-                      <td
-                        className="text-start text-truncate"
-                        style={{ maxWidth: "250px" }}
-                      >
-                        {lead.message
-                          ? lead.message.slice(0, 100) +
-                            (lead.message.length > 100 ? "..." : "")
-                          : "No message"}
+                    <tr key={lead.id}>
+                      <td className="text-start">{lead.name}</td>
+                      <td className="text-start">{lead.email}</td>
+                      <td className="text-start">
+                        {lead.message || "No message"}
                       </td>
                       <td className="text-center">{lead.source || "Direct"}</td>
                       <td className="text-end text-muted small">
@@ -142,7 +127,7 @@ function LeadsTable() {
                   ))
                 ) : (
                   <tr>
-                    <td colSpan={5} className="text-muted text-center py-3">
+                    <td colSpan={5} className="text-muted text-center py-4">
                       No leads recorded.
                     </td>
                   </tr>
@@ -152,8 +137,10 @@ function LeadsTable() {
           </motion.div>
         )}
       </Card>
-    </Container>
-  );
+    </motion.div>
+  </Container>
+);
+
 }
 
 export default LeadsTable;
