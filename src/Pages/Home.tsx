@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+
 function Home() {
   useTrafficTracker("page_view", "/");
 
@@ -234,6 +235,7 @@ function Home() {
           </motion.div>
         </Container>
       </div>
+    
     </div>
   );
 }

@@ -139,7 +139,7 @@ function About() {
             transition={{ duration: 0.7 }}
             viewport={{ once: true }}
           >
-            <h2 className="fw-bold display-5">Our Mission</h2>
+            <h2 className="fw-bold display-5">Batistack's <span style={{ color: "#0d6efd" }}>Mission</span> </h2>
             <p className="text-muted fs-5 mt-2">
               To simplify technology, amplify ideas, and build software that genuinely helps people move forward.
             </p>
