@@ -1,4 +1,3 @@
-
 import {
   createContext,
   useContext,
@@ -8,7 +7,6 @@ import {
 } from "react";
 
 import axios from "axios";
-
 
 interface AdminUser {
   id: number;
@@ -38,11 +36,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const url = import.meta.env.VITE_BASE_URL;
-
+  const loginEndpoint = import.meta.env.VITE_LOGING_ENPOING;
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await axios.post(`${url}/users/login`, {
+      const response = await axios.post(`${url}/${loginEndpoint}`, {
         email,
         password,
       });

@@ -8,11 +8,15 @@ import ContactForm from "./Pages/ContactForm";
 import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./Pages/DashboardPage";
 import SocialMediaLinks from "./components/socialMediaLinks";
+import ScrollToTop from "./hook/scrollToTop";
+
+
 function App() {
   const { isAuthenticated } = useAuth();
   return (
     <div>
       <Router>
+        <ScrollToTop/>
         <NavBar />
         <Routes>
           <Route path="/" element={<Home />} />

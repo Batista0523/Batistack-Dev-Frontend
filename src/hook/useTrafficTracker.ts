@@ -54,7 +54,7 @@ export const useTrafficTracker = (event_type: string, path: string) => {
   }, [event_type, path]);
 };
 
-// ✅ Función para obtener la IP del usuario
+
 const getIPAddress = async (): Promise<string> => {
   try {
     const response = await axios.get("https://api.ipify.org?format=json");
@@ -65,7 +65,7 @@ const getIPAddress = async (): Promise<string> => {
   }
 };
 
-// ✅ Función para capturar parámetros UTM
+
 const getUTMParameter = (param: string): string => {
   return new URLSearchParams(window.location.search).get(param) || "N/A";
 };
