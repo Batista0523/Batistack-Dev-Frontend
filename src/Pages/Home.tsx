@@ -6,34 +6,12 @@ import { motion } from "framer-motion";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
 
-
 function Home() {
-
   useTrafficTracker("page_view", "/");
 
   return (
     <>
-      <Helmet>
-        <title>Batistack Development | Custom Websites & Web Apps</title>
-        <meta
-          name="description"
-          content="Batistack Development builds modern, secure websites and custom applications for businesses and startups. Let's bring your idea to life."
-        />
-        <meta
-          name="keywords"
-          content="website near me, web development near me,web development, custom web app, business website, react developer, full stack, Batistack, software agency,software company, tech solutions"
-        />
-        <meta name="author" content="Batistack Development" />
-        <meta property="og:title" content="Batistack Development" />
-        <meta
-          property="og:description"
-          content="Custom websites and apps built for your business. Scalable. Secure. Fast."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.batistack.com" />
-        <meta property="og:image" content="https://www.batistack.com/og-image.jpg" />
-
-      </Helmet>
+      
 
       <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
         <div className="w-100 py-5">
@@ -248,6 +226,55 @@ function Home() {
           </Container>
         </div>
       </div>
+
+      <Helmet>
+        <title>Batistack Development | Custom Websites & Web Apps</title>
+        <meta
+          name="description"
+          content="Batistack Development builds modern, secure websites and custom applications for businesses and startups. Let's bring your idea to life."
+        />
+        <meta
+          name="keywords"
+          content="website near me, web development near me,web development, custom web app, business website, react developer, full stack, Batistack, software agency,software company, tech solutions"
+        />
+        <meta name="author" content="Batistack Development" />
+        <meta property="og:title" content="Batistack Development" />
+        <meta
+          property="og:description"
+          content="Custom websites and apps built for your business. Scalable. Secure. Fast."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.batistack.com" />
+        <meta
+          property="og:image"
+          content="https://www.batistack.com/og-image.jpg"
+        />
+        <script type="application/ld+json">
+          {`
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Batistack Development",
+      "url": "https://www.batistack.com",
+      "logo": "https://www.batistack.com/og-image.jpg",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+1-929-733-1600",
+        "contactType": "Customer Service",
+        "areaServed": "US",
+        "availableLanguage": ["English", "Spanish"]
+      },
+      "sameAs": [
+        "https://www.instagram.com/bati.stack",
+        "https://www.linkedin.com/company/batistack",
+        "https://www.facebook.com/profile.php?id=61575947108161",
+        "https://x.com/BatistackDev"
+      ],
+      "description": "Batistack Development builds websites and custom web apps for businesses across the United States — fast, secure, and scalable solutions tailored for your goals."
+    }
+  `}
+        </script>
+      </Helmet>
     </>
   );
 }

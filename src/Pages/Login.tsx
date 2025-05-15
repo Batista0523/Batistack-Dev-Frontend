@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Form, Button, Alert, Container, Row, Col, Card } from "react-bootstrap";
 import { motion } from "framer-motion";
-
+import { Helmet } from "react-helmet-async";
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -28,6 +28,28 @@ function LoginPage() {
   };
 
   return (
+
+    <>
+    <Helmet>
+      <title>Admin Login | Batistack Development</title>
+      <meta
+        name="description"
+        content="Secure admin login for Batistack Development's internal dashboard. Access analytics, leads, and project data."
+      />
+      <meta
+        name="keywords"
+        content="admin login, batistack dashboard, secure login, client portal, website admin panel"
+      />
+      <meta name="author" content="Batistack Development" />
+      <meta property="og:title" content="Batistack Admin Login" />
+      <meta
+        property="og:description"
+        content="Login to Batistack Development’s admin dashboard to manage data and view performance."
+      />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content="https://www.batistack.com/login" />
+    </Helmet>
+    
     <Container
       className="d-flex align-items-center justify-content-center"
       style={{ minHeight: "100vh", backgroundColor: "#f8f9fa" }}
@@ -85,6 +107,7 @@ function LoginPage() {
         </Col>
       </Row>
     </Container>
+    </>
   );
 }
 
