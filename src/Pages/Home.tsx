@@ -12,6 +12,7 @@ function Home() {
     <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
       <div className="w-100 py-5">
         <Container fluid>
+        
           <Row className="align-items-center">
             <Col md={6} className="text-center text-md-start px-5">
               <motion.h1
@@ -56,7 +57,7 @@ function Home() {
               </motion.div>
             </Col>
 
-            <Col
+            {/* <Col
               md={6}
               className="d-flex justify-content-center align-items-center"
               style={{ minHeight: "400px" }}
@@ -76,7 +77,7 @@ function Home() {
                 whileInView={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.8 }}
               />
-            </Col>
+            </Col> */}
           </Row>
         </Container>
       </div>

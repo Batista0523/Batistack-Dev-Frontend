@@ -27,3 +27,6 @@
   transform: translateY(-3px) scale(1.05);
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
 }
+.social-media-links-container a {
+  text-decoration: none;
+}
