@@ -1,6 +1,14 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { Form, Button, Alert, Container, Row, Col, Spinner } from "react-bootstrap";
+import {
+  Form,
+  Button,
+  Alert,
+  Container,
+  Row,
+  Col,
+  Spinner,
+} from "react-bootstrap";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 
@@ -44,7 +52,13 @@ function ContactForm() {
   };
 
   return (
-    <div style={{ backgroundColor: "#f8f9fa", minHeight: "100vh", paddingTop: "60px" }}>
+    <div
+      style={{
+        backgroundColor: "#f8f9fa",
+        minHeight: "100vh",
+        paddingTop: "60px",
+      }}
+    >
       <Container className="py-5">
         <motion.div
           className="text-center mb-5"

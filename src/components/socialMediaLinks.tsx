@@ -1,4 +1,4 @@
-// src/components/SocialMediaLinks.tsx
+
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaInstagram, FaLinkedin, FaFacebookF, FaTwitter } from "react-icons/fa";
@@ -6,25 +6,25 @@ import { FaInstagram, FaLinkedin, FaFacebookF, FaTwitter } from "react-icons/fa"
 const socials = [
   {
     icon: <FaInstagram />,
-    href: "https://instagram.com",
+    href: "https://www.instagram.com/bati.stack",
     name: "Instagram",
     color: "#E1306C",
   },
   {
     icon: <FaLinkedin />,
-    href: "https://linkedin.com",
+    href: "https://www.linkedin.com/company/batistack/?viewAsMember=true",
     name: "LinkedIn",
     color: "#0077B5",
   },
   {
     icon: <FaFacebookF />,
-    href: "https://facebook.com",
+    href: "https://www.facebook.com/profile.php?id=61575947108161",
     name: "Facebook",
     color: "#1877F2",
   },
   {
     icon: <FaTwitter />,
-    href: "https://twitter.com",
+    href: "https://x.com/BatistackDev",
     name: "Twitter",
     color: "#1DA1F2",
   },
