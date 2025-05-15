@@ -1,5 +1,5 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-import images from "../images";
+
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";

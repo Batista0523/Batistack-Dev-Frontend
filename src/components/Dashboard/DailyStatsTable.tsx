@@ -1,4 +1,4 @@
-// src/components/Dashboard/DailyStatsTable.tsx
+
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Spinner, Alert, Container, Card } from "react-bootstrap";
