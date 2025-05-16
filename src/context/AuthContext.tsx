@@ -27,39 +27,16 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<AdminUser | null>(null);
-  const [inactivityTimer, setInactivityTimer] = useState<number | null>(null);
-  const INACTIVITY_LIMIT = 15 * 60 * 1000; 
-
-  const url = import.meta.env.VITE_BASE_URL;
-  const loginEndpoint = import.meta.env.VITE_LOGING_ENPOING;
 
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+  }, []);
 
-  
-    const events = ["mousemove", "keydown", "scroll", "click"];
-
-    const resetTimer = () => {
-      if (inactivityTimer) clearTimeout(inactivityTimer);
-      const newTimer = window.setTimeout(() => {
-        logout(true); 
-      }, INACTIVITY_LIMIT);
-      setInactivityTimer(newTimer);
-    };
-
-    if (user) {
-      events.forEach((event) => window.addEventListener(event, resetTimer));
-      resetTimer();
-    }
-
-    return () => {
-      events.forEach((event) => window.removeEventListener(event, resetTimer));
-      if (inactivityTimer) clearTimeout(inactivityTimer);
-    };
-  }, [user]);
+  const url = import.meta.env.VITE_BASE_URL;
+  const loginEndpoint = import.meta.env.VITE_LOGING_ENPOING;
 
   const login = async (email: string, password: string) => {
     try {
@@ -70,7 +47,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const { payload } = response.data;
 
-      if (!payload) throw new Error("Invalid user data received");
+      if (!payload) {
+        throw new Error("Invalid user data received");
+      }
 
       setUser(payload);
       localStorage.setItem("user", JSON.stringify(payload));
@@ -80,13 +59,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
-  const logout = (fromTimeout = false) => {
+  const logout = () => {
     setUser(null);
     localStorage.removeItem("user");
-
-    if (fromTimeout) {
-      alert("Session expired due to inactivity. Please log in again.");
-    }
   };
 
   return (
@@ -102,7 +77,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
