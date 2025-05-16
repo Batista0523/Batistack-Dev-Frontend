@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   FaInstagram,
   FaLinkedin,
   FaFacebookF,
   FaTwitter,
-  FaEllipsisH,
+  FaEllipsisV,
+  FaTimes,
 } from "react-icons/fa";
 
 const socials = [
@@ -66,69 +67,92 @@ const SocialMediaLinks = () => {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
-      className="social-media-links-container"
+      className="position-fixed"
       style={{
-        position: "fixed",
-        bottom: "20px",
-        right: "20px",
-        background: "#fff",
-        borderRadius: "40px",
-        boxShadow: "0 10px 20px rgba(0,0,0,0.1)",
-        padding: "8px 14px",
+        bottom: "25px",
+        right: "25px",
         zIndex: 1000,
         display: "flex",
-        alignItems: "center",
-        gap: "14px",
+        flexDirection: "column",
+        alignItems: "flex-end",
       }}
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
     >
-      {(!isMobile || expanded) &&
-        socials.map((social, idx) => (
-          <a
-            key={idx}
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            title={social.name}
+      <AnimatePresence>
+        {expanded && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
             style={{
-              color: social.color,
-              fontSize: "1.4rem",
-              transition: "transform 0.2s",
+              background: "#fff",
+              borderRadius: "12px",
+              boxShadow: "0 8px 20px rgba(0,0,0,0.1)",
+              padding: "12px 16px",
+              display: "flex",
+              flexDirection: "column",
+              gap: "12px",
+              alignItems: "flex-start",
             }}
-            onMouseEnter={(e) =>
-              (e.currentTarget.style.transform = "scale(1.15)")
-            }
-            onMouseLeave={(e) =>
-              (e.currentTarget.style.transform = "scale(1)")
-            }
           >
-            {social.icon}
-          </a>
-        ))}
+            {socials.map((social, idx) => (
+              <a
+                key={idx}
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={social.name}
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  color: social.color,
+                  fontSize: "1.3rem",
+                  gap: "10px",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                }}
+              >
+                {social.icon}
+                <span style={{ fontSize: "0.95rem", color: "#333" }}>
+                  {social.name}
+                </span>
+              </a>
+            ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-      {isMobile && (
-        <button
-          onClick={() => setExpanded((prev) => !prev)}
-          style={{
-            background: "#0d6efd",
-            border: "none",
-            color: "#fff",
-            borderRadius: "50%",
-            width: "40px",
-            height: "40px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "1.2rem",
-            cursor: "pointer",
-          }}
-          aria-label="Toggle Social Links"
-        >
-          <FaEllipsisH />
-        </button>
-      )}
+      <button
+        onClick={() => setExpanded((prev) => !prev)}
+        style={{
+          background: "#0d6efd",
+          border: "none",
+          color: "#fff",
+          borderRadius: "40px",
+          padding: "10px 16px",
+          marginBottom: "300px",
+          fontSize: "0.85rem",
+          fontWeight: 300,
+          display: "flex",
+          alignItems: "center",
+          gap: "8px",
+          boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+          cursor: "pointer",
+        }}
+      >
+        {expanded ? (
+          <>
+            <FaTimes /> Close
+          </>
+        ) : (
+          <>
+            <FaEllipsisV /> Social Media
+          </>
+        )}
+      </button>
     </motion.div>
   );
 };
