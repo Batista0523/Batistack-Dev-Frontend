@@ -39,7 +39,6 @@ const socials = [
 const SocialMediaLinks = () => {
   const [show, setShow] = useState(false);
   const [expanded, setExpanded] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,18 +48,8 @@ const SocialMediaLinks = () => {
       setShow(isBottom);
     };
 
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
     window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   if (!show) return null;
@@ -129,29 +118,22 @@ const SocialMediaLinks = () => {
         onClick={() => setExpanded((prev) => !prev)}
         style={{
           background: "#0d6efd",
-          border: "none",
+          border: "2px solid #ffffff",
+          
           color: "#fff",
           borderRadius: "40px",
           padding: "10px 16px",
-          marginBottom: "300px",
+          marginBottom: "250px",
           fontSize: "0.85rem",
-          fontWeight: 300,
+          fontWeight: 500,
           display: "flex",
           alignItems: "center",
           gap: "8px",
-          boxShadow: "0 5px 15px rgba(0,0,0,0.1)",
+          boxShadow: "0 5px 10px rgba(28, 192, 184, 0.61)",
           cursor: "pointer",
         }}
       >
-        {expanded ? (
-          <>
-            <FaTimes /> Close
-          </>
-        ) : (
-          <>
-            <FaEllipsisV /> Social Media
-          </>
-        )}
+        {expanded ? <><FaTimes /> Close</> : <><FaEllipsisV /> Social Media</>}
       </button>
     </motion.div>
   );
