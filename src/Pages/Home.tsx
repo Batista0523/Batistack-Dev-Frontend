@@ -200,6 +200,8 @@ function Home() {
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}
           className="py-5"
         >
+
+          
           <Container>
             <motion.div
               className="text-center"
