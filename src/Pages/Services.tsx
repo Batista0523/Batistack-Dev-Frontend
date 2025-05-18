@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
+import SocialMediaLinks from "../components/socialMediaLinks";
 
 function Services() {
   useTrafficTracker("page_view", "/services");
@@ -235,6 +236,7 @@ function Services() {
           })}
         </script>
       </Helmet>
+      <SocialMediaLinks/>
     </>
   );
 }

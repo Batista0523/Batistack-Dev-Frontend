@@ -7,7 +7,7 @@ import Login from "./Pages/Login";
 import ContactForm from "./Pages/ContactForm";
 import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./Pages/DashboardPage";
-import SocialMediaLinks from "./components/socialMediaLinks";
+
 import ScrollToTop from "./hook/scrollToTop";
 
 
@@ -29,7 +29,7 @@ function App() {
             element={isAuthenticated ? <DashboardPage /> : <Login />}
           />
         </Routes>
-        <SocialMediaLinks />
+  
       </Router>
     </div>
   );

@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
+import SocialMediaLinks from "../components/socialMediaLinks";
 
 function Home() {
   useTrafficTracker("page_view", "/");
@@ -195,6 +196,69 @@ function Home() {
             </Row>
           </Container>
         </div>
+<div className="bg-white py-5">
+  <Container>
+    <motion.div
+      className="text-center mb-5"
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.7 }}
+    >
+      <h2 className="fw-bold display-5">What We Offer</h2>
+      <p className="text-muted fs-5 mt-2">
+        Our services are designed to help you grow, connect, and stand out in your industry.
+      </p>
+    </motion.div>
+
+    <Row className="g-4">
+      {[
+        {
+          icon: "bi-globe",
+          title: "Web Development",
+          desc: "Build high-performance websites that streamline operations and turn visitors into customers."
+        },
+        {
+          icon: "bi-phone",
+          title: "Mobile Development",
+          desc: "Launch mobile apps that keep you connected with clients, anytime and anywhere."
+        },
+        {
+          icon: "bi-window",
+          title: "Front-End Development",
+          desc: "Capture attention with sleek and modern interfaces built for engagement."
+        },
+        {
+          icon: "bi-link",
+          title: "API Development",
+          desc: "Enable smooth data integration across systems with secure and scalable APIs."
+        },
+        {
+          icon: "bi-easel",
+          title: "UI/UX Design",
+          desc: "Deliver intuitive and elegant user experiences that keep customers coming back."
+        },
+        {
+          icon: "bi-graph-up-arrow",
+          title: "Digital Marketing",
+          desc: "Boost your online presence with smart SEO strategies and digital outreach campaigns."
+        },
+      ].map((item, i) => (
+        <Col md={4} key={i}>
+          <motion.div
+            className="text-center p-4 bg-light rounded shadow-sm h-100"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: i * 0.1 }}
+          >
+            <i className={`bi ${item.icon} text-primary mb-3`} style={{ fontSize: "2.5rem" }}></i>
+            <h5 className="fw-bold">{item.title}</h5>
+            <p className="text-muted">{item.desc}</p>
+          </motion.div>
+        </Col>
+      ))}
+    </Row>
+  </Container>
+</div>
 
         <div
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}
@@ -277,6 +341,7 @@ function Home() {
   `}
         </script>
       </Helmet>
+      <SocialMediaLinks/>
     </>
   );
 }
