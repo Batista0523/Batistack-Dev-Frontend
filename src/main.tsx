@@ -3,14 +3,17 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import { AuthProvider } from "./context/AuthContext";
 import { HelmetProvider } from "react-helmet-async";
-import { initGA } from "./ga"; 
+import { BrowserRouter } from "react-router-dom";
+import { initGA } from "./ga";
 
-initGA(); 
+initGA();
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <HelmetProvider>
     <AuthProvider>
-      <App />
+      <BrowserRouter> 
+        <App />
+      </BrowserRouter>
     </AuthProvider>
   </HelmetProvider>
 );

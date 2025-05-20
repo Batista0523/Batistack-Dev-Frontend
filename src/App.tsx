@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Services from "./Pages/Services";
@@ -9,37 +9,32 @@ import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./Pages/DashboardPage";
 import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
-
-import { useLocation } from "react-router-dom";
 import { trackPageView } from "./ga";
 
 function App() {
-    const location = useLocation();
+  const location = useLocation();
+  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     trackPageView(location.pathname + location.search);
   }, [location]);
 
-  const { isAuthenticated } = useAuth();
   return (
-    <div>
-      <Router>
-        <ScrollToTop/>
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/contact" element={<ContactForm />} />
-          <Route
-            path="/dashboardPage"
-            element={isAuthenticated ? <DashboardPage /> : <Login />}
-          />
-        </Routes>
-  
-      </Router>
-    </div>
+    <>
+      <ScrollToTop />
+      <NavBar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/services" element={<Services />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/contact" element={<ContactForm />} />
+        <Route
+          path="/dashboardPage"
+          element={isAuthenticated ? <DashboardPage /> : <Login />}
+        />
+      </Routes>
+    </>
   );
 }
 
