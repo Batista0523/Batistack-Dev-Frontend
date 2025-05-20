@@ -7,11 +7,19 @@ import Login from "./Pages/Login";
 import ContactForm from "./Pages/ContactForm";
 import { useAuth } from "./context/AuthContext";
 import DashboardPage from "./Pages/DashboardPage";
-
+import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
 
+import { useLocation } from "react-router-dom";
+import { trackPageView } from "./ga";
 
 function App() {
+    const location = useLocation();
+
+  useEffect(() => {
+    trackPageView(location.pathname + location.search);
+  }, [location]);
+
   const { isAuthenticated } = useAuth();
   return (
     <div>
