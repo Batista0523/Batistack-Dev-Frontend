@@ -64,6 +64,15 @@ function NavBar() {
             </Nav.Item>
             <Nav.Item>
               <Link
+                to="/industries"
+                onClick={handleNavClick}
+                className={linkStyle("/industries")}
+              >
+                Right For You?
+              </Link>
+            </Nav.Item>
+            <Nav.Item>
+              <Link
                 to="/contact"
                 onClick={handleNavClick}
                 className={linkStyle("/contact")}
