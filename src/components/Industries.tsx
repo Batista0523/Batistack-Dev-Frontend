@@ -1,8 +1,8 @@
-import { useState, useEffect,  Suspense } from "react";
+import { useState, useEffect,  } from "react";
 import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FaChevronLeft, FaChevronRight, FaSearch, FaChartBar, FaRocket } from "react-icons/fa";
 import "../global.css";
 
@@ -46,18 +46,15 @@ const industries = [
     title: "Restaurants & Cafés",
     description:
       "Online menus, reservations, reviews, and branding — everything your food business needs.",
-    video: "/images/restaurant.jpg",
+    video: "/images/restaurant.mp4",
     path: "/industries/restaurant",
   },
 ];
-
-
 
 function Industries() {
   const [query, setQuery] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [cardsPerView, setCardsPerView] = useState(3);
-  const [direction, setDirection] = useState("forward");
 
   useEffect(() => {
     const updateCardsPerView = () => {
@@ -77,14 +74,12 @@ function Industries() {
 
   const handleNext = () => {
     if (currentIndex + cardsPerView < filteredIndustries.length) {
-      setDirection("forward");
       setCurrentIndex(currentIndex + cardsPerView);
     }
   };
 
   const handlePrev = () => {
     if (currentIndex - cardsPerView >= 0) {
-      setDirection("backward");
       setCurrentIndex(currentIndex - cardsPerView);
     }
   };
@@ -131,62 +126,78 @@ function Industries() {
           </Row>
 
           <div className="position-relative mb-5">
-            <Button
-              variant="light"
-              onClick={handlePrev}
-              disabled={currentIndex === 0}
-              className="position-absolute top-50 start-0 translate-middle-y z-3 border rounded-circle shadow"
-            >
-              <FaChevronLeft size={24} />
-            </Button>
+  <Button
+    variant="light"
+    onClick={handlePrev}
+    disabled={currentIndex === 0}
+    className="position-absolute top-50 start-0 translate-middle-y z-3 border rounded-circle shadow"
+  >
+    <FaChevronLeft size={24} />
+  </Button>
 
-            <div className="d-flex justify-content-center overflow-hidden w-100">
-              <AnimatePresence mode="wait" initial={false} custom={direction}>
-                {visibleCards.map((item, i) => (
-                  <motion.div
-                    key={i}
-                    className="px-3 flex-shrink-0"
-                    style={{ width: `${100 / cardsPerView}%`, boxSizing: "border-box" }}
-                    initial={{ opacity: 0, x: direction === "forward" ? 50 : -50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: direction === "forward" ? -50 : 50 }}
-                    transition={{ duration: 0.5, ease: "easeInOut" }}
-                  >
-                    <Suspense fallback={<div>Loading...</div>}>
-                      <Link to={item.path} className="text-decoration-none text-dark">
-                        <Card className="shadow border-0 rounded-4 overflow-hidden h-100">
-                          <div className="position-relative">
-                            <video
-                              src={item.video}
-                              autoPlay
-                              loop
-                              muted
-                              playsInline
-                              preload="none"
-                              className="w-100 rounded-top"
-                            />
-                          </div>
-                          <Card.Body>
-                            <h5 className="fw-bold mb-2">{item.title}</h5>
-                            <Card.Text className="text-muted">{item.description}</Card.Text>
-                          </Card.Body>
-                        </Card>
-                      </Link>
-                    </Suspense>
-                  </motion.div>
-                ))}
-              </AnimatePresence>
-            </div>
+  <div className="overflow-hidden position-relative" style={{ minHeight: "400px" }}>
+    <motion.div
+      key={currentIndex} // force re-render on index change for animation
+      initial={{ x: 100, opacity: 0 }}
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: -100, opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="d-flex w-100"
+      style={{ gap: "24px" }}
+    >
+      {visibleCards.map((item, i) => (
+        <div
+          key={i}
+          className="flex-shrink-0"
+          style={{
+            width: `${100 / cardsPerView}%`,
+            boxSizing: "border-box",
+            transition: "transform 0.5s ease-in-out",
+          }}
+        >
+          <Link to={item.path} className="text-decoration-none text-dark">
+            <Card className="shadow border-0 rounded-4 overflow-hidden h-100">
+              <div className="position-relative">
+                {item.video.endsWith(".mp4") ? (
+                  <video
+                    src={item.video}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="none"
+                    className="w-100 rounded-top"
+                  />
+                ) : (
+                  <img
+                    src={item.video}
+                    alt={item.title}
+                    className="w-100 rounded-top"
+                    style={{ height: "220px", objectFit: "cover" }}
+                  />
+                )}
+              </div>
+              <Card.Body>
+                <h5 className="fw-bold mb-2">{item.title}</h5>
+                <Card.Text className="text-muted">{item.description}</Card.Text>
+              </Card.Body>
+            </Card>
+          </Link>
+        </div>
+      ))}
+    </motion.div>
+  </div>
 
-            <Button
-              variant="light"
-              onClick={handleNext}
-              disabled={currentIndex + cardsPerView >= filteredIndustries.length}
-              className="position-absolute top-50 end-0 translate-middle-y z-3 border rounded-circle shadow"
-            >
-              <FaChevronRight size={24} />
-            </Button>
-          </div>
+  <Button
+    variant="light"
+    onClick={handleNext}
+    disabled={currentIndex + cardsPerView >= filteredIndustries.length}
+    className="position-absolute top-50 end-0 translate-middle-y z-3 border rounded-circle shadow"
+  >
+    <FaChevronRight size={24} />
+  </Button>
+</div>
+
 
           <div className="text-center my-5">
             <h2 className="fw-bold">Every Industry Covered</h2>
