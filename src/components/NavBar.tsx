@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Button, Container, NavDropdown } from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -7,7 +7,8 @@ function NavBar() {
   const { isAuthenticated, logout, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [expanded, setExpanded] = useState(false); 
+  const [expanded, setExpanded] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
 
   const handleLogout = () => {
     logout();
@@ -16,7 +17,8 @@ function NavBar() {
   };
 
   const handleNavClick = () => {
-    setExpanded(false); 
+    setExpanded(false);
+    setShowDropdown(false);
   };
 
   const linkStyle = (path: string) =>
@@ -53,24 +55,38 @@ function NavBar() {
                 About
               </Link>
             </Nav.Item>
-            <Nav.Item>
-              <Link
+
+            <NavDropdown
+              title={<span className="fw-semibold">Services</span>}
+              id="services-hover-dropdown"
+              show={showDropdown}
+              onMouseEnter={() => setShowDropdown(true)}
+              onMouseLeave={() => setShowDropdown(false)}
+              className="fw-semibold"
+            >
+              <NavDropdown.Item
+                as={Link}
                 to="/services"
                 onClick={handleNavClick}
-                className={linkStyle("/services")}
               >
-                Services
-              </Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Link
+                Services Overview
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                as={Link}
                 to="/industries"
                 onClick={handleNavClick}
-                className={linkStyle("/industries")}
               >
-                Right For You?
-              </Link>
-            </Nav.Item>
+                Right for You?
+              </NavDropdown.Item>
+              <NavDropdown.Item
+                as={Link}
+                to="/sintra"
+                onClick={handleNavClick}
+              >
+                Partner Sintra AI
+              </NavDropdown.Item>
+            </NavDropdown>
+
             <Nav.Item>
               <Link
                 to="/contact"

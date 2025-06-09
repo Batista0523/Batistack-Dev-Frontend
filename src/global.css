@@ -74,3 +74,18 @@
   font-size: 1.6rem;
   text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.7);
 }
+.video-wrapper {
+  position: relative;
+  border-radius: 1rem;
+  overflow: hidden;
+}
+
+.video-title {
+  background-color: rgba(0, 0, 0, 0.5);
+  padding: 1rem 1.5rem;
+  border-radius: 0.5rem;
+}
+.video-wrapper iframe {
+  border-radius: 12px;
+  overflow: hidden;
+}

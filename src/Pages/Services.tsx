@@ -1,5 +1,5 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -20,7 +20,7 @@ function Services() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Our Services
+              Smart, Beautiful Digital Services
             </motion.h1>
             <motion.p
               className="lead text-muted mt-3"
@@ -28,67 +28,119 @@ function Services() {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              We design and build powerful websites and web applications —
-              tailored for your goals.
+              Websites. Web Apps. AI Agents. Visual Content. Digital Growth —
+              All Built for You.
             </motion.p>
           </Container>
         </div>
 
+        {/* Services Grid */}
         <div className="py-5" style={{ backgroundColor: "#e9ecef" }}>
           <Container>
-            <Row className="g-5 text-center">
+            <motion.div
+              className="text-center mb-4"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="fw-bold display-5">Our Core Services</h2>
+              <p className="text-muted fs-5 mt-2">
+                Everything your business needs — all in one place. From launch
+                to growth, we’ve got you.
+              </p>
+            </motion.div>
+
+            <Row className="g-4">
               {[
                 {
                   icon: "bi-laptop",
                   color: "text-primary",
                   title: "Business Websites",
-                  desc: "Professional websites that are responsive, clean, and ready to represent your brand online.",
+                  desc: "Responsive, modern websites designed to position your brand online with confidence and professionalism.",
+                  tag: "Popular",
                 },
                 {
                   icon: "bi-kanban-fill",
                   color: "text-danger",
                   title: "Custom Web Apps",
-                  desc: "Need a custom tool? We build apps that help your business run smarter and smoother.",
+                  desc: "Streamline operations and solve complex problems with powerful tools tailored to your workflow and goals.",
                 },
                 {
                   icon: "bi-brush-fill",
                   color: "text-warning",
                   title: "UI/UX Design",
-                  desc: "Clean, modern, and user-focused designs that feel natural and look amazing.",
+                  desc: "Intuitive layouts, engaging interfaces, and a design experience that keeps your users coming back.",
                 },
                 {
                   icon: "bi-bar-chart-fill",
                   color: "text-success",
                   title: "Analytics & SEO",
-                  desc: "We help you appear on Google and understand how users interact with your site.",
+                  desc: "Dominate search results and discover what matters most to your visitors using SEO and real-time analytics.",
                 },
                 {
                   icon: "bi-shield-check",
                   color: "text-info",
                   title: "Security & Hosting",
-                  desc: "From SSL to firewalls, your project is protected and deployed on fast, reliable servers.",
+                  desc: "SSL, firewalls, backups, and lightning-fast servers — everything your site needs to stay protected and online 24/7.",
                 },
                 {
                   icon: "bi-phone",
                   color: "text-purple",
                   title: "Mobile Ready",
-                  desc: "Every product we build works beautifully on phones, tablets, and desktops.",
+                  desc: "From smartphones to tablets to desktops — your site will adapt perfectly to every screen size and device.",
+                },
+                {
+                  icon: "bi-lightbulb",
+                  color: "text-warning",
+                  title: "Business Strategy & Consulting",
+                  desc: "We help you map the digital side of your business and turn ideas into profitable solutions.",
+                },
+                {
+                  icon: "bi-cart",
+                  color: "text-success",
+                  title: "E-Commerce Solutions",
+                  desc: "Sell online with beautiful, secure, and optimized stores integrated with Stripe, PayPal, and more.",
+                },
+                {
+                  icon: "bi-megaphone",
+                  color: "text-danger",
+                  title: "Marketing Automation",
+                  desc: "Reach your audience through email, social media, and campaigns that convert — on autopilot.",
                 },
               ].map((service, i) => (
                 <Col md={4} key={i}>
                   <motion.div
-                    className="px-4"
+                    whileHover={{ scale: 1.05 }}
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: i * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <i
-                      className={`bi ${service.icon} ${service.color} mb-3`}
-                      style={{ fontSize: "2.5rem" }}
-                    ></i>
-                    <h5 className="fw-bold">{service.title}</h5>
-                    <p className="text-muted">{service.desc}</p>
+                    <Card
+                      className="h-100 text-center shadow-sm border-0 px-2 py-3"
+                      style={{ minHeight: "100%" }}
+                    >
+                      <Card.Body className="d-flex flex-column justify-content-between">
+                        <div>
+                          <i
+                            className={`bi ${service.icon} ${service.color} mb-3`}
+                            style={{ fontSize: "2.5rem" }}
+                          ></i>
+                          <Card.Title className="fw-bold">
+                            {service.title}{" "}
+                            {service.tag && (
+                              <Badge bg="primary" className="ms-1">
+                                {service.tag}
+                              </Badge>
+                            )}
+                          </Card.Title>
+                          <Card.Text className="text-muted">
+                            {service.desc}
+                          </Card.Text>
+                        </div>
+                      </Card.Body>
+                    </Card>
                   </motion.div>
                 </Col>
               ))}
@@ -96,7 +148,60 @@ function Services() {
           </Container>
         </div>
 
+        {/* Split Feature Section */}
         <div className="py-5 bg-white">
+          <Container>
+            <Row className="align-items-center g-5">
+              <Col md={6}>
+                <motion.div
+                  className="bg-light p-4 rounded shadow-sm h-100"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="fw-bold mb-3">
+                    <i className="bi bi-camera-video-fill text-primary me-2"></i>
+                    Video & Photo Services
+                    <Badge bg="dark" className="ms-2">
+                      On-site Available
+                    </Badge>
+                  </h3>
+                  <p className="text-muted fs-5">
+                    Have your own media? Great — we’ll use it. Need custom
+                    content? We visit your location and capture stunning visuals
+                    for your brand. NYC, NJ, CT & Long Island only.
+                  </p>
+                </motion.div>
+              </Col>
+
+              <Col md={6}>
+                <motion.div
+                  className="bg-light p-4 rounded shadow-sm h-100"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="fw-bold mb-3">
+                    <i className="bi bi-robot text-success me-2"></i>
+                    AI Agent & Tool Creation
+                    <Badge bg="success" className="ms-2">
+                      AI-Enhanced
+                    </Badge>
+                  </h3>
+                  <p className="text-muted fs-5">
+                    Automate your customer service, scheduling, or lead gen with
+                    smart AI tools built just for you. Voice assistants,
+                    chatbots, and more.
+                  </p>
+                </motion.div>
+              </Col>
+            </Row>
+          </Container>
+        </div>
+        {/* More Growth Services */}
+        <div className="py-5" style={{ backgroundColor: "#f8f9fa" }}>
           <Container>
             <motion.div
               className="text-center mb-5"
@@ -105,54 +210,76 @@ function Services() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5">Our Process is Simple</h2>
+              <h2 className="fw-bold display-5">More Ways We Help You Grow</h2>
               <p className="text-muted fs-5 mt-2">
-                We focus on clarity, communication, and delivering results that
-                work for your business.
+                From branding to automation — we support your business in every
+                step of the digital journey.
               </p>
             </motion.div>
 
-            <Row className="g-4 text-center">
+            <Row className="g-4">
               {[
                 {
-                  step: "1",
-                  title: "Think it",
-                  desc: "Think about a website for your business or a custom web app that solves a real need. Imagine how it can make your work easier or reach more customers.",
+                  icon: "bi-palette2",
+                  color: "text-primary",
+                  title: "Branding & Identity",
+                  desc: "We craft unique visual identities that reflect your values and connect with your audience — from logos to full brand kits.",
                 },
                 {
-                  step: "2",
-                  title: "Code it",
-                  desc: "Share your idea with us — we’ll design and build it using clean, modern code and beautiful interfaces tailored just for you.",
+                  icon: "bi-tools",
+                  color: "text-warning",
+                  title: "Ongoing Support",
+                  desc: "Keep your platform running smoothly with monthly updates, backups, and priority support.",
                 },
                 {
-                  step: "3",
-                  title: "Launch it",
-                  desc: "We bring it to life with design and code, and we launch it only after your full approval. You're involved every step of the way.",
+                  icon: "bi-people",
+                  color: "text-success",
+                  title: "Lead Management & CRM",
+                  desc: "Track leads, follow up faster, and boost conversions with custom tools or CRM integrations.",
                 },
-              ].map((step, i) => (
+                {
+                  icon: "bi-pencil-square",
+                  color: "text-dark",
+                  title: "Content & Copywriting",
+                  desc: "We write persuasive, SEO-optimized content that turns traffic into customers — across websites, blogs, and ads.",
+                },
+                {
+                  icon: "bi-mortarboard",
+                  color: "text-purple",
+                  title: "Training & Handoff",
+                  desc: "We give you easy-to-follow guides and support so your team can manage the site with confidence.",
+                },
+                {
+                  icon: "bi-bar-chart",
+                  color: "text-info",
+                  title: "Conversion Optimization",
+                  desc: "We refine funnels, calls to action, and page structure to help turn more visitors into real customers.",
+                },
+              ].map((item, i) => (
                 <Col md={4} key={i}>
                   <motion.div
-                    className="bg-light p-4 rounded shadow-sm h-100"
-                    initial={{ opacity: 0, y: 30 }}
+                    whileHover={{ scale: 1.05 }}
+                    initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.2 }}
+                    transition={{ duration: 0.6, delay: i * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div
-                      className="rounded-circle mx-auto d-flex justify-content-center align-items-center mb-3"
-                      style={{
-                        width: "60px",
-                        height: "60px",
-                        backgroundColor: "#0d6efd",
-                        color: "#fff",
-                        fontSize: "1.5rem",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {step.step}
-                    </div>
-                    <h5 className="fw-bold">{step.title}</h5>
-                    <p className="text-muted">{step.desc}</p>
+                    <Card className="h-100 text-center shadow-sm border-0 px-3 py-4">
+                      <Card.Body className="d-flex flex-column justify-content-between">
+                        <div>
+                          <i
+                            className={`bi ${item.icon} ${item.color} mb-3`}
+                            style={{ fontSize: "2.5rem" }}
+                          ></i>
+                          <Card.Title className="fw-bold">
+                            {item.title}
+                          </Card.Title>
+                          <Card.Text className="text-muted">
+                            {item.desc}
+                          </Card.Text>
+                        </div>
+                      </Card.Body>
+                    </Card>
                   </motion.div>
                 </Col>
               ))}
@@ -160,6 +287,7 @@ function Services() {
           </Container>
         </div>
 
+        {/* CTA */}
         <div
           className="py-5"
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}
@@ -176,49 +304,73 @@ function Services() {
                 Let’s Build Something Great Together
               </h2>
               <p className="fs-5 mb-4">
-                Whether you need a business website or a complete application —
-                we’re here to help.
+                Whether you need a stunning website, smart AI tools, or
+                high-quality visuals — we’re ready to help your business grow
+                from start to scale.
               </p>
-              <div className="d-flex justify-content-center gap-3 flex-wrap">
-                <Link
-                  to="/contact"
-                  className="btn btn-light btn-lg px-4 rounded-1"
-                >
-                  Get a Free Quote
-                </Link>
-              </div>
+              <Link
+                to="/contact"
+                className="btn btn-light btn-lg px-4 rounded-1"
+              >
+                Get a Free Quote
+              </Link>
             </motion.div>
           </Container>
         </div>
       </div>
+
       <Helmet>
-        <title>Services | Batistack Development</title>
+        <title>Website & AI Development Services | Batistack Development</title>
         <meta
           name="description"
-          content="Explore our custom software services — from business websites to powerful web applications. Built fast, secure, and beautifully by Batistack Development."
+          content="Custom websites, web apps, AI tools, branding, SEO, e-commerce, and content — all-in-one solutions to grow your business with Batistack Development."
         />
         <meta
           name="keywords"
-          content="web development services, custom web apps, business websites, UI/UX design, SEO, Batistack Development, secure hosting"
+          content="website development, custom web apps, AI chatbot tools, SEO services, branding, content creation, e-commerce websites, Batistack Development, NYC tech agency"
         />
         <meta name="author" content="Batistack Development" />
-        <meta property="og:title" content="Services | Batistack Development" />
+        <meta
+          property="og:title"
+          content="Website & AI Development Services | Batistack Development"
+        />
         <meta
           property="og:description"
-          content="We offer powerful digital solutions — custom websites, apps, and more. Let’s bring your idea to life."
+          content="Get a website that works for you. We build fast, secure, and intelligent solutions — from design to deployment, with AI tools, video content, and SEO."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.batistack.com/services" />
-
+        <meta
+          property="og:image"
+          content="https://www.batistack.com/preview-image.jpg"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Website & AI Development Services | Batistack"
+        />
+        <meta
+          name="twitter:description"
+          content="Custom websites, AI automation, SEO, branding & more — everything your business needs online."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.batistack.com/preview-image.jpg"
+        />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Service",
-            serviceType: "Custom Website & Web App Development",
+            serviceType: "Full-Service Web & AI Development",
             provider: {
               "@type": "Organization",
               name: "Batistack Development",
               url: "https://www.batistack.com",
+              sameAs: [
+                "https://www.linkedin.com/company/batistack",
+                "https://www.instagram.com/batistack",
+                "https://twitter.com/batistackdev",
+              ],
             },
             areaServed: {
               "@type": "GeoCircle",
@@ -233,10 +385,13 @@ function Services() {
               "@type": "ServiceChannel",
               serviceUrl: "https://www.batistack.com/contact",
             },
+            description:
+              "Professional web development, branding, AI tools, SEO, and growth services tailored to startups, small businesses, and local brands.",
           })}
         </script>
       </Helmet>
-      <SocialMediaLinks/>
+
+      <SocialMediaLinks />
     </>
   );
 }
