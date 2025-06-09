@@ -1,5 +1,5 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { Container, Row, Col, Card, Badge, Button } from "react-bootstrap";
+import { Container, Row, Col, Card, Badge } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "bootstrap-icons/font/bootstrap-icons.css";
