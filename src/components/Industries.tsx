@@ -91,13 +91,137 @@ function Industries() {
 
   return (
     <>
-      <Helmet>
+  <Helmet>
         <title>Web Solutions by Industry | Batistack Development</title>
         <meta
           name="description"
-          content="We build optimized websites for businesses across all industries."
+          content="We build optimized websites for HVAC contractors, barbershops, electricians, ecommerce stores, law firms, restaurants, plumbers, salons, gyms, and real estate professionals."
+        />
+        <meta name="author" content="Batistack Development" />
+
+        <meta
+          name="keywords"
+          content="hvac contractor website, heating and cooling web design, air conditioning website, HVAC lead generation"
+        />
+        <meta
+          name="description"
+          content="Get more HVAC leads with a fast, professional website that builds trust and shows off your services."
+        />
+
+        <meta
+          name="keywords"
+          content="barbershop website, online booking for barbers, barber portfolio, local barber site design"
+        />
+        <meta
+          name="description"
+          content="Attract more clients to your chair with a stylish barbershop site featuring booking, reviews, and location."
+        />
+
+        <meta
+          name="keywords"
+          content="electrician website, licensed electrician web design, contractor site for electricians, electrical repair website"
+        />
+        <meta
+          name="description"
+          content="Showcase your electrical services with a professional site that builds confidence and converts visitors into clients."
+        />
+
+        <meta
+          name="keywords"
+          content="ecommerce development, custom online store, Shopify alternatives, secure product website"
+        />
+        <meta
+          name="description"
+          content="Sell your products with a fast, modern, secure ecommerce website tailored for your brand."
+        />
+
+        <meta
+          name="keywords"
+          content="real estate website design, agent listing site, property website, realtor lead generation"
+        />
+        <meta
+          name="description"
+          content="Capture real estate leads and showcase your listings with a sleek, mobile-optimized website."
+        />
+
+        <meta
+          name="keywords"
+          content="restaurant website, online menu, food delivery website, reservation system"
+        />
+        <meta
+          name="description"
+          content="Give diners a taste of your brand with a beautiful website that shows your menu and handles reservations."
+        />
+
+        <meta
+          name="keywords"
+          content="plumber website design, plumbing contractor site, emergency plumber online, local plumber web design"
+        />
+        <meta
+          name="description"
+          content="Turn local searches into real jobs with a plumbing site that shows your skills and earns trust fast."
+        />
+
+        <meta
+          name="keywords"
+          content="gym website, personal trainer website, fitness booking platform, online fitness presence"
+        />
+        <meta
+          name="description"
+          content="Build your fitness brand online with a powerful site for bookings, programs, and class schedules."
+        />
+
+        <meta
+          name="keywords"
+          content="salon website, booking system for salon, beauty website design, hair and spa web design"
+        />
+        <meta
+          name="description"
+          content="Help clients book your beauty services with a polished, mobile-friendly website that reflects your brand."
+        />
+
+        <meta
+          name="keywords"
+          content="law firm website design, attorney website, legal services website, professional lawyer site"
+        />
+        <meta
+          name="description"
+          content="Make a strong first impression with a credible law firm website that builds client confidence and converts visitors."
+        />
+
+        <meta
+          property="og:title"
+          content="Industry Websites That Convert | Batistack Development"
+        />
+        <meta
+          property="og:description"
+          content="Explore custom websites for every business—from barbershops and HVAC to real estate and ecommerce. Designed to grow your brand and win clients."
+        />
+        <meta property="og:type" content="website" />
+        <meta
+          property="og:url"
+          content="https://www.batistack.com/industries"
+        />
+        <meta
+          property="og:image"
+          content="https://www.batistack.com/images/industries-preview.jpg"
+        />
+
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Websites by Industry | Batistack Development"
+        />
+        <meta
+          name="twitter:description"
+          content="From electricians to salons, Batistack builds tailored websites that generate trust, leads, and growth."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.batistack.com/images/industries-preview.jpg"
         />
       </Helmet>
+
 
       <div style={{ backgroundColor: "#f8f9fa", paddingTop: "60px" }}>
         <Container className="py-5">
