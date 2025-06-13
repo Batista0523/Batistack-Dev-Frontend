@@ -1,16 +1,89 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Container, Row, Col, Card, Badge } from "react-bootstrap";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
-import SocialMediaLinks from "../components/socialMediaLinks";
+
+import Footer from "../components/Footer";
 
 function Services() {
   useTrafficTracker("page_view", "/services");
 
   return (
     <>
+    
+      <Helmet>
+        <title>Website & AI Development Services | Batistack Development</title>
+        <meta
+          name="description"
+          content="Custom websites, web apps, AI tools, branding, SEO, e-commerce, and content — all-in-one solutions to grow your business with Batistack Development."
+        />
+        <meta
+          name="keywords"
+          content="website development, custom web apps, AI chatbot tools, SEO services, branding, content creation, e-commerce websites, Batistack Development, NYC tech agency"
+        />
+        <meta name="author" content="Batistack Development" />
+        <meta
+          property="og:title"
+          content="Website & AI Development Services | Batistack Development"
+        />
+        <meta
+          property="og:description"
+          content="Get a website that works for you. We build fast, secure, and intelligent solutions — from design to deployment, with AI tools, video content, and SEO."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.batistack.com/services" />
+        <meta
+          property="og:image"
+          content="https://www.batistack.com/preview-image.jpg"
+        />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta
+          name="twitter:title"
+          content="Website & AI Development Services | Batistack"
+        />
+        <meta
+          name="twitter:description"
+          content="Custom websites, AI automation, SEO, branding & more — everything your business needs online."
+        />
+        <meta
+          name="twitter:image"
+          content="https://www.batistack.com/preview-image.jpg"
+        />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            serviceType: "Full-Service Web & AI Development",
+            provider: {
+              "@type": "Organization",
+              name: "Batistack Development",
+              url: "https://www.batistack.com",
+              sameAs: [
+                "https://www.linkedin.com/company/batistack",
+                "https://www.instagram.com/batistack",
+                "https://twitter.com/batistackdev",
+              ],
+            },
+            areaServed: {
+              "@type": "GeoCircle",
+              geoMidpoint: {
+                "@type": "GeoCoordinates",
+                latitude: 40.7128,
+                longitude: -74.006,
+              },
+              geoRadius: 10000,
+            },
+            availableChannel: {
+              "@type": "ServiceChannel",
+              serviceUrl: "https://www.batistack.com/contact",
+            },
+            description:
+              "Professional web development, branding, AI tools, SEO, and growth services tailored to startups, small businesses, and local brands.",
+          })}
+        </script>
+      </Helmet>
       <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
         <div className="py-5 text-center bg-white">
           <Container>
@@ -148,7 +221,7 @@ function Services() {
           </Container>
         </div>
 
-        {/* Split Feature Section */}
+      
         <div className="py-5 bg-white">
           <Container>
             <Row className="align-items-center g-5">
@@ -200,7 +273,7 @@ function Services() {
             </Row>
           </Container>
         </div>
-        {/* More Growth Services */}
+  
         <div className="py-5" style={{ backgroundColor: "#f8f9fa" }}>
           <Container>
             <motion.div
@@ -287,111 +360,12 @@ function Services() {
           </Container>
         </div>
 
-        {/* CTA */}
-        <div
-          className="py-5"
-          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-        >
-          <Container>
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="fw-bold display-5 mb-3">
-                Let’s Build Something Great Together
-              </h2>
-              <p className="fs-5 mb-4">
-                Whether you need a stunning website, smart AI tools, or
-                high-quality visuals — we’re ready to help your business grow
-                from start to scale.
-              </p>
-              <Link
-                to="/contact"
-                className="btn btn-light btn-lg px-4 rounded-1"
-              >
-                Get a Free Quote
-              </Link>
-            </motion.div>
-          </Container>
-        </div>
+  
+        <Footer/>
       </div>
 
-      <Helmet>
-        <title>Website & AI Development Services | Batistack Development</title>
-        <meta
-          name="description"
-          content="Custom websites, web apps, AI tools, branding, SEO, e-commerce, and content — all-in-one solutions to grow your business with Batistack Development."
-        />
-        <meta
-          name="keywords"
-          content="website development, custom web apps, AI chatbot tools, SEO services, branding, content creation, e-commerce websites, Batistack Development, NYC tech agency"
-        />
-        <meta name="author" content="Batistack Development" />
-        <meta
-          property="og:title"
-          content="Website & AI Development Services | Batistack Development"
-        />
-        <meta
-          property="og:description"
-          content="Get a website that works for you. We build fast, secure, and intelligent solutions — from design to deployment, with AI tools, video content, and SEO."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.batistack.com/services" />
-        <meta
-          property="og:image"
-          content="https://www.batistack.com/preview-image.jpg"
-        />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Website & AI Development Services | Batistack"
-        />
-        <meta
-          name="twitter:description"
-          content="Custom websites, AI automation, SEO, branding & more — everything your business needs online."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.batistack.com/preview-image.jpg"
-        />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            serviceType: "Full-Service Web & AI Development",
-            provider: {
-              "@type": "Organization",
-              name: "Batistack Development",
-              url: "https://www.batistack.com",
-              sameAs: [
-                "https://www.linkedin.com/company/batistack",
-                "https://www.instagram.com/batistack",
-                "https://twitter.com/batistackdev",
-              ],
-            },
-            areaServed: {
-              "@type": "GeoCircle",
-              geoMidpoint: {
-                "@type": "GeoCoordinates",
-                latitude: 40.7128,
-                longitude: -74.006,
-              },
-              geoRadius: 10000,
-            },
-            availableChannel: {
-              "@type": "ServiceChannel",
-              serviceUrl: "https://www.batistack.com/contact",
-            },
-            description:
-              "Professional web development, branding, AI tools, SEO, and growth services tailored to startups, small businesses, and local brands.",
-          })}
-        </script>
-      </Helmet>
 
-      <SocialMediaLinks />
+     
     </>
   );
 }

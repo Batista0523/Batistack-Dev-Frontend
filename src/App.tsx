@@ -22,6 +22,7 @@ import PlumbingServices from "./Pages/industries/PlumbingServices";
 import RestaurantCafe from "./Pages/industries/RestaurantCafe";
 import RealEstate from "./Pages/industries/RealEstate";
 import SintraPartner from "./Pages/SintraPartner";
+import PrivacyPolicy from "./Pages/PrivacyPolicy";
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -51,6 +52,7 @@ function App() {
         <Route path="/industries/real-estate" element={<RealEstate />} />
         <Route path="/industries/plumber" element={<PlumbingServices />} />
         <Route path="/sintra" element={<SintraPartner/>} />
+        <Route path="/policy" element={<PrivacyPolicy/>} />
         <Route path="/industries/" element={<Industries />} />
         <Route
           path="/dashboardPage"

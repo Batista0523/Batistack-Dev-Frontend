@@ -2,15 +2,51 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import images from "../images";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 import { Helmet } from "react-helmet-async";
-import SocialMediaLinks from "../components/socialMediaLinks";
+
 
 function About() {
   useTrafficTracker("page_view", "/about");
 
   return (
     <>
+      <Helmet>
+        <title>About Us | Batistack Development</title>
+        <meta
+          name="description"
+          content="Learn about Batistack Development — a software company based in NYC that builds modern, user-first websites and apps for startups and businesses."
+        />
+        <meta
+          name="keywords"
+          content="about Batistack, software company NYC, web development team, full stack agency, Batistack Development"
+        />
+        <meta name="author" content="Batistack Development" />
+        <meta property="og:title" content="About Batistack Development" />
+        <meta
+          property="og:description"
+          content="We help entrepreneurs and businesses grow with smart digital products. Meet our team and vision."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://www.batistack.com/about" />
+
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Person",
+            name: "Elisaul Batista",
+            jobTitle: "Founder & CEO",
+            worksFor: {
+              "@type": "Organization",
+              name: "Batistack Development",
+            },
+            sameAs: [
+              "https://www.linkedin.com/in/elisaulbatista",
+              "https://www.batistack.com",
+            ],
+          })}
+        </script>
+      </Helmet>
       <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
         <div className="w-100 py-5">
           <Container>
@@ -203,70 +239,10 @@ function About() {
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}
           className="py-5"
         >
-          <Container>
-            <motion.div
-              className="text-center"
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="fw-bold display-5 mb-3">
-                Let’s Build Something Great Together
-              </h2>
-              <p className="fs-5 mb-4">
-                Whether you're starting fresh or scaling fast — Batistack is
-                your team.
-              </p>
-              <div className="d-flex justify-content-center gap-3 flex-wrap">
-                <Link
-                  to="/contact"
-                  className="btn btn-light btn-lg px-4 rounded-1"
-                >
-                  Contact Us
-                </Link>
-              </div>
-            </motion.div>
-          </Container>
+          <Footer/>
         </div>
       </div>
-      <Helmet>
-        <title>About Us | Batistack Development</title>
-        <meta
-          name="description"
-          content="Learn about Batistack Development — a software company based in NYC that builds modern, user-first websites and apps for startups and businesses."
-        />
-        <meta
-          name="keywords"
-          content="about Batistack, software company NYC, web development team, full stack agency, Batistack Development"
-        />
-        <meta name="author" content="Batistack Development" />
-        <meta property="og:title" content="About Batistack Development" />
-        <meta
-          property="og:description"
-          content="We help entrepreneurs and businesses grow with smart digital products. Meet our team and vision."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.batistack.com/about" />
-
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Person",
-            name: "Elisaul Batista",
-            jobTitle: "Founder & CEO",
-            worksFor: {
-              "@type": "Organization",
-              name: "Batistack Development",
-            },
-            sameAs: [
-              "https://www.linkedin.com/in/elisaulbatista",
-              "https://www.batistack.com",
-            ],
-          })}
-        </script>
-      </Helmet>
-      <SocialMediaLinks/>
+     
     </>
   );
 }

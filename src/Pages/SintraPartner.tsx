@@ -1,6 +1,7 @@
 import { Container, Row, Col, Card, Button } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
+import Footer from "../components/Footer";
 
 function SintraAIPartnerPage() {
   return (
@@ -109,6 +110,7 @@ function SintraAIPartnerPage() {
             </Col>
           </Row>
         </Container>
+        <Footer/>
       </div>
     </>
   );

@@ -65,6 +65,10 @@ function ContactForm() {
           name="keywords"
           content="contact web developer, website quote, hire web developer, software agency NYC, software company NYC"
         />
+        <meta
+          name="keywords"
+          content="contact web development, website quote, hire web develope company, software agency NYC, software company NYC"
+        />
         <meta name="author" content="Batistack Development" />
         <meta property="og:title" content="Contact Batistack Development" />
         <meta
