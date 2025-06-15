@@ -104,6 +104,10 @@ function Industries() {
           name="description"
           content="We build optimized websites for HVAC contractors, barbershops, electricians, ecommerce stores, law firms, restaurants, plumbers, salons, gyms, and real estate professionals."
         />
+        <meta
+          name="description"
+          content="Website for HVAC company , custom web devlopment for HVAC, HVAC website near me, web design for HVAC in NYC."
+        />
         <meta name="author" content="Batistack Development" />
 
         <meta
