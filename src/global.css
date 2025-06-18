@@ -1,35 +1,5 @@
 
-.social-media-links {
-  position: fixed;
-  bottom: 25px;
-  right: 25px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  z-index: 1000;
-}
 
-.social-icon {
-  color: white;
-  font-size: 1.2rem;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-  transition: all 0.2s ease-in-out;
-}
-
-.social-icon:hover {
-  transform: translateY(-3px) scale(1.05);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
-}
-.social-media-links-container a {
-  text-decoration: none;
-}
 .industry-card {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
 }
@@ -88,4 +58,199 @@
 .video-wrapper iframe {
   border-radius: 12px;
   overflow: hidden;
+}
+
+.hvac-page {
+  transition: background-color 0.8s ease, color 0.8s ease;
+}
+
+.cooling-effect {
+  background: linear-gradient(to bottom, #e0f7fa, #b2ebf2);
+  color: #003f5c;
+}
+
+.heating-effect {
+  background: linear-gradient(to bottom, #fff3e0, #ffe0b2);
+  color: #7f0000;
+}
+
+.hvac-hero {
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  color: white;
+  padding: 100px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hvac-hero h1 {
+  font-size: 3rem;
+  font-weight: bold;
+}
+
+.hvac-hero p {
+  font-size: 1.25rem;
+}
+
+.hvac-section {
+  padding: 80px 20px;
+  transition: background 0.5s ease;
+}
+
+.hvac-section img {
+  max-width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.cta-hvac {
+  background: #0d6efd;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  border-radius: 0;
+}
+
+.cta-hvac h2 {
+  font-size: 2.5rem;
+}
+
+.cta-hvac a {
+  background: white;
+  color: #0d6efd;
+  font-weight: 600;
+  padding: 12px 32px;
+  border-radius: 6px;
+  display: inline-block;
+  margin-top: 20px;
+  transition: background 0.3s ease;
+}
+
+.cta-hvac a:hover {
+  background: #e6e6e6;
+}
+
+
+
+/* Electrician Page Background & Effects */
+.electrician-page {
+  background: linear-gradient(180deg, #fffbe6 0%, #fff7cc 100%);
+  min-height: 100vh;
+  transition: background 0.6s ease-in-out;
+}
+
+.electrician-banner {
+  background-color: #ffd700;
+  padding: 4rem 2rem;
+  text-align: center;
+  color: #1a1a1a;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.electrician-banner h1 {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+.electrician-section-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #e0a800;
+}
+
+.electrician-highlight {
+  background-color: #ffeb99;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.electrician-btn {
+  background-color: #e0a800;
+  border: none;
+  color: #fff;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.electrician-btn:hover {
+  background-color: #cc9600;
+  color: #fff;
+}
+/* Barbershop Page Base */
+.barbershop-page {
+  background: #f8f9fa;
+  transition: background 0.5s ease;
+}
+
+/* Optional gradient hero background (dark + gold) */
+.barbershop-hero {
+  background: linear-gradient(135deg, #1c1c1c 0%, #333333 50%, #111111 100%);
+  color: #fff;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  text-align: center;
+}
+
+/* Stylish section headings */
+.barbershop-page h1,
+.barbershop-page h2,
+.barbershop-page h3 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 700;
+}
+
+/* Iconic section titles */
+.barbershop-page h3 {
+  color: #d4af37; /* gold-like tone */
+}
+
+/* Feature Lists */
+.barbershop-page ul {
+  list-style-type: disc;
+  padding-left: 1.2rem;
+}
+
+.barbershop-page li {
+  margin-bottom: 0.5rem;
+  color: #555;
+}
+
+/* Images uniform styling */
+.barbershop-page img {
+  max-height: 400px;
+  object-fit: cover;
+  width: 100%;
+  border-radius: 16px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* CTA Buttons */
+.barbershop-page .btn-primary {
+  background-color: #d4af37;
+  border-color: #cfa62f;
+  color: #000;
+  font-weight: 600;
+}
+
+.barbershop-page .btn-primary:hover {
+  background-color: #b99628;
+  border-color: #b99628;
+  color: #fff;
+}
+
+/* Section spacing */
+.barbershop-page .section {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
+}
+
+/* Final CTA Section */
+.barbershop-page .final-cta {
+  background-color: #1a1a1a;
+  color: #fff;
+  padding: 3rem 1rem;
+  text-align: center;
 }
