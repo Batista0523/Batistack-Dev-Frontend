@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Button, Spinner } from "react-bootstrap";
 import "../ChatBot.css";
+
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
@@ -10,12 +11,14 @@ interface ChatMessage {
 
 function ChatBot() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
-
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const url = import.meta.env.VITE_BASE_URL;
+
+  const sendSound = () => new Audio("data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAeAAACAB...==").play();
+  const receiveSound = () => new Audio("data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAeAAACAB...==").play();
 
   useEffect(() => {
     localStorage.removeItem("batistack-chat");
@@ -116,6 +119,7 @@ function ChatBot() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
+    sendSound();
 
     try {
       const res = await axios.post(`${url}/chatbot`, {
@@ -136,6 +140,7 @@ function ChatBot() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
+      receiveSound();
     } catch (error) {
       setMessages((prev) => [
         ...prev,
@@ -159,6 +164,7 @@ function ChatBot() {
       handleSend();
     }
   };
+
   useEffect(() => {
     const scrollToBottom = () => {
       setTimeout(() => {
@@ -176,50 +182,13 @@ function ChatBot() {
       window.removeEventListener("resize", scrollToBottom);
     };
   }, [messages]);
-useEffect(() => {
-  const chatBody = document.querySelector<HTMLElement>(".chat-body");
-
-  const adjustPaddingForKeyboard = () => {
-    const windowHeight = window.innerHeight;
-    const visibleHeight = document.documentElement.clientHeight;
-
-    const keyboardHeight = windowHeight - visibleHeight;
-    if (keyboardHeight > 100) {
-      chatBody?.style.setProperty("padding-bottom", `${keyboardHeight + 60}px`);
-    } else {
-      chatBody?.style.setProperty("padding-bottom", "16px");
-    }
-  };
-
-  window.addEventListener("resize", adjustPaddingForKeyboard);
-
-  return () => {
-    window.removeEventListener("resize", adjustPaddingForKeyboard);
-  };
-}, []);
-
-
 
   useEffect(() => {
-  const preventViewportJump = () => {
-    document.body.style.position = "fixed";
-    document.body.style.width = "100%";
-  };
-
-  const restoreBody = () => {
-    document.body.style.position = "";
-    document.body.style.width = "";
-  };
-
-  const input = document.querySelector<HTMLInputElement>(".chat-footer input");
-  input?.addEventListener("focus", preventViewportJump);
-  input?.addEventListener("blur", restoreBody);
-
-  return () => {
-    input?.removeEventListener("focus", preventViewportJump);
-    input?.removeEventListener("blur", restoreBody);
-  };
-}, []);
+    document.body.style.overflow = open ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [open]);
 
   return (
     <>
@@ -276,31 +245,35 @@ useEffect(() => {
               </div>
             ))}
 
-            {loading && <Spinner animation="border" size="sm" />}
+            {loading && <Spinner animation="border" size="sm" />} 
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-footer p-2 border-top d-flex">
+          <div className="chat-footer p-2 border-top d-flex align-items-center position-relative">
             <input
               type="text"
               placeholder="Ask something..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleEnter}
-              className="form-control me-2"
+              className="form-control pe-5"
+              style={{ paddingRight: "40px" }}
             />
             <Button
               variant="primary"
               onClick={handleSend}
               disabled={loading || !input.trim()}
               style={{
+                position: "absolute",
+                right: "18px",
+                height: "34px",
+                width: "34px",
                 borderRadius: "50%",
-                width: "40px",
-                height: "40px",
-                padding: "0",
+                fontSize: "16px",
+                padding: 0,
               }}
             >
-              ➤
+              ↑
             </Button>
           </div>
         </div>
