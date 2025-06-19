@@ -47,6 +47,40 @@ function ChatBot() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
+useEffect(() => {
+  let inactivityTimer: ReturnType<typeof setTimeout>;
+
+  const resetInactivityTimer = () => {
+    clearTimeout(inactivityTimer);
+    if (messages.length > 1) {
+      inactivityTimer = setTimeout(async () => {
+        try {
+          await axios.post(`${url}/chatbot`, {
+            message: "User inactive, chat ended",
+            chatHistory: messages,
+            isFinished: true,
+          });
+          localStorage.removeItem("batistack-chat");
+        } catch (err) {
+          console.error("Inactivity email failed:", err);
+        }
+      }, 3 * 60 * 1000); 
+    }
+  };
+
+ 
+  resetInactivityTimer();
+
+  const events = ["mousemove", "keydown", "scroll", "click"];
+  events.forEach((event) => window.addEventListener(event, resetInactivityTimer));
+
+  return () => {
+    clearTimeout(inactivityTimer);
+    events.forEach((event) =>
+      window.removeEventListener(event, resetInactivityTimer)
+    );
+  };
+}, [messages]);
 
   useEffect(() => {
     if (open && messages.length === 0) {
