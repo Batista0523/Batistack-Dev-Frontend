@@ -16,6 +16,7 @@ function ChatBot() {
   const [open, setOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const url = import.meta.env.VITE_BASE_URL;
+
   useEffect(() => {
     localStorage.removeItem("batistack-chat");
   }, []);
@@ -24,6 +25,7 @@ function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     localStorage.setItem("batistack-chat", JSON.stringify(messages));
   }, [messages]);
+
   useEffect(() => {
     const handleBeforeUnload = async () => {
       const stored = localStorage.getItem("batistack-chat");
@@ -32,7 +34,7 @@ function ChatBot() {
         if (chatHistory.length > 1) {
           try {
             await axios.post(`${url}/chatbot`, {
-              message: "Chat ended", 
+              message: "Chat ended",
               chatHistory,
               isFinished: true,
             });
@@ -47,40 +49,42 @@ function ChatBot() {
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
-useEffect(() => {
-  let inactivityTimer: ReturnType<typeof setTimeout>;
 
-  const resetInactivityTimer = () => {
-    clearTimeout(inactivityTimer);
-    if (messages.length > 1) {
-      inactivityTimer = setTimeout(async () => {
-        try {
-          await axios.post(`${url}/chatbot`, {
-            message: "User inactive, chat ended",
-            chatHistory: messages,
-            isFinished: true,
-          });
-          localStorage.removeItem("batistack-chat");
-        } catch (err) {
-          console.error("Inactivity email failed:", err);
-        }
-      }, 3 * 60 * 1000); 
-    }
-  };
+  useEffect(() => {
+    let inactivityTimer: ReturnType<typeof setTimeout>;
 
- 
-  resetInactivityTimer();
+    const resetInactivityTimer = () => {
+      clearTimeout(inactivityTimer);
+      if (messages.length > 1) {
+        inactivityTimer = setTimeout(async () => {
+          try {
+            await axios.post(`${url}/chatbot`, {
+              message: "User inactive, chat ended",
+              chatHistory: messages,
+              isFinished: true,
+            });
+            localStorage.removeItem("batistack-chat");
+          } catch (err) {
+            console.error("Inactivity email failed:", err);
+          }
+        }, 3 * 60 * 1000);
+      }
+    };
 
-  const events = ["mousemove", "keydown", "scroll", "click"];
-  events.forEach((event) => window.addEventListener(event, resetInactivityTimer));
+    resetInactivityTimer();
 
-  return () => {
-    clearTimeout(inactivityTimer);
+    const events = ["mousemove", "keydown", "scroll", "click"];
     events.forEach((event) =>
-      window.removeEventListener(event, resetInactivityTimer)
+      window.addEventListener(event, resetInactivityTimer)
     );
-  };
-}, [messages]);
+
+    return () => {
+      clearTimeout(inactivityTimer);
+      events.forEach((event) =>
+        window.removeEventListener(event, resetInactivityTimer)
+      );
+    };
+  }, [messages]);
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -155,6 +159,46 @@ useEffect(() => {
       handleSend();
     }
   };
+  useEffect(() => {
+    const scrollToBottom = () => {
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 300);
+    };
+
+    const input =
+      document.querySelector<HTMLInputElement>(".chat-footer input");
+    input?.addEventListener("focus", scrollToBottom);
+    window.addEventListener("resize", scrollToBottom);
+
+    return () => {
+      input?.removeEventListener("focus", scrollToBottom);
+      window.removeEventListener("resize", scrollToBottom);
+    };
+  }, [messages]);
+
+
+
+  useEffect(() => {
+  const preventViewportJump = () => {
+    document.body.style.position = "fixed";
+    document.body.style.width = "100%";
+  };
+
+  const restoreBody = () => {
+    document.body.style.position = "";
+    document.body.style.width = "";
+  };
+
+  const input = document.querySelector<HTMLInputElement>(".chat-footer input");
+  input?.addEventListener("focus", preventViewportJump);
+  input?.addEventListener("blur", restoreBody);
+
+  return () => {
+    input?.removeEventListener("focus", preventViewportJump);
+    input?.removeEventListener("blur", restoreBody);
+  };
+}, []);
 
   return (
     <>
@@ -215,25 +259,29 @@ useEffect(() => {
             <div ref={messagesEndRef} />
           </div>
 
-      <div className="chat-footer p-2 border-top d-flex">
-  <input
-    type="text"
-    placeholder="Ask something..."
-    value={input}
-    onChange={(e) => setInput(e.target.value)}
-    onKeyDown={handleEnter}
-    className="form-control me-2"
-  />
-  <Button
-    variant="primary"
-    onClick={handleSend}
-    disabled={loading || !input.trim()}
-    style={{ borderRadius: "50%", width: "40px", height: "40px", padding: "0" }}
-  >
-    ➤
-  </Button>
-</div>
-
+          <div className="chat-footer p-2 border-top d-flex">
+            <input
+              type="text"
+              placeholder="Ask something..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleEnter}
+              className="form-control me-2"
+            />
+            <Button
+              variant="primary"
+              onClick={handleSend}
+              disabled={loading || !input.trim()}
+              style={{
+                borderRadius: "50%",
+                width: "40px",
+                height: "40px",
+                padding: "0",
+              }}
+            >
+              ➤
+            </Button>
+          </div>
         </div>
       )}
     </>
