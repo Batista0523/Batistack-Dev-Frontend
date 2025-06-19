@@ -157,23 +157,20 @@ function ChatBot() {
       handleSend();
     }
   };
+useEffect(() => {
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    }, 200);
+  };
 
-  useEffect(() => {
-    const scrollToBottom = () => {
-      setTimeout(() => {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-      }, 300);
-    };
+  const input = document.querySelector("input");
+  input?.addEventListener("focus", scrollToBottom);
 
-    const input = document.querySelector<HTMLInputElement>(".chat-footer input");
-    input?.addEventListener("focus", scrollToBottom);
-    window.addEventListener("resize", scrollToBottom);
-
-    return () => {
-      input?.removeEventListener("focus", scrollToBottom);
-      window.removeEventListener("resize", scrollToBottom);
-    };
-  }, [messages]);
+  return () => {
+    input?.removeEventListener("focus", scrollToBottom);
+  };
+}, []);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "auto";
