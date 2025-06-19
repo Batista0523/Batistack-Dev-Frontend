@@ -69,7 +69,7 @@ function Barbershop() {
         <Row className="align-items-center section">
           <Col md={6} className="mb-4 mb-md-0">
             <img
-              src="/barbershoptHero.jpg"
+           src="/barberFeat.jpg"
               alt="Barbershop digital experience"
               className="img-fluid rounded-4 shadow"
               style={{ maxHeight: "380px", objectFit: "cover" }}
@@ -115,7 +115,8 @@ function Barbershop() {
         <Row className="align-items-center section">
           <Col md={6} className="mb-4 mb-md-0">
             <img
-              src="/barberFeat.jpg"
+           src="/barbershoptHero.jpg"
+               
               alt="Barbershop loyalty features"
               className="img-fluid rounded-4 shadow"
               style={{ maxHeight: "380px", objectFit: "cover" }}

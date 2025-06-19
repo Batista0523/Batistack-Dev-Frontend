@@ -23,6 +23,7 @@ import RestaurantCafe from "./Pages/industries/RestaurantCafe";
 import RealEstate from "./Pages/industries/RealEstate";
 import SintraPartner from "./Pages/SintraPartner";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
+import ChatBot from "./components/ChatBot";
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -59,6 +60,7 @@ function App() {
           element={isAuthenticated ? <DashboardPage /> : <Login />}
         />
       </Routes>
+      <ChatBot />
     </>
   );
 }
