@@ -215,16 +215,25 @@ useEffect(() => {
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-footer p-2 border-top">
-            <input
-              type="text"
-              placeholder="Ask something..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleEnter}
-              className="form-control"
-            />
-          </div>
+      <div className="chat-footer p-2 border-top d-flex">
+  <input
+    type="text"
+    placeholder="Ask something..."
+    value={input}
+    onChange={(e) => setInput(e.target.value)}
+    onKeyDown={handleEnter}
+    className="form-control me-2"
+  />
+  <Button
+    variant="primary"
+    onClick={handleSend}
+    disabled={loading || !input.trim()}
+    style={{ borderRadius: "50%", width: "40px", height: "40px", padding: "0" }}
+  >
+    ➤
+  </Button>
+</div>
+
         </div>
       )}
     </>
