@@ -176,6 +176,27 @@ function ChatBot() {
       window.removeEventListener("resize", scrollToBottom);
     };
   }, [messages]);
+useEffect(() => {
+  const chatBody = document.querySelector<HTMLElement>(".chat-body");
+
+  const adjustPaddingForKeyboard = () => {
+    const windowHeight = window.innerHeight;
+    const visibleHeight = document.documentElement.clientHeight;
+
+    const keyboardHeight = windowHeight - visibleHeight;
+    if (keyboardHeight > 100) {
+      chatBody?.style.setProperty("padding-bottom", `${keyboardHeight + 60}px`);
+    } else {
+      chatBody?.style.setProperty("padding-bottom", "16px");
+    }
+  };
+
+  window.addEventListener("resize", adjustPaddingForKeyboard);
+
+  return () => {
+    window.removeEventListener("resize", adjustPaddingForKeyboard);
+  };
+}, []);
 
 
 
