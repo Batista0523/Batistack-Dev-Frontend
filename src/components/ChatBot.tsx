@@ -17,8 +17,8 @@ function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const url = import.meta.env.VITE_BASE_URL;
 
-  const sendSound = () => new Audio("data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAeAAACAB...==").play();
-  const receiveSound = () => new Audio("data:audio/mp3;base64,//uQxAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAACcQCAeAAACAB...==").play();
+  const sendAudio = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA");
+  const receiveAudio = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA");
 
   useEffect(() => {
     localStorage.removeItem("batistack-chat");
@@ -48,7 +48,6 @@ function ChatBot() {
         }
       }
     };
-
     window.addEventListener("beforeunload", handleBeforeUnload);
     return () => window.removeEventListener("beforeunload", handleBeforeUnload);
   }, []);
@@ -75,17 +74,11 @@ function ChatBot() {
     };
 
     resetInactivityTimer();
-
     const events = ["mousemove", "keydown", "scroll", "click"];
-    events.forEach((event) =>
-      window.addEventListener(event, resetInactivityTimer)
-    );
-
+    events.forEach((e) => window.addEventListener(e, resetInactivityTimer));
     return () => {
       clearTimeout(inactivityTimer);
-      events.forEach((event) =>
-        window.removeEventListener(event, resetInactivityTimer)
-      );
+      events.forEach((e) => window.removeEventListener(e, resetInactivityTimer));
     };
   }, [messages]);
 
@@ -119,7 +112,7 @@ function ChatBot() {
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setLoading(true);
-    sendSound();
+    sendAudio.play().catch(() => {});
 
     try {
       const res = await axios.post(`${url}/chatbot`, {
@@ -140,8 +133,8 @@ function ChatBot() {
       };
 
       setMessages((prev) => [...prev, botMessage]);
-      receiveSound();
-    } catch (error) {
+      receiveAudio.play().catch(() => {});
+    } catch {
       setMessages((prev) => [
         ...prev,
         {
@@ -172,8 +165,7 @@ function ChatBot() {
       }, 300);
     };
 
-    const input =
-      document.querySelector<HTMLInputElement>(".chat-footer input");
+    const input = document.querySelector<HTMLInputElement>(".chat-footer input");
     input?.addEventListener("focus", scrollToBottom);
     window.addEventListener("resize", scrollToBottom);
 
@@ -198,38 +190,24 @@ function ChatBot() {
 
       {open && (
         <div className="chat-window shadow">
-          <div className="chat-header bg-dark text-white p-2 d-flex justify-content-between align-items-center">
+          <div className="chat-header">
             <span>Batistack AI</span>
-            <Button
-              variant="outline-light"
-              size="sm"
-              onClick={() => setOpen(false)}
-            >
-              ×
-            </Button>
+            <Button variant="outline-light" size="sm" onClick={() => setOpen(false)}>×</Button>
           </div>
 
-          <div className="chat-body p-2">
+          <div className="chat-body">
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`mb-2 ${
-                  msg.role === "user" ? "text-end" : "text-start"
-                }`}
+                className={`mb-2 ${msg.role === "user" ? "text-end" : "text-start"}`}
               >
                 <div
                   className={`d-inline-block px-3 py-2 rounded ${
-                    msg.role === "user"
-                      ? "bg-primary text-white"
-                      : "bg-light text-dark"
+                    msg.role === "user" ? "bg-primary text-white" : "bg-light text-dark"
                   }`}
                   style={{ maxWidth: "80%", whiteSpace: "pre-wrap" }}
                 >
-                  {msg.role === "assistant" && (
-                    <span className="me-1" role="img" aria-label="robot">
-                      🤖
-                    </span>
-                  )}
+                  {msg.role === "assistant" && <span role="img">🤖</span>}
                   <span
                     dangerouslySetInnerHTML={{
                       __html: msg.content
@@ -244,12 +222,11 @@ function ChatBot() {
                 <div className="text-muted small">{msg.timestamp}</div>
               </div>
             ))}
-
-            {loading && <Spinner animation="border" size="sm" />} 
+            {loading && <Spinner animation="border" size="sm" />}
             <div ref={messagesEndRef} />
           </div>
 
-          <div className="chat-footer p-2 border-top d-flex align-items-center position-relative">
+          <div className="chat-footer d-flex align-items-center position-relative">
             <input
               type="text"
               placeholder="Ask something..."
@@ -257,21 +234,12 @@ function ChatBot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleEnter}
               className="form-control pe-5"
-              style={{ paddingRight: "40px" }}
             />
             <Button
               variant="primary"
               onClick={handleSend}
               disabled={loading || !input.trim()}
-              style={{
-                position: "absolute",
-                right: "18px",
-                height: "34px",
-                width: "34px",
-                borderRadius: "50%",
-                fontSize: "16px",
-                padding: 0,
-              }}
+              className="send-arrow"
             >
               ↑
             </Button>
