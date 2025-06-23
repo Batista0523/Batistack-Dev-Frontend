@@ -1,57 +1,46 @@
-import { useState } from "react";
-import { Container, Row, Col, Card, Form} from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { Container, Row, Col, Card, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
-import {
-
-  FaSearch,
-  FaChartBar,
-  FaRocket,
-} from "react-icons/fa";
+import { FaSearch, FaChartBar, FaRocket } from "react-icons/fa";
 import "../global.css";
 import Footer from "./Footer";
 
 const industries = [
   {
     title: "HVAC Contractor",
-    description:
-      "Boost your HVAC business with a site that builds trust, handles leads, and showcases your work.",
+    description: "Boost your HVAC business with a site that builds trust, handles leads, and showcases your work.",
     video: "/hvacVid.mp4",
     path: "/industries/hvac",
   },
   {
     title: "Barbershops",
-    description:
-      "Bring more clients to your chair with online bookings, reviews, and a modern design.",
+    description: "Bring more clients to your chair with online bookings, reviews, and a modern design.",
     video: "/barbershopVid.mp4",
     path: "/industries/barbershop",
   },
   {
     title: "Electrician Contractors",
-    description:
-      "Let customers find and trust your services through a professional online presence.",
+    description: "Let customers find and trust your services through a professional online presence.",
     video: "/electricianVid.mp4",
     path: "/industries/electrician",
   },
   {
     title: "E-Commerce Brands",
-    description:
-      "Sell your products online with a fast, secure, and custom e-commerce store.",
+    description: "Sell your products online with a fast, secure, and custom e-commerce store.",
     video: "/ecommerce.mp4",
     path: "/industries/ecommerce",
   },
   {
     title: "Real Estate Agents",
-    description:
-      "Attract buyers and sellers with listings, forms, and local SEO built for your market.",
+    description: "Attract buyers and sellers with listings, forms, and local SEO built for your market.",
     video: "/realestateagent.mp4",
     path: "/industries/real-estate",
   },
   {
     title: "Restaurants & Cafés",
-    description:
-      "Online menus, reservations, reviews, and branding — everything your food business needs.",
+    description: "Online menus, reservations, reviews, and branding — everything your food business needs.",
     video: "/restaurantCafe.mp4",
     path: "/industries/restaurant",
   },
@@ -59,7 +48,13 @@ const industries = [
 
 function Industries() {
   const [query, setQuery] = useState("");
-  const isMobile = window.innerWidth < 576;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 576);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const filteredIndustries = industries.filter((industry) =>
     industry.title.toLowerCase().includes(query.toLowerCase())
@@ -67,7 +62,7 @@ function Industries() {
 
   return (
     <>
- <Helmet>
+     <Helmet>
         <title>Web Solutions by Industry | Batistack Development</title>
         <meta
           name="description"
@@ -211,9 +206,7 @@ function Industries() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
-            <h1 className="fw-bold display-5 text-dark">
-              Tailored Web Solutions
-            </h1>
+            <h1 className="fw-bold display-5 text-dark">Tailored Web Solutions</h1>
             <p className="text-muted fs-5">
               We specialize in building customized, high-performing websites for all kinds of businesses.
             </p>
@@ -231,18 +224,26 @@ function Industries() {
             </Col>
           </Row>
 
-          <div className="overflow-auto d-flex flex-nowrap px-2" style={{ gap: "24px", scrollSnapType: "x mandatory" }}>
+          <div
+            className="d-flex overflow-auto px-2"
+            style={{
+              gap: "16px",
+              scrollSnapType: "x mandatory",
+              WebkitOverflowScrolling: "touch",
+            }}
+          >
             {filteredIndustries.map((item, i) => (
-              <div
+              <motion.div
+                whileTap={{ scale: 0.97 }}
                 key={i}
                 className="flex-shrink-0"
                 style={{
-                  width: isMobile ? "85%" : "calc(100% / 3 - 16px)",
+                  width: isMobile ? "85%" : "calc(100% / 3 - 12px)",
                   scrollSnapAlign: "start",
                 }}
               >
                 <Link to={item.path} className="text-decoration-none text-dark">
-                  <Card className="shadow border-0 rounded-4 overflow-hidden h-100">
+                  <Card className="h-100 shadow border-0 rounded-4 overflow-hidden">
                     <div className="position-relative">
                       {item.video.endsWith(".mp4") ? (
                         <video
@@ -251,13 +252,11 @@ function Industries() {
                           loop
                           muted
                           playsInline
-                          preload="none"
+                          preload="auto"
                           className="w-100"
                           style={{
                             height: "220px",
                             objectFit: "cover",
-                            borderTopLeftRadius: "1rem",
-                            borderTopRightRadius: "1rem",
                           }}
                         />
                       ) : (
@@ -268,26 +267,31 @@ function Industries() {
                           style={{
                             height: "220px",
                             objectFit: "cover",
-                            borderTopLeftRadius: "1rem",
-                            borderTopRightRadius: "1rem",
                           }}
                         />
                       )}
+                      <div
+                        className="position-absolute top-0 start-0 w-100 h-100"
+                        style={{
+                          background:
+                            "linear-gradient(to bottom, rgba(0,0,0,0.15), rgba(0,0,0,0.55))",
+                        }}
+                      ></div>
                     </div>
-                    <Card.Body>
+                    <Card.Body className="bg-white">
                       <h5 className="fw-bold mb-2">{item.title}</h5>
                       <Card.Text className="text-muted">{item.description}</Card.Text>
                     </Card.Body>
                   </Card>
                 </Link>
-              </div>
+              </motion.div>
             ))}
           </div>
 
           <div className="text-center my-5">
             <h2 className="fw-bold">Every Industry Covered</h2>
             <p className="text-muted fs-5">
-              Whether you're in real estate, food, fitness, or any other sector — we have a solution for you. Every site is tailored to your business, with modern design and smart functionality that drives results.
+              From real estate to restaurants — each website is built to impress and perform.
             </p>
           </div>
 
@@ -298,7 +302,7 @@ function Industries() {
                   <FaSearch className="mb-3 text-primary" size={32} />
                   <h5 className="fw-bold mb-3">SEO & Visibility</h5>
                   <Card.Text className="text-muted">
-                    Be the first to appear on Google when customers search. Our sites are optimized for local SEO to help you get discovered.
+                    Get found fast with local SEO. We ensure you're visible when customers search.
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -309,7 +313,7 @@ function Industries() {
                   <FaChartBar className="mb-3 text-primary" size={32} />
                   <h5 className="fw-bold mb-3">Analytics & Insights</h5>
                   <Card.Text className="text-muted">
-                    Understand your audience like never before. Track user behavior and improve your site based on real data.
+                    Track real-time user data and make informed business decisions with confidence.
                   </Card.Text>
                 </Card.Body>
               </Card>
@@ -320,7 +324,7 @@ function Industries() {
                   <FaRocket className="mb-3 text-primary" size={32} />
                   <h5 className="fw-bold mb-3">Conversion-Focused Design</h5>
                   <Card.Text className="text-muted">
-                    Every page is built to convert visitors into clients with modern visuals, clear calls to action, and fast performance.
+                    We design websites that turn visitors into clients — every pixel has a purpose.
                   </Card.Text>
                 </Card.Body>
               </Card>
