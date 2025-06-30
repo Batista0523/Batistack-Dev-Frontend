@@ -6,7 +6,7 @@ import { motion } from "framer-motion";
 import { FaSearch, FaChartBar, FaRocket } from "react-icons/fa";
 import "../global.css";
 import Footer from "./Footer";
-
+import { useTrafficTracker } from "../hook/useTrafficTracker";
 const industries = [
   {
     title: "HVAC Contractor",
@@ -47,6 +47,9 @@ const industries = [
 ];
 
 function Industries() {
+
+  useTrafficTracker("page_view", "/industry");
+
   const [query, setQuery] = useState("");
   const [isMobile, setIsMobile] = useState(window.innerWidth < 576);
 

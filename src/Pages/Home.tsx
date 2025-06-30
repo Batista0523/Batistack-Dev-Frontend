@@ -121,7 +121,7 @@ function Home() {
               </Col>
 
               <Col md={6} className="text-center px-5 mb-4 mb-md-0">
-                <motion.img
+                {/* <motion.img
                   src="/homeImage.jpg"
                   alt="Web development illustration"
                   className="img-fluid"
@@ -129,7 +129,7 @@ function Home() {
                   initial={{ opacity: 0, x: 50 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                />
+                /> */}
               </Col>
             </Row>
           </Container>
@@ -244,73 +244,63 @@ function Home() {
             </Row>
           </Container>
         </div>
-        <div className="bg-white py-5">
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              <h2 className="fw-bold display-5">What We Offer</h2>
-              <p className="text-muted fs-5 mt-2">
-                Our services are designed to help you grow, connect, and stand
-                out in your industry.
-              </p>
-            </motion.div>
-
-            <Row className="g-4">
-              {[
-                {
-                  icon: "bi-globe",
-                  title: "Web Development",
-                  desc: "Build high-performance websites that streamline operations and turn visitors into customers.",
-                },
-                {
-                  icon: "bi-phone",
-                  title: "Mobile Development",
-                  desc: "Launch mobile apps that keep you connected with clients, anytime and anywhere.",
-                },
-                {
-                  icon: "bi-window",
-                  title: "Front-End Development",
-                  desc: "Capture attention with sleek and modern interfaces built for engagement.",
-                },
-                {
-                  icon: "bi-link",
-                  title: "API Development",
-                  desc: "Enable smooth data integration across systems with secure and scalable APIs.",
-                },
-                {
-                  icon: "bi-easel",
-                  title: "UI/UX Design",
-                  desc: "Deliver intuitive and elegant user experiences that keep customers coming back.",
-                },
-                {
-                  icon: "bi-graph-up-arrow",
-                  title: "Digital Marketing",
-                  desc: "Boost your online presence with smart SEO strategies and digital outreach campaigns.",
-                },
-              ].map((item, i) => (
-                <Col md={4} key={i}>
-                  <motion.div
-                    className="text-center p-4 bg-light rounded shadow-sm h-100"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
-                    <i
-                      className={`bi ${item.icon} text-primary mb-3`}
-                      style={{ fontSize: "2.5rem" }}
-                    ></i>
-                    <h5 className="fw-bold">{item.title}</h5>
-                    <p className="text-muted">{item.desc}</p>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </Container>
+        <Row className="g-4">
+  {[
+    {
+      icon: "bi-code-slash",
+      title: "Front-End Development",
+      desc: "Create pixel-perfect interfaces with React, TypeScript, and responsive design.",
+      techs: ["React", "TypeScript", "Bootstrap", "Vite", "CSS/SCSS"],
+    },
+    {
+      icon: "bi-hdd-stack",
+      title: "Back-End Development",
+      desc: "Build scalable, secure backends using modern frameworks and databases.",
+      techs: ["Node.js", "Express", "PostgreSQL", "pg-promise", "REST APIs"],
+    },
+    {
+      icon: "bi-layers",
+      title: "Full-Stack Web Apps",
+      desc: "End-to-end solutions from database to UI, integrated with third-party services.",
+      techs: ["Stripe", "OpenAI", "JWT Auth", "Google Analytics", "Render/Netlify"],
+    },
+    {
+      icon: "bi-phone",
+      title: "Mobile-Ready Design",
+      desc: "Build PWA-ready sites and mobile-first UIs that adapt perfectly to all screens.",
+      techs: ["Responsive UI", "Progressive Web Apps", "Bootstrap", "Viewport Testing"],
+    },
+    {
+      icon: "bi-palette2",
+      title: "UI/UX Design",
+      desc: "Craft clean, intuitive experiences with smart layouts and visual polish.",
+      techs: ["Wireframes", "User Flow", "Figma", "UX Testing"],
+    },
+    {
+      icon: "bi-bar-chart-line",
+      title: "Digital Strategy",
+      desc: "Reach your audience with targeted SEO, performance, and marketing tools.",
+      techs: ["SEO", "Google Ads", "Social Media", "PageSpeed", "Meta Tags"],
+    },
+  ].map((item, i) => (
+    <Col style={{ padding:"1rem"}} md={6} lg={4} key={i}>
+      <motion.div
+        className="bg-white p-4 rounded-4 shadow-sm h-100 border"
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: i * 0.1 }}
+      >
+        <div className="text-center mb-3">
+          <i className={`bi ${item.icon} text-primary`} style={{ fontSize: "2.5rem" }}></i>
         </div>
+        <h5 className="fw-bold text-center mb-2">{item.title}</h5>
+        <p className="text-muted text-center">{item.desc}</p>
+   
+      </motion.div>
+    </Col>
+  ))}
+</Row>
+
 
         <div
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}

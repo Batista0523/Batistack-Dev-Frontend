@@ -25,7 +25,6 @@ function ContactForm() {
   const [loading, setLoading] = useState(false);
   const url = import.meta.env.VITE_BASE_URL;
 
-  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setSuccess("");
@@ -171,71 +170,77 @@ function ContactForm() {
             </Col>
 
             <Col md={6}>
-  <motion.div
-    className="p-4 bg-white shadow rounded-3 h-100 text-center"
-    initial={{ opacity: 0, x: 20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.6 }}
-  >
-    <h4 className="fw-bold text-dark mb-3">Find Us on Social Media</h4>
-    <p className="text-muted">
-      Stay connected and see how we help businesses grow across the U.S.
-    </p>
-    <Row className="mt-4 g-4">
-      {[
-        {
-          icon: "bi bi-instagram",
-          href: "https://www.instagram.com/bati.stack",
-          color: "#E1306C",
-          label: "Behind the Scenes",
-          desc: "See our latest work, team culture, and real client stories.",
-        },
-        {
-          icon: "bi bi-linkedin",
-          href: "https://www.linkedin.com/company/batistack",
-          color: "#0077B5",
-          label: "Professional Insights",
-          desc: "Get industry tips and follow our journey as a growing tech company.",
-        },
-        {
-          icon: "bi bi-facebook",
-          href: "https://www.facebook.com/profile.php?id=61575947108161",
-          color: "#1877F2",
-          label: "Community Updates",
-          desc: "Stay updated on promotions, events, and local business news.",
-        },
-        {
-          icon: "bi bi-twitter-x",
-          href: "https://x.com/BatistackDev",
-          color: "#1DA1F2",
-          label: "Quick Tips",
-          desc: "Daily inspiration, dev tips, and business insights in 280 characters.",
-        },
-      ].map((social, idx) => (
-        <Col xs={12} md={6} key={idx}>
-          <a
-            href={social.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-decoration-none"
-            style={{ color: "#000" }}
-          >
-            <div className="d-flex flex-column align-items-center p-3 h-100 border rounded-3">
-              <i
-                className={social.icon}
-                style={{ fontSize: "2.5rem", color: social.color }}
-              ></i>
-              <span className="mt-2 fw-semibold">{social.label}</span>
-         
-              <p className="text-secondary small mb-0">{social.desc}</p>
-            </div>
-          </a>
-        </Col>
-      ))}
-    </Row>
-  </motion.div>
-</Col>
+              <motion.div
+                className="p-4 bg-white shadow rounded-3 h-100 text-center"
+                initial={{ opacity: 0, x: 20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+              >
+                <h4 className="fw-bold text-dark mb-3">
+                  Find Us on Social Media
+                </h4>
+                <p className="text-muted">
+                  Stay connected and see how we help businesses grow across the
+                  U.S.
+                </p>
+                <Row className="mt-4 g-4">
+                  {[
+                    {
+                      icon: "bi bi-instagram",
+                      href: "https://www.instagram.com/bati.stack",
+                      color: "#E1306C",
+                      label: "Behind the Scenes",
+                      desc: "See our latest work, team culture, and real client stories.",
+                    },
+                    {
+                      icon: "bi bi-linkedin",
+                      href: "https://www.linkedin.com/company/batistack",
+                      color: "#0077B5",
+                      label: "Professional Insights",
+                      desc: "Get industry tips and follow our journey as a growing tech company.",
+                    },
+                    {
+                      icon: "bi bi-facebook",
+                      href: "https://www.facebook.com/profile.php?id=61575947108161",
+                      color: "#1877F2",
+                      label: "Community Updates",
+                      desc: "Stay updated on promotions, events, and local business news.",
+                    },
+                    {
+                      icon: "bi bi-twitter-x",
+                      href: "https://x.com/BatistackDev",
+                      color: "#1DA1F2",
+                      label: "Quick Tips",
+                      desc: "Daily inspiration, dev tips, and business insights in 280 characters.",
+                    },
+                  ].map((social, idx) => (
+                    <Col xs={12} md={6} key={idx}>
+                      <a
+                        href={social.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-decoration-none"
+                        style={{ color: "#000" }}
+                      >
+                        <div className="d-flex flex-column align-items-center p-3 h-100 border rounded-3">
+                          <i
+                            className={social.icon}
+                            style={{ fontSize: "2.5rem", color: social.color }}
+                          ></i>
+                          <span className="mt-2 fw-semibold">
+                            {social.label}
+                          </span>
 
+                          <p className="text-secondary small mb-0">
+                            {social.desc}
+                          </p>
+                        </div>
+                      </a>
+                    </Col>
+                  ))}
+                </Row>
+              </motion.div>
+            </Col>
           </Row>
 
           <div
