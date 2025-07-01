@@ -1,152 +1,75 @@
-import { Container, Row, Col, Button } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
-import "../../global.css";
+import BusinessPage from "../../components/BusinessPages";
 
 function Barbershop() {
   return (
-    <div className="barbershop-page">
-      <Helmet>
-        <title>Barbershop Website Design | Batistack Development</title>
-        <meta
-          name="description"
-          content="Modern, stylish websites for barbershops that attract more clients, showcase your work, and let customers book online. Built by Batistack Development."
-        />
-        <meta
-          name="keywords"
-          content="barbershop website, barber booking site, online appointments for barbers, barber portfolio, barber SEO, hair stylist website, barber web design, local barber site"
-        />
-        <meta name="author" content="Batistack Development" />
-        <meta name="robots" content="index, follow" />
-        <link
-          rel="canonical"
-          href="https://www.batistack.com/industries/barbershop"
-        />
-
-        <meta
-          property="og:title"
-          content="Barbershop Websites with Style | Batistack Development"
-        />
-        <meta
-          property="og:description"
-          content="Custom websites for barbers ready to grow. Let clients book online, showcase your skills, and stand out in your local area."
-        />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content="https://www.batistack.com/industries/barbershop"
-        />
-        <meta
-          property="og:image"
-          content="https://www.batistack.com/images/barbershop-preview.jpg"
-        />
-
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta
-          name="twitter:title"
-          content="Modern Barbershop Websites | Batistack"
-        />
-        <meta
-          name="twitter:description"
-          content="Websites made for barbers to show off their skills, get more bookings, and boost their online presence."
-        />
-        <meta
-          name="twitter:image"
-          content="https://www.batistack.com/images/barbershop-preview.jpg"
-        />
-      </Helmet>
-
-      <Container className="py-5">
-        <div className="text-center mb-5">
-          <h1 className="display-4 fw-bold text-dark">Websites That Make You Look Sharp</h1>
-          <p className="fs-5 text-muted">
-            From fades to full bookings — we help barbers stand out online with premium web design.
-          </p>
-          <Button variant="dark" size="lg" href="/contact">
-            Book a Free Demo
-          </Button>
-        </div>
-
-        <Row className="align-items-center section">
-          <Col md={6} className="mb-4 mb-md-0">
-            <img
-           src="/barberFeat.jpg"
-              alt="Barbershop digital experience"
-              className="img-fluid rounded-4 shadow"
-              style={{ maxHeight: "380px", objectFit: "cover" }}
-            />
-          </Col>
-          <Col md={6}>
-            <h3 className="fw-bold text-dark">Craft Meets Conversion</h3>
-            <p className="text-secondary">
-              Your haircut speaks volumes — so should your website. We bring clean visuals, effective structure, and modern tools to give you an online edge.
-            </p>
-            <ul className="text-secondary">
-              <li>Easy navigation tailored to mobile users</li>
-              <li>Designs that reflect your shop’s personality</li>
-              <li>Trust-building testimonials and integrations</li>
-              <li>Pages optimized for high conversion</li>
-            </ul>
-          </Col>
-        </Row>
-
-        <Row className="align-items-center flex-md-row-reverse section">
-          <Col md={6} className="mb-4 mb-md-0">
-            <img
-              src="/barberFix.jpg"
-              alt="Digital scheduling for barbers"
-              className="img-fluid rounded-4 shadow"
-              style={{ maxHeight: "500px", objectFit: "cover" }}
-            />
-          </Col>
-          <Col md={6}>
-            <h3 className="fw-bold text-primary">Seamless Scheduling, Less Stress</h3>
-            <p className="text-secondary">
-              From last-minute cancellations to missed appointments — we streamline it all with smart automation.
-            </p>
-            <ul className="text-secondary">
-              <li>Real-time availability with auto-sync</li>
-              <li>Automated text/email reminders</li>
-              <li>Deposit & rescheduling system built-in</li>
-              <li>One-click booking interface</li>
-            </ul>
-          </Col>
-        </Row>
-
-        <Row className="align-items-center section">
-          <Col md={6} className="mb-4 mb-md-0">
-            <img
-           src="/barbershoptHero.jpg"
-               
-              alt="Barbershop loyalty features"
-              className="img-fluid rounded-4 shadow"
-              style={{ maxHeight: "380px", objectFit: "cover" }}
-            />
-          </Col>
-          <Col md={6}>
-            <h3 className="fw-bold text-dark">Features That Keep Clients Coming Back</h3>
-            <p className="text-secondary">
-              It’s not just about booking once — it’s about building a loyal base. We help you nurture that bond.
-            </p>
-            <ul className="text-secondary">
-              <li>Personalized client dashboards</li>
-              <li>Service history tracking and rebooking</li>
-              <li>Exclusive style previews and product promos</li>
-              <li>Smart forms for custom requests</li>
-            </ul>
-          </Col>
-        </Row>
-
-        <div className="text-center final-cta mt-5">
-          <h2 className="fw-bold">Put Your Business in the Spotlight</h2>
-          <p className="fs-5">
-            Whether you're a solo barber or managing a full team, we’ll help you own your online presence.
-          </p>
-          <Button variant="primary" size="lg" href="/contact">
-            Let’s Talk Today
-          </Button>
-        </div>
-      </Container>
-    </div>
+    <BusinessPage
+      title="Barbershop Website Design | Batistack Development"
+      description="Modern, stylish websites for barbershops that attract more clients, showcase your work, and let customers book online. Built by Batistack Development."
+      keywords="barbershop website, barber booking site, online appointments for barbers, barber portfolio, barber SEO, hair stylist website, barber web design, local barber site"
+      canonical="https://www.batistack.com/industries/barbershop"
+      ogTitle="Barbershop Websites with Style | Batistack Development"
+      ogDescription="Custom websites for barbers ready to grow. Let clients book online, showcase your skills, and stand out in your local area."
+      ogImage="/images/barbershop-preview.jpg"
+      twitterTitle="Modern Barbershop Websites | Batistack"
+      twitterDescription="Websites made for barbers to show off their skills, get more bookings, and boost their online presence."
+      twitterImage="/images/barbershop-preview.jpg"
+      headerTitle="Websites That Make You Look Sharp"
+      headerText="From fades to full bookings — we help barbers stand out online with premium web design."
+      headerButtonLabel="Book a Free Demo"
+      headerButtonLink="/contact"
+      headerVariant="dark"
+      sections={[
+        {
+          title: "Craft Meets Conversion",
+          text: "Your haircut speaks volumes — so should your website. We bring clean visuals, effective structure, and modern tools to give you an online edge.",
+          image: "/barberFeat.jpg",
+          imageAlt: "Barbershop digital experience",
+          list: [
+            "Easy navigation tailored to mobile users",
+            "Designs that reflect your shop’s personality",
+            "Trust-building testimonials and integrations",
+            "Pages optimized for high conversion"
+          ],
+          badge: "Design",
+          color: "dark"
+        },
+        {
+          title: "Seamless Scheduling, Less Stress",
+          text: "From last-minute cancellations to missed appointments — we streamline it all with smart automation.",
+          image: "/barberFix.jpg",
+          imageAlt: "Digital scheduling for barbers",
+          list: [
+            "Real-time availability with auto-sync",
+            "Automated text/email reminders",
+            "Deposit & rescheduling system built-in",
+            "One-click booking interface"
+          ],
+          badge: "Automation",
+          color: "primary"
+        },
+        {
+          title: "Features That Keep Clients Coming Back",
+          text: "It’s not just about booking once — it’s about building a loyal base. We help you nurture that bond.",
+          image: "/barbershoptHero.jpg",
+          imageAlt: "Barbershop loyalty features",
+          list: [
+            "Personalized client dashboards",
+            "Service history tracking and rebooking",
+            "Exclusive style previews and product promos",
+            "Smart forms for custom requests"
+          ],
+          badge: "Loyalty",
+          color: "info"
+        }
+      ]}
+      finalCTA={{
+        title: "Put Your Business in the Spotlight",
+        text: "Whether you're a solo barber or managing a full team, we’ll help you own your online presence.",
+        buttonLabel: "Let’s Talk Today",
+        buttonLink: "/contact",
+        variant: "primary"
+      }}
+    />
   );
 }
 
