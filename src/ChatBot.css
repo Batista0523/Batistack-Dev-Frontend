@@ -1,3 +1,4 @@
+
 .chat-toggle-button {
   position: fixed;
   bottom: 20px;
@@ -40,7 +41,7 @@
 }
 
 .chat-header {
-  background: linear-gradient(135deg, #0d6efd, #6610f2);
+  background: linear-gradient(135deg, #0d6efd);
   color: white;
   padding: 12px 16px;
   font-weight: bold;
@@ -72,17 +73,16 @@
 
 .chat-footer input.form-control {
   border-radius: 20px;
-  padding: 10px 40px 10px 14px;
-  font-size: 14px;
+  padding: 8px 30px 8px 12px;  
+  font-size: 14px;  
   flex-grow: 1;
-  height: 40px;
+  height: 35px;  
   font-family: inherit;
-  font-size: 16px;
 }
 
 .send-arrow {
   position: absolute;
-  right: 24px;
+  right: 16px;
   background: #0d6efd;
   color: white;
   border: none;
@@ -106,7 +106,48 @@
   border-radius: 12px 12px 0 12px;
 }
 
+
+.chat-form-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chat-input {
+  font-size: 0.9rem;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  margin-bottom: 15px;
+  transition: border-color 0.3s ease;
+}
+
+.chat-input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.chat-submit-btn {
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 8px;
+  width: 100%;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.chat-submit-btn:hover {
+  background-color: #0056b3;
+}
+
+
 @media (max-width: 576px) {
+  
   .chat-window {
     bottom: 0;
     right: 0;
@@ -129,10 +170,40 @@
     padding: 10px 16px;
   }
 
+  
   .chat-footer input.form-control {
-    font-size: 16px;
+    font-size: 14px; 
+    padding: 10px 14px; 
+  }
+
+  .send-arrow {
+    right: 16px;
+    height: 40px;
+    width: 40px;
+    font-size: 18px;
+  }
+
+  
+  .chat-input {
+    font-size: 0.9rem;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    margin-bottom: 15px;
+  }
+
+  .chat-submit-btn {
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 8px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
   }
 }
+
 
 @keyframes fadeInUp {
   from {

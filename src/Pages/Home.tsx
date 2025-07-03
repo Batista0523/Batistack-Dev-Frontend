@@ -1,5 +1,5 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-
+import images from "../images";
 import { Container, Row, Col } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -121,15 +121,22 @@ function Home() {
               </Col>
 
               <Col md={6} className="text-center px-5 mb-4 mb-md-0">
-                {/* <motion.img
-                  src="/homeImage.jpg"
-                  alt="Web development illustration"
-                  className="img-fluid"
-                  style={{ maxWidth: "100%", height: "auto" }}
-                  initial={{ opacity: 0, x: 50 }}
+                <motion.img
+                  src={images.logo}
+                  alt="Batistack Logo"
+                  className="img-fluid rounded-circle shadow-lg"
+                  style={{
+                    width: "320px",
+                    height: "320px",
+                    objectFit: "cover",
+                    border: "6px solid #ffffff",
+                    backgroundColor: "#ffffff",
+                  }}
+                  initial={{ opacity: 0, x: 40 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8 }}
-                /> */}
+                  viewport={{ once: true }}
+                />
               </Col>
             </Row>
           </Container>

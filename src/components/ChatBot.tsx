@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Button, Spinner } from "react-bootstrap";
+import { Button, Spinner, Form } from "react-bootstrap";
 import "../ChatBot.css";
 
 interface ChatMessage {
@@ -14,6 +14,10 @@ function ChatBot() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const url = import.meta.env.VITE_BASE_URL;
 
@@ -28,74 +32,6 @@ function ChatBot() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
     localStorage.setItem("batistack-chat", JSON.stringify(messages));
   }, [messages]);
-
-  useEffect(() => {
-    const handleBeforeUnload = async () => {
-      const stored = localStorage.getItem("batistack-chat");
-      if (stored) {
-        const chatHistory = JSON.parse(stored);
-        if (chatHistory.length > 1) {
-          try {
-            await axios.post(`${url}/chatbot`, {
-              message: "Chat ended",
-              chatHistory,
-              isFinished: true,
-            });
-            localStorage.removeItem("batistack-chat");
-          } catch (err) {
-            console.error("Failed to send final chat log:", err);
-          }
-        }
-      }
-    };
-    window.addEventListener("beforeunload", handleBeforeUnload);
-    return () => window.removeEventListener("beforeunload", handleBeforeUnload);
-  }, []);
-
-  useEffect(() => {
-    let inactivityTimer: ReturnType<typeof setTimeout>;
-
-    const resetInactivityTimer = () => {
-      clearTimeout(inactivityTimer);
-      if (messages.length > 1) {
-        inactivityTimer = setTimeout(async () => {
-          try {
-            await axios.post(`${url}/chatbot`, {
-              message: "User inactive, chat ended",
-              chatHistory: messages,
-              isFinished: true,
-            });
-            localStorage.removeItem("batistack-chat");
-          } catch (err) {
-            console.error("Inactivity email failed:", err);
-          }
-        }, 3 * 60 * 1000);
-      }
-    };
-
-    resetInactivityTimer();
-    const events = ["mousemove", "keydown", "scroll", "click"];
-    events.forEach((e) => window.addEventListener(e, resetInactivityTimer));
-    return () => {
-      clearTimeout(inactivityTimer);
-      events.forEach((e) => window.removeEventListener(e, resetInactivityTimer));
-    };
-  }, [messages]);
-
-  useEffect(() => {
-    if (open && messages.length === 0) {
-      const welcomeMessage: ChatMessage = {
-        role: "assistant",
-        content:
-          "👋 Welcome to Batistack Development AI!\nWe're here to answer any questions about our services, industries we help, or how to get started. 🤖",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      };
-      setMessages([welcomeMessage]);
-    }
-  }, [open]);
 
   const handleSend = async () => {
     if (!input.trim()) return;
@@ -121,6 +57,7 @@ function ChatBot() {
         isFinished:
           input.toLowerCase().includes("thank you") ||
           input.toLowerCase().includes("that's all"),
+        userDetails: { fullName, email, phoneNumber },
       });
 
       const botMessage: ChatMessage = {
@@ -157,27 +94,28 @@ function ChatBot() {
       handleSend();
     }
   };
-useEffect(() => {
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-    }, 200);
-  };
 
-  const input = document.querySelector("input");
-  input?.addEventListener("focus", scrollToBottom);
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!fullName || !email) {
+      alert("Please fill out the required fields.");
+      return;
+    }
 
-  return () => {
-    input?.removeEventListener("focus", scrollToBottom);
-  };
-}, []);
+    setIsFormSubmitted(true);
 
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "auto";
-    return () => {
-      document.body.style.overflow = "auto";
+    // After form submission, greet the user in the AI response
+    const welcomeMessage: ChatMessage = {
+      role: "assistant",
+      content: `Hi ${fullName}, tell me how I can help you today!`,
+      timestamp: new Date().toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      }),
     };
-  }, [open]);
+
+    setMessages([welcomeMessage]);
+  };
 
   return (
     <>
@@ -189,38 +127,82 @@ useEffect(() => {
         <div className="chat-window shadow">
           <div className="chat-header">
             <span>Batistack AI</span>
-            <Button variant="outline-light" size="sm" onClick={() => setOpen(false)}>×</Button>
+            <Button variant="outline-light" size="sm" onClick={() => setOpen(false)}>
+              ×
+            </Button>
           </div>
 
           <div className="chat-body">
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`mb-2 ${msg.role === "user" ? "text-end" : "text-start"}`}
-              >
-                <div
-                  className={`d-inline-block px-3 py-2 rounded ${
-                    msg.role === "user" ? "bg-primary text-white" : "bg-light text-dark"
-                  }`}
-                  style={{ maxWidth: "80%", whiteSpace: "pre-wrap" }}
-                >
-                  {msg.role === "assistant" && <span role="img">🤖</span>}
-                  <span
-                    dangerouslySetInnerHTML={{
-                      __html: msg.content
-                        .replace(
-                          /(\/(?:industries|contact|services|about|login|sintra|policy)[a-z0-9\-\/]*)/gi,
-                          '<a href="$1" style="color:#0d6efd; text-decoration:underline;">Here</a>'
-                        )
-                        .replace(/\n/g, "<br>"),
-                    }}
-                  />
-                </div>
-                <div className="text-muted small">{msg.timestamp}</div>
+            {!isFormSubmitted ? (
+              <div className="chat-form">
+                <h2 className="chat-form-title">Please Enter Your Details</h2>
+                <Form onSubmit={handleFormSubmit}>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Full Name</Form.Label>
+                    <Form.Control
+                      type="text"
+                      value={fullName}
+                      onChange={(e) => setFullName(e.target.value)}
+                      required
+                      className="chat-input"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      required
+                      className="chat-input"
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3">
+                    <Form.Label>Phone Number (Optional)</Form.Label>
+                    <Form.Control
+                      type="tel"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="chat-input"
+                    />
+                  </Form.Group>
+                  <Button type="submit" variant="primary" className="chat-submit-btn">
+                    Start Chatting
+                  </Button>
+                </Form>
               </div>
-            ))}
-            {loading && <Spinner animation="border" size="sm" />}
-            <div ref={messagesEndRef} />
+            ) : (
+              <>
+                {messages.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`mb-2 ${msg.role === "user" ? "text-end" : "text-start"}`}
+                  >
+                    <div
+                      className={`d-inline-block px-3 py-2 rounded ${
+                        msg.role === "user" ? "bg-primary text-white" : "bg-light text-dark"
+                      }`}
+                      style={{ maxWidth: "80%", whiteSpace: "pre-wrap" }}
+                    >
+                      {msg.role === "assistant" && <span role="img">🤖</span>}
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: msg.content
+                            .replace(
+                              /(\/(?:industries|contact|services|about|login|sintra|policy)[a-z0-9\-\/]*)/gi,
+                              '<a href="$1" style="color:#0d6efd; text-decoration:underline;">Here</a>'
+                            )
+                            .replace(/\n/g, "<br>"),
+                        }}
+                      />
+                    </div>
+                    <div className="text-muted small">{msg.timestamp}</div>
+                  </div>
+                ))}
+                {loading && <Spinner animation="border" size="sm" />}
+                <div ref={messagesEndRef} />
+              </>
+            )}
           </div>
 
           <div className="chat-footer d-flex align-items-center position-relative">
