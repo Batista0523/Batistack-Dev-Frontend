@@ -37,6 +37,7 @@ function WebsiteAudit() {
     try {
       const res = await axios.post(`${url1}/pagespeed`, { domain: url });
       const { recommendations, scores } = res.data;
+      console.log(scores,'score here')
       setScores(scores);
       setRecommendation(recommendations);
 
@@ -60,7 +61,8 @@ function WebsiteAudit() {
 
   const getIconByScore = (score: number) => {
     if (score >= 90) return <FaCheckCircle className="me-2 text-success" />;
-    if (score >= 70) return <FaExclamationTriangle className="me-2 text-warning" />;
+    if (score >= 70)
+      return <FaExclamationTriangle className="me-2 text-warning" />;
     return <FaTimesCircle className="me-2 text-danger" />;
   };
 
@@ -113,14 +115,23 @@ function WebsiteAudit() {
         />
       </Helmet>
 
-      <Container className="py-5" style={{ fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif" }}>
+      <Container
+        className="py-5"
+        style={{
+          fontFamily:
+            "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+        }}
+      >
         <Row className="justify-content-center text-center">
           <Col lg={8}>
-            <h1 className="fw-bold mb-3"> AI Website<span style={{ color: "#0d6efd" }}> Analyzer</span> </h1>
+            <h1 className="fw-bold mb-3">
+              {" "}
+              AI Website<span style={{ color: "#0d6efd" }}> Analyzer</span>{" "}
+            </h1>
             <p className="lead text-muted">
               Instantly audit your website’s speed, SEO, accessibility, and best
-              practices. Let Batistack AI reveal what’s slowing you down — and how
-              to fix it.
+              practices. Let Batistack AI reveal what’s slowing you down — and
+              how to fix it.
             </p>
           </Col>
         </Row>
@@ -128,17 +139,22 @@ function WebsiteAudit() {
         {loading && (
           <div className="text-center my-4">
             <Spinner animation="border" variant="primary" />
-            <p className="mt-3 fw-bold text-muted">Please wait while we analyze your website. This may take up to 30–60 seconds depending on your website. Please do not reload or leave the page.</p>
+            <p className="mt-3 fw-bold text-muted">
+              Please wait while we analyze your website. This may take up to
+              30–60 seconds depending on your website. Please do not reload or
+              leave the page.
+            </p>
             <p className="text-secondary">
               Our AI and Google Lighthouse are working together to generate
               precise, personalized insights for your domain.
             </p>
             <p className="text-secondary">
-              You’ll receive scores for Performance, Accessibility, SEO, and Best
-              Practices — followed by expert recommendations.
+              You’ll receive scores for Performance, Accessibility, SEO, and
+              Best Practices — followed by expert recommendations.
             </p>
             <p className="text-secondary">
-              We appreciate your patience — your results will appear below shortly.
+              We appreciate your patience — your results will appear below
+              shortly.
             </p>
           </div>
         )}
@@ -180,10 +196,22 @@ function WebsiteAudit() {
                 <div ref={resultRef} className="mt-5">
                   <h3 className="mb-4 text-center">Your Audit Scores</h3>
                   <Row>
-                    {renderProgressCard("Performance", scores.Performance, BsSpeedometer2)}
-                    {renderProgressCard("Accessibility", scores.Accessibility, BsSpeedometer2)}
+                    {renderProgressCard(
+                      "Performance",
+                      scores.Performance,
+                      BsSpeedometer2
+                    )}
+                    {renderProgressCard(
+                      "Accessibility",
+                      scores.Accessibility,
+                      BsSpeedometer2
+                    )}
                     {renderProgressCard("SEO", scores.SEO, BsSpeedometer2)}
-                    {renderProgressCard("Best Practices", scores.BestPractices, BsSpeedometer2)}
+                    {renderProgressCard(
+                      "Best Practices",
+                      scores.BestPractices,
+                      BsSpeedometer2
+                    )}
                   </Row>
                 </div>
               )}
@@ -191,7 +219,9 @@ function WebsiteAudit() {
               {recommendation && (
                 <Card className="mt-5 p-3 shadow-sm">
                   <Card.Body>
-                    <h4 className="fw-bold mb-3 text-primary">AI Recommendations</h4>
+                    <h4 className="fw-bold mb-3 text-primary">
+                      AI Recommendations
+                    </h4>
                     {recommendation.includes("\n") ? (
                       <ul className="ps-3">
                         {recommendation.split("\n").map((line, idx) => {
@@ -200,11 +230,15 @@ function WebsiteAudit() {
 
                           if (lowerLine.includes("performance score")) {
                             score = scores?.Performance || 0;
-                          } else if (lowerLine.includes("accessibility score")) {
+                          } else if (
+                            lowerLine.includes("accessibility score")
+                          ) {
                             score = scores?.Accessibility || 0;
                           } else if (lowerLine.includes("seo score")) {
                             score = scores?.SEO || 0;
-                          } else if (lowerLine.includes("best practices score")) {
+                          } else if (
+                            lowerLine.includes("best practices score")
+                          ) {
                             score = scores?.BestPractices || 0;
                           }
 
@@ -212,14 +246,18 @@ function WebsiteAudit() {
 
                           return lowerLine !== "" ? (
                             <li key={idx} className="mb-2">
-                              {!hideIcon && score !== null && getIconByScore(score)}
+                              {!hideIcon &&
+                                score !== null &&
+                                getIconByScore(score)}
                               {line}
                             </li>
                           ) : null;
                         })}
                       </ul>
                     ) : (
-                      <pre style={{ whiteSpace: "pre-wrap" }}>{recommendation}</pre>
+                      <pre style={{ whiteSpace: "pre-wrap" }}>
+                        {recommendation}
+                      </pre>
                     )}
                   </Card.Body>
                 </Card>
@@ -229,12 +267,14 @@ function WebsiteAudit() {
         )}
       </Container>
 
-      <div style={{ backgroundColor: "#0d6efd", color: "#fff", marginTop: "4rem" }} className="pt-5">
+      <div
+        style={{ backgroundColor: "#0d6efd", color: "#fff", marginTop: "4rem" }}
+        className="pt-5"
+      >
         <Footer />
       </div>
     </>
-);
-
+  );
 }
 
 export default WebsiteAudit;
