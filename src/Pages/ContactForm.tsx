@@ -78,7 +78,14 @@ function ContactForm() {
         <meta property="og:url" content="https://www.batistack.com/contact" />
       </Helmet>
 
-<div style={{ backgroundColor: "#f8f9fa", paddingTop: "60px", fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif" }}>
+      <div
+        style={{
+          backgroundColor: "#f8f9fa",
+          paddingTop: "60px",
+          fontFamily:
+            "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+        }}
+      >
         <Container className="py-5">
           <motion.div
             className="text-center mb-5"

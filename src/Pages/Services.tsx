@@ -12,7 +12,6 @@ function Services() {
 
   return (
     <>
-    
       <Helmet>
         <title>Website & AI Development Services | Batistack Development</title>
         <meta
@@ -93,25 +92,25 @@ function Services() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-            Think It, Code It, Launch It.
+              Think It, Code It, Launch It.
             </motion.h1>
-              
-                <motion.img
-                  src={images.logo}
-                  alt="Batistack Logo"
-                  className="img-fluid rounded-circle shadow-lg"
-                  style={{
-                    width: "320px",
-                    height: "320px",
-                    objectFit: "cover",
-                    border: "6px solid #fff",
-                  }}
-                  initial={{ opacity: 0, x: 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
-                />
-           
+
+            <motion.img
+              src={images.logo}
+              alt="Batistack Logo"
+              className="img-fluid rounded-circle shadow-lg"
+              style={{
+                width: "320px",
+                height: "320px",
+                objectFit: "cover",
+                border: "6px solid #fff",
+              }}
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
+            />
+
             <motion.p
               className="lead text-muted mt-3"
               initial={{ opacity: 0 }}
@@ -124,7 +123,6 @@ function Services() {
           </Container>
         </div>
 
-        {/* Services Grid */}
         <div className="py-5" style={{ backgroundColor: "#e9ecef" }}>
           <Container>
             <motion.div
@@ -238,7 +236,6 @@ function Services() {
           </Container>
         </div>
 
-      
         <div className="py-5 bg-white">
           <Container>
             <Row className="align-items-center g-5">
@@ -290,7 +287,7 @@ function Services() {
             </Row>
           </Container>
         </div>
-  
+
         <div className="py-5" style={{ backgroundColor: "#f8f9fa" }}>
           <Container>
             <motion.div
@@ -377,12 +374,8 @@ function Services() {
           </Container>
         </div>
 
-  
-        <Footer/>
+        <Footer />
       </div>
-
-
-     
     </>
   );
 }
