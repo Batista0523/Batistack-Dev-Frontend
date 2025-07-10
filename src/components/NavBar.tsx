@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Navbar, Nav, Button, Container, NavDropdown } from "react-bootstrap";
+import { Navbar, Nav, Button, Container,} from "react-bootstrap";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -8,7 +8,7 @@ function NavBar() {
   const navigate = useNavigate();
   const location = useLocation();
   const [expanded, setExpanded] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
+  
 
   const handleLogout = () => {
     logout();
@@ -18,7 +18,7 @@ function NavBar() {
 
   const handleNavClick = () => {
     setExpanded(false);
-    setShowDropdown(false);
+
   };
 
   const linkStyle = (path: string) =>
@@ -41,9 +41,14 @@ function NavBar() {
         <Navbar.Toggle aria-controls="main-navbar" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto align-items-center gap-3">
+       
             <Nav.Item>
-              <Link to="/" onClick={handleNavClick} className={linkStyle("/")}>
-                Home
+              <Link
+                to="/speedPage"
+                onClick={handleNavClick}
+                className={linkStyle("/speedPage")}
+              >
+               AI Website Audit
               </Link>
             </Nav.Item>
             <Nav.Item>
@@ -56,7 +61,7 @@ function NavBar() {
               </Link>
             </Nav.Item>
 
-            <NavDropdown
+            {/* <NavDropdown
               title={<span className="fw-semibold">Services</span>}
               id="services-hover-dropdown"
               show={showDropdown}
@@ -85,8 +90,16 @@ function NavBar() {
               >
                 Partner Sintra AI
               </NavDropdown.Item>
-            </NavDropdown>
-
+            </NavDropdown> */}
+  <Nav.Item>
+              <Link
+                to="/services"
+                onClick={handleNavClick}
+                className={linkStyle("/services")}
+              >
+                Services
+              </Link>
+            </Nav.Item>
             <Nav.Item>
               <Link
                 to="/contact"

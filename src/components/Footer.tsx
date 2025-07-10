@@ -33,7 +33,7 @@ function Footer() {
         <meta name="footer" content="Batistack Development Footer Section" />
       </Helmet>
 
-      <footer className="text-white pt-5 pb-4" style={{ backgroundColor: "#0d6efd" }}>
+      <footer className="text-white pt-5 pb-4" style={{ backgroundColor: "#0d6efd", fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif" }}>
         <Container>
           <Row className="gy-4">
             <Col md={4}>
@@ -87,7 +87,8 @@ function Footer() {
         </Container>
       </footer>
     </>
-  );
+);
+
 }
 
 export default Footer;

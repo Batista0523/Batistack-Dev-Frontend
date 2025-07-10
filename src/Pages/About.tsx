@@ -47,7 +47,7 @@ function About() {
         </script>
       </Helmet>
 
-      <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
+      <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden", fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif" }}>
         <div className="w-100 py-5">
           <Container>
             <Row className="align-items-center">
@@ -204,9 +204,7 @@ function About() {
                     viewport={{ once: true }}
                   >
                     <i
-                      className={`bi ${item.icon} text-${
-                        ["info", "primary", "dark"][i]
-                      } mb-3`}
+                      className={`bi ${item.icon} text-$${["info", "primary", "dark"][i]} mb-3`}
                       style={{ fontSize: "2.5rem" }}
                     ></i>
                     <h5 className="fw-bold">{item.title}</h5>
@@ -271,8 +269,6 @@ function About() {
                 clarity, and a lot of heart. I genuinely want your business to
                 succeed — and we’re ready to make it happen together.
               </p>
-            
-
               <p className="fs-5 text-dark fw-bold mt-4 mb-0">
                 — Elisaul Batista, Founder & CEO
               </p>

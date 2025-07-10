@@ -179,13 +179,13 @@
   background-color: #cc9600;
   color: #fff;
 }
-/* Barbershop Page Base */
+
 .barbershop-page {
   background: #f8f9fa;
   transition: background 0.5s ease;
 }
 
-/* Optional gradient hero background (dark + gold) */
+
 .barbershop-hero {
   background: linear-gradient(135deg, #1c1c1c 0%, #333333 50%, #111111 100%);
   color: #fff;
@@ -194,7 +194,6 @@
   text-align: center;
 }
 
-/* Stylish section headings */
 .barbershop-page h1,
 .barbershop-page h2,
 .barbershop-page h3 {

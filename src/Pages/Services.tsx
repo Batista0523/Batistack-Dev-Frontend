@@ -1,7 +1,7 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Container, Row, Col, Card, Badge } from "react-bootstrap";
 import { motion } from "framer-motion";
-
+import images from "../images";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
 
@@ -93,8 +93,25 @@ function Services() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
             >
-              Smart, Beautiful Digital Services
+            Think It, Code It, Launch It.
             </motion.h1>
+              
+                <motion.img
+                  src={images.logo}
+                  alt="Batistack Logo"
+                  className="img-fluid rounded-circle shadow-lg"
+                  style={{
+                    width: "320px",
+                    height: "320px",
+                    objectFit: "cover",
+                    border: "6px solid #fff",
+                  }}
+                  initial={{ opacity: 0, x: 40 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                />
+           
             <motion.p
               className="lead text-muted mt-3"
               initial={{ opacity: 0 }}

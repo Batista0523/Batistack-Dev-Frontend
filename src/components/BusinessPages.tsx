@@ -60,6 +60,8 @@ export default function BusinessPage({
   sections,
   finalCTA,
 }: BusinessPageProps) {
+
+  
   return (
     <div className="business-page">
       <Helmet>
