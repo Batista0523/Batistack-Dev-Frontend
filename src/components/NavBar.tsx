@@ -20,91 +20,76 @@ function NavBar() {
   };
 
   const linkStyle = (path: string) =>
-    `nav-link px-3 fw-semibold ${
-      location.pathname === path ? "text-primary" : "text-dark"
+    `fw-semibold px-3 py-2 rounded-pill text-decoration-none border transition ${
+      location.pathname === path
+        ? "bg-white text-black border-white"
+        : "text-white bg-transparent border-0"
     }`;
 
   return (
     <Navbar
       expand="lg"
-      bg="white"
-      className="shadow-sm py-3 sticky-top"
+      style={{ backgroundColor: "#000" }}
+      className="shadow-sm py-3 sticky-top border-bottom border-primary"
       expanded={expanded}
       onToggle={(val) => setExpanded(val)}
     >
       <Container>
-        <Link to="/" className="navbar-brand fw-bold fs-4 text-dark">
-          Batistack<span style={{ color: "#0d6efd" }}> Development</span>
+        <Link to="/" className="navbar-brand fw-bold fs-4 text-white">
+          Batistack<span className="text-primary"> Development</span>
         </Link>
-        <Navbar.Toggle aria-controls="main-navbar" />
+        <Navbar.Toggle aria-controls="main-navbar" className="bg-light" />
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto align-items-center gap-3">
-            <Nav.Item>
-              <Link
-                to="/speedPage"
-                onClick={handleNavClick}
-                className={linkStyle("/speedPage")}
-              >
-                AI Website Audit
-              </Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Link
-                to="/about"
-                onClick={handleNavClick}
-                className={linkStyle("/about")}
-              >
-                About
-              </Link>
-            </Nav.Item>
-
-            <Nav.Item>
-              <Link
-                to="/services"
-                onClick={handleNavClick}
-                className={linkStyle("/services")}
-              >
-                Services
-              </Link>
-            </Nav.Item>
-            <Nav.Item>
-              <Link
-                to="/contact"
-                onClick={handleNavClick}
-                className={linkStyle("/contact")}
-              >
-                Contact
-              </Link>
-            </Nav.Item>
+            {[
+              { path: "/speedPage", label: "AI Website Audit" },
+              { path: "/about", label: "About" },
+              { path: "/services", label: "Services" },
+              { path: "/contact", label: "Contact" },
+              ...(isAuthenticated && user
+                ? [{ path: "/dashboardPage", label: "Dashboard" }]
+                : []),
+            ].map((link) => (
+              <Nav.Item key={link.path}>
+                <Link
+                  to={link.path}
+                  onClick={handleNavClick}
+                  className={linkStyle(link.path)}
+                  onMouseEnter={(e) => {
+                    if (location.pathname !== link.path) {
+                      e.currentTarget.style.backgroundColor = "#fff";
+                      e.currentTarget.style.color = "#000";
+                    }
+                  }}
+                  onMouseLeave={(e) => {
+                    if (location.pathname !== link.path) {
+                      e.currentTarget.style.backgroundColor = "transparent";
+                      e.currentTarget.style.color = "#fff";
+                    }
+                  }}
+                >
+                  {link.label}
+                </Link>
+              </Nav.Item>
+            ))}
 
             {isAuthenticated && user ? (
-              <>
-                <Nav.Item>
-                  <Link
-                    to="/dashboardPage"
-                    onClick={handleNavClick}
-                    className={linkStyle("/dashboardPage")}
-                  >
-                    Dashboard
-                  </Link>
-                </Nav.Item>
-                <Nav.Item>
-                  <Button
-                    onClick={handleLogout}
-                    variant="outline-danger"
-                    size="sm"
-                    className="px-3 py-2 rounded-1"
-                  >
-                    Logout
-                  </Button>
-                </Nav.Item>
-              </>
+              <Nav.Item>
+                <Button
+                  onClick={handleLogout}
+                  variant="outline-danger"
+                  size="sm"
+                  className="px-3 py-2 rounded-pill"
+                >
+                  Logout
+                </Button>
+              </Nav.Item>
             ) : (
               <Nav.Item>
                 <Link
                   to="/login"
                   onClick={handleNavClick}
-                  className="btn btn-outline-primary btn-sm px-4 py-2 rounded-1"
+                  className="btn btn-outline-primary btn-sm px-4 py-2 rounded-pill"
                 >
                   Admin Login
                 </Link>

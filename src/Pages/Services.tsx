@@ -1,14 +1,62 @@
+
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { Container, Row, Col, Card, Badge } from "react-bootstrap";
+import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 import images from "../images";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
-
 import Footer from "../components/Footer";
 
 function Services() {
   useTrafficTracker("page_view", "/services");
+
+  const coreServices = [
+    {
+      title: "Web Design",
+      icon: "bi-layout-text-window-reverse",
+      desc: "Visually stunning and user-focused websites crafted to convert visitors into clients.",
+    },
+    {
+      title: "Custom Apps",
+      icon: "bi-kanban",
+      desc: "Streamline your operations with tailor-made applications for your specific business needs.",
+    },
+    {
+      title: "AI Integration",
+      icon: "bi-cpu",
+      desc: "Add intelligent automation to your site with custom AI tools and assistants.",
+    },
+    {
+      title: "SEO & Analytics",
+      icon: "bi-bar-chart-line",
+      desc: "Rank higher and understand your users with real-time SEO and performance tracking.",
+    },
+    {
+      title: "Hosting & Security",
+      icon: "bi-shield-lock",
+      desc: "Stay protected and online 24/7 with secure hosting, firewalls, and backups.",
+    },
+    {
+      title: "E-Commerce",
+      icon: "bi-bag-check",
+      desc: "Launch a beautiful, optimized store to sell your products online with ease.",
+    },
+    {
+      title: "Content & Copy",
+      icon: "bi-pencil-square",
+      desc: "We write content that communicates clearly, sells confidently, and ranks with SEO.",
+    },
+    {
+      title: "Branding",
+      icon: "bi-palette",
+      desc: "Develop a memorable and professional brand identity that reflects your mission.",
+    },
+    {
+      title: "CRM Tools",
+      icon: "bi-person-badge",
+      desc: "Manage leads, track interactions, and grow relationships with CRM integration.",
+    },
+  ];
 
   return (
     <>
@@ -83,298 +131,219 @@ function Services() {
           })}
         </script>
       </Helmet>
-      <div style={{ backgroundColor: "#f8f9fa", overflowX: "hidden" }}>
-        <div className="py-5 text-center bg-white">
-          <Container>
-            <motion.h1
-              className="display-4 fw-bold text-dark"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Think It, Code It, Launch It.
-            </motion.h1>
 
-            <motion.img
-              src={images.logo}
-              alt="Batistack Logo"
-              className="img-fluid rounded-circle shadow-lg"
-              style={{
-                width: "320px",
-                height: "320px",
-                objectFit: "cover",
-                border: "6px solid #fff",
-              }}
-              initial={{ opacity: 0, x: 40 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            />
+      <div
+        style={{
+          backgroundColor: "#000",
+          color: "#fff",
+          overflowX: "hidden",
+          fontFamily:
+            "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+        }}
+      >
+        <section className="py-5">
+  <Container>
+    <motion.div
+      className="d-flex justify-content-center mb-4"
+      initial={{ opacity: 0, scale: 0.8 }}
+      whileInView={{ opacity: 1, scale: 1 }}
+      transition={{ duration: 0.6 }}
+      viewport={{ once: true }}
+    >
+      <img
+        src={images.logo}
+        alt="Batistack Logo"
+        className="img-fluid rounded-circle shadow"
+        style={{
+          width: "200px",
+          height: "200px",
+          objectFit: "cover",
+          border: "6px solid #fff",
+        }}
+      />
+    </motion.div>
 
-            <motion.p
-              className="lead text-muted mt-3"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Websites. Web Apps. AI Agents. Visual Content. Digital Growth —
-              All Built for You.
-            </motion.p>
-          </Container>
-        </div>
+    <motion.h1
+      className="fw-bold display-4 text-center mb-4"
+      initial={{ opacity: 0, y: -30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.8 }}
+    >
+      Think It. Code It. Launch It.
+    </motion.h1>
 
-        <div className="py-5" style={{ backgroundColor: "#e9ecef" }}>
-          <Container>
-            <motion.div
-              className="text-center mb-4"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="fw-bold display-5">Our Core Services</h2>
-              <p className="text-muted fs-5 mt-2">
-                Everything your business needs — all in one place. From launch
-                to growth, we’ve got you.
-              </p>
-            </motion.div>
+    <motion.p
+      className="fs-5 text-light text-center mb-5"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.8, delay: 0.2 }}
+    >
+      Websites. Web Apps. AI Agents. Visual Content. Digital Growth — All Built for You.
+    </motion.p>
+  </Container>
+</section>
 
-            <Row className="g-4">
-              {[
-                {
-                  icon: "bi-laptop",
-                  color: "text-primary",
-                  title: "Business Websites",
-                  desc: "Responsive, modern websites designed to position your brand online with confidence and professionalism.",
-                  tag: "Popular",
-                },
-                {
-                  icon: "bi-kanban-fill",
-                  color: "text-danger",
-                  title: "Custom Web Apps",
-                  desc: "Streamline operations and solve complex problems with powerful tools tailored to your workflow and goals.",
-                },
-                {
-                  icon: "bi-brush-fill",
-                  color: "text-warning",
-                  title: "UI/UX Design",
-                  desc: "Intuitive layouts, engaging interfaces, and a design experience that keeps your users coming back.",
-                },
-                {
-                  icon: "bi-bar-chart-fill",
-                  color: "text-success",
-                  title: "Analytics & SEO",
-                  desc: "Dominate search results and discover what matters most to your visitors using SEO and real-time analytics.",
-                },
-                {
-                  icon: "bi-shield-check",
-                  color: "text-info",
-                  title: "Security & Hosting",
-                  desc: "SSL, firewalls, backups, and lightning-fast servers — everything your site needs to stay protected and online 24/7.",
-                },
-                {
-                  icon: "bi-phone",
-                  color: "text-purple",
-                  title: "Mobile Ready",
-                  desc: "From smartphones to tablets to desktops — your site will adapt perfectly to every screen size and device.",
-                },
-                {
-                  icon: "bi-lightbulb",
-                  color: "text-warning",
-                  title: "Business Strategy & Consulting",
-                  desc: "We help you map the digital side of your business and turn ideas into profitable solutions.",
-                },
-                {
-                  icon: "bi-cart",
-                  color: "text-success",
-                  title: "E-Commerce Solutions",
-                  desc: "Sell online with beautiful, secure, and optimized stores integrated with Stripe, PayPal, and more.",
-                },
-                {
-                  icon: "bi-megaphone",
-                  color: "text-danger",
-                  title: "Marketing Automation",
-                  desc: "Reach your audience through email, social media, and campaigns that convert — on autopilot.",
-                },
-              ].map((service, i) => (
-                <Col md={4} key={i}>
-                  <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <Card
-                      className="h-100 text-center shadow-sm border-0 px-2 py-3"
-                      style={{ minHeight: "100%" }}
-                    >
-                      <Card.Body className="d-flex flex-column justify-content-between">
-                        <div>
-                          <i
-                            className={`bi ${service.icon} ${service.color} mb-3`}
-                            style={{ fontSize: "2.5rem" }}
-                          ></i>
-                          <Card.Title className="fw-bold">
-                            {service.title}{" "}
-                            {service.tag && (
-                              <Badge bg="primary" className="ms-1">
-                                {service.tag}
-                              </Badge>
-                            )}
-                          </Card.Title>
-                          <Card.Text className="text-muted">
-                            {service.desc}
-                          </Card.Text>
-                        </div>
-                      </Card.Body>
-                    </Card>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        </div>
 
-        <div className="py-5 bg-white">
-          <Container>
-            <Row className="align-items-center g-5">
-              <Col md={6}>
-                <motion.div
-                  className="bg-light p-4 rounded shadow-sm h-100"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="fw-bold mb-3">
-                    <i className="bi bi-camera-video-fill text-primary me-2"></i>
-                    Video & Photo Services
-                    <Badge bg="dark" className="ms-2">
-                      On-site Available
-                    </Badge>
-                  </h3>
-                  <p className="text-muted fs-5">
-                    Have your own media? Great — we’ll use it. Need custom
-                    content? We visit your location and capture stunning visuals
-                    for your brand. NYC, NJ, CT & Long Island only.
-                  </p>
-                </motion.div>
-              </Col>
-
-              <Col md={6}>
-                <motion.div
-                  className="bg-light p-4 rounded shadow-sm h-100"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  <h3 className="fw-bold mb-3">
-                    <i className="bi bi-robot text-success me-2"></i>
-                    AI Agent & Tool Creation
-                    <Badge bg="success" className="ms-2">
-                      AI-Enhanced
-                    </Badge>
-                  </h3>
-                  <p className="text-muted fs-5">
-                    Automate your customer service, scheduling, or lead gen with
-                    smart AI tools built just for you. Voice assistants,
-                    chatbots, and more.
-                  </p>
-                </motion.div>
-              </Col>
-            </Row>
-          </Container>
-        </div>
-
-        <div className="py-5" style={{ backgroundColor: "#f8f9fa" }}>
+        <section className="py-5 bg-dark">
           <Container>
             <motion.div
               className="text-center mb-5"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5">More Ways We Help You Grow</h2>
-              <p className="text-muted fs-5 mt-2">
-                From branding to automation — we support your business in every
-                step of the digital journey.
+              <h2 className="fw-bold display-5 text-white">
+                Our Core <span className="text-primary">Services</span>
+              </h2>
+              <p className="fs-5 text-light mt-2">
+                Custom-built solutions to launch, grow, and scale your digital
+                presence.
               </p>
             </motion.div>
-
             <Row className="g-4">
-              {[
-                {
-                  icon: "bi-palette2",
-                  color: "text-primary",
-                  title: "Branding & Identity",
-                  desc: "We craft unique visual identities that reflect your values and connect with your audience — from logos to full brand kits.",
-                },
-                {
-                  icon: "bi-tools",
-                  color: "text-warning",
-                  title: "Ongoing Support",
-                  desc: "Keep your platform running smoothly with monthly updates, backups, and priority support.",
-                },
-                {
-                  icon: "bi-people",
-                  color: "text-success",
-                  title: "Lead Management & CRM",
-                  desc: "Track leads, follow up faster, and boost conversions with custom tools or CRM integrations.",
-                },
-                {
-                  icon: "bi-pencil-square",
-                  color: "text-dark",
-                  title: "Content & Copywriting",
-                  desc: "We write persuasive, SEO-optimized content that turns traffic into customers — across websites, blogs, and ads.",
-                },
-                {
-                  icon: "bi-mortarboard",
-                  color: "text-purple",
-                  title: "Training & Handoff",
-                  desc: "We give you easy-to-follow guides and support so your team can manage the site with confidence.",
-                },
-                {
-                  icon: "bi-bar-chart",
-                  color: "text-info",
-                  title: "Conversion Optimization",
-                  desc: "We refine funnels, calls to action, and page structure to help turn more visitors into real customers.",
-                },
-              ].map((item, i) => (
+              {coreServices.map((service, i) => (
                 <Col md={4} key={i}>
                   <motion.div
-                    whileHover={{ scale: 1.05 }}
+                    className="h-100 p-4 rounded bg-black shadow text-center"
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: i * 0.1 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <Card className="h-100 text-center shadow-sm border-0 px-3 py-4">
-                      <Card.Body className="d-flex flex-column justify-content-between">
-                        <div>
-                          <i
-                            className={`bi ${item.icon} ${item.color} mb-3`}
-                            style={{ fontSize: "2.5rem" }}
-                          ></i>
-                          <Card.Title className="fw-bold">
-                            {item.title}
-                          </Card.Title>
-                          <Card.Text className="text-muted">
-                            {item.desc}
-                          </Card.Text>
-                        </div>
-                      </Card.Body>
-                    </Card>
+                    <i
+                      className={`bi ${service.icon} text-primary mb-3`}
+                      style={{ fontSize: "2rem" }}
+                    ></i>
+                    <h5 className="fw-bold text-white mb-2">{service.title}</h5>
+                    <p className="text-light">{service.desc}</p>
                   </motion.div>
                 </Col>
               ))}
             </Row>
           </Container>
-        </div>
+        </section>
 
-        <Footer />
+        <section className="py-5 bg-black">
+          <Container>
+            <motion.div
+              className="text-center mb-5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="fw-bold display-5 text-white">
+                Specialized <span className="text-primary">Solutions</span>
+              </h2>
+              <p className="fs-5 text-light">
+                From custom dashboards to media content and AI automation — our
+                tools are designed to boost performance and growth.
+              </p>
+            </motion.div>
+            <Row className="g-4">
+              {[
+                {
+                  title: "AI Agents & Chatbots",
+                  desc: "Automate customer support, lead capture, and scheduling with intelligent AI-driven voice and chat tools.",
+                  icon: "bi-robot",
+                },
+                {
+                  title: "On-Site Media",
+                  desc: "Professional video and photo services shot at your location to enhance your website and brand image.",
+                  icon: "bi-camera-video",
+                },
+                {
+                  title: "Conversion Funnels",
+                  desc: "Strategic landing pages, lead magnets, and CTAs optimized to turn visitors into customers.",
+                  icon: "bi-graph-up-arrow",
+                },
+                {
+                  title: "Lead Generation Tools",
+                  desc: "Custom forms, quizzes, and integrations that help you collect, qualify, and convert more leads.",
+                  icon: "bi-person-lines-fill",
+                },
+                {
+                  title: "Custom Dashboards",
+                  desc: "Monitor KPIs, website stats, and business performance with real-time, personalized admin dashboards.",
+                  icon: "bi-speedometer2",
+                },
+                {
+                  title: "Multilingual Interfaces",
+                  desc: "Expand your reach with fully localized user interfaces for global customers, built right into your app or site.",
+                  icon: "bi-translate",
+                },
+              ].map((service, i) => (
+                <Col md={6} key={i}>
+                  <motion.div
+                    className="p-4 bg-dark rounded shadow-sm h-100"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <h4 className="fw-bold text-white">
+                      <i className={`bi ${service.icon} text-primary me-2`}></i>
+                      {service.title}
+                    </h4>
+                    <p className="fs-5 text-light">{service.desc}</p>
+                  </motion.div>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </section>
+
+        <section className="py-5 bg-dark">
+          <Container>
+            <motion.div
+              className="text-center mb-5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="fw-bold display-5 text-white">
+                Why <span className="text-primary">Batistack</span>?
+              </h2>
+              <p className="fs-5 text-light">
+                Because we care. Our work is driven by passion, not just pixels.
+              </p>
+            </motion.div>
+            <Row className="g-4">
+              {[
+                "Expert Full-Stack Developers",
+                "Real SEO & Performance Focus",
+                "Scalable and Secure Infrastructure",
+                "Design That Converts",
+                "Video, Photo, and Content Support",
+                "Built to Grow With You",
+              ].map((value, i) => (
+                <Col md={4} key={i}>
+                  <motion.div
+                    className="bg-black p-4 rounded shadow-sm h-100 text-center"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <h5 className="fw-bold text-white mb-2">
+                      <i className="bi bi-check-circle-fill text-primary me-2"></i>
+                      {value}
+                    </h5>
+                  </motion.div>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </section>
+
+        <div
+          className="py-5"
+          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
+        >
+          <Footer />
+        </div>
       </div>
     </>
   );

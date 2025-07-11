@@ -7,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
 
 import Footer from "../components/Footer";
+
 function Home() {
   useTrafficTracker("page_view", "/");
 
@@ -43,47 +44,43 @@ function Home() {
         <link rel="canonical" href="https://www.batistack.com" />
         <script type="application/ld+json">
           {`
-          {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Batistack Development",
-            "url": "https://www.batistack.com",
-            "logo": "https://www.batistack.com/og-image.jpg",
-            "contactPoint": {
-              "@type": "ContactPoint",
-              "telephone": "+1-929-733-1600",
-              "contactType": "Customer Service",
-              "areaServed": "US",
-              "availableLanguage": ["English", "Spanish"]
-            },
-            "sameAs": [
-              "https://www.instagram.com/bati.stack",
-              "https://www.linkedin.com/company/batistack",
-              "https://www.facebook.com/profile.php?id=61575947108161",
-              "https://x.com/BatistackDev"
-            ],
-            "description": "Batistack Development builds websites and custom web apps for businesses across the United States — fast, secure, and scalable solutions tailored for your goals."
-          }
-        `}
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Batistack Development",
+              "url": "https://www.batistack.com",
+              "logo": "https://www.batistack.com/og-image.jpg",
+              "contactPoint": {
+                "@type": "ContactPoint",
+                "telephone": "+1-929-733-1600",
+                "contactType": "Customer Service",
+                "areaServed": "US",
+                "availableLanguage": ["English", "Spanish"]
+              },
+              "sameAs": [
+                "https://www.instagram.com/bati.stack",
+                "https://www.linkedin.com/company/batistack",
+                "https://www.facebook.com/profile.php?id=61575947108161",
+                "https://x.com/BatistackDev"
+              ],
+              "description": "Batistack Development builds websites and custom web apps for businesses across the United States — fast, secure, and scalable solutions tailored for your goals."
+            }
+          `}
         </script>
       </Helmet>
+
       <div
-        style={{
-          backgroundColor: "#f8f9fa",
-          overflowX: "hidden",
-          fontFamily:
-            "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
-        }}
+        style={{ backgroundColor: "#000", color: "#fff", overflowX: "hidden" }}
       >
-        <div className="w-100 py-5">
-          <Container fluid>
+        <section className="py-5">
+          <Container>
             <Row className="align-items-center flex-column-reverse flex-md-row">
               <Col
                 md={6}
                 className="text-center text-md-start px-5 mt-4 mt-md-0"
               >
                 <motion.h1
-                  className="fw-bold text-dark display-4 mb-4"
+                  className="fw-bold display-4 mb-4 text-white"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8 }}
@@ -92,11 +89,10 @@ function Home() {
                   <br />
                   Scalable Apps.
                   <br />
-                  <span style={{ color: "#0d6efd" }}>Results That Matter.</span>
+                  <span className="text-primary">Results That Matter.</span>
                 </motion.h1>
-
                 <motion.p
-                  className="text-secondary fs-5"
+                  className="fs-5 text-light"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ duration: 0.8, delay: 0.3 }}
@@ -105,7 +101,6 @@ function Home() {
                   secure, and SEO-optimized digital experiences. Websites,
                   dashboards, landing pages — done right.
                 </motion.p>
-
                 <motion.div
                   className="mt-4 d-flex gap-3 flex-wrap"
                   initial={{ opacity: 0 }}
@@ -114,19 +109,18 @@ function Home() {
                 >
                   <Link
                     to="/services"
-                    className="btn btn-primary btn-lg px-4 rounded-1"
+                    className="btn btn-primary btn-lg px-4 rounded-pill"
                   >
                     View Our Services
                   </Link>
                   <Link
                     to="/contact"
-                    className="btn btn-outline-secondary btn-lg px-4 rounded-1"
+                    className="btn btn-outline-light btn-lg px-4 rounded-pill"
                   >
                     Let's Talk
                   </Link>
                 </motion.div>
               </Col>
-
               <Col md={6} className="text-center px-5 mb-4 mb-md-0">
                 <motion.img
                   src={images.logo}
@@ -147,9 +141,9 @@ function Home() {
               </Col>
             </Row>
           </Container>
-        </div>
+        </section>
 
-        <div className="bg-white py-5">
+        <section className="py-5 bg-black">
           <Container>
             <motion.div
               className="text-center mb-5"
@@ -157,14 +151,13 @@ function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
             >
-              <h2 className="fw-bold display-5">
-                Why Choose <span style={{ color: "#0d6efd" }}>Batistack?</span>
+              <h2 className="fw-bold display-5 text-white">
+                Why Choose <span className="text-primary">Batistack?</span>
               </h2>
-              <p className="text-muted fs-5">
+              <p className="text-light fs-5">
                 We’re not just builders — we’re your strategic tech partner.
               </p>
             </motion.div>
-
             <Row className="g-4">
               {[
                 {
@@ -188,7 +181,7 @@ function Home() {
               ].map((feature, i) => (
                 <Col md={4} key={i}>
                   <motion.div
-                    className="text-center px-4"
+                    className="text-center px-4 py-5 bg-dark rounded-4 h-100"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 * (i + 1) }}
@@ -197,16 +190,16 @@ function Home() {
                       className={`bi ${feature.icon} ${feature.color} mb-3`}
                       style={{ fontSize: "2.5rem" }}
                     ></i>
-                    <h5 className="fw-bold">{feature.title}</h5>
-                    <p className="text-muted">{feature.desc}</p>
+                    <h5 className="fw-bold text-white">{feature.title}</h5>
+                    <p className="text-light">{feature.desc}</p>
                   </motion.div>
                 </Col>
               ))}
             </Row>
           </Container>
-        </div>
+        </section>
 
-        <div className="py-5" style={{ backgroundColor: "#e9ecef" }}>
+        <section className="py-5 bg-dark">
           <Container>
             <motion.div
               className="text-center mb-5"
@@ -214,13 +207,12 @@ function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              <h2 className="fw-bold display-5">How We Work</h2>
-              <p className="text-muted fs-5">
+              <h2 className="fw-bold display-5 text-white">How We Work</h2>
+              <p className="text-light fs-5">
                 A simple, effective approach to building modern digital
                 products.
               </p>
             </motion.div>
-
             <Row className="g-4 text-center">
               {[
                 {
@@ -241,7 +233,7 @@ function Home() {
               ].map((step, i) => (
                 <Col md={4} key={i}>
                   <motion.div
-                    className="bg-light p-4 rounded shadow-sm h-100"
+                    className="p-4 rounded-4 bg-black border border-secondary h-100"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.2 }}
@@ -250,67 +242,85 @@ function Home() {
                       className={`bi ${step.icon} text-primary mb-3`}
                       style={{ fontSize: "2.5rem" }}
                     ></i>
-                    <h5 className="fw-bold">{step.title}</h5>
-                    <p className="text-muted">{step.desc}</p>
+                    <h5 className="fw-bold text-white">{step.title}</h5>
+                    <p className="text-light">{step.desc}</p>
                   </motion.div>
                 </Col>
               ))}
             </Row>
           </Container>
-        </div>
+        </section>
 
-        <Row className="g-4">
-          {[
-            {
-              icon: "bi-code-slash",
-              title: "Front-End Development",
-              desc: "Create pixel-perfect interfaces with React, TypeScript, and responsive design.",
-            },
-            {
-              icon: "bi-hdd-stack",
-              title: "Back-End Development",
-              desc: "Build scalable, secure backends using modern frameworks and databases.",
-            },
-            {
-              icon: "bi-layers",
-              title: "Full-Stack Web Apps",
-              desc: "End-to-end solutions from database to UI, integrated with third-party services.",
-            },
-            {
-              icon: "bi-phone",
-              title: "Mobile-Ready Design",
-              desc: "Build PWA-ready sites and mobile-first UIs that adapt perfectly to all screens.",
-            },
-            {
-              icon: "bi-palette2",
-              title: "UI/UX Design",
-              desc: "Craft clean, intuitive experiences with smart layouts and visual polish.",
-            },
-            {
-              icon: "bi-bar-chart-line",
-              title: "Digital Strategy",
-              desc: "Reach your audience with targeted SEO, performance, and marketing tools.",
-            },
-          ].map((item, i) => (
-            <Col style={{ padding: "1rem" }} md={6} lg={4} key={i}>
-              <motion.div
-                className="bg-white p-4 rounded-4 shadow-sm h-100 border"
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-              >
-                <div className="text-center mb-3">
-                  <i
-                    className={`bi ${item.icon} text-primary`}
-                    style={{ fontSize: "2.5rem" }}
-                  ></i>
-                </div>
-                <h5 className="fw-bold text-center mb-2">{item.title}</h5>
-                <p className="text-muted text-center">{item.desc}</p>
-              </motion.div>
-            </Col>
-          ))}
-        </Row>
+        <section className="py-5 bg-black">
+          <Container>
+            <motion.div
+              className="text-center mb-5"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              <h2 className="fw-bold display-5 text-white">What We Offer</h2>
+              <p className="text-light fs-5">
+                A quick glimpse of our expertise
+              </p>
+            </motion.div>
+
+            <Row className="g-4">
+              {[
+                {
+                  icon: "bi-code-slash",
+                  title: "Front-End Development",
+                  desc: "Create pixel-perfect interfaces with React, TypeScript, and responsive design.",
+                },
+                {
+                  icon: "bi-hdd-stack",
+                  title: "Back-End Development",
+                  desc: "Build scalable, secure backends using modern frameworks and databases.",
+                },
+                {
+                  icon: "bi-layers",
+                  title: "Full-Stack Web Apps",
+                  desc: "End-to-end solutions from database to UI, integrated with third-party services.",
+                },
+                {
+                  icon: "bi-phone",
+                  title: "Mobile-Ready Design",
+                  desc: "Build PWA-ready sites and mobile-first UIs that adapt perfectly to all screens.",
+                },
+                {
+                  icon: "bi-palette2",
+                  title: "UI/UX Design",
+                  desc: "Craft clean, intuitive experiences with smart layouts and visual polish.",
+                },
+                {
+                  icon: "bi-bar-chart-line",
+                  title: "Digital Strategy",
+                  desc: "Reach your audience with targeted SEO, performance, and marketing tools.",
+                },
+              ].map((item, i) => (
+                <Col style={{ padding: "1rem" }} md={6} lg={4} key={i}>
+                  <motion.div
+                    className="bg-dark p-4 rounded-4 shadow-sm h-100 border border-secondary"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5, delay: i * 0.1 }}
+                  >
+                    <div className="text-center mb-3">
+                      <i
+                        className={`bi ${item.icon} text-primary`}
+                        style={{ fontSize: "2.5rem" }}
+                      ></i>
+                    </div>
+                    <h5 className="fw-bold text-white text-center mb-2">
+                      {item.title}
+                    </h5>
+                    <p className="text-light text-center">{item.desc}</p>
+                  </motion.div>
+                </Col>
+              ))}
+            </Row>
+          </Container>
+        </section>
 
         <div
           style={{ backgroundColor: "#0d6efd", color: "#fff" }}
