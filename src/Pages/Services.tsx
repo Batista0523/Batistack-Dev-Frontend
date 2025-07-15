@@ -1,11 +1,11 @@
-
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
-import images from "../images";
+
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
 import Footer from "../components/Footer";
+import HeroSection from "../components/HeroSection";
 
 function Services() {
   useTrafficTracker("page_view", "/services");
@@ -141,48 +141,12 @@ function Services() {
             "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
         }}
       >
-        <section className="py-5">
-  <Container>
-    <motion.div
-      className="d-flex justify-content-center mb-4"
-      initial={{ opacity: 0, scale: 0.8 }}
-      whileInView={{ opacity: 1, scale: 1 }}
-      transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
-    >
-      <img
-        src={images.logo}
-        alt="Batistack Logo"
-        className="img-fluid rounded-circle shadow"
-        style={{
-          width: "200px",
-          height: "200px",
-          objectFit: "cover",
-          border: "6px solid #fff",
-        }}
-      />
-    </motion.div>
-
-    <motion.h1
-      className="fw-bold display-4 text-center mb-4"
-      initial={{ opacity: 0, y: -30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8 }}
-    >
-      Think It. Code It. Launch It.
-    </motion.h1>
-
-    <motion.p
-      className="fs-5 text-light text-center mb-5"
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8, delay: 0.2 }}
-    >
-      Websites. Web Apps. AI Agents. Visual Content. Digital Growth — All Built for You.
-    </motion.p>
-  </Container>
-</section>
-
+        <HeroSection
+          title="Think It. Code It. Launch It."
+          description="Websites. Web Apps. AI Agents. Visual Content. Digital Growth — All Built for You."
+          buttonText="Contact Us"
+          buttonHref="/contact"
+        />
 
         <section className="py-5 bg-dark">
           <Container>

@@ -10,10 +10,10 @@ import DashboardPage from "./Pages/DashboardPage";
 import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
-
+import AIServices from "./Pages/AIServices";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
-import WebsiteAudit from "./components/WebsiteAudit";
+import WebsiteAudit from "./Pages/WebsiteAudit";
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -33,6 +33,7 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<ContactForm />} />
+        <Route path="/aiServices" element={<AIServices/>} />
 
         <Route path="/policy" element={<PrivacyPolicy/>} />
         

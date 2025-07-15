@@ -4,6 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 import Footer from "../components/Footer";
 import { Helmet } from "react-helmet-async";
+import HeroSection from "../components/HeroSection";
 
 function About() {
   useTrafficTracker("page_view", "/about");
@@ -46,56 +47,33 @@ function About() {
         </script>
       </Helmet>
 
-      <div style={{ backgroundColor: "#000", color: "#fff", overflowX: "hidden", fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif" }}>
-        <section className="py-5">
-          <Container>
-            <Row className="align-items-center">
-              <Col md={6}>
-                <motion.h1
-                  className="fw-bold display-4 mb-4"
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.7 }}
-                  viewport={{ once: true }}
-                >
-                  Meet <span className="text-primary">Batistack Development</span>
-                </motion.h1>
-                <motion.p
-                  className="fs-5 text-light"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  viewport={{ once: true }}
-                >
-                  We craft modern web experiences and digital tools that give your brand an edge. Based in NYC, we serve ambitious entrepreneurs and companies ready to lead in their space.
-                </motion.p>
-              </Col>
-              <Col md={6} className="d-flex justify-content-center">
-                <motion.img
-                  src={images.logo}
-                  alt="Batistack Logo"
-                  className="img-fluid rounded-circle shadow-lg"
-                  style={{ width: "320px", height: "320px", objectFit: "cover", border: "6px solid #fff" }}
-                  initial={{ opacity: 0, x: 40 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8 }}
-                  viewport={{ once: true }}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </section>
+      <div
+        className="bg-black text-white"
+        style={{ fontFamily: "'Inter', sans-serif" }}
+      >
+        <HeroSection
+          title="Meet Batistack Developement"
+          description="We craft modern web experiences and digital tools that give your brand an edge. Based in NYC, we serve ambitious entrepreneurs and companies ready to lead in their space."
+          buttonText="Contact Us"
+          buttonHref="/contact"
+        />
 
-        <section className="py-5 bg-dark">
+        {/* Founder Section */}
+        <section className="py-5 bg-dark border-top border-secondary">
           <Container>
-            <Row className="align-items-center">
-              <Col md={5} className="d-flex justify-content-center mb-4 mb-md-0">
+            <Row className="align-items-center gy-4">
+              <Col md={5} className="text-center">
                 <motion.img
                   src={images.ceopic}
                   alt="Elisaul Batista"
-                  className="img-fluid rounded-circle shadow"
-                  style={{ width: "280px", height: "280px", objectFit: "cover", border: "6px solid #fff" }}
-                  initial={{ opacity: 0, scale: 0.8 }}
+                  className="rounded-circle shadow"
+                  style={{
+                    width: "260px",
+                    height: "260px",
+                    objectFit: "cover",
+                    border: "5px solid #fff",
+                  }}
+                  initial={{ opacity: 0, scale: 0.9 }}
                   whileInView={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.7 }}
                   viewport={{ once: true }}
@@ -103,14 +81,20 @@ function About() {
               </Col>
               <Col md={7}>
                 <motion.h2
-                  className="fw-bold text-light mb-3 d-flex align-items-center"
-                  initial={{ opacity: 0, y: 20 }}
+                  className="fw-bold d-flex align-items-center mb-3"
+                  initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
+                  transition={{ duration: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  Elisaul Batista — <span className="ms-2 text-primary">Founder & CEO</span>
-                  <a href="https://www.linkedin.com/in/elisaul-batista/" target="_blank" className="ms-3">
+                  Elisaul Batista —{" "}
+                  <span className="ms-2 text-primary">Founder & CEO</span>
+                  <a
+                    href="https://www.linkedin.com/in/elisaul-batista/"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="ms-3"
+                  >
                     <i className="bi bi-linkedin text-primary fs-4"></i>
                   </a>
                   <a href="mailto:elisaul@batistack.com" className="ms-3">
@@ -118,36 +102,41 @@ function About() {
                   </a>
                 </motion.h2>
                 <motion.p
-                  className="fs-5 text-light"
+                  className="fs-5"
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
+                  transition={{ duration: 0.6 }}
                   viewport={{ once: true }}
                 >
-                  Elisaul leads Batistack with a rare blend of engineering precision and business acumen. He helps turn complexity into simplicity — guiding clients from idea to scalable digital products.
+                  Elisaul leads Batistack with a rare blend of engineering
+                  precision and business acumen. He helps turn complexity into
+                  simplicity — guiding clients from idea to scalable digital
+                  products.
                 </motion.p>
               </Col>
             </Row>
           </Container>
         </section>
 
-        <section className="py-5 bg-black">
+        {/* Code of Excellence Section */}
+        <section className="py-5 border-top border-secondary">
           <Container>
             <motion.div
               className="text-center mb-5"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5 text-white">
+              <h2 className="fw-bold display-5">
                 Our Code of <span className="text-primary">Excellence</span>
               </h2>
-              <p className="text-light fs-5 mt-2">
-                From the first line of code to final delivery, we treat every project like it's our own startup.
+              <p className="fs-5 text-light mt-3">
+                From the first line of code to final delivery, we treat every
+                project like it's our own startup.
               </p>
             </motion.div>
-            <Row className="text-center">
+            <Row className="text-center gy-4">
               {[
                 {
                   icon: "bi-shield-check",
@@ -165,16 +154,19 @@ function About() {
                   desc: "Design and code come together to reflect your brand with style.",
                 },
               ].map((item, i) => (
-                <Col md={4} key={i} className="text-white">
+                <Col md={4} key={i}>
                   <motion.div
-                    className="px-4"
-                    initial={{ opacity: 0, y: 40 }}
+                    className="px-3"
+                    initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: i * 0.2 }}
+                    transition={{ duration: 0.5, delay: i * 0.2 }}
                     viewport={{ once: true }}
                   >
-                    <i className={`bi ${item.icon} text-primary mb-3`} style={{ fontSize: "2.5rem" }}></i>
-                    <h5 className="fw-bold text-white">{item.title}</h5>
+                    <i
+                      className={`bi ${item.icon} text-primary mb-3`}
+                      style={{ fontSize: "2.5rem" }}
+                    ></i>
+                    <h5 className="fw-bold">{item.title}</h5>
                     <p className="text-light">{item.desc}</p>
                   </motion.div>
                 </Col>
@@ -183,51 +175,70 @@ function About() {
           </Container>
         </section>
 
-        <section className="py-5 bg-dark">
+        {/* Vision Section */}
+        <section className="py-5 bg-dark border-top border-secondary">
           <Container>
             <motion.div
               className="text-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5 text-white">
+              <h2 className="fw-bold display-5">
                 Vision & <span className="text-primary">Philosophy</span>
               </h2>
               <p className="fs-5 text-light mt-3">
-                We believe in honest software — the kind that respects your time, budget, and long-term success. We’re not here to just “build a website.” We’re here to build what moves your business forward.
+                We believe in honest software — the kind that respects your
+                time, budget, and long-term success. We’re not here to just
+                “build a website.” We’re here to build what moves your business
+                forward.
               </p>
             </motion.div>
           </Container>
         </section>
 
-        <section className="py-5 bg-black">
+        {/* Founder Note */}
+        <section className="py-5 border-top border-secondary bg-black">
           <Container>
             <motion.div
-              className="text-center mb-4"
+              className="text-center"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+              transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5 text-white">
+              <h2 className="fw-bold display-5">
                 Founder’s <span className="text-primary">Note</span>
               </h2>
-              <p className="fs-5 text-light mt-3" style={{ maxWidth: "800px", margin: "0 auto" }}>
-                I started Batistack because I saw too many businesses struggling with tech that felt overwhelming or just didn’t work for them. My goal was simple: make technology feel approachable — something that supports you, not something you have to fight with.
-              </p>
-              <p className="fs-5 text-light mt-4" style={{ maxWidth: "800px", margin: "0 auto" }}>
-                If you're just getting started or already running a growing business, we're here to help you move forward with confidence. We take time to understand your goals, and we build with care, clarity, and a lot of heart. I genuinely want your business to succeed — and we’re ready to make it happen together.
-              </p>
-              <p className="fs-5 text-light fw-bold mt-4 mb-0">
-                — Elisaul Batista, Founder & CEO
-              </p>
+              <div className="mx-auto mt-3" style={{ maxWidth: "800px" }}>
+                <p className="fs-5 text-light">
+                  I started Batistack because I saw too many businesses
+                  struggling with tech that felt overwhelming or just didn’t
+                  work for them. My goal was simple: make technology feel
+                  approachable — something that supports you, not something you
+                  have to fight with.
+                </p>
+                <p className="fs-5 text-light mt-4">
+                  If you're just getting started or already running a growing
+                  business, we're here to help you move forward with confidence.
+                  We take time to understand your goals, and we build with care,
+                  clarity, and a lot of heart. I genuinely want your business to
+                  succeed — and we’re ready to make it happen together.
+                </p>
+                <p className="fs-5 text-light fw-bold mt-4 mb-0">
+                  — Elisaul Batista, Founder & CEO
+                </p>
+              </div>
             </motion.div>
           </Container>
         </section>
 
-        <div style={{ backgroundColor: "#0d6efd", color: "#fff" }} className="py-5">
+        {/* Footer */}
+        <div
+          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
+          className="py-5 mt-5"
+        >
           <Footer />
         </div>
       </div>
