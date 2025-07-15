@@ -42,9 +42,9 @@ function NavBar() {
         <Navbar.Collapse id="main-navbar">
           <Nav className="ms-auto align-items-center gap-3">
             {[
-              { path: "/speedPage", label: "AI Website Audit" },
               { path: "/about", label: "About" },
               { path: "/services", label: "Services" },
+              { path: "/speedPage", label: "AI Website Audit" },
               { path: "/contact", label: "Contact" },
               ...(isAuthenticated && user
                 ? [{ path: "/dashboardPage", label: "Dashboard" }]
