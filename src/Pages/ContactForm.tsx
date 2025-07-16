@@ -9,11 +9,13 @@ import {
   Col,
   Spinner,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
+
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import images from "../images";
+
+import HeroSection from "../components/HeroSection";
+import AnimatedButton from "../components/Button";
 
 function ContactForm() {
   useTrafficTracker("click", "/contact");
@@ -84,63 +86,32 @@ function ContactForm() {
             "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
         }}
       >
-        <section className="py-5">
-          <Container>
-            <motion.div
-              className="d-flex justify-content-center mb-4"
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <img
-                src={images.logo}
-                alt="Batistack Logo"
-                className="img-fluid rounded-circle shadow"
-                style={{
-                  width: "200px",
-                  height: "200px",
-                  objectFit: "cover",
-                  border: "6px solid #0d6efd",
-                }}
-              />
-            </motion.div>
-            <motion.h1
-              className="fw-bold display-4 text-center mb-4"
-              initial={{ opacity: 0, y: -30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
-              Let’s Talk About Your Vision
-            </motion.h1>
-            <motion.p
-              className="fs-5 text-center mb-5 text-light"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              Ready to grow your business online? Whether it’s a landing page or
-              a full platform, we’re here to guide you through it — step by
-              step.
-            </motion.p>
-          </Container>
-        </section>
+        <HeroSection
+          title="Let’s Talk About Your Vision"
+          description="You're just one message away from transforming your online presence. Whether you need a landing page, a full-stack platform, or ongoing support — Batistack will help you build something remarkable."
+        />
 
         <section className="py-5 bg-dark">
           <Container>
             <Row className="mb-5 align-items-stretch g-4">
               <Col md={6}>
                 <motion.div
-                  className="p-4 bg-black shadow rounded-3 h-100"
+                  className="p-4 bg-black shadow rounded-4 h-100"
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                 >
                   <h4 className="fw-bold mb-4 text-primary">
-                    Get in Touch with Us
+                    Get a Free Consultation
                   </h4>
+                  <p className="text-light mb-4">
+                    Tell us a bit about your project — and we’ll guide you from
+                    idea to execution.
+                  </p>
+
                   {success && <Alert variant="success">{success}</Alert>}
                   {error && <Alert variant="danger">{error}</Alert>}
+
                   <Form onSubmit={handleSubmit}>
                     <Form.Group className="mb-3">
                       <Form.Label className="text-light">Name</Form.Label>
@@ -167,7 +138,7 @@ function ContactForm() {
                       <Form.Control
                         as="textarea"
                         rows={4}
-                        placeholder="What can we build for you?"
+                        placeholder="What do you need help with?"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
                       />
@@ -195,19 +166,20 @@ function ContactForm() {
                   </Form>
                 </motion.div>
               </Col>
+
               <Col md={6}>
                 <motion.div
-                  className="p-4 bg-black shadow rounded-3 h-100 text-center"
+                  className="p-4 bg-black shadow rounded-4 h-100 text-center"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
                 >
                   <h4 className="fw-bold text-white mb-3">
-                    Find Us on Social Media
+                    Connect With Us Online
                   </h4>
                   <p className="text-light">
-                    Stay connected and see how we help businesses grow across
-                    the U.S.
+                    Join our growing community and stay ahead with insights,
+                    updates, and case studies.
                   </p>
                   <Row className="mt-4 g-4">
                     {[
@@ -215,29 +187,29 @@ function ContactForm() {
                         icon: "bi bi-instagram",
                         href: "https://www.instagram.com/bati.stack",
                         color: "#E1306C",
-                        label: "Behind the Scenes",
-                        desc: "See our latest work, team culture, and real client stories.",
+                        label: "Instagram",
+                        desc: "Follow our work, team, and behind-the-scenes.",
                       },
                       {
                         icon: "bi bi-linkedin",
                         href: "https://www.linkedin.com/company/batistack",
                         color: "#0077B5",
-                        label: "Professional Insights",
-                        desc: "Get industry tips and follow our journey as a growing tech company.",
+                        label: "LinkedIn",
+                        desc: "Stay professional with insights and news.",
                       },
                       {
                         icon: "bi bi-facebook",
                         href: "https://www.facebook.com/profile.php?id=61575947108161",
                         color: "#1877F2",
-                        label: "Community Updates",
-                        desc: "Stay updated on promotions, events, and local business news.",
+                        label: "Facebook",
+                        desc: "Catch our latest updates and promos.",
                       },
                       {
                         icon: "bi bi-twitter-x",
                         href: "https://x.com/BatistackDev",
                         color: "#1DA1F2",
-                        label: "Quick Tips",
-                        desc: "Daily inspiration, dev tips, and business insights in 280 characters.",
+                        label: "X (Twitter)",
+                        desc: "Quick tips, news, and thoughts.",
                       },
                     ].map((social, idx) => (
                       <Col xs={12} md={6} key={idx}>
@@ -258,7 +230,9 @@ function ContactForm() {
                             <span className="mt-2 fw-semibold">
                               {social.label}
                             </span>
-                            <p className="small mb-0">{social.desc}</p>
+                            <p className="small mb-0 text-center">
+                              {social.desc}
+                            </p>
                           </div>
                         </a>
                       </Col>
@@ -268,37 +242,25 @@ function ContactForm() {
               </Col>
             </Row>
 
-            <div
+            <motion.div
               style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-              className="py-5 mt-4 rounded-3"
+              className="py-5 mt-5 rounded-3"
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
             >
-              <Container>
-                <motion.div
-                  className="text-center"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                >
-                  <h2 className="fw-bold display-6 mb-3">
-                    Your Business Needs a Website — Today
-                  </h2>
-                  <p className="fs-5 mx-auto" style={{ maxWidth: "700px" }}>
-                    The world is digital. Every day you wait, your competitors
-                    gain ground. Don’t let opportunities slip by. Let Batistack
-                    create the online presence your business deserves — built to
-                    convert and built to grow.
-                  </p>
-                  <div className="d-flex justify-content-center mt-4">
-                    <Link
-                      to="/services"
-                      className="btn btn-light btn-lg px-4 rounded-1 fw-semibold"
-                    >
-                      Explore Our Services
-                    </Link>
-                  </div>
-                </motion.div>
+              <Container className="text-center">
+                <h2 className="fw-bold display-6 mb-3">
+                  Let’s Build Something That Gets You Clients
+                </h2>
+                <p className="fs-5 mx-auto" style={{ maxWidth: "720px" }}>
+                  From small businesses to large-scale platforms, Batistack
+                  helps you create websites that sell, impress, and last. Let’s
+                  start now — not next month.
+                </p>
+             <AnimatedButton text="See Our Services" href="/services"/>
               </Container>
-            </div>
+            </motion.div>
           </Container>
         </section>
       </div>

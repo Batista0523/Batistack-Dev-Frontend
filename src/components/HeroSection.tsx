@@ -1,17 +1,20 @@
-
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 import AnimatedButton from "./Button";
 import images from "../images";
 
 interface HeroSectionProps {
   title: string;
   description: string;
-  buttonText: string;
-  buttonHref: string;
+  buttonText?: string;
+  buttonHref?: string;
 }
 
 function HeroSection({ title, description, buttonText, buttonHref }: HeroSectionProps) {
+  const location = useLocation();
+  const isContactPage = location.pathname === "/contact";
+
   return (
     <section className="py-5">
       <Container>
@@ -49,7 +52,9 @@ function HeroSection({ title, description, buttonText, buttonHref }: HeroSection
             >
               {description}
             </motion.p>
-            <AnimatedButton text={buttonText} href={buttonHref} />
+            {buttonText && buttonHref && !isContactPage && (
+              <AnimatedButton text={buttonText} href={buttonHref} />
+            )}
           </Col>
         </Row>
       </Container>
