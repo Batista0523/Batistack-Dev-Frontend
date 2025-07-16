@@ -101,7 +101,7 @@ function AiServices() {
         <HeroSection
           title="AI That Works For You"
           description="From intelligent chat to real-time voice automation, our AI tools help your business scale smarter — fast."
-          buttonText="Book A Free Demo"
+          buttonText="Contact Us"
           buttonHref="/contact"
         />
 
