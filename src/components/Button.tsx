@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 interface AnimatedButtonProps {
   text: string;
-  href: string;
+  href?: string;
 }
 
 function AnimatedButton({ text, href }: AnimatedButtonProps) {

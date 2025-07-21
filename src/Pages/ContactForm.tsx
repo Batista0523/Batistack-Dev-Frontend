@@ -143,8 +143,9 @@ function ContactForm() {
                         onChange={(e) => setMessage(e.target.value)}
                       />
                     </Form.Group>
+
                     <Button
-                      variant="primary"
+                      variant="outline-light"
                       type="submit"
                       size="lg"
                       className="w-100 rounded-1 fw-semibold"
@@ -258,7 +259,7 @@ function ContactForm() {
                   helps you create websites that sell, impress, and last. Let’s
                   start now — not next month.
                 </p>
-             <AnimatedButton text="See Our Services" href="/services"/>
+                <AnimatedButton text="See Our Services" href="/services" />
               </Container>
             </motion.div>
           </Container>
