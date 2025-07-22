@@ -1,7 +1,7 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import images from "../images";
 import { Container, Row, Col } from "react-bootstrap";
-
+import FeatureSection from "../components/FeatureSection";
 import { motion } from "framer-motion";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
@@ -11,60 +11,216 @@ import AnimatedButton from "../components/Button";
 function Home() {
   useTrafficTracker("page_view", "/");
 
-  const Divider = () => (
-    <div className="w-100 d-flex justify-content-center">
-      <div
-        style={{
-          height: "3px",
-          width: "80px",
-          background: "#0d6efd",
-          borderRadius: "10px",
-          margin: "3rem 0",
-        }}
-      ></div>
-    </div>
-  );
+  const coreFeatures = [
+    {
+      icon: "bi-rocket",
+      title: "We Build to Scale",
+      desc: "Every site we build adapts as you grow — with smart structure, clean code, and lasting results.",
+      color: "text-primary",
+    },
+    {
+      icon: "bi-lock-fill",
+      title: "Security First",
+      desc: "Your users and data stay safe — we use advanced protection and best practices from day one.",
+      color: "text-success",
+    },
+    {
+      icon: "bi-lightning-charge-fill",
+      title: "Fast Delivery",
+      desc: "You get live results quickly — our agile process speeds up launch without cutting corners.",
+      color: "text-warning",
+    },
+  ];
 
+  const extraValues = [
+    {
+      title: "No Templates. Ever.",
+      desc: "We build from scratch — no themes, no shortcuts. You get code that’s unique and made for you.",
+      icon: "bi-code-slash",
+    },
+    {
+      title: "Zero Copy-Paste Work",
+      desc: "We don’t reuse from others — we create sites that make your brand the one worth copying.",
+      icon: "bi-layout-text-window-reverse",
+    },
+    {
+      title: "Outcome-Driven Design",
+      desc: "We don’t just design to look pretty — we craft every element to convert and generate growth.",
+      icon: "bi-bullseye",
+    },
+    {
+      title: "We Act Like Partners",
+      desc: "We treat your goals like ours — with real feedback, honest advice, and shared success.",
+      icon: "bi-people-fill",
+    },
+    {
+      title: "Future-Ready Tech",
+      desc: "We use modern tools and best-in-class code so your site stays fast, stable, and scalable.",
+      icon: "bi-terminal-fill",
+    },
+    {
+      title: "Transparent Process",
+      desc: "You’ll know what’s next — with clear steps, fair pricing, and updates every step of the way.",
+      icon: "bi-eye-fill",
+    },
+  ];
+
+  const aiCoreFeatures = [
+    {
+      icon: "bi-chat-dots",
+      title: "AI Chat Assistants",
+      desc: "Smart bots trained on your brand — answering questions, building trust, and collecting leads.",
+      color: "text-primary",
+    },
+    {
+      icon: "bi-robot",
+      title: "Voice Agents",
+      desc: "AI handles calls, books appointments, and gives answers — just like a real human would.",
+      color: "text-success",
+    },
+    {
+      icon: "bi-bar-chart-line",
+      title: "Analytics Automation",
+      desc: "Track visitor actions, spot trends, and get insights — all powered and explained by AI.",
+      color: "text-warning",
+    },
+  ];
+
+  const aiExtraFeatures = [
+    {
+      title: "Custom Trained AI",
+      desc: "We fine-tune your AI to talk like you — using your tone, answers, and business logic.",
+      icon: "bi-cpu-fill",
+    },
+    {
+      title: "Multilingual Ready",
+      desc: "Serve clients in English, Spanish, or both — your AI speaks their language fluently.",
+      icon: "bi-translate",
+    },
+    {
+      title: "Learns With Use",
+      desc: "Each interaction improves your AI — getting smarter, sharper, and more helpful daily.",
+      icon: "bi-lightbulb-fill",
+    },
+    {
+      title: "Omnichannel Integration",
+      desc: "Use your AI on site, phone, CRM, or chat — one brain that works across every channel.",
+      icon: "bi-plug-fill",
+    },
+    {
+      title: "24/7 Efficiency",
+      desc: "Let AI cover nights, weekends, and holidays — never miss a message or lead again.",
+      icon: "bi-clock-history",
+    },
+    {
+      title: "Security-First AI",
+      desc: "We protect your data with secure code, encrypted flows, and privacy-first methods.",
+      icon: "bi-shield-lock-fill",
+    },
+  ];
+
+  const workSteps = [
+    {
+      title: "Strategize",
+      icon: "bi-lightbulb",
+      desc: "We learn your goals, map your audience, and build a smart strategy with clear direction.",
+    },
+    {
+      title: "Design & Build",
+      icon: "bi-layout-text-window",
+      desc: "We move from wireframes to clean code — with stunning design and bulletproof logic.",
+    },
+    {
+      title: "Launch & Grow",
+      icon: "bi-rocket-takeoff",
+      desc: "We deploy, test, and refine — tracking results and improving with every interaction.",
+    },
+  ];
+
+  function Divider() {
+    return (
+      <div className="w-100 d-flex justify-content-center">
+        <div
+          style={{
+            height: "3px",
+            width: "80px",
+            background: "#0d6efd",
+            borderRadius: "10px",
+            margin: "3rem 0",
+          }}
+        ></div>
+      </div>
+    );
+  }
   return (
     <>
       <Helmet>
         <title>
-          Batistack Development | Expert Web Development & Digital Solutions
+          Batistack Development | NYC Web Design & AI Solutions for Local
+          Businesses
         </title>
         <meta
           name="description"
-          content="Custom websites, full-stack web apps, and mobile-ready platforms built for businesses. We help you grow online with SEO-optimized solutions."
+          content="Custom-coded websites and AI-powered tools for businesses in Downtown Brooklyn, Manhattan, Queens, and The Hamptons. Batistack builds scalable, high-performance digital systems — from idea to launch."
         />
         <meta
           name="keywords"
-          content="web development, software agency, full stack developer, custom web applications, react websites, SEO optimization, Batistack Development"
+          content="web development NYC, Brooklyn web design, Manhattan software development, Queens web developers, Hamptons website design, custom websites, AI chatbots, AI tools, scalable web apps, frontend development, backend APIs, SEO optimization, Batistack Development"
         />
-        <meta name="author" content="Batistack Development" />
         <meta
           property="og:title"
-          content="Batistack Development | Digital Solutions"
+          content="Batistack Development | Web & AI Built in NYC"
         />
         <meta
           property="og:description"
-          content="From idea to launch — custom websites, scalable web apps, and digital growth strategies tailored for your business."
+          content="Premium web development and AI automation built in New York City — serving Brooklyn, Manhattan, Queens, and The Hamptons. Get custom code that performs."
         />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://batistack.com/" />
         <meta
           property="og:image"
-          content="https://batistack.com//og-image.jpg"
+          content="https://batistack.com/assets/og-image.jpg"
         />
-        <meta name="robots" content="index, follow" />
         <link rel="canonical" href="https://batistack.com/" />
+        <meta name="robots" content="index, follow" />
+
+        <script type="application/ld+json">
+          {`
+      {
+        "@context": "https://schema.org",
+        "@type": "LocalBusiness",
+        "name": "Batistack Development",
+        "image": "https://batistack.com/assets/og-image.jpg",
+        "url": "https://batistack.com",
+        "telephone": "+1-929-733-1600",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "New York",
+          "addressRegion": "NY",
+          "postalCode": "11201",
+          "addressCountry": "US"
+        },
+        "areaServed": [
+          "Downtown Brooklyn",
+          "Manhattan",
+          "Queens",
+          "The Hamptons",
+          "Brooklyn",
+          "City"
+        ],
+        "sameAs": [
+          "https://www.linkedin.com/in/elisaul-batista/"
+        ],
+        "description": "Batistack is a web development and AI solutions company based in NYC. We help local businesses in Brooklyn, Manhattan, Queens, and the Hamptons grow with scalable custom websites and smart automation tools."
+      }
+    `}
+        </script>
       </Helmet>
 
       <div
         style={{ backgroundColor: "#000", color: "#fff", overflowX: "hidden" }}
       >
-        <section
-          className="py-5 min-vh-100 d-flex align-items-center"
-          style={{ backgroundColor: "#000" }}
-        >
+        <section className="py-5 min-vh-100 d-flex align-items-center">
           <Container>
             <Row className="align-items-center flex-column-reverse flex-md-row">
               <Col
@@ -77,12 +233,10 @@ function Home() {
                   whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
                   transition={{ duration: 0.9, ease: "easeOut" }}
                 >
-                  Websites That Win
-                  <br />
-                  + Smart AI Tools
+                  Web Development & AI Solutions
                   <br />
                   <span className="text-primary">
-                    Tailored for Your Business
+                    Engineered in NYC for Real Growth
                   </span>
                 </motion.h1>
                 <motion.p
@@ -91,8 +245,11 @@ function Home() {
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
                 >
-                  Whether you need a stunning website or powerful automation, we
-                  help you save time, attract clients, and grow faster.
+                  Batistack is a New York City-based software company building
+                  high-performance websites and smart AI tools — all
+                  custom-coded to boost speed, conversions, and credibility.
+                  Whether you're a startup or an enterprise, we build digital
+                  experiences that grow with you.
                 </motion.p>
                 <motion.div
                   className="mt-4 d-flex gap-3 flex-wrap"
@@ -101,13 +258,11 @@ function Home() {
                   transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
                 >
                   <AnimatedButton text="Let's Talk" href="/contact" />
-                  <AnimatedButton text="Our Services" href="/services" />
-                  <AnimatedButton
-                    text="Free AI Website Audit"
-                    href="/speedPage"
-                  />
+                  <AnimatedButton text="See Our Work" href="/services" />
+                  <AnimatedButton text="Free Audit" href="/speedPage" />
                 </motion.div>
               </Col>
+
               <Col md={6} className="text-center px-5 mb-4 mb-md-0">
                 <motion.img
                   src={images.logo}
@@ -116,7 +271,6 @@ function Home() {
                   style={{
                     width: "100%",
                     maxWidth: "420px",
-                    height: "auto",
                     objectFit: "cover",
                     border: "6px solid #ffffff",
                     backgroundColor: "#ffffff",
@@ -130,132 +284,27 @@ function Home() {
             </Row>
           </Container>
         </section>
-
-        <Divider />
-        <section className="py-5 bg-dark">
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="fw-bold display-5 text-white">
-                Need More Than Just a Website?
-              </h2>
-              <p className="text-light fs-5">
-                We also create smart tools powered by Artificial Intelligence —
-                perfect for businesses that want to save time, automate tasks,
-                or improve customer service.
-              </p>
-            </motion.div>
-            <Row className="text-center g-4">
-              <Col md={4}>
-                <div className="p-4 bg-black border border-secondary rounded-4 h-100">
-                  <i
-                    className="bi bi-chat-dots text-primary mb-3"
-                    style={{ fontSize: "2.5rem" }}
-                  ></i>
-                  <h5 className="text-white fw-bold">AI Chat Assistants</h5>
-                  <p className="text-light">
-                    Let a smart assistant handle your messages 24/7, saving you
-                    time and converting visitors into customers.
-                  </p>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="p-4 bg-black border border-secondary rounded-4 h-100">
-                  <i
-                    className="bi bi-robot text-success mb-3"
-                    style={{ fontSize: "2.5rem" }}
-                  ></i>
-                  <h5 className="text-white fw-bold">Voice Agents</h5>
-                  <p className="text-light">
-                    We build voice assistants that answer calls, book
-                    appointments, and respond like a real team member.
-                  </p>
-                </div>
-              </Col>
-              <Col md={4}>
-                <div className="p-4 bg-black border border-secondary rounded-4 h-100">
-                  <i
-                    className="bi bi-bar-chart-line text-warning mb-3"
-                    style={{ fontSize: "2.5rem" }}
-                  ></i>
-                  <h5 className="text-white fw-bold">Smart Analytics</h5>
-                  <p className="text-light">
-                    See what’s working on your site and get simple insights to
-                    grow your business faster.
-                  </p>
-                </div>
-              </Col>
-            </Row>
-          </Container>
-          <div className="text-center mt-5">
-            <AnimatedButton text="Explore AI Services" href="/aiServices" />
-          </div>
-        </section>
         <Divider />
 
-        <section className="py-5 bg-black">
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <h2 className="fw-bold display-5 text-white">
-                Why More Businesses{" "}
-                <span className="text-primary">Choose Batistack</span>
-              </h2>
-              <p className="text-light fs-5">
-                You're not just hiring developers — you're gaining a digital
-                growth partner. From idea to execution, we focus on results that
-                move your business forward.
-              </p>
-            </motion.div>
-            <Row className="g-4">
-              {[
-                {
-                  icon: "bi-rocket",
-                  color: "text-primary",
-                  title: "We Build to Scale",
-                  desc: "Whether you're just starting or growing fast, our solutions grow with you — without needing a full rebuild later.",
-                },
-                {
-                  icon: "bi-lock-fill",
-                  color: "text-success",
-                  title: "Secure by Design",
-                  desc: "We treat your business like our own — with built-in protection that keeps your data and your clients safe.",
-                },
-                {
-                  icon: "bi-clock-history",
-                  color: "text-warning",
-                  title: "We Respect Your Time",
-                  desc: "Clear timelines. Fast delivery. No surprises. You always know what’s happening and when.",
-                },
-              ].map((feature, i) => (
-                <Col md={4} key={i}>
-                  <motion.div
-                    className="text-center px-4 py-5 bg-dark rounded-4 h-100 shadow-sm border border-secondary"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 * (i + 1) }}
-                  >
-                    <i
-                      className={`bi ${feature.icon} ${feature.color} mb-3`}
-                      style={{ fontSize: "2.5rem" }}
-                    ></i>
-                    <h5 className="fw-bold text-white">{feature.title}</h5>
-                    <p className="text-light">{feature.desc}</p>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </Container>
-        </section>
+        <FeatureSection
+          sectionClass="py-5 bg-dark"
+          title="Why More Businesses Choose"
+          subtitle="You're not just hiring developers — you're gaining a dedicated technology partner."
+          features={coreFeatures}
+          extraValues={extraValues}
+        />
 
+        <Divider />
+        <FeatureSection
+          sectionClass="py-5 bg-black"
+          title="Our AI Solutions Work Smarter, Not Harder"
+          subtitle="We build AI tools that feel human, operate 24/7, and help your business scale faster."
+          features={aiCoreFeatures}
+          extraValues={aiExtraFeatures}
+        />
+        <div className="text-center mt-5">
+          <AnimatedButton text="Explore AI Services" href="/aiServices" />
+        </div>
         <Divider />
 
         <section className="py-5 bg-dark">
@@ -268,28 +317,12 @@ function Home() {
             >
               <h2 className="fw-bold display-5 text-white">How We Work</h2>
               <p className="text-light fs-5">
-                A simple, effective approach to building modern digital
-                products.
+                Our 3-phase approach balances strategy, speed, and scalability —
+                so your project succeeds from day one.
               </p>
             </motion.div>
             <Row className="g-4 text-center">
-              {[
-                {
-                  title: "Think it",
-                  icon: "bi-lightbulb-fill",
-                  desc: "We align with your vision, goals, and users — whether you need a landing page or an advanced dashboard.",
-                },
-                {
-                  title: "Code it",
-                  icon: "bi-code-slash",
-                  desc: "We build fast, responsive, and scalable applications using the latest technologies.",
-                },
-                {
-                  title: "Launch it",
-                  icon: "bi-rocket-takeoff-fill",
-                  desc: "We test, optimize, and deploy your solution with your full approval and support.",
-                },
-              ].map((step, i) => (
+              {workSteps.map((step, i) => (
                 <Col md={4} key={i}>
                   <motion.div
                     className="p-4 rounded-4 bg-black border border-secondary h-100"
@@ -308,91 +341,13 @@ function Home() {
               ))}
             </Row>
           </Container>
+
+          <div className="text-center mt-5">
+            <AnimatedButton text="Contact us" href="/contact" />
+          </div>
         </section>
 
-        <Divider />
-
-        <section className="py-5 bg-black">
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7 }}
-            >
-              <h2 className="fw-bold display-5 text-white">What We Offer</h2>
-              <p className="text-light fs-5">
-                Here’s how we help you stand out and succeed — whether you need
-                a website, digital strategy, or tools that save you time.
-              </p>
-            </motion.div>
-            <Row className="g-4">
-              {[
-                {
-                  icon: "bi-window",
-                  title: "Modern Website Design",
-                  desc: "We build clean, professional websites that look great on phones, tablets, and computers — and are easy to navigate.",
-                },
-                {
-                  icon: "bi-cpu",
-                  title: "Smart AI Tools",
-                  desc: "From chat assistants to voice responders — we create custom AI tools that automate tasks, answer questions, and help your business run 24/7.",
-                },
-                {
-                  icon: "bi-lightning-charge",
-                  title: "Fast & Reliable Performance",
-                  desc: "No one likes a slow website. We make sure your site loads quickly and works smoothly for every visitor.",
-                },
-                {
-                  icon: "bi-phone",
-                  title: "Mobile-Friendly Experience",
-                  desc: "Most visitors use their phone — we make sure your site looks amazing and works perfectly on all screen sizes.",
-                },
-                {
-                  icon: "bi-eye",
-                  title: "Clear & Intuitive Layout",
-                  desc: "We organize your content so people instantly understand what you offer — making it easier to turn visitors into clients.",
-                },
-                {
-                  icon: "bi-graph-up-arrow",
-                  title: "Grow Your Online Presence",
-                  desc: "We help people find your business online through smart content, search optimization, and a strong digital footprint.",
-                },
-              ].map((item, i) => (
-                <Col style={{ padding: "1rem" }} md={6} lg={4} key={i}>
-                  <motion.div
-                    className="bg-dark p-4 rounded-4 shadow-sm h-100 border border-secondary"
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                  >
-                    <div className="text-center mb-3">
-                      <i
-                        className={`bi ${item.icon} text-primary`}
-                        style={{ fontSize: "2.5rem" }}
-                      ></i>
-                    </div>
-                    <h5 className="fw-bold text-white text-center mb-2">
-                      {item.title}
-                    </h5>
-                    <p className="text-light text-center">{item.desc}</p>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-            <div className="text-center mt-5">
-              <AnimatedButton text="Explore Our Services" href="/services" />
-            </div>
-          </Container>
-        </section>
-
-        <Divider />
-        <div
-          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-          className="py-5"
-        >
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </>
   );

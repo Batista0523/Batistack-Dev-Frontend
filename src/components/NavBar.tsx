@@ -44,8 +44,8 @@ function NavBar() {
             {[
               { path: "/about", label: "About" },
               { path: "/services", label: "Services" },
-              { path: "/speedPage", label: "AI Website Audit" },
               { path: "/aiServices", label: "AI Services" },
+              { path: "/speedPage", label: "AI Website Audit" },
               { path: "/contact", label: "Contact" },
               ...(isAuthenticated && user
                 ? [{ path: "/dashboardPage", label: "Dashboard" }]
