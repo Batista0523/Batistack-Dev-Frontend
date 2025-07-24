@@ -325,12 +325,7 @@ function WebsiteAudit() {
           </Container>
         </section>
 
-        <div
-          className="pt-5"
-          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-        >
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </>
   );

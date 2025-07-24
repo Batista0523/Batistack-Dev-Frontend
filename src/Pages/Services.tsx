@@ -302,12 +302,7 @@ function Services() {
           </Container>
         </section>
 
-        <div
-          className="py-5"
-          style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-        >
-          <Footer />
-        </div>
+        <Footer />
       </div>
     </>
   );

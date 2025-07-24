@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { Button, Spinner, Form } from "react-bootstrap";
@@ -22,8 +21,12 @@ function ChatBot() {
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const url = import.meta.env.VITE_BASE_URL;
 
-  const sendAudio = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA");
-  const receiveAudio = new Audio("data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA");
+  const sendAudio = new Audio(
+    "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA"
+  );
+  const receiveAudio = new Audio(
+    "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAABCxAgAEABAAZGF0Yf8AAAAA"
+  );
 
   useEffect(() => {
     localStorage.removeItem("batistack-chat");
@@ -63,7 +66,9 @@ function ChatBot() {
       const res = await axios.post(`${url}/chatbot`, {
         message: input,
         chatHistory: [...messages, userMessage],
-        isFinished: input.toLowerCase().includes("thank you") || input.toLowerCase().includes("that's all"),
+        isFinished:
+          input.toLowerCase().includes("thank you") ||
+          input.toLowerCase().includes("that's all"),
         userDetails: { fullName, email, phoneNumber },
       });
 
@@ -79,14 +84,17 @@ function ChatBot() {
       setMessages((prev) => [...prev, botMessage]);
       receiveAudio.play().catch(() => {});
     } catch {
-      setMessages((prev) => [...prev, {
-        role: "assistant",
-        content: "⚠️ Sorry, something went wrong.",
-        timestamp: new Date().toLocaleTimeString([], {
-          hour: "2-digit",
-          minute: "2-digit",
-        }),
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: "assistant",
+          content: "⚠️ Sorry, something went wrong.",
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -124,8 +132,16 @@ function ChatBot() {
     <>
       {!open && (
         <div className="position-fixed bottom-0 end-0 m-4 z-3">
-          <Button variant="dark" className="rounded-circle p-2 shadow" onClick={() => setOpen(true)}>
-            <img src={images.logo} alt="Chat" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+          <Button
+            variant="dark"
+            className="rounded-circle p-2 shadow"
+            onClick={() => setOpen(true)}
+          >
+            <img
+              src={images.logo}
+              alt="Chat"
+              style={{ width: "40px", height: "40px", borderRadius: "50%" }}
+            />
           </Button>
         </div>
       )}
@@ -142,7 +158,13 @@ function ChatBot() {
         >
           <div className="p-3 border-bottom border-light d-flex justify-content-between align-items-center">
             <strong>Batistack AI</strong>
-            <Button variant="outline-light" size="sm" onClick={() => setOpen(false)}>×</Button>
+            <Button
+              variant="outline-light"
+              size="sm"
+              onClick={() => setOpen(false)}
+            >
+              ×
+            </Button>
           </div>
 
           <div
@@ -153,34 +175,76 @@ function ChatBot() {
               <Form onSubmit={handleFormSubmit} className="text-light">
                 <Form.Group className="mb-3">
                   <Form.Label>Full Name</Form.Label>
-                  <Form.Control type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required className="bg-black text-white border-secondary" />
+                  <Form.Control
+                    type="text"
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    required
+                    className="bg-black text-white border-secondary"
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Email</Form.Label>
-                  <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-black text-white border-secondary" />
+                  <Form.Control
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="bg-black text-white border-secondary"
+                  />
                 </Form.Group>
                 <Form.Group className="mb-3">
                   <Form.Label>Phone (optional)</Form.Label>
-                  <Form.Control type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} className="bg-black text-white border-secondary" />
+                  <Form.Control
+                    type="tel"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="bg-black text-white border-secondary"
+                  />
                 </Form.Group>
-                <Button type="submit" variant="primary" className="w-100">Start Chat</Button>
+                <Button type="submit" variant="primary" className="w-100">
+                  Start Chat
+                </Button>
               </Form>
             ) : (
               <div>
                 {messages.map((msg, index) => (
-                  <div key={index} className={`mb-3 ${msg.role === "user" ? "text-end" : "text-start"}`}>
-                    <div className={`d-inline-block px-3 py-2 rounded-3 ${msg.role === "user" ? "bg-primary text-white" : "bg-light text-dark"}`} style={{ maxWidth: "80%", whiteSpace: "pre-wrap" }}>
+                  <div
+                    key={index}
+                    className={`mb-3 ${
+                      msg.role === "user" ? "text-end" : "text-start"
+                    }`}
+                  >
+                    <div
+                      className={`d-inline-block px-3 py-2 rounded-3 ${
+                        msg.role === "user"
+                          ? "bg-primary text-white"
+                          : "bg-light text-dark"
+                      }`}
+                      style={{ maxWidth: "80%", whiteSpace: "pre-wrap" }}
+                    >
                       {msg.role === "assistant" && <span role="img">🤖 </span>}
-                      <span dangerouslySetInnerHTML={{
-                        __html: msg.content
-                          .replace(/(\/[^\s]+?)(?=[\s.?!,]|$)/g, '<a href="$1" style="color:#0d6efd; text-decoration:underline;">link</a>')
-                          .replace(/\n/g, "<br>")
-                      }} />
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: msg.content
+                            .replace(
+                              /(\/[^\s]+?)(?=[\s.?!,]|$)/g,
+                              '<a href="$1" style="color:#0d6efd; text-decoration:underline;">link</a>'
+                            )
+                            .replace(/\n/g, "<br>"),
+                        }}
+                      />
                     </div>
                     <div className="text-muted small mt-1">{msg.timestamp}</div>
                   </div>
                 ))}
-                {loading && <Spinner animation="border" size="sm" className="d-block mx-auto" />}
+                {loading && (
+                  <Spinner
+                    animation="border"
+                    size="sm"
+                    className="d-block mx-auto"
+                  />
+                )}
                 <div ref={messagesEndRef} />
               </div>
             )}
@@ -198,14 +262,21 @@ function ChatBot() {
                   autoFocus
                   className="form-control bg-black text-white border-secondary me-2"
                   onFocus={() =>
-                    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })
+                    messagesEndRef.current?.scrollIntoView({
+                      behavior: "smooth",
+                      block: "start",
+                    })
                   }
                 />
                 <Button
                   variant="primary"
                   onClick={handleSend}
                   disabled={loading || !input.trim()}
-                  style={{ minWidth: "44px", height: "44px", fontSize: "1.2rem" }}
+                  style={{
+                    minWidth: "44px",
+                    height: "44px",
+                    fontSize: "1.2rem",
+                  }}
                 >
                   ↑
                 </Button>

@@ -33,10 +33,10 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<ContactForm />} />
-        <Route path="/aiServices" element={<AIServices/>} />
+        <Route path="/aiServices" element={<AIServices />} />
 
-        <Route path="/policy" element={<PrivacyPolicy/>} />
-        
+        <Route path="/policy" element={<PrivacyPolicy />} />
+
         <Route
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}

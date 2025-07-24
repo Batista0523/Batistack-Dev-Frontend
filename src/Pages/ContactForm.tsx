@@ -15,7 +15,7 @@ import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 
 import HeroSection from "../components/HeroSection";
-import AnimatedButton from "../components/Button";
+import InviteVoiceAgent from "../components/InviteBtn";
 
 function ContactForm() {
   useTrafficTracker("click", "/contact");
@@ -244,8 +244,8 @@ function ContactForm() {
             </Row>
 
             <motion.div
-              style={{ backgroundColor: "#0d6efd", color: "#fff" }}
-              className="py-5 mt-5 rounded-3"
+              style={{ backgroundColor: "#ffffff", color: "#000000" }}
+              className="py-5 mt-5 rounded-3 border border-dark"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -254,12 +254,15 @@ function ContactForm() {
                 <h2 className="fw-bold display-6 mb-3">
                   Let’s Build Something That Gets You Clients
                 </h2>
-                <p className="fs-5 mx-auto" style={{ maxWidth: "720px" }}>
+                <p
+                  className="fs-5 mx-auto text-secondary"
+                  style={{ maxWidth: "720px" }}
+                >
                   From small businesses to large-scale platforms, Batistack
                   helps you create websites that sell, impress, and last. Let’s
                   start now — not next month.
                 </p>
-                <AnimatedButton text="See Our Services" href="/services" />
+                <InviteVoiceAgent variant="dark" />
               </Container>
             </motion.div>
           </Container>

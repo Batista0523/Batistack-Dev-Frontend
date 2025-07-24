@@ -11,7 +11,12 @@ interface HeroSectionProps {
   buttonHref?: string;
 }
 
-function HeroSection({ title, description, buttonText, buttonHref }: HeroSectionProps) {
+function HeroSection({
+  title,
+  description,
+  buttonText,
+  buttonHref,
+}: HeroSectionProps) {
   const location = useLocation();
   const isContactPage = location.pathname === "/contact";
 
@@ -21,7 +26,7 @@ function HeroSection({ title, description, buttonText, buttonHref }: HeroSection
         <Row className="align-items-center">
           <Col md={6} className="text-center mb-4 mb-md-0">
             <motion.img
-              src={images.logo}
+              src={images.logo2}
               alt="Batistack Logo"
               className="img-fluid rounded-circle shadow"
               style={{

@@ -289,7 +289,7 @@ function Home() {
                     }}
                   >
                     <img
-                      src={images.logo}
+                      src={images.logo2}
                       alt="Batistack Logo"
                       className="w-100 h-100"
                       style={{ objectFit: "cover" }}

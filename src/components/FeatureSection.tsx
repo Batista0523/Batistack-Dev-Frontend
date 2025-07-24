@@ -1,4 +1,3 @@
-
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 
@@ -51,7 +50,9 @@ function FeatureSection({
                 transition={{ duration: 0.6, delay: 0.2 * (i + 1) }}
               >
                 <i
-                  className={`bi ${feature.icon} ${feature.color ?? "text-primary"} mb-3`}
+                  className={`bi ${feature.icon} ${
+                    feature.color ?? "text-primary"
+                  } mb-3`}
                   style={{ fontSize: "2.5rem" }}
                 ></i>
                 <h5 className="fw-bold text-white">{feature.title}</h5>
