@@ -7,6 +7,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import { Helmet } from "react-helmet-async";
 import Footer from "../components/Footer";
 import AnimatedButton from "../components/Button";
+import InviteVoiceAgent from "../components/InviteBtn";
 
 function Home() {
   useTrafficTracker("page_view", "/");
@@ -220,70 +221,95 @@ function Home() {
       <div
         style={{ backgroundColor: "#000", color: "#fff", overflowX: "hidden" }}
       >
-        <section className="py-5 min-vh-100 d-flex align-items-center">
+        <section className="py-5 min-vh-100 d-flex align-items-center bg-black">
           <Container>
-            <Row className="align-items-center flex-column-reverse flex-md-row">
-              <Col
-                md={6}
-                className="text-center text-md-start px-5 mt-4 mt-md-0"
-              >
+            <Row className="g-5 align-items-center flex-column-reverse flex-lg-row">
+              <Col lg={6} className="text-center text-lg-start px-4 px-lg-5">
                 <motion.h1
-                  className="fw-bold display-4 display-md-3 mb-4 text-white"
-                  initial={{ opacity: 0, scale: 0.95, rotateX: -15 }}
-                  whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
-                  transition={{ duration: 0.9, ease: "easeOut" }}
-                >
-                  Web Development & AI Solutions
-                  <br />
-                  <span className="text-primary">
-                    Engineered in NYC for Real Growth
-                  </span>
-                </motion.h1>
-                <motion.p
-                  className="fs-5 text-light"
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
-                >
-                  Batistack is a New York City-based software company building
-                  high-performance websites and smart AI tools — all
-                  custom-coded to boost speed, conversions, and credibility.
-                  Whether you're a startup or an enterprise, we build digital
-                  experiences that grow with you.
-                </motion.p>
-                <motion.div
-                  className="mt-4 d-flex gap-3 flex-wrap"
+                  className="fw-bold display-4 text-white mb-3"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.5, ease: "easeOut" }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                >
+                  NYC Web Development & AI Solutions
+                  <br />
+                  <span className="text-primary d-block mt-1">
+                    Built from Scratch to Help You Scale
+                  </span>
+                </motion.h1>
+
+                <motion.p
+                  className="fs-5 text-light mb-4"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                >
+                  At <strong>Batistack</strong>, we craft high-performance
+                  websites and human-like AI tools designed to convert,
+                  automate, and grow your business — with clean code, secure
+                  systems, and NYC hustle baked in.
+                </motion.p>
+
+                <motion.div
+                  className="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start"
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, delay: 0.4 }}
                 >
                   <AnimatedButton text="Let's Talk" href="/contact" />
                   <AnimatedButton text="See Our Work" href="/services" />
                   <AnimatedButton text="Free Audit" href="/speedPage" />
                 </motion.div>
+
+                <motion.div
+                  className="mt-4 d-block d-lg-none"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.6 }}
+                >
+                  <InviteVoiceAgent />
+                </motion.div>
               </Col>
 
-              <Col md={6} className="text-center px-5 mb-4 mb-md-0">
-                <motion.img
-                  src={images.logo}
-                  alt="Batistack Logo"
-                  className="img-fluid rounded-circle shadow-lg"
-                  style={{
-                    width: "100%",
-                    maxWidth: "420px",
-                    objectFit: "cover",
-                    border: "6px solid #ffffff",
-                    backgroundColor: "#ffffff",
-                  }}
-                  initial={{ opacity: 0, scale: 0.85, rotateY: 15 }}
-                  whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+              <Col lg={6} className="text-center px-4 px-lg-5">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   transition={{ duration: 1, ease: "easeOut" }}
-                  viewport={{ once: true }}
-                />
+                >
+                  <div
+                    className="rounded-circle shadow-lg mx-auto mb-3"
+                    style={{
+                      width: "340px",
+                      height: "340px",
+                      border: "6px solid #fff",
+                      backgroundColor: "#fff",
+                      overflow: "hidden",
+                      marginTop: "-40px",
+                    }}
+                  >
+                    <img
+                      src={images.logo}
+                      alt="Batistack Logo"
+                      className="w-100 h-100"
+                      style={{ objectFit: "cover" }}
+                    />
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="d-none d-lg-block"
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.6, delay: 0.2 }}
+                >
+                  <InviteVoiceAgent />
+                </motion.div>
               </Col>
             </Row>
           </Container>
         </section>
+
         <Divider />
 
         <FeatureSection
