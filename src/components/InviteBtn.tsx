@@ -35,7 +35,7 @@ function InviteVoiceAgent({ variant = "light" }: InviteVoiceAgentProps) {
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.7 }}
       >
-        Experience Our AI Voice Assistant DEMO — Call Now!
+        Experience Our AI Voice Assistant  — Call Now!
       </motion.h5>
 
       <motion.a
