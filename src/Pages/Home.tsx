@@ -257,7 +257,7 @@ function Home() {
                   transition={{ duration: 0.8, delay: 0.4 }}
                 >
                   <AnimatedButton text="Let's Talk" href="/contact" />
-                  <AnimatedButton text="See Our Work" href="/services" />
+                  <AnimatedButton text="See Our Services" href="/services" />
                   <AnimatedButton text="Free Audit" href="/speedPage" />
                 </motion.div>
 
