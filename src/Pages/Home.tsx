@@ -223,88 +223,42 @@ function Home() {
       >
         <section className="py-5 min-vh-100 d-flex align-items-center bg-black">
           <Container>
-            <Row className="g-5 align-items-center flex-column-reverse flex-lg-row">
-              <Col lg={6} className="text-center text-lg-start px-4 px-lg-5">
-                <motion.h1
-                  className="fw-bold display-4 text-white mb-3"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                  NYC Web Development & AI Solutions
-                  <br />
-                  <span className="text-primary d-block mt-1">
-                    Built from Scratch to Help You Scale
-                  </span>
+            <Row className="align-items-center g-5 flex-column-reverse flex-lg-row">
+              <Col lg={6} className="text-center text-lg-start">
+                <motion.h1 className="fw-bold display-4 text-white mb-3">
+                  One Team. One Codebase.{" "}
+                  <span className="text-primary">Endless Help.</span>
                 </motion.h1>
-
-                <motion.p
-                  className="fs-5 text-light mb-4"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                >
-                  At <strong>Batistack</strong>, we craft high-performance
-                  websites and human-like AI tools designed to convert,
-                  automate, and grow your business — with clean code, secure
-                  systems, and NYC hustle baked in.
+                <motion.p className="fs-5 text-light mb-4">
+                  We code websites, deploy AI voice bots, and help New Yorkers
+                  fill out the hardest applications.
                 </motion.p>
-
-                <motion.div
-                  className="d-flex gap-3 flex-wrap justify-content-center justify-content-lg-start"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.4 }}
-                >
-                  <AnimatedButton text="Let's Talk" href="/contact" />
-                  <AnimatedButton text="See Our Services" href="/services" />
-                  <AnimatedButton text="Free Audit" href="/speedPage" />
-                </motion.div>
-
-                <motion.div
-                  className="mt-4 d-block d-lg-none"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.6 }}
-                >
-                  <InviteVoiceAgent />
+                <motion.div className="d-flex gap-3 flex-wrap">
+                  <AnimatedButton text="Contact Us" href="/contact" />
+                  <AnimatedButton text="See AI Services" href="/services" />
+                  <AnimatedButton text="Apply for Help" href="/applications" />
                 </motion.div>
               </Col>
-
-              <Col lg={6} className="text-center px-4 px-lg-5">
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 1, ease: "easeOut" }}
+              <Col lg={6} className="text-center">
+                <div
+                  className="rounded-circle border border-primary mx-auto shadow-lg"
+                  style={{
+                    width: 340,
+                    height: 340,
+                    overflow: "hidden",
+                    background: "#fff",
+                  }}
                 >
-                  <div
-                    className="rounded-circle shadow-lg mx-auto mb-3"
-                    style={{
-                      width: "340px",
-                      height: "340px",
-                      border: "6px solid #fff",
-                      backgroundColor: "#fff",
-                      overflow: "hidden",
-                      marginTop: "-40px",
-                    }}
-                  >
-                    <img
-                      src={images.logo2}
-                      alt="Batistack Logo"
-                      className="w-100 h-100"
-                      style={{ objectFit: "cover" }}
-                    />
-                  </div>
-                </motion.div>
-
-                <motion.div
-                  className="d-none d-lg-block"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, delay: 0.2 }}
-                >
+                  <img
+                    src={images.logo2}
+                    alt="Batistack Logo"
+                    className="w-100 h-100"
+                    style={{ objectFit: "cover" }}
+                  />
+                </div>
+                <div className="mt-4">
                   <InviteVoiceAgent />
-                </motion.div>
+                </div>
               </Col>
             </Row>
           </Container>

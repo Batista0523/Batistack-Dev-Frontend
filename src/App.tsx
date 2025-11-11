@@ -10,7 +10,7 @@ import DashboardPage from "./Pages/DashboardPage";
 import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
-import AIServices from "./Pages/AIServices";
+import ApplicationsCenter from "./Pages/ApplicationsCenter";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
 import WebsiteAudit from "./Pages/WebsiteAudit";
@@ -33,7 +33,8 @@ function App() {
         <Route path="/services" element={<Services />} />
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<ContactForm />} />
-        <Route path="/aiServices" element={<AIServices />} />
+        <Route path="/applications" element={<ApplicationsCenter />} />
+       
 
         <Route path="/policy" element={<PrivacyPolicy />} />
 

@@ -28,13 +28,13 @@ function HeroSection({
             <motion.img
               src={images.logo2}
               alt="Batistack Logo"
-              className="img-fluid rounded-circle shadow"
-              style={{
-                width: "200px",
-                height: "200px",
-                objectFit: "cover",
-                border: "6px solid #fff",
-              }}
+              className="rounded-circle border border-primary mx-auto shadow-lg"
+                  style={{
+                    width: 310,
+                    height: 290,
+                    overflow: "hidden",
+                    background: "#fff",
+                  }}
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6 }}

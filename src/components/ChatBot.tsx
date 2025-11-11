@@ -138,7 +138,7 @@ function ChatBot() {
             onClick={() => setOpen(true)}
           >
             <img
-              src={images.logo}
+              src={images.logo2}
               alt="Chat"
               style={{ width: "40px", height: "40px", borderRadius: "50%" }}
             />

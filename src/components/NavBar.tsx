@@ -20,11 +20,25 @@ function NavBar() {
   };
 
   const linkStyle = (path: string) =>
-    `fw-semibold px-3 py-2 rounded-pill text-decoration-none border transition ${
-      location.pathname === path
-        ? "bg-white text-black border-white"
-        : "text-white bg-transparent border-0"
+    `nav-link px-3 py-2 fw-semibold position-relative ${
+      location.pathname === path ? "text-primary" : "text-white"
     }`;
+
+  const underlineStyle = {
+    position: "absolute" as const,
+    bottom: 0,
+    left: "25%",
+    width: "50%",
+    height: "2px",
+    backgroundColor: "#0d6efd", 
+    transition: "opacity 0.3s ease-in-out",
+    opacity: 0,
+  };
+
+  const hoverContainerStyle: React.CSSProperties = {
+    position: "relative",
+    display: "inline-block",
+  };
 
   return (
     <Navbar
@@ -40,38 +54,49 @@ function NavBar() {
         </Link>
         <Navbar.Toggle aria-controls="main-navbar" className="bg-light" />
         <Navbar.Collapse id="main-navbar">
-          <Nav className="ms-auto align-items-center gap-3">
+          <Nav className="ms-auto align-items-center gap-2">
             {[
               { path: "/about", label: "About" },
-              { path: "/services", label: "Services" },
-              { path: "/aiServices", label: "AI Services" },
+              { path: "/services", label: "Web & AI" },
+              { path: "/applications", label: "Forms & Benefits Help" },
               { path: "/speedPage", label: "AI Website Audit" },
               { path: "/contact", label: "Contact" },
               ...(isAuthenticated && user
                 ? [{ path: "/dashboardPage", label: "Dashboard" }]
                 : []),
-            ].map((link) => (
-              <Nav.Item key={link.path}>
-                <Link
-                  to={link.path}
-                  onClick={handleNavClick}
-                  className={linkStyle(link.path)}
-                  onMouseEnter={(e) => {
-                    if (location.pathname !== link.path) {
-                      e.currentTarget.style.backgroundColor = "#fff";
-                      e.currentTarget.style.color = "#000";
-                    }
-                  }}
-                  onMouseLeave={(e) => {
-                    if (location.pathname !== link.path) {
-                      e.currentTarget.style.backgroundColor = "transparent";
-                      e.currentTarget.style.color = "#fff";
-                    }
-                  }}
-                >
-                  {link.label}
-                </Link>
-              </Nav.Item>
+            ].map((link, index, array) => (
+              <div key={link.path} className="d-flex align-items-center gap-2">
+                <Nav.Item>
+                  <div
+                    style={hoverContainerStyle}
+                    className="nav-hover-container"
+                  >
+                    <Link
+                      to={link.path}
+                      onClick={handleNavClick}
+                      className={linkStyle(link.path)}
+                      onMouseEnter={(e) => {
+                        const underline = e.currentTarget.querySelector(
+                          ".underline"
+                        ) as HTMLElement;
+                        if (underline) underline.style.opacity = "1";
+                      }}
+                      onMouseLeave={(e) => {
+                        const underline = e.currentTarget.querySelector(
+                          ".underline"
+                        ) as HTMLElement;
+                        if (underline) underline.style.opacity = "0";
+                      }}
+                    >
+                      {link.label}
+                      <div className="underline" style={underlineStyle}></div>
+                    </Link>
+                  </div>
+                </Nav.Item>
+                {index < array.length - 1 && (
+                  <span className="text-white fs-5 px-1">|</span>
+                )}
+              </div>
             ))}
 
             {isAuthenticated && user ? (
