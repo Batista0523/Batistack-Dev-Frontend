@@ -222,7 +222,7 @@ function ContactForm() {
                       York–based technology company helping businesses and
                       individuals build what really matters — from{" "}
                       <strong>custom websites</strong> and{" "}
-                      <strong>AI-powered tools</strong> to
+                      <strong>AI-powered tools</strong> to{" "}
                       <strong>automated systems</strong> and{" "}
                       <strong>application support</strong> for programs like
                       SNAP, NYCHA, and DMV. Our mission is to make digital
