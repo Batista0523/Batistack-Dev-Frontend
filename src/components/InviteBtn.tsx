@@ -47,7 +47,7 @@ function InviteVoiceAgent({ variant = "light" }: InviteVoiceAgentProps) {
         onMouseEnter={hoverEnter}
         onMouseLeave={hoverLeave}
       >
-        📞 (929) 600-7370
+        BatistAI
       </motion.a>
 
       <motion.p
