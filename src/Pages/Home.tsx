@@ -283,7 +283,7 @@ function Home() {
           extraValues={aiExtraFeatures}
         />
         <div className="text-center mt-5">
-          <AnimatedButton text="Explore AI Services" href="/aiServices" />
+          <AnimatedButton text="Explore AI Services" href="/services" />
         </div>
         <Divider />
 
