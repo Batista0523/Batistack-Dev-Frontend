@@ -2,61 +2,69 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Container, Row, Col } from "react-bootstrap";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-
-import "bootstrap-icons/font/bootstrap-icons.css";
 import Footer from "../components/Footer";
 import AnimatedButton from "../components/Button";
 import HeroSection from "../components/HeroSection";
+import "bootstrap-icons/font/bootstrap-icons.css";
 
 function Services() {
   useTrafficTracker("page_view", "/services");
 
-  const combinedServices = [
+  const serviceList = [
     {
-      title: "Web Design",
-      icon: "bi-layout-text-window-reverse",
-      desc: "Visually stunning and user-focused websites crafted to convert visitors into clients.",
+      title: "Web Design & Development",
+      icon: "bi-window-sidebar",
+      desc: "Fast, modern, conversion-focused websites — built with React, TypeScript and premium UX.",
     },
     {
-      title: "Custom Apps",
-      icon: "bi-kanban",
-      desc: "Streamline your operations with tailor-made applications for your specific business needs.",
+      title: "AI Chat Assistants",
+      icon: "bi-chat-text",
+      desc: "Train AI on your business so it answers questions, captures leads and supports clients 24/7.",
     },
     {
-      title: "AI Chatbots",
-      icon: "bi-chat-dots",
-      desc: "Smart chatbots trained on your business data — qualifying leads, answering FAQs, and operating 24/7.",
+      title: "AI Voice Agents",
+      icon: "bi-mic-fill",
+      desc: "AI that answers phone calls, books appointments and handles clients just like a real assistant.",
     },
     {
-      title: "AI Voice Assistants",
-      icon: "bi-telephone-inbound",
-      desc: "Realistic AI phone agents for inbound calls, powered by Vertex AI & Twilio.",
-    },
-    {
-      title: "AI Scheduling Assistants",
-      icon: "bi-calendar-check",
-      desc: "Automate bookings, confirmations, and reminders using calendar-integrated AI bots.",
-    },
-    {
-      title: "SEO & Analytics",
-      icon: "bi-bar-chart-line",
-      desc: "Rank higher and understand your users with real-time SEO and performance tracking.",
-    },
-    {
-      title: "Content & Copy",
-      icon: "bi-pencil-square",
-      desc: "Clear, confident, and SEO-friendly content written for web, emails, and automation.",
-    },
-    {
-      title: "Multilingual Interfaces",
-      icon: "bi-translate",
-      desc: "Build sites and bots that engage users in English, Spanish, and more — instantly.",
+      title: "Business Automation",
+      icon: "bi-lightning-charge",
+      desc: "Automate repetitive tasks, reminders, emails and workflows to save time and eliminate chaos.",
     },
     {
       title: "Custom Dashboards",
       icon: "bi-speedometer2",
-      desc: "Track KPIs, leads, and workflows with real-time admin dashboards built just for you.",
+      desc: "Real-time dashboards for analytics, KPIs, lead tracking, operations and team performance.",
     },
+    {
+      title: "SEO & Growth Systems",
+      icon: "bi-graph-up-arrow",
+      desc: "Rank higher, drive organic traffic, and turn your website into a real client-acquisition machine.",
+    },
+    {
+      title: "Content & Copywriting",
+      icon: "bi-pencil-square",
+      desc: "Clear, confident and SEO-optimized content for websites, automations, funnels and emails.",
+    },
+    {
+      title: "Multilingual Experiences",
+      icon: "bi-translate",
+      desc: "Websites and AI agents that speak English, Spanish and more — instantly and naturally.",
+    },
+    {
+      title: "Custom Web Apps",
+      icon: "bi-kanban",
+      desc: "From portals to workflows — scalable, secure, fully custom applications built for your business.",
+    },
+  ];
+
+  const transformationList = [
+    "A website that sells for you — even when you're offline.",
+    "AI answering calls, booking leads, and sending confirmations automatically.",
+    "Dashboards showing leads, KPIs and real-time activity in one place.",
+    "Emails, follow-ups and reminders handled automatically with your voice & tone.",
+    "A fast multilingual experience where every client feels understood.",
+    "Animations, video headers, smart CTAs and UX that convert more traffic.",
   ];
 
   return (
@@ -65,41 +73,46 @@ function Services() {
         <title>Web & AI Services | Batistack Development</title>
         <meta
           name="description"
-          content="Custom websites, AI tools, dashboards, content, and automation. Everything your business needs — built by Batistack."
+          content="Premium websites, AI assistants, automations and dashboards built with clarity, performance and strategy. Explore Batistack's full service suite."
         />
         <meta
           name="keywords"
-          content="website development, AI chatbot, voice assistant, SEO, custom dashboards, Batistack services, NYC tech agency"
+          content="web design, AI chatbots, AI voice agents, dashboards, automation, SEO, Batistack, NYC developer"
         />
         <meta property="og:title" content="Web & AI Services | Batistack" />
         <meta
           property="og:description"
-          content="Explore our most powerful digital services — from web design and SEO to custom AI tools and automation."
+          content="Explore Batistack’s premium digital services — websites, AI systems, dashboards and automation."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.batistack.com/services" />
-        <meta
-          property="og:image"
-          content="https://www.batistack.com/preview-image.jpg"
-        />
+        <meta property="og:url" content="https://batistack.com/services" />
+        <link rel="canonical" href="https://batistack.com/services" />
       </Helmet>
 
       <div
         style={{
-          backgroundColor: "#000",
-          color: "#fff",
+          background:
+            "radial-gradient(circle at top, #020617 0%, #020617 45%, #000 100%)",
+          color: "#f8fafc",
           overflowX: "hidden",
-          fontFamily: "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
+          fontFamily:
+            '-apple-system, system-ui, BlinkMacSystemFont, "Inter", sans-serif',
         }}
       >
         <HeroSection
           title="Think It. Code It. Launch It."
-          description="Websites. AI Agents. Dashboards. Automation. All built for your business."
-          buttonText="Contact Us"
+          description="Premium websites, AI systems and smart automations — built with clarity, speed and intention."
+          buttonText="Start Your Project"
           buttonHref="/contact"
         />
 
-        <section className="py-5 bg-dark">
+        <section
+          style={{
+            padding: "5.5rem 0",
+            borderTop: "1px solid rgba(148,163,184,0.35)",
+            background: "rgba(15,23,42,0.96)",
+          }}
+        >
           <Container>
             <motion.div
               className="text-center mb-5"
@@ -108,25 +121,56 @@ function Services() {
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5 text-white">
-                What We <span className="text-primary">Deliver</span>
+              <h2
+                className="fw-bold mb-3"
+                style={{ fontSize: "clamp(2.2rem, 3vw, 3rem)" }}
+              >
+                What We Deliver
               </h2>
-              <p className="fs-5 text-light mt-2">
-                From first impression to final automation — here’s what Batistack can do for you.
+              <p
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  color: "#cbd5e1",
+                  fontSize: "1.1rem",
+                }}
+              >
+                Everything you need to run, automate, grow and scale your
+                business online — without the stress.
               </p>
             </motion.div>
-            <Row className="g-4">
-              {combinedServices.map((service, i) => (
-                <Col md={4} key={i}>
+
+            <Row className="gy-4">
+              {serviceList.map((item, i) => (
+                <Col md={4} key={item.title}>
                   <motion.div
-                    className="h-100 p-4 rounded bg-black shadow text-center"
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                     viewport={{ once: true }}
+                    style={{
+                      padding: 26,
+                      borderRadius: 24,
+                      background: "rgba(2,6,23,0.85)",
+                      border: "1px solid rgba(148,163,184,0.45)",
+                      backdropFilter: "blur(18px)",
+                      boxShadow: "0 18px 45px rgba(0,0,0,0.6)",
+                      height: "100%",
+                    }}
                   >
-                    <h5 className="fw-bold text-white mb-2">{service.title}</h5>
-                    <p className="text-light">{service.desc}</p>
+                    <i
+                      className={`bi ${item.icon}`}
+                      style={{
+                        fontSize: "2.8rem",
+                        color: "#38bdf8",
+                        display: "block",
+                        marginBottom: 14,
+                      }}
+                    />
+                    <h5 className="fw-bold mb-2">{item.title}</h5>
+                    <p style={{ color: "#e2e8f0", fontSize: "0.98rem" }}>
+                      {item.desc}
+                    </p>
                   </motion.div>
                 </Col>
               ))}
@@ -134,59 +178,81 @@ function Services() {
           </Container>
         </section>
 
-        <section className="py-5 bg-black">
+        <section
+          style={{
+            padding: "5.5rem 0",
+            borderTop: "1px solid rgba(148,163,184,0.35)",
+            background: "#020617",
+          }}
+        >
           <Container>
             <motion.div
               className="text-center mb-5"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 36 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h2 className="fw-bold display-5 text-white">
-                What If Your Business Had <span className="text-primary">This</span>?
+              <h2
+                style={{
+                  fontSize: "clamp(2.2rem, 3vw, 3rem)",
+                  fontWeight: 700,
+                }}
+              >
+                What If Your Business Had This?
               </h2>
-              <p className="fs-5">
-                Imagine your daily operations fully optimized — no stress, no chaos. Just results.
+              <p
+                style={{
+                  color: "#cbd5e1",
+                  maxWidth: 700,
+                  margin: "0 auto",
+                  fontSize: "1.1rem",
+                }}
+              >
+                Imagine your entire digital system working for you — automatically.
               </p>
             </motion.div>
-            <Row className="g-4 text-start">
-              {[
-                "A website that speaks for you 24/7 — even while you sleep.",
-                "AI answering calls, booking clients, and capturing leads in real time.",
-                "Dashboards showing all your KPIs, jobs, and client activity — live.",
-                "Messages and emails sent automatically — with your tone, your voice.",
-                "Multilingual interfaces so no client ever feels left out.",
-                "Video headers, smart CTAs, and optimized flows that convert more."
-              ].map((item, i) => (
+
+            <Row className="g-4">
+              {transformationList.map((item, i) => (
                 <Col md={6} key={i}>
                   <motion.div
-                    className="p-3 bg-dark rounded shadow-sm mb-3 h-100"
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: i * 0.1 }}
                     viewport={{ once: true }}
+                    style={{
+                      padding: 22,
+                      borderRadius: 20,
+                      background: "rgba(15,23,42,0.88)",
+                      border: "1px solid rgba(148,163,184,0.4)",
+                      backdropFilter: "blur(14px)",
+                      boxShadow: "0 18px 40px rgba(0,0,0,0.6)",
+                    }}
                   >
-                    <p className="fs-5 mb-0">{item}</p>
+                    <p style={{ fontSize: "1.05rem", margin: 0 }}>
+                      {item}
+                    </p>
                   </motion.div>
                 </Col>
               ))}
             </Row>
+
             <motion.div
               className="text-center mt-5"
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
               viewport={{ once: true }}
             >
-              <h4 className="fw-bold mb-4">
-                It’s not a dream. <span className="text-primary">It’s Batistack.</span>
-              </h4>
+              <h3 className="fw-bold mb-4">
+                It’s not a dream.{" "}
+                <span style={{ color: "#38bdf8" }}>It’s Batistack.</span>
+              </h3>
               <AnimatedButton text="Let’s Build It" href="/contact" />
             </motion.div>
           </Container>
         </section>
-
 
         <Footer />
       </div>

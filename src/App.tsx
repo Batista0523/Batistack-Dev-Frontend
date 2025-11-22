@@ -14,6 +14,7 @@ import ApplicationsCenter from "./Pages/ApplicationsCenter";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
 import WebsiteAudit from "./Pages/WebsiteAudit";
+import "./global.css"
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();

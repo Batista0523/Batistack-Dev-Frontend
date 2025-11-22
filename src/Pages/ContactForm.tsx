@@ -13,7 +13,6 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
 import HeroSection from "../components/HeroSection";
-import InviteVoiceAgent from "../components/InviteBtn";
 
 function ContactForm() {
   useTrafficTracker("click", "/contact");
@@ -67,7 +66,6 @@ function ContactForm() {
       });
     } catch (err) {
       setError("❌ Failed to send your message. Please try again later.");
-      console.error("Error creating lead:", err);
     } finally {
       setLoading(false);
     }
@@ -77,47 +75,70 @@ function ContactForm() {
     <>
       <Helmet>
         <title>Contact Us | Batistack Development</title>
-        <meta
-          name="description"
-          content="Need a website, AI assistant, or help with applications? Contact Batistack Development — your NYC-based web & automation partner."
-        />
       </Helmet>
 
-      <div
-        style={{
-          backgroundColor: "#000",
-          color: "#fff",
-          fontFamily:
-            "'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif",
-        }}
-      >
+      <div style={{ backgroundColor: "#000", color: "#fff" }}>
         <HeroSection
           title="Let’s Talk About Your Vision"
-          description="You're just one message away from transforming your digital presence. Whether it's a website, AI solution, or government application help — Batistack is here to make it happen."
+          description="You're one message away from transforming your digital presence. Websites, AI, automations — or help with applications like SNAP or NYCHA."
         />
 
-        <section className="py-5 bg-dark">
-          <Container>
-            <Row className="mb-5 align-items-stretch g-4">
+        {/* MAIN SECTION */}
+        <section
+          style={{
+            position: "relative",
+            padding: "6rem 0",
+            overflow: "hidden",
+            background:
+              "radial-gradient(circle at top, #0b1120 0%, #020617 55%, #000000 100%)",
+          }}
+        >
+          {/* NEBULA ENERGY MESH */}
+          <motion.div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background:
+                "radial-gradient(circle at 30% 20%, rgba(66,153,255,0.16), transparent 60%), radial-gradient(circle at 70% 80%, rgba(255,99,146,0.18), transparent 60%)",
+              filter: "blur(60px)",
+              opacity: 0.55,
+              pointerEvents: "none",
+            }}
+            animate={{
+              backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
+            }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
+          />
+
+          {/* CONTENT */}
+          <Container style={{ position: "relative", zIndex: 10 }}>
+            <Row className="gy-5 align-items-start justify-content-center">
+
+              {/* FORM CARD */}
               <Col md={6}>
                 <motion.div
-                  className="p-4 bg-black shadow rounded-4 h-100"
-                  initial={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, x: -25 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
+                  style={{
+                    padding: 32,
+                    borderRadius: 24,
+                    background: "rgba(255,255,255,0.06)",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    backdropFilter: "blur(16px)",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+                  }}
                 >
-                  <h4 className="fw-bold mb-4 text-primary">
-                    Tell Us What You Need
-                  </h4>
-                  <p className="text-light mb-4">
-                    Select the service you’re interested in and describe your
-                    goals — we’ll get back to you within 24 hours.
+                  <h4 className="fw-bold text-white mb-3">Tell Us What You Need</h4>
+                  <p className="text-secondary mb-4">
+                    Choose your service and share details — we’ll respond within 24 hours.
                   </p>
 
                   {success && <Alert variant="success">{success}</Alert>}
                   {error && <Alert variant="danger">{error}</Alert>}
 
                   <Form onSubmit={handleSubmit}>
+                    {/* NAME */}
                     <Form.Group className="mb-3">
                       <Form.Label className="text-light">Full Name</Form.Label>
                       <Form.Control
@@ -127,30 +148,51 @@ function ContactForm() {
                         value={formData.name}
                         onChange={handleChange}
                         required
+                        className="contact-input"
+                        style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.18)",
+                          color: "#fff",
+                          backdropFilter: "blur(10px)",
+                        }}
                       />
                     </Form.Group>
 
+                    {/* EMAIL */}
                     <Form.Group className="mb-3">
                       <Form.Label className="text-light">Email</Form.Label>
                       <Form.Control
                         type="email"
                         name="email"
-                        placeholder="your@email.com"
+                        placeholder="you@email.com"
                         value={formData.email}
                         onChange={handleChange}
                         required
+                        className="contact-input"
+                        style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.18)",
+                          color: "#fff",
+                          backdropFilter: "blur(10px)",
+                        }}
                       />
                     </Form.Group>
 
+                    {/* SERVICE */}
                     <Form.Group className="mb-3">
-                      <Form.Label className="text-light">
-                        Service Interested In
-                      </Form.Label>
+                      <Form.Label className="text-light">Service</Form.Label>
                       <Form.Select
                         name="service"
                         value={formData.service}
                         onChange={handleChange}
                         required
+                        className="contact-input"
+                        style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.18)",
+                          color: "#fff",
+                          backdropFilter: "blur(10px)",
+                        }}
                       >
                         <option value="">Select a service...</option>
                         {servicesList.map((srv, i) => (
@@ -161,213 +203,189 @@ function ContactForm() {
                       </Form.Select>
                     </Form.Group>
 
-                    {formData.service === "Other" && (
-                      <Form.Group className="mb-3">
-                        <Form.Label className="text-light">
-                          Describe Your Request
-                        </Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          name="message"
-                          rows={4}
-                          placeholder="Tell us what you need help with..."
-                          value={formData.message}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    )}
+                    {/* MESSAGE */}
+                    <Form.Group className="mb-4">
+                      <Form.Label className="text-light">Message</Form.Label>
+                      <Form.Control
+                        as="textarea"
+                        name="message"
+                        rows={4}
+                        placeholder="Tell us about your project..."
+                        value={formData.message}
+                        onChange={handleChange}
+                        className="contact-input"
+                        style={{
+                          background: "rgba(255,255,255,0.05)",
+                          border: "1px solid rgba(255,255,255,0.18)",
+                          color: "#fff",
+                          backdropFilter: "blur(10px)",
+                        }}
+                      />
+                    </Form.Group>
 
-                    {formData.service !== "Other" && (
-                      <Form.Group className="mb-3">
-                        <Form.Label className="text-light">Message</Form.Label>
-                        <Form.Control
-                          as="textarea"
-                          name="message"
-                          rows={4}
-                          placeholder="Share a few details about your project or goals..."
-                          value={formData.message}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    )}
-
+                    {/* SUBMIT BUTTON */}
                     <Button
                       variant="outline-light"
                       type="submit"
                       size="lg"
-                      className="w-100 rounded-1 fw-semibold"
+                      className="w-100 fw-semibold rounded-2"
                       disabled={loading}
                     >
                       {loading ? (
                         <>
-                          <Spinner
-                            animation="border"
-                            size="sm"
-                            className="me-2"
-                          />
+                          <Spinner animation="border" size="sm" className="me-2" />
                           Sending...
                         </>
                       ) : (
-                        "Send Message "
+                        "Send Message"
                       )}
                     </Button>
+
+                    {/* ANTI-SPAM */}
                     <motion.p
-                      className="mt-4 mb-0 text-secondary small"
                       initial={{ opacity: 0, y: 10 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6 }}
-                      style={{ lineHeight: "1.6", fontSize: "0.95rem" }}
+                      style={{
+                        color: "#9ca3af",
+                        fontSize: "0.82rem",
+                        marginTop: "0.75rem",
+                        textAlign: "center",
+                        lineHeight: "1.55",
+                      }}
                     >
-                      At <strong>Batistack Development</strong>, we’re a New
-                      York–based technology company helping businesses and
-                      individuals build what really matters — from{" "}
-                      <strong>custom websites</strong> and{" "}
-                      <strong>AI-powered tools</strong> to{" "}
-                      <strong>automated systems</strong> and{" "}
-                      <strong>application support</strong> for programs like
-                      SNAP, NYCHA, and DMV. Our mission is to make digital
-                      growth simple, affordable, and stress-free — so you can
-                      focus on your goals while we handle the tech.
+                      ⚠️ Promotional messages and advertising offers are
+                      automatically filtered. Only real client inquiries are reviewed.
                     </motion.p>
                   </Form>
                 </motion.div>
               </Col>
 
+              {/* SOCIAL SECTION */}
               <Col md={6}>
                 <motion.div
-                  className="p-4 bg-black shadow rounded-4 h-100 text-center"
-                  initial={{ opacity: 0, x: 20 }}
+                  initial={{ opacity: 0, x: 25 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   transition={{ duration: 0.6 }}
+                  style={{
+                    padding: 32,
+                    borderRadius: 24,
+                    background: "rgba(255,255,255,0.07)",
+                    border: "1px solid rgba(255,255,255,0.22)",
+                    backdropFilter: "blur(16px)",
+                    boxShadow: "0 8px 28px rgba(0,0,0,0.5)",
+                    color: "#fff",
+                  }}
                 >
-                  <h4 className="fw-bold text-white mb-3">
-                    Connect With Us Online
-                  </h4>
-                  <p className="text-light">
-                    Join our community and follow Batistack for updates,
-                    tutorials, and inspiration.
+                  <h4 className="fw-bold mb-3">Connect With Us Online</h4>
+                  <p className="text-secondary mb-4">
+                    Follow Batistack for updates, tutorials, and inspiration.
                   </p>
 
-                  <Row className="mt-4 g-4 justify-content-center">
+                  <Row className="g-4">
                     {[
                       {
                         icon: "bi bi-instagram",
+                        label: "Instagram",
                         href: "https://www.instagram.com/bati.stack",
                         color: "#E1306C",
-                        label: "Instagram",
-                        desc: "Follow our work, team, and projects.",
+                        desc: "Behind the scenes, projects & reels.",
                       },
                       {
                         icon: "bi bi-linkedin",
+                        label: "LinkedIn",
                         href: "https://www.linkedin.com/company/batistack",
                         color: "#0077B5",
-                        label: "LinkedIn",
-                        desc: "Professional updates and industry news.",
+                        desc: "Business news & professional updates.",
                       },
                       {
                         icon: "bi bi-facebook",
+                        label: "Facebook",
                         href: "https://www.facebook.com/profile.php?id=61575947108161",
                         color: "#1877F2",
-                        label: "Facebook",
-                        desc: "Latest launches and client stories.",
+                        desc: "Latest launches and community posts.",
                       },
                       {
                         icon: "bi bi-twitter-x",
+                        label: "X (Twitter)",
                         href: "https://x.com/BatistackDev",
                         color: "#1DA1F2",
-                        label: "X (Twitter)",
-                        desc: "Tips, trends, and tech insights.",
+                        desc: "Tech tips, AI insights & coding talk.",
                       },
-                    ].map((social, idx) => (
-                      <Col xs={12} md={12} key={idx}>
+                    ].map((s, idx) => (
+                      <Col xs={12} key={idx}>
                         <motion.a
-                          href={social.href}
+                          href={s.href}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-decoration-none d-block"
-                          whileHover={{
-                            scale: 1.05,
-                            y: -5,
-                          }}
-                          transition={{
-                            type: "spring",
-                            stiffness: 200,
-                            damping: 15,
+                          whileHover={{ scale: 1.05, y: -4 }}
+                          style={{
+                            textDecoration: "none",
+                            display: "block",
                           }}
                         >
-                          <motion.div
-                            className="d-flex flex-column align-items-center p-4 h-100 rounded-4 bg-dark text-light position-relative border border-secondary"
+                          <div
                             style={{
-                              cursor: "pointer",
-                              overflow: "hidden",
+                              padding: 20,
+                              borderRadius: 20,
+                              background: "rgba(0,0,0,0.4)",
+                              border: "1px solid rgba(255,255,255,0.15)",
+                              backdropFilter: "blur(14px)",
+                              display: "flex",
+                              gap: 16,
+                              alignItems: "center",
+                              boxShadow: "0 8px 22px rgba(0,0,0,0.3)",
                             }}
-                            whileHover={{
-                              boxShadow: `0 0 20px ${social.color}55`,
-                            }}
-                            transition={{ type: "spring", stiffness: 200 }}
                           >
-                            <motion.div
-                              className="position-absolute bottom-0 start-0 w-100"
-                              style={{
-                                height: "4px",
-                                backgroundColor: social.color,
-                                opacity: 0,
-                              }}
-                              whileHover={{ opacity: 1 }}
-                              transition={{ duration: 0.4 }}
-                            />
-
                             <i
-                              className={social.icon}
+                              className={s.icon}
                               style={{
                                 fontSize: "2.5rem",
-                                color: social.color,
-                                marginBottom: "0.6rem",
+                                color: s.color,
+                                minWidth: 55,
+                                textAlign: "center",
                               }}
-                            ></i>
-                            <span className="fw-semibold fs-5 mb-1">
-                              {social.label}
-                            </span>
-                            <p
-                              className="small mb-0 text-center text-secondary"
-                              style={{ lineHeight: "1.4" }}
-                            >
-                              {social.desc}
-                            </p>
-                          </motion.div>
+                            />
+                            <div>
+                              <h5 className="fw-bold m-0">{s.label}</h5>
+                              <p
+                                className="small m-0 text-secondary"
+                                style={{ lineHeight: "1.45" }}
+                              >
+                                {s.desc}
+                              </p>
+                            </div>
+                          </div>
                         </motion.a>
                       </Col>
                     ))}
                   </Row>
                 </motion.div>
               </Col>
-            </Row>
 
-            <motion.div
-              style={{ backgroundColor: "#fff", color: "#000" }}
-              className="py-5 mt-5 rounded-3 border border-dark"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-            >
-              <Container className="text-center">
-                <h2 className="fw-bold display-6 mb-3">
-                  Let’s Build Something That Gets You Clients
-                </h2>
-                <p
-                  className="fs-5 mx-auto text-secondary"
-                  style={{ maxWidth: "720px" }}
-                >
-                  From small businesses to full-stack platforms, Batistack helps
-                  you create digital systems that grow your brand. Let’s start
-                  today.
-                </p>
-                <InviteVoiceAgent variant="dark" />
-              </Container>
-            </motion.div>
+            </Row>
           </Container>
         </section>
       </div>
+
+      {/* INPUT STYLING */}
+      <style>{`
+        .contact-input::placeholder {
+          color: #a3a3a3 !important;
+        }
+        .contact-input {
+          transition: 0.25s ease;
+        }
+        .contact-input:focus {
+          border-color: rgba(132,202,255,0.65) !important;
+          box-shadow: 0 0 18px rgba(66,152,255,0.45) !important;
+          background: rgba(255,255,255,0.08) !important;
+        }
+        .contact-input:hover {
+          background: rgba(255,255,255,0.09);
+          border-color: rgba(255,255,255,0.3);
+        }
+      `}</style>
     </>
   );
 }
