@@ -1,26 +1,65 @@
 import { useState, useRef } from "react";
 import axios from "axios";
-import {
-  Container,
-  Form,
-  Button,
-  Row,
-  Col,
-  Card,
-  Alert,
-  ProgressBar,
-} from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
-import { BsSpeedometer2 } from "react-icons/bs";
 import {
   FaCheckCircle,
   FaExclamationTriangle,
   FaTimesCircle,
 } from "react-icons/fa";
 import { motion } from "framer-motion";
-import Footer from "../components/Footer";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const t = {
+  black: "#0a0a0a",
+  offWhite: "#f5f3ef",
+  cream: "#ede9e1",
+  gold: "#c9a84c",
+  goldLight: "#e8d5a3",
+  gray: "#6b6b6b",
+  grayLight: "#d4d0c8",
+  fontSerif: "'Cormorant Garamond', Georgia, serif",
+  fontSans: "'DM Sans', sans-serif",
+};
+
+// ─── URL input with gold underline focus ──────────────────────────────────────
+function GoldUrlInput({
+  value,
+  onChange,
+}: {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <input
+      type="url"
+      placeholder="https://yourdomain.com"
+      value={value}
+      onChange={onChange}
+      required
+      className="bs-audit-placeholder"
+      style={{
+        width: "100%",
+        padding: "14px 0",
+        border: "none",
+        borderBottom: `1.5px solid ${focused ? t.gold : t.grayLight}`,
+        background: "transparent",
+        fontFamily: t.fontSans,
+        fontSize: 15,
+        color: t.black,
+        outline: "none",
+        transition: "border-color 0.3s",
+        display: "block",
+        boxSizing: "border-box",
+      }}
+      onFocus={() => setFocused(true)}
+      onBlur={() => setFocused(false)}
+    />
+  );
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 function WebsiteAudit() {
   useTrafficTracker("page_view", "/speedPage");
 
@@ -33,11 +72,10 @@ function WebsiteAudit() {
   const resultRef = useRef<HTMLDivElement>(null);
   const url1 = import.meta.env.VITE_BASE_URL;
 
- 
+  // ── Preserved exactly ──────────────────────────────────────────────────────
   const getScore = (scoresObj: any, label: string): number => {
     if (!scoresObj) return 0;
 
- 
     const direct = scoresObj[label];
     if (typeof direct === "number") return direct;
     if (typeof direct === "string") {
@@ -45,11 +83,8 @@ function WebsiteAudit() {
       if (!isNaN(num)) return num;
     }
 
-
     if (label === "Best Practices") {
-      const altKeys = [
-        "BestPractices",
-      ];
+      const altKeys = ["BestPractices"];
 
       for (const key of altKeys) {
         const val = scoresObj[key];
@@ -98,77 +133,20 @@ function WebsiteAudit() {
     }
   };
 
-  const getProgressVariant = (score: number) => {
-    if (score >= 90) return "success";
-    if (score >= 70) return "warning";
-    return "danger";
-  };
-
   const getIconByScore = (score: number) => {
-    if (score >= 90) return <FaCheckCircle className="me-2 text-success" />;
-    if (score >= 70)
-      return <FaExclamationTriangle className="me-2 text-warning" />;
-    return <FaTimesCircle className="me-2 text-danger" />;
+    if (score >= 90) return <FaCheckCircle style={{ color: "#2d7a47", marginRight: 8 }} />;
+    if (score >= 70) return <FaExclamationTriangle style={{ color: "#b87333", marginRight: 8 }} />;
+    return <FaTimesCircle style={{ color: "#b93333", marginRight: 8 }} />;
+  };
+  // ── End preserved ──────────────────────────────────────────────────────────
+
+  const scoreRating = (n: number) => {
+    if (n >= 90) return "Excellent";
+    if (n >= 70) return "Needs Work";
+    return "Poor";
   };
 
-  const renderProgressCard = (label: string, Icon: any) => {
-    const numeric = getScore(scores, label);
-
-    return (
-      <Col md={6} className="mb-4">
-        <motion.div
-          className="h-100"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
-          viewport={{ once: true }}
-          style={{
-            padding: 22,
-            borderRadius: 22,
-            background: "rgba(15,23,42,0.68)",
-            border: "1px solid rgba(148,163,184,0.45)",
-            backdropFilter: "blur(16px)",
-            WebkitBackdropFilter: "blur(16px)",
-            boxShadow: "0 22px 60px rgba(0,0,0,0.9)",
-          }}
-        >
-          <div className="d-flex align-items-center justify-content-between mb-3">
-            <div className="fw-bold d-flex align-items-center gap-2 fs-5">
-              <Icon /> {label}
-            </div>
-
-            <span
-              className={`fw-bold fs-6 ${
-                numeric >= 90
-                  ? "text-success"
-                  : numeric >= 70
-                  ? "text-warning"
-                  : "text-danger"
-              }`}
-            >
-              {numeric}%
-            </span>
-          </div>
-
-          <ProgressBar
-            now={numeric}
-            variant={getProgressVariant(numeric)}
-            animated
-            striped
-            style={{
-              height: "1.35rem",
-              borderRadius: "999px",
-              overflow: "hidden",
-              background: "rgba(255,255,255,0.05)",
-              backdropFilter: "blur(10px)",
-              border: "1px solid rgba(148,163,184,0.35)",
-              boxShadow: "inset 0 0 22px rgba(255,255,255,0.15)",
-            }}
-          />
-        </motion.div>
-      </Col>
-    );
-  };
+  const scoreCategories = ["Performance", "Accessibility", "SEO", "Best Practices"];
 
   return (
     <>
@@ -196,659 +174,457 @@ function WebsiteAudit() {
         <link rel="canonical" href="https://batistack.com/speedPage" />
       </Helmet>
 
-      <div
-        style={{
-          minHeight: "100vh",
-          background:
-            "radial-gradient(circle at top, #020617 0, #020617 45%, #000 100%)",
-          color: "#f9fafb",
-        }}
-      >
-        {/* HERO / SCAN SECTION */}
+      <style>{`
+        .bs-audit-placeholder::placeholder { color: ${t.grayLight}; }
+        @media (max-width: 768px) {
+          .bs-audit-hero { padding: 120px 28px 60px !important; }
+          .bs-audit-scores { grid-template-columns: 1fr !important; }
+          .bs-audit-info { grid-template-columns: 1fr !important; padding: 0 28px 80px !important; }
+        }
+      `}</style>
+
+      <div style={{ background: t.offWhite, color: t.black }}>
+
+        {/* ── SECTION 1: HERO / INPUT ──────────────────────────────────────── */}
         <section
-          style={{
-            position: "relative",
-            padding: "7rem 0 4.5rem",
-            overflow: "hidden",
-          }}
+          className="bs-audit-hero"
+          style={{ padding: "160px 60px 80px", background: t.offWhite }}
         >
-          {/* Glow background */}
-          <motion.div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at 20% 15%, rgba(56,189,248,0.2), transparent 65%), radial-gradient(circle at 80% 85%, rgba(52,211,153,0.2), transparent 65%)",
-              filter: "blur(70px)",
-              opacity: 0.7,
-              pointerEvents: "none",
-            }}
-            animate={{
-              backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-            }}
-            transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-          />
-
-          {/* Falling light lines */}
-          {Array.from({ length: 20 }).map((_, i) => (
+          <div style={{ maxWidth: 1280, margin: "0 auto" }}>
             <motion.div
-              key={i}
-              style={{
-                position: "absolute",
-                width: 2,
-                height: 120 + Math.random() * 120,
-                background:
-                  "linear-gradient(to bottom, rgba(148,163,184,0.3), transparent)",
-                top: `${Math.random() * 100}%`,
-                left: `${Math.random() * 100}%`,
-                opacity: 0.5,
-              }}
-              animate={{
-                y: [20, -40, 20],
-                opacity: [0.1, 0.7, 0.2],
-              }}
-              transition={{
-                duration: 8 + Math.random() * 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-                delay: Math.random() * 3,
-              }}
-            />
-          ))}
-
-          <Container style={{ position: "relative", zIndex: 10 }}>
-            <Row className="align-items-center gy-5">
-              {/* LEFT: copy + form */}
-              <Col md={6}>
-                <motion.div
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8 }}
-                >
-                  <p
-                    style={{
-                      fontSize: "0.85rem",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "#38bdf8",
-                      marginBottom: 12,
-                    }}
-                  >
-                    AI Website Diagnostic
-                  </p>
-
-                  <h1
-                    className="fw-bold mb-3"
-                    style={{
-                      fontSize: "clamp(2.3rem, 4vw, 3.4rem)",
-                      lineHeight: 1.15,
-                    }}
-                  >
-                    Scan your website like a{" "}
-                    <span
-                      style={{
-                        background:
-                          "linear-gradient(120deg,#e5e7eb 0%,#f9fafb 40%,#38bdf8 100%)",
-                        WebkitBackgroundClip: "text",
-                        color: "transparent",
-                      }}
-                    >
-                      performance lab
-                    </span>
-                    .
-                  </h1>
-
-                  <p
-                    style={{
-                      fontSize: "1.05rem",
-                      color: "#cbd5e1",
-                      maxWidth: 520,
-                      lineHeight: 1.8,
-                    }}
-                  >
-                    Run a full audit of your site’s speed, SEO, accessibility,
-                    and best practices — powered by Google Lighthouse and
-                    Batistack AI. No more guessing what’s wrong or where to
-                    start.
-                  </p>
-                </motion.div>
-
-                <motion.div
-                  initial={{ opacity: 0, y: 18 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2 }}
-                  style={{ marginTop: 28 }}
-                >
-                  <Form
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      if (!loading && url) handleAnalyze();
-                    }}
-                  >
-                    <Form.Group controlId="formUrl" className="mb-3">
-                      <Form.Label
-                        style={{
-                          fontSize: "0.9rem",
-                          color: "#e5e7eb",
-                          marginBottom: 8,
-                        }}
-                      >
-                        Enter your website URL
-                      </Form.Label>
-
-                      <div className="d-flex flex-column flex-md-row gap-2">
-                        <Form.Control
-                          className="input-white-placeholder"
-                          type="url"
-                          placeholder="https://yourdomain.com"
-                          value={url}
-                          onChange={(e) => setUrl(e.target.value)}
-                          required
-                          style={{
-                            background: "rgba(255, 255, 255, 0.05)",
-                            borderRadius: "999px",
-                            border: "1px solid rgba(148,163,184,0.35)",
-                            color: "#ffffff",
-                            padding: "0.85rem 1.2rem",
-                            backdropFilter: "blur(14px)",
-                            WebkitBackdropFilter: "blur(14px)",
-                            boxShadow:
-                              "0 0 0 1px rgba(255,255,255,0.07), inset 0 0 12px rgba(255,255,255,0.12)",
-                            fontSize: "1rem",
-                            transition: "all .25s ease",
-                          }}
-                          onFocus={(e) => {
-                            e.target.style.border =
-                              "1px solid rgba(56,189,248,0.75)";
-                            e.target.style.boxShadow =
-                              "0 0 16px rgba(56,189,248,0.35), inset 0 0 16px rgba(255,255,255,0.18)";
-                          }}
-                          onBlur={(e) => {
-                            e.target.style.border =
-                              "1px solid rgba(148,163,184,0.35)";
-                            e.target.style.boxShadow =
-                              "0 0 0 1px rgba(255,255,255,0.07), inset 0 0 12px rgba(255,255,255,0.12)";
-                          }}
-                        />
-
-                        <Button
-                          type="submit"
-                          disabled={loading || !url.startsWith("http")}
-                          style={{
-                            whiteSpace: "nowrap",
-                            borderRadius: 999,
-                            padding: "0.7rem 1.5rem",
-                            border: "1px solid rgba(248,250,252,0.85)",
-                            background:
-                              "linear-gradient(135deg, rgba(248,250,252,0.22), rgba(148,163,184,0.28))",
-                            color: "#f9fafb",
-                            fontWeight: 600,
-                            letterSpacing: "0.03em",
-                            backdropFilter: "blur(10px)",
-                          }}
-                        >
-                          {loading ? "Analyzing..." : "Run Audit"}
-                        </Button>
-                      </div>
-
-                      <Form.Text
-                        style={{ color: "#9ca3af", fontSize: "0.8rem" }}
-                      >
-                        We use Google Lighthouse + AI to generate insights.
-                      </Form.Text>
-                    </Form.Group>
-                  </Form>
-
-                  {error && (
-                    <Alert
-                      variant="danger"
-                      className="mt-3"
-                      style={{
-                        background: "rgba(127,29,29,0.9)",
-                        borderColor: "rgba(248,113,113,0.6)",
-                        color: "#fee2e2",
-                      }}
-                    >
-                      {error}
-                    </Alert>
-                  )}
-
-                  <p
-                    style={{
-                      marginTop: 12,
-                      fontSize: "0.78rem",
-                      color: "#9ca3af",
-                      maxWidth: 460,
-                    }}
-                  >
-                    Promotional emails and cold pitches are filtered out
-                    automatically — this tool is for real website owners looking
-                    to improve their site.
-                  </p>
-                </motion.div>
-              </Col>
-
-              {/* RIGHT: radar / live widget */}
-              <Col md={6} className="mt-4 mt-md-0">
-                <motion.div
-                  initial={{ opacity: 0, x: 24 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.9 }}
-                  style={{
-                    position: "relative",
-                    padding: 26,
-                    borderRadius: 28,
-                    background: "rgba(15,23,42,0.96)",
-                    border: "1px solid rgba(148,163,184,0.75)",
-                    boxShadow: "0 26px 70px rgba(0,0,0,0.95)",
-                    overflow: "hidden",
-                  }}
-                >
-                  <div
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      background:
-                        "radial-gradient(circle at 30% 0%, rgba(56,189,248,0.18), transparent 55%), radial-gradient(circle at 80% 100%, rgba(22,163,74,0.22), transparent 55%)",
-                      opacity: 0.9,
-                      pointerEvents: "none",
-                    }}
-                  />
-
-                  <div style={{ position: "relative", zIndex: 5 }}>
-                    <div
-                      className="d-flex align-items-center justify-content-between mb-3"
-                      style={{ color: "#e5e7eb" }}
-                    >
-                      <div style={{ fontSize: "0.85rem", opacity: 0.8 }}>
-                        Scan Mode
-                      </div>
-
-                      <div
-                        style={{
-                          fontSize: "0.8rem",
-                          padding: "4px 10px",
-                          borderRadius: 999,
-                          background: "rgba(15,23,42,0.85)",
-                          border: "1px solid rgba(148,163,184,0.8)",
-                        }}
-                      >
-                        Live · AI Assisted
-                      </div>
-                    </div>
-
-                    <div
-                      style={{
-                        position: "relative",
-                        margin: "1rem auto 0",
-                        width: 230,
-                        height: 230,
-                        borderRadius: "50%",
-                        border: "1px solid rgba(148,163,184,0.7)",
-                        background:
-                          "radial-gradient(circle, rgba(15,23,42,0.9), rgba(15,23,42,0.98))",
-                        boxShadow:
-                          "0 0 0 1px rgba(15,23,42,1), 0 0 45px rgba(56,189,248,0.25)",
-                        overflow: "hidden",
-                      }}
-                    >
-                      <motion.div
-                        style={{
-                          position: "absolute",
-                          inset: "12%",
-                          borderRadius: "50%",
-                          border: "1px dashed rgba(148,163,184,0.6)",
-                        }}
-                        animate={{ rotate: [0, 360] }}
-                        transition={{
-                          duration: 18,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-
-                      <motion.div
-                        style={{
-                          position: "absolute",
-                          inset: "25%",
-                          borderRadius: "50%",
-                          border: "1px solid rgba(56,189,248,0.35)",
-                          boxShadow: "0 0 20px rgba(56,189,248,0.3)",
-                        }}
-                        animate={{ rotate: [360, 0] }}
-                        transition={{
-                          duration: 22,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-
-                      <motion.div
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          background:
-                            "conic-gradient(from 0deg, rgba(56,189,248,0.2), transparent 40%, rgba(34,197,94,0.25), transparent 80%, rgba(56,189,248,0.2))",
-                          mixBlendMode: "screen",
-                        }}
-                        animate={{ rotate: [0, 360] }}
-                        transition={{
-                          duration: 14,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-
-                      <motion.div
-                        style={{
-                          position: "absolute",
-                          top: "5%",
-                          left: "50%",
-                          width: "2px",
-                          height: "90%",
-                          background:
-                            "linear-gradient(to bottom, rgba(248,250,252,0.85), transparent)",
-                        }}
-                        animate={{ rotate: [0, 360] }}
-                        transition={{
-                          duration: 7,
-                          repeat: Infinity,
-                          ease: "linear",
-                        }}
-                      />
-
-                      <div
-                        style={{
-                          position: "absolute",
-                          inset: "35%",
-                          borderRadius: "50%",
-                          background:
-                            "radial-gradient(circle, rgba(15,23,42,0.9), rgba(15,23,42,1))",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "#e5e7eb",
-                          fontSize: "0.9rem",
-                          textAlign: "center",
-                          padding: "0 10px",
-                        }}
-                      >
-                        {loading ? "Scanning..." : "Ready to analyze"}
-                      </div>
-                    </div>
-
-                    <div
-                      className="mt-4"
-                      style={{
-                        display: "grid",
-                        gridTemplateColumns: "repeat(2, minmax(0, 1fr))",
-                        gap: 10,
-                        fontSize: "0.75rem",
-                        color: "#e5e7eb",
-                      }}
-                    >
-                      {[
-                        "Performance",
-                        "Accessibility",
-                        "SEO",
-                        "Best Practices",
-                      ].map((label) => (
-                        <div
-                          key={label}
-                          style={{
-                            padding: "8px 10px",
-                            borderRadius: 999,
-                            background: "rgba(15,23,42,0.9)",
-                            border: "1px solid rgba(148,163,184,0.7)",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                            gap: 8,
-                          }}
-                        >
-                          <span
-                            style={{
-                              textTransform: "uppercase",
-                              letterSpacing: "0.08em",
-                              fontSize: "0.68rem",
-                              color: "#9ca3af",
-                            }}
-                          >
-                            {label}
-                          </span>
-
-                          <span
-                            style={{
-                              fontVariantNumeric: "tabular-nums",
-                              fontWeight: 600,
-                            }}
-                          >
-                            {scores ? `${getScore(scores, label)}%` : "--"}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </motion.div>
-              </Col>
-            </Row>
-          </Container>
-        </section>
-
-        {/* LOADING BAR */}
-        <section className="pb-5">
-          <Container>
-            {loading && (
-              <div className="text-center my-4">
-                <div
-                  className="progress mx-auto"
-                  style={{
-                    height: "20px",
-                    width: "80%",
-                    borderRadius: "999px",
-                    overflow: "hidden",
-                    backgroundColor: "#020617",
-                    boxShadow: "0 12px 30px rgba(0,0,0,0.85)",
-                  }}
-                >
-                  <div
-                    className="progress-bar progress-bar-striped progress-bar-animated"
-                    role="progressbar"
-                    style={{
-                      width: `${progress}%`,
-                      background:
-                        "linear-gradient(90deg,#38bdf8,#22c55e,#38bdf8)",
-                      transition: "width 0.5s ease",
-                    }}
-                  ></div>
-                </div>
-
-                <p
-                  className="mt-4 fw-bold"
-                  style={{ color: "#e5e7eb", fontSize: "0.95rem" }}
-                >
-                  Running full Lighthouse + AI audit…
-                </p>
-                <p style={{ color: "#9ca3af", fontSize: "0.9rem" }}>
-                  You’ll receive Performance, Accessibility, SEO, and Best
-                  Practices scores — plus personalized AI insights.
-                </p>
-              </div>
-            )}
-
-            {/* SCORES */}
-            {!loading && scores && (
-              <div ref={resultRef} className="mt-5">
-                <h3 className="mb-4 text-center" style={{ color: "#f9fafb" }}>
-                  Your Audit Scores
-                </h3>
-
-                <Row>
-                  {renderProgressCard("Performance", BsSpeedometer2)}
-                  {renderProgressCard("Accessibility", BsSpeedometer2)}
-                  {renderProgressCard("SEO", BsSpeedometer2)}
-                  {renderProgressCard("Best Practices", BsSpeedometer2)}
-                </Row>
-              </div>
-            )}
-
-            {/* AI RECOMMENDATIONS */}
-            {recommendation && (
-              <Card
-                className="mt-5 border-0"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              {/* Section label */}
+              <p
                 style={{
-                  background: "rgba(15,23,42,0.68)",
-                  borderRadius: 26,
-                  border: "1px solid rgba(148,163,184,0.45)",
-                  backdropFilter: "blur(16px)",
-                  WebkitBackdropFilter: "blur(16px)",
-                  boxShadow: "0 26px 70px rgba(0,0,0,0.9)",
-                  color: "#e5e7eb",
+                  fontFamily: t.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: t.gold,
+                  marginBottom: 24,
                 }}
               >
-                <Card.Body>
-                  <h4
-                    className="fw-bold mb-4"
+                Free Website Audit
+              </p>
+
+              {/* Headline */}
+              <h1
+                style={{
+                  fontFamily: t.fontSerif,
+                  fontSize: "clamp(48px, 5vw, 80px)",
+                  fontWeight: 300,
+                  lineHeight: 1.05,
+                  color: t.black,
+                  margin: "0 0 24px",
+                }}
+              >
+                See how your
+                <br />
+                website <em>really</em>
+                <br />
+                performs.
+              </h1>
+
+              {/* Subtext */}
+              <p
+                style={{
+                  fontFamily: t.fontSans,
+                  fontSize: 16,
+                  color: t.gray,
+                  maxWidth: 520,
+                  lineHeight: 1.8,
+                  margin: "0 0 48px",
+                }}
+              >
+                Run a full audit powered by Google Lighthouse + Batistack AI.
+                Get scores for Performance, Accessibility, SEO, and Best
+                Practices — plus AI-generated recommendations.
+              </p>
+
+              {/* URL input area */}
+              <div style={{ maxWidth: 600 }}>
+                <label
+                  style={{
+                    display: "block",
+                    fontFamily: t.fontSans,
+                    fontSize: 10,
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: t.gold,
+                    marginBottom: 10,
+                  }}
+                >
+                  Enter your website URL
+                </label>
+
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (!loading && url) handleAnalyze();
+                  }}
+                >
+                  <GoldUrlInput
+                    value={url}
+                    onChange={(e) => setUrl(e.target.value)}
+                  />
+
+                  <button
+                    type="submit"
+                    disabled={loading || !url.startsWith("http")}
                     style={{
-                      color: "#38bdf8",
-                      fontSize: "1.25rem",
-                      letterSpacing: "0.02em",
+                      marginTop: 20,
+                      width: "100%",
+                      padding: "18px 0",
+                      background:
+                        loading || !url.startsWith("http") ? t.gray : t.black,
+                      color: "#ffffff",
+                      border: "none",
+                      fontFamily: t.fontSans,
+                      fontSize: 12,
+                      letterSpacing: "0.12em",
+                      textTransform: "uppercase",
+                      cursor:
+                        loading || !url.startsWith("http")
+                          ? "not-allowed"
+                          : "pointer",
+                      transition: "background 0.3s",
                     }}
                   >
-                    AI Recommendations
-                  </h4>
+                    {loading ? "Analyzing..." : "Run Audit \u2192"}
+                  </button>
+                </form>
 
-                  <ul
-                    className="ps-3"
-                    style={{ fontSize: "1rem", lineHeight: "1.7" }}
-                  >
-                    {recommendation.split("\n").map((line, idx) => {
-                      const lower = line.toLowerCase().trim();
-                      if (!lower) return null;
-
-                      let score: number | null = null;
-
-                      if (lower.includes("performance")) {
-                        score = scores ? getScore(scores, "Performance") : null;
-                      } else if (lower.includes("accessibility")) {
-                        score = scores
-                          ? getScore(scores, "Accessibility")
-                          : null;
-                      } else if (lower.includes("seo")) {
-                        score = scores ? getScore(scores, "SEO") : null;
-                      } else if (lower.includes("best")) {
-                        score = scores
-                          ? getScore(scores, "Best Practices")
-                          : null;
-                      }
-
-                      const hideIcon = lower.includes("batistack");
-
-                      return (
-                        <motion.li
-                          key={idx}
-                          className="mb-2"
-                          initial={{ opacity: 0, x: -10 }}
-                          whileInView={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3 }}
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 10,
-                          }}
-                        >
-                          {!hideIcon && score !== null && getIconByScore(score)}
-                          <span>{line}</span>
-                        </motion.li>
-                      );
-                    })}
-                  </ul>
-                </Card.Body>
-              </Card>
-            )}
-
-            {/* BOTTOM INFO CARDS */}
-            <section className="mt-5">
-              <Row className="gy-4">
-                <Col md={6}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    viewport={{ once: true }}
+                {error && (
+                  <p
                     style={{
-                      padding: 24,
-                      borderRadius: 22,
-                      background: "rgba(15,23,42,0.68)",
-                      border: "1px solid rgba(148,163,184,0.7)",
-                      backdropFilter: "blur(14px)",
-                      boxShadow: "0 18px 50px rgba(0,0,0,0.85)",
-                      color: "#e5e7eb",
+                      fontFamily: t.fontSans,
+                      fontSize: 13,
+                      color: "#b93333",
+                      marginTop: 12,
                     }}
                   >
-                    <h4 style={{ color: "#38bdf8", marginBottom: 10 }}>
-                      Why analyze your website?
-                    </h4>
-
-                    <ul
-                      style={{
-                        marginTop: 10,
-                        paddingLeft: 18,
-                        fontSize: "0.98rem",
-                        lineHeight: 1.7,
-                        color: "#cbd5e1",
-                      }}
-                    >
-                      <li>Improve load speed and user experience.</li>
-                      <li>Fix SEO issues that block traffic.</li>
-                      <li>Make your site accessible to more users.</li>
-                      <li>Build trust with modern best practices.</li>
-                    </ul>
-                  </motion.div>
-                </Col>
-
-                <Col md={6}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.15 }}
-                    viewport={{ once: true }}
-                    style={{
-                      padding: 24,
-                      borderRadius: 22,
-                      background: "rgba(15,23,42,0.68)",
-                      border: "1px solid rgba(148,163,184,0.7)",
-                      backdropFilter: "blur(14px)",
-                      boxShadow: "0 18px 50px rgba(0,0,0,0.85)",
-                      color: "#e5e7eb",
-                    }}
-                  >
-                    <h4 style={{ color: "#38bdf8", marginBottom: 10 }}>
-                      How Batistack can help next
-                    </h4>
-
-                    <ul
-                      style={{
-                        marginTop: 10,
-                        paddingLeft: 18,
-                        fontSize: "0.98rem",
-                        lineHeight: 1.7,
-                        color: "#cbd5e1",
-                      }}
-                    >
-                      <li>Custom optimization & redesign.</li>
-                      <li>AI chat + voice assistants for more leads.</li>
-                      <li>Analytics dashboards to track growth.</li>
-                      <li>Ongoing support and maintenance.</li>
-                    </ul>
-                  </motion.div>
-                </Col>
-              </Row>
-            </section>
-          </Container>
+                    {error}
+                  </p>
+                )}
+              </div>
+            </motion.div>
+          </div>
         </section>
 
-        <Footer />
+        {/* ── SECTION 2: LOADING BAR ──────────────────────────────────────── */}
+        {loading && (
+          <section style={{ padding: "0 60px 40px" }}>
+            <div style={{ maxWidth: 600, margin: "0 auto" }}>
+              <div
+                style={{
+                  height: 2,
+                  background: t.grayLight,
+                  overflow: "hidden",
+                  marginBottom: 20,
+                }}
+              >
+                <div
+                  style={{
+                    height: "100%",
+                    width: `${progress}%`,
+                    background: t.gold,
+                    transition: "width 0.5s ease",
+                  }}
+                />
+              </div>
+              <p
+                style={{
+                  fontFamily: t.fontSans,
+                  fontSize: 14,
+                  color: t.gray,
+                  textAlign: "center",
+                }}
+              >
+                Running full audit…
+              </p>
+            </div>
+          </section>
+        )}
+
+        {/* ── SECTION 3: RESULTS ──────────────────────────────────────────── */}
+        {!loading && scores && (
+          <section
+            ref={resultRef}
+            style={{ padding: "0 60px 80px" }}
+          >
+            <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+              <h2
+                style={{
+                  fontFamily: t.fontSerif,
+                  fontSize: "clamp(32px, 3vw, 48px)",
+                  fontWeight: 300,
+                  color: t.black,
+                  marginBottom: 48,
+                }}
+              >
+                Your Audit Results
+              </h2>
+
+              <div
+                className="bs-audit-scores"
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "1fr 1fr",
+                  gap: 24,
+                }}
+              >
+                {scoreCategories.map((label) => {
+                  const numeric = getScore(scores, label);
+                  return (
+                    <motion.div
+                      key={label}
+                      initial={{ opacity: 0, y: 24 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.5 }}
+                      style={{
+                        padding: 40,
+                        background: t.cream,
+                        border: `1px solid ${t.grayLight}`,
+                      }}
+                    >
+                      <p
+                        style={{
+                          fontFamily: t.fontSans,
+                          fontSize: 10,
+                          letterSpacing: "0.2em",
+                          textTransform: "uppercase",
+                          color: t.gold,
+                          margin: "0 0 12px",
+                        }}
+                      >
+                        {label}
+                      </p>
+
+                      <p
+                        style={{
+                          fontFamily: t.fontSerif,
+                          fontSize: 64,
+                          fontWeight: 300,
+                          color: t.gold,
+                          margin: "0 0 16px",
+                          lineHeight: 1,
+                        }}
+                      >
+                        {numeric}
+                      </p>
+
+                      {/* thin progress bar */}
+                      <div
+                        style={{
+                          height: 2,
+                          background: t.grayLight,
+                          marginBottom: 12,
+                          overflow: "hidden",
+                        }}
+                      >
+                        <div
+                          style={{
+                            height: "100%",
+                            width: `${numeric}%`,
+                            background: t.gold,
+                          }}
+                        />
+                      </div>
+
+                      <p
+                        style={{
+                          fontFamily: t.fontSans,
+                          fontSize: 13,
+                          color: t.gray,
+                          margin: 0,
+                        }}
+                      >
+                        {scoreRating(numeric)}
+                      </p>
+                    </motion.div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* ── SECTION 4: AI RECOMMENDATIONS ───────────────────────────────── */}
+        {recommendation && (
+          <section
+            style={{
+              padding: "0 60px 80px",
+              borderTop: `1px solid ${t.grayLight}`,
+              paddingTop: 60,
+              marginTop: 0,
+            }}
+          >
+            <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+              <p
+                style={{
+                  fontFamily: t.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: t.gold,
+                  marginBottom: 12,
+                }}
+              >
+                AI Analysis
+              </p>
+
+              <h2
+                style={{
+                  fontFamily: t.fontSerif,
+                  fontSize: "clamp(28px, 3vw, 44px)",
+                  fontWeight: 300,
+                  color: t.black,
+                  marginBottom: 40,
+                }}
+              >
+                Recommendations
+              </h2>
+
+              {recommendation.split("\n").map((line, idx) => {
+                if (!line.trim()) return null;
+
+                // Determine score icon (preserved logic)
+                const lower = line.toLowerCase().trim();
+                let score: number | null = null;
+                if (lower.includes("performance")) {
+                  score = scores ? getScore(scores, "Performance") : null;
+                } else if (lower.includes("accessibility")) {
+                  score = scores ? getScore(scores, "Accessibility") : null;
+                } else if (lower.includes("seo")) {
+                  score = scores ? getScore(scores, "SEO") : null;
+                } else if (lower.includes("best")) {
+                  score = scores ? getScore(scores, "Best Practices") : null;
+                }
+                const hideIcon = lower.includes("batistack");
+
+                return (
+                  <p
+                    key={idx}
+                    style={{
+                      fontFamily: t.fontSans,
+                      fontSize: 14,
+                      color: t.gray,
+                      lineHeight: 1.8,
+                      borderLeft: `2px solid ${t.goldLight}`,
+                      paddingLeft: 16,
+                      marginBottom: 12,
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    {!hideIcon && score !== null && getIconByScore(score)}
+                    {line}
+                  </p>
+                );
+              })}
+            </div>
+          </section>
+        )}
+
+        {/* ── SECTION 5: INFO CARDS ────────────────────────────────────────── */}
+        <section
+          className="bs-audit-info"
+          style={{ padding: "0 60px 120px" }}
+        >
+          <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "1fr 1fr",
+                gap: 24,
+              }}
+            >
+              {/* Card 1 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                style={{
+                  padding: "48px 40px",
+                  background: t.cream,
+                  borderLeft: `3px solid ${t.gold}`,
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: t.fontSerif,
+                    fontSize: 24,
+                    fontWeight: 400,
+                    color: t.black,
+                    marginBottom: 24,
+                  }}
+                >
+                  Why audit your website?
+                </h3>
+                <ul
+                  style={{
+                    paddingLeft: 18,
+                    margin: 0,
+                    fontFamily: t.fontSans,
+                    fontSize: 14,
+                    color: t.gray,
+                    lineHeight: 1.8,
+                  }}
+                >
+                  <li>Improve load speed and user experience.</li>
+                  <li>Fix SEO issues that block traffic.</li>
+                  <li>Make your site accessible to more users.</li>
+                  <li>Build trust with modern best practices.</li>
+                </ul>
+              </motion.div>
+
+              {/* Card 2 */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.15 }}
+                style={{
+                  padding: "48px 40px",
+                  background: t.cream,
+                  borderLeft: `3px solid ${t.gold}`,
+                }}
+              >
+                <h3
+                  style={{
+                    fontFamily: t.fontSerif,
+                    fontSize: 24,
+                    fontWeight: 400,
+                    color: t.black,
+                    marginBottom: 24,
+                  }}
+                >
+                  How Batistack can help
+                </h3>
+                <ul
+                  style={{
+                    paddingLeft: 18,
+                    margin: 0,
+                    fontFamily: t.fontSans,
+                    fontSize: 14,
+                    color: t.gray,
+                    lineHeight: 1.8,
+                  }}
+                >
+                  <li>Custom optimization & redesign.</li>
+                  <li>AI chat + voice assistants for more leads.</li>
+                  <li>Analytics dashboards to track growth.</li>
+                  <li>Ongoing support and maintenance.</li>
+                </ul>
+              </motion.div>
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );

@@ -145,7 +145,9 @@ function HeroSection({
             {/* BUTTON (not in contact page) */}
             {buttonText && buttonHref && !isContactPage && (
               <div>
-                <AnimatedButton text={buttonText} href={buttonHref} />
+                <AnimatedButton variant="primary" href={buttonHref}>
+                  {buttonText}
+                </AnimatedButton>
               </div>
             )}
           </Col>

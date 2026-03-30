@@ -1,71 +1,254 @@
 import { useState } from "react";
-import axios from "axios";
-import {
-  Form,
-  Button,
-  Alert,
-  Container,
-  Row,
-  Col,
-  Spinner,
-} from "react-bootstrap";
+import emailjs from "@emailjs/browser";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import HeroSection from "../components/HeroSection";
 
+// ─── Design tokens ────────────────────────────────────────────────────────────
+const t = {
+  black: "#0a0a0a",
+  offWhite: "#f5f3ef",
+  cream: "#ede9e1",
+  gold: "#c9a84c",
+  goldLight: "#e8d5a3",
+  gray: "#6b6b6b",
+  grayLight: "#d4d0c8",
+  fontSerif: "'Cormorant Garamond', Georgia, serif",
+  fontSans: "'DM Sans', sans-serif",
+};
+
+// ─── Shared input style ────────────────────────────────────────────────────────
+const inputStyle: React.CSSProperties = {
+  width: "100%",
+  padding: "14px 0",
+  border: "none",
+  borderBottom: `1.5px solid ${t.grayLight}`,
+  background: "transparent",
+  fontFamily: t.fontSans,
+  fontSize: 15,
+  color: t.black,
+  outline: "none",
+  transition: "border-color 0.3s",
+  display: "block",
+};
+
+const labelStyle: React.CSSProperties = {
+  display: "block",
+  fontSize: 10,
+  letterSpacing: "0.18em",
+  textTransform: "uppercase",
+  color: t.gray,
+  marginBottom: 10,
+  fontFamily: t.fontSans,
+};
+
+// ─── Gold-underline input with focus handling ──────────────────────────────────
+function GoldInput({
+  label,
+  ...props
+}: React.InputHTMLAttributes<HTMLInputElement> & { label: string }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label style={labelStyle}>{label}</label>
+      <input
+        {...props}
+        style={{
+          ...inputStyle,
+          borderBottomColor: focused ? t.gold : t.grayLight,
+        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+      />
+    </div>
+  );
+}
+
+function GoldSelect({
+  label,
+  children,
+  ...props
+}: React.SelectHTMLAttributes<HTMLSelectElement> & { label: string }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label style={labelStyle}>{label}</label>
+      <select
+        {...props}
+        style={{
+          ...inputStyle,
+          borderBottomColor: focused ? t.gold : t.grayLight,
+          cursor: "pointer",
+          appearance: "none",
+          WebkitAppearance: "none",
+        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+      >
+        {children}
+      </select>
+    </div>
+  );
+}
+
+function GoldTextarea({
+  label,
+  ...props
+}: React.TextareaHTMLAttributes<HTMLTextAreaElement> & { label: string }) {
+  const [focused, setFocused] = useState(false);
+  return (
+    <div>
+      <label style={labelStyle}>{label}</label>
+      <textarea
+        {...props}
+        style={{
+          ...inputStyle,
+          borderBottomColor: focused ? t.gold : t.grayLight,
+          resize: "vertical",
+          height: 100,
+        }}
+        onFocus={() => setFocused(true)}
+        onBlur={() => setFocused(false)}
+      />
+    </div>
+  );
+}
+
+// ─── Socials data (original hrefs preserved) ──────────────────────────────────
+const socials = [
+  { label: "Instagram", href: "https://www.instagram.com/bati.stack" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/company/batistack" },
+  {
+    label: "Facebook",
+    href: "https://www.facebook.com/profile.php?id=61575947108161",
+  },
+  { label: "X", href: "https://x.com/BatistackDev" },
+];
+
+type ContactFormValues = {
+  name: string;
+  email: string;
+  service: string;
+  message: string;
+  source: string;
+};
+
+type ContactFormErrors = Partial<Record<keyof ContactFormValues, string>>;
+
+type EmailJsTemplateParams = {
+  from_name: string;
+  reply_to: string;
+  service: string;
+  message: string;
+  source: string;
+};
+
+const initialFormValues: ContactFormValues = {
+  name: "",
+  email: "",
+  service: "",
+  message: "",
+  source: "Website",
+};
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// ─── Component ────────────────────────────────────────────────────────────────
 function ContactForm() {
   useTrafficTracker("click", "/contact");
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    service: "",
-    message: "",
-    source: "Website",
-  });
+  const [formData, setFormData] =
+    useState<ContactFormValues>(initialFormValues);
+  const [fieldErrors, setFieldErrors] = useState<ContactFormErrors>({});
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const url = import.meta.env.VITE_BASE_URL;
+
+  const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+  const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
+  const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
   const servicesList = [
     "Website Development",
     "AI Chat Assistant",
     "AI Voice Agent",
-    "Automation & Dashboards",
-    "SEO & Analytics",
-    "Application Help (SNAP / NYCHA / DMV / Immigration)",
+    "Automation",
+    "SEO",
+    "Website Redesign",
     "Other",
   ];
 
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    setFieldErrors((prev) => ({ ...prev, [name]: undefined }));
+    if (success) setSuccess("");
+    if (error) setError("");
+  };
+
+  const validateForm = (values: ContactFormValues): ContactFormErrors => {
+    const nextErrors: ContactFormErrors = {};
+
+    if (!values.name.trim()) {
+      nextErrors.name = "Please enter your name.";
+    }
+
+    if (!values.email.trim()) {
+      nextErrors.email = "Please enter your email address.";
+    } else if (!emailPattern.test(values.email)) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!values.message.trim()) {
+      nextErrors.message = "Please tell us about your project.";
+    }
+
+    return nextErrors;
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (loading) return;
+
+    const validationErrors = validateForm(formData);
+    setFieldErrors(validationErrors);
     setSuccess("");
     setError("");
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    if (!serviceId || !templateId || !publicKey) {
+      setError(
+        "Email service is not configured. Add your EmailJS IDs and try again.",
+      );
+      return;
+    }
+
     setLoading(true);
 
+    const templateParams: EmailJsTemplateParams = {
+      from_name: formData.name.trim(),
+      reply_to: formData.email.trim(),
+      service: formData.service || "Not specified",
+      message: formData.message.trim(),
+      source: formData.source,
+    };
+
     try {
-      await axios.post(`${url}/leads`, formData);
-      setSuccess("✅ Your message has been sent successfully!");
-      setFormData({
-        name: "",
-        email: "",
-        service: "",
-        message: "",
-        source: "Website",
+      await emailjs.send(serviceId, templateId, templateParams, {
+        publicKey,
       });
-    } catch (err) {
-      setError("❌ Failed to send your message. Please try again later.");
+      setSuccess("Your message has been sent successfully!");
+      setFormData(initialFormValues);
+      setFieldErrors({});
+    } catch {
+      setError("Failed to send your message. Please try again later.");
     } finally {
       setLoading(false);
     }
@@ -77,313 +260,321 @@ function ContactForm() {
         <title>Contact Us | Batistack Development</title>
       </Helmet>
 
-      <div style={{ backgroundColor: "#000", color: "#fff" }}>
-        <HeroSection
-          title="Let’s Talk About Your Vision"
-          description="You're one message away from transforming your digital presence. Websites, AI, automations — or help with applications like SNAP or NYCHA."
-        />
+      {/* Placeholder-color injection */}
+      <style>{`
+        .bs-contact-placeholder::placeholder { color: ${t.grayLight}; }
+        .bs-contact-placeholder:focus { outline: none; }
+      `}</style>
 
-        {/* MAIN SECTION */}
+      <div
+        style={{
+          background: t.offWhite,
+          color: t.black,
+          minHeight: "100vh",
+        }}
+      >
         <section
           style={{
-            position: "relative",
-            padding: "6rem 0",
-            overflow: "hidden",
-            background:
-              "radial-gradient(circle at top, #0b1120 0%, #020617 55%, #000000 100%)",
+            maxWidth: 1280,
+            margin: "0 auto",
+            padding: "160px 60px 120px",
           }}
         >
-          {/* NEBULA ENERGY MESH */}
-          <motion.div
+          <div
             style={{
-              position: "absolute",
-              inset: 0,
-              background:
-                "radial-gradient(circle at 30% 20%, rgba(66,153,255,0.16), transparent 60%), radial-gradient(circle at 70% 80%, rgba(255,99,146,0.18), transparent 60%)",
-              filter: "blur(60px)",
-              opacity: 0.55,
-              pointerEvents: "none",
+              display: "grid",
+              gridTemplateColumns: "1fr 1fr",
+              gap: 100,
+              alignItems: "start",
             }}
-            animate={{
-              backgroundPosition: ["0% 0%", "100% 100%", "0% 0%"],
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-          />
+            className="bs-contact-grid"
+          >
+            {/* ── LEFT ──────────────────────────────────────────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              {/* Section label */}
+              <p
+                style={{
+                  fontFamily: t.fontSans,
+                  fontSize: 11,
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: t.gold,
+                  marginBottom: 24,
+                }}
+              >
+                Let's work together
+              </p>
 
-          {/* CONTENT */}
-          <Container style={{ position: "relative", zIndex: 10 }}>
-            <Row className="gy-5 align-items-start justify-content-center">
+              {/* Headline */}
+              <h1
+                style={{
+                  fontFamily: t.fontSerif,
+                  fontSize: "clamp(40px, 4vw, 60px)",
+                  fontWeight: 300,
+                  lineHeight: 1.1,
+                  color: t.black,
+                  margin: "0 0 48px",
+                }}
+              >
+                Ready to build
+                <br />
+                something <em>great?</em>
+              </h1>
 
-              {/* FORM CARD */}
-              <Col md={6}>
-                <motion.div
-                  initial={{ opacity: 0, x: -25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
+              {/* Contact info items */}
+              {[
+                { label: "Location", value: "New York City, NY" },
+                { label: "Email", value: "elisual@batistack.com" },
+                { label: "Phone", value: "929-733-1600" },
+                { label: "Response Time", value: "Within 24 hours" },
+              ].map((item) => (
+                <div
+                  key={item.label}
                   style={{
-                    padding: 32,
-                    borderRadius: 24,
-                    background: "rgba(255,255,255,0.06)",
-                    border: "1px solid rgba(255,255,255,0.22)",
-                    backdropFilter: "blur(16px)",
-                    boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+                    borderBottom: `1px solid ${t.grayLight}`,
+                    paddingBottom: 24,
+                    marginTop: 40,
                   }}
                 >
-                  <h4 className="fw-bold text-white mb-3">Tell Us What You Need</h4>
-                  <p className="text-secondary mb-4">
-                    Choose your service and share details — we’ll respond within 24 hours.
+                  <p
+                    style={{
+                      fontFamily: t.fontSans,
+                      fontSize: 10,
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: t.gold,
+                      margin: "0 0 6px",
+                    }}
+                  >
+                    {item.label}
                   </p>
+                  <p
+                    style={{
+                      fontFamily: t.fontSans,
+                      fontSize: 16,
+                      color: t.black,
+                      margin: 0,
+                    }}
+                  >
+                    {item.value}
+                  </p>
+                </div>
+              ))}
 
-                  {success && <Alert variant="success">{success}</Alert>}
-                  {error && <Alert variant="danger">{error}</Alert>}
+              {/* Social links */}
+              <div
+                style={{
+                  display: "flex",
+                  gap: 32,
+                  marginTop: 48,
+                  flexWrap: "wrap",
+                }}
+              >
+                {socials.map((s) => (
+                  <a
+                    key={s.label}
+                    href={s.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      fontFamily: t.fontSans,
+                      fontSize: 11,
+                      letterSpacing: "0.14em",
+                      textTransform: "uppercase",
+                      color: t.black,
+                      textDecoration: "none",
+                      borderBottom: `1px solid ${t.grayLight}`,
+                      paddingBottom: 2,
+                      transition: "border-color 0.3s, color 0.3s",
+                    }}
+                    onMouseEnter={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.color =
+                        t.gold;
+                      (
+                        e.currentTarget as HTMLAnchorElement
+                      ).style.borderBottomColor = t.gold;
+                    }}
+                    onMouseLeave={(e) => {
+                      (e.currentTarget as HTMLAnchorElement).style.color =
+                        t.black;
+                      (
+                        e.currentTarget as HTMLAnchorElement
+                      ).style.borderBottomColor = t.grayLight;
+                    }}
+                  >
+                    {s.label}
+                  </a>
+                ))}
+              </div>
+            </motion.div>
 
-                  <Form onSubmit={handleSubmit}>
-                    {/* NAME */}
-                    <Form.Group className="mb-3">
-                      <Form.Label className="text-light">Full Name</Form.Label>
-                      <Form.Control
-                        type="text"
-                        name="name"
-                        placeholder="Your name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                        className="contact-input"
-                        style={{
-                          background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.18)",
-                          color: "#fff",
-                          backdropFilter: "blur(10px)",
-                        }}
-                      />
-                    </Form.Group>
+            {/* ── RIGHT — FORM ──────────────────────────────────── */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+            >
+              {/* Status alerts */}
+              {success && (
+                <div
+                  style={{
+                    color: "#2d7a47",
+                    fontSize: 14,
+                    marginBottom: 24,
+                    fontFamily: t.fontSans,
+                  }}
+                >
+                  {success}
+                </div>
+              )}
+              {error && (
+                <div
+                  style={{
+                    color: "#b93333",
+                    fontSize: 14,
+                    marginBottom: 24,
+                    fontFamily: t.fontSans,
+                  }}
+                >
+                  {error}
+                </div>
+              )}
 
-                    {/* EMAIL */}
-                    <Form.Group className="mb-3">
-                      <Form.Label className="text-light">Email</Form.Label>
-                      <Form.Control
-                        type="email"
-                        name="email"
-                        placeholder="you@email.com"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                        className="contact-input"
-                        style={{
-                          background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.18)",
-                          color: "#fff",
-                          backdropFilter: "blur(10px)",
-                        }}
-                      />
-                    </Form.Group>
-
-                    {/* SERVICE */}
-                    <Form.Group className="mb-3">
-                      <Form.Label className="text-light">Service</Form.Label>
-                      <Form.Select
-                        name="service"
-                        value={formData.service}
-                        onChange={handleChange}
-                        required
-                        className="contact-input"
-                        style={{
-                          background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.18)",
-                          color: "#fff",
-                          backdropFilter: "blur(10px)",
-                        }}
-                      >
-                        <option value="">Select a service...</option>
-                        {servicesList.map((srv, i) => (
-                          <option key={i} value={srv}>
-                            {srv}
-                          </option>
-                        ))}
-                      </Form.Select>
-                    </Form.Group>
-
-                    {/* MESSAGE */}
-                    <Form.Group className="mb-4">
-                      <Form.Label className="text-light">Message</Form.Label>
-                      <Form.Control
-                        as="textarea"
-                        name="message"
-                        rows={4}
-                        placeholder="Tell us about your project..."
-                        value={formData.message}
-                        onChange={handleChange}
-                        className="contact-input"
-                        style={{
-                          background: "rgba(255,255,255,0.05)",
-                          border: "1px solid rgba(255,255,255,0.18)",
-                          color: "#fff",
-                          backdropFilter: "blur(10px)",
-                        }}
-                      />
-                    </Form.Group>
-
-                    {/* SUBMIT BUTTON */}
-                    <Button
-                      variant="outline-light"
-                      type="submit"
-                      size="lg"
-                      className="w-100 fw-semibold rounded-2"
-                      disabled={loading}
-                    >
-                      {loading ? (
-                        <>
-                          <Spinner animation="border" size="sm" className="me-2" />
-                          Sending...
-                        </>
-                      ) : (
-                        "Send Message"
-                      )}
-                    </Button>
-
-                    {/* ANTI-SPAM */}
-                    <motion.p
-                      initial={{ opacity: 0, y: 10 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6 }}
+              <form onSubmit={handleSubmit}>
+                <div style={{ marginBottom: 32 }}>
+                  <GoldInput
+                    label="Name"
+                    type="text"
+                    name="name"
+                    placeholder="John Smith"
+                    value={formData.name}
+                    onChange={handleChange}
+                    required
+                    className="bs-contact-placeholder"
+                  />
+                  {fieldErrors.name && (
+                    <p
                       style={{
-                        color: "#9ca3af",
-                        fontSize: "0.82rem",
-                        marginTop: "0.75rem",
-                        textAlign: "center",
-                        lineHeight: "1.55",
+                        color: "#b93333",
+                        fontSize: 12,
+                        marginTop: 10,
+                        fontFamily: t.fontSans,
                       }}
                     >
-                      ⚠️ Promotional messages and advertising offers are
-                      automatically filtered. Only real client inquiries are reviewed.
-                    </motion.p>
-                  </Form>
-                </motion.div>
-              </Col>
+                      {fieldErrors.name}
+                    </p>
+                  )}
+                </div>
 
-              {/* SOCIAL SECTION */}
-              <Col md={6}>
-                <motion.div
-                  initial={{ opacity: 0, x: 25 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.6 }}
+                {/* Email */}
+                <div style={{ marginBottom: 32 }}>
+                  <GoldInput
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    placeholder="you@email.com"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                    className="bs-contact-placeholder"
+                  />
+                  {fieldErrors.email && (
+                    <p
+                      style={{
+                        color: "#b93333",
+                        fontSize: 12,
+                        marginTop: 10,
+                        fontFamily: t.fontSans,
+                      }}
+                    >
+                      {fieldErrors.email}
+                    </p>
+                  )}
+                </div>
+
+                {/* Service */}
+                <div style={{ marginBottom: 32 }}>
+                  <GoldSelect
+                    label="Service"
+                    name="service"
+                    value={formData.service}
+                    onChange={handleChange}
+                    className="bs-contact-placeholder"
+                  >
+                    <option value="">Select a service...</option>
+                    {servicesList.map((srv, i) => (
+                      <option key={i} value={srv}>
+                        {srv}
+                      </option>
+                    ))}
+                  </GoldSelect>
+                </div>
+
+                {/* Message */}
+                <div style={{ marginBottom: 40 }}>
+                  <GoldTextarea
+                    label="Message"
+                    name="message"
+                    placeholder="Tell us about your project..."
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    className="bs-contact-placeholder"
+                  />
+                  {fieldErrors.message && (
+                    <p
+                      style={{
+                        color: "#b93333",
+                        fontSize: 12,
+                        marginTop: 10,
+                        fontFamily: t.fontSans,
+                      }}
+                    >
+                      {fieldErrors.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Submit */}
+                <button
+                  type="submit"
+                  disabled={loading}
                   style={{
-                    padding: 32,
-                    borderRadius: 24,
-                    background: "rgba(255,255,255,0.07)",
-                    border: "1px solid rgba(255,255,255,0.22)",
-                    backdropFilter: "blur(16px)",
-                    boxShadow: "0 8px 28px rgba(0,0,0,0.5)",
-                    color: "#fff",
+                    width: "100%",
+                    padding: "18px 0",
+                    background: loading ? t.gray : t.black,
+                    color: "#ffffff",
+                    border: "none",
+                    fontFamily: t.fontSans,
+                    fontSize: 12,
+                    letterSpacing: "0.12em",
+                    textTransform: "uppercase",
+                    cursor: loading ? "not-allowed" : "pointer",
+                    transition: "background 0.3s",
                   }}
                 >
-                  <h4 className="fw-bold mb-3">Connect With Us Online</h4>
-                  <p className="text-secondary mb-4">
-                    Follow Batistack for updates, tutorials, and inspiration.
-                  </p>
-
-                  <Row className="g-4">
-                    {[
-                      {
-                        icon: "bi bi-instagram",
-                        label: "Instagram",
-                        href: "https://www.instagram.com/bati.stack",
-                        color: "#E1306C",
-                        desc: "Behind the scenes, projects & reels.",
-                      },
-                      {
-                        icon: "bi bi-linkedin",
-                        label: "LinkedIn",
-                        href: "https://www.linkedin.com/company/batistack",
-                        color: "#0077B5",
-                        desc: "Business news & professional updates.",
-                      },
-                      {
-                        icon: "bi bi-facebook",
-                        label: "Facebook",
-                        href: "https://www.facebook.com/profile.php?id=61575947108161",
-                        color: "#1877F2",
-                        desc: "Latest launches and community posts.",
-                      },
-                      {
-                        icon: "bi bi-twitter-x",
-                        label: "X (Twitter)",
-                        href: "https://x.com/BatistackDev",
-                        color: "#1DA1F2",
-                        desc: "Tech tips, AI insights & coding talk.",
-                      },
-                    ].map((s, idx) => (
-                      <Col xs={12} key={idx}>
-                        <motion.a
-                          href={s.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          whileHover={{ scale: 1.05, y: -4 }}
-                          style={{
-                            textDecoration: "none",
-                            display: "block",
-                          }}
-                        >
-                          <div
-                            style={{
-                              padding: 20,
-                              borderRadius: 20,
-                              background: "rgba(0,0,0,0.4)",
-                              border: "1px solid rgba(255,255,255,0.15)",
-                              backdropFilter: "blur(14px)",
-                              display: "flex",
-                              gap: 16,
-                              alignItems: "center",
-                              boxShadow: "0 8px 22px rgba(0,0,0,0.3)",
-                            }}
-                          >
-                            <i
-                              className={s.icon}
-                              style={{
-                                fontSize: "2.5rem",
-                                color: s.color,
-                                minWidth: 55,
-                                textAlign: "center",
-                              }}
-                            />
-                            <div>
-                              <h5 className="fw-bold m-0">{s.label}</h5>
-                              <p
-                                className="small m-0 text-secondary"
-                                style={{ lineHeight: "1.45" }}
-                              >
-                                {s.desc}
-                              </p>
-                            </div>
-                          </div>
-                        </motion.a>
-                      </Col>
-                    ))}
-                  </Row>
-                </motion.div>
-              </Col>
-
-            </Row>
-          </Container>
+                  {loading ? "Sending..." : "Send Message \u2192"}
+                </button>
+              </form>
+            </motion.div>
+          </div>
         </section>
       </div>
 
-      {/* INPUT STYLING */}
+      {/* Mobile responsive override */}
       <style>{`
-        .contact-input::placeholder {
-          color: #a3a3a3 !important;
-        }
-        .contact-input {
-          transition: 0.25s ease;
-        }
-        .contact-input:focus {
-          border-color: rgba(132,202,255,0.65) !important;
-          box-shadow: 0 0 18px rgba(66,152,255,0.45) !important;
-          background: rgba(255,255,255,0.08) !important;
-        }
-        .contact-input:hover {
-          background: rgba(255,255,255,0.09);
-          border-color: rgba(255,255,255,0.3);
+        @media (max-width: 768px) {
+          .bs-contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 60px !important;
+          }
+          section {
+            padding: 120px 28px 80px !important;
+          }
         }
       `}</style>
     </>

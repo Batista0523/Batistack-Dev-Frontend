@@ -1,0 +1,246 @@
+/* ============================================
+   BATISTACK GLOBAL DESIGN SYSTEM
+   ============================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --black: #0a0a0a;
+  --off-white: #f5f3ef;
+  --cream: #ede9e1;
+  --gold: #c9a84c;
+  --gold-light: #e8d5a3;
+  --gray: #6b6b6b;
+  --gray-light: #d4d0c8;
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'DM Sans', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--off-white);
+  color: var(--black);
+  overflow-x: hidden;
+  cursor: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom Cursor ── */
+.cursor {
+  width: 8px;
+  height: 8px;
+  background: var(--black);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.15s ease;
+}
+
+.cursor-ring {
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--black);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 9998;
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+
+.cursor-ring.expand {
+  width: 56px;
+  height: 56px;
+  border-color: var(--gold);
+}
+
+/* ── Scroll Reveal ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-delay-1 { transition-delay: 0.15s; }
+.reveal-delay-2 { transition-delay: 0.30s; }
+.reveal-delay-3 { transition-delay: 0.45s; }
+
+/* ── Typography ── */
+.font-serif { font-family: var(--font-serif); }
+.font-sans  { font-family: var(--font-sans); }
+
+/* ── Section Label ── */
+.section-label {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+/* ── Section Title ── */
+.section-title {
+  font-family: var(--font-serif);
+  font-size: clamp(36px, 4vw, 56px);
+  font-weight: 300;
+  line-height: 1.15;
+}
+
+.section-title em {
+  font-style: italic;
+}
+
+/* ── Buttons ── */
+.btn-primary-bs,
+a.btn-primary-bs {
+  display: inline-block;
+  padding: 16px 40px;
+  background: var(--black);
+  color: var(--off-white);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-weight: 500;
+  text-decoration: none;
+  border: none;
+  cursor: none;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.btn-primary-bs:hover,
+a.btn-primary-bs:hover {
+  background: #222;
+  transform: translateY(-1px);
+  color: var(--off-white);
+}
+
+.btn-ghost-bs,
+a.btn-ghost-bs {
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: var(--gray);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: none;
+  transition: color 0.25s;
+  background: transparent;
+  border: none;
+}
+
+.btn-ghost-bs::after {
+  content: '→';
+  font-size: 16px;
+  transition: transform 0.25s;
+}
+
+.btn-ghost-bs:hover,
+a.btn-ghost-bs:hover {
+  color: var(--black);
+}
+
+.btn-ghost-bs:hover::after,
+a.btn-ghost-bs:hover::after {
+  transform: translateX(4px);
+}
+
+/* ── Tags ── */
+.tag {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 5px 12px;
+  border: 1px solid var(--gray-light);
+  color: var(--gray);
+}
+
+/* ── Marquee ── */
+.marquee-section {
+  border-top: 1px solid var(--gray-light);
+  border-bottom: 1px solid var(--gray-light);
+  padding: 18px 0;
+  overflow: hidden;
+  background: var(--cream);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 60px;
+  animation: marquee 18s linear infinite;
+  white-space: nowrap;
+}
+
+.marquee-item {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gray);
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.marquee-item::after {
+  content: '✦';
+  color: var(--gold);
+  font-size: 8px;
+}
+
+/* ── Animations ── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@keyframes scrollAnim {
+  0%   { left: -100%; }
+  50%  { left: 100%; }
+  100% { left: 100%; }
+}
+
+/* ── Override Bootstrap cursor on interactive elements ── */
+a, button, [role="button"], select, input, textarea {
+  cursor: none !important;
+}
+
+/* Mobile: restore native cursor */
+@media (hover: none) and (pointer: coarse) {
+  body { cursor: auto; }
+  a, button, [role="button"], select, input, textarea { cursor: auto !important; }
+  .cursor, .cursor-ring { display: none; }
+}
+
+@media (max-width: 900px) {
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .site-nav-overlay {
+    justify-content: flex-start !important;
+  }
+}

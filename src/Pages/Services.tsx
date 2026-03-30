@@ -1,263 +1,403 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { Container, Row, Col } from "react-bootstrap";
-import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
-import Footer from "../components/Footer";
-import AnimatedButton from "../components/Button";
-import HeroSection from "../components/HeroSection";
-import "bootstrap-icons/font/bootstrap-icons.css";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import SectionLabel from "../components/SectionLabel";
+import ServiceCard from "../components/ServiceCard";
+import { useState } from "react";
 
-function Services() {
+// ─── Service detail data ───────────────────────────────────────────────────
+
+const services = [
+  {
+    number: "01",
+    name: "Custom Web Design",
+    tags: ["React", "Next.js", "TypeScript", "Responsive"],
+    description:
+      "We design and build websites from scratch — no templates, no shortcuts. Each site is crafted to match your brand, communicate your value, and convert visitors into customers. Mobile-first, performance-optimized, and built to last.",
+    features: [
+      "Fully custom design — no templates",
+      "Mobile-first, fully responsive",
+      "Page speed & Core Web Vitals optimized",
+      "SEO-ready structure from day one",
+      "CMS integration available",
+      "2-3 rounds of revisions included",
+    ],
+  },
+  {
+    number: "02",
+    name: "AI Integration",
+    tags: ["OpenAI", "Claude API", "Dialogflow", "Automation"],
+    description:
+      "We add intelligent AI features to your website that work around the clock. Whether it's a chatbot that qualifies leads, a voice agent that handles calls, or automated workflows that save your team hours — we build AI that actually works for your business.",
+    features: [
+      "AI chat assistant trained on your business",
+      "Voice agent via Twilio + ElevenLabs",
+      "Lead qualification & smart routing",
+      "Automated email follow-ups",
+      "CRM & calendar integration",
+      "Ongoing AI training & updates",
+    ],
+  },
+  {
+    number: "03",
+    name: "Landing Pages",
+    tags: ["Conversion", "Performance", "A/B Testing", "SEO"],
+    description:
+      "Every dollar you spend on ads needs a page that converts. We build high-performance landing pages designed for one purpose: getting the lead, the sale, or the sign-up. Fast, focused, and built to maximize your ad ROI.",
+    features: [
+      "Single-purpose conversion design",
+      "Sub-2s load time guaranteed",
+      "A/B testing ready setup",
+      "Heatmap & analytics integration",
+      "Ad platform compliance (Google, Meta)",
+      "7-day delivery available",
+    ],
+  },
+  {
+    number: "04",
+    name: "Website Redesign",
+    tags: ["Audit", "UX Redesign", "Migration", "Performance"],
+    description:
+      "Your existing site may be holding your business back. We audit, redesign, and rebuild your website with a focus on modern UX, speed, and conversion. You keep your content and brand voice — we give you a site that works like it should.",
+    features: [
+      "Full UX & performance audit",
+      "Brand-aligned visual redesign",
+      "Content migration included",
+      "SEO preservation & improvement",
+      "Zero downtime launch",
+      "30-day post-launch support",
+    ],
+  },
+];
+
+// ─── ServiceDetail row component ──────────────────────────────────────────
+
+function ServiceDetail({
+  service,
+}: {
+  service: (typeof services)[0];
+}) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <motion.div
+      whileInView={{ opacity: 1, y: 0 }}
+      initial={{ opacity: 0, y: 32 }}
+      transition={{ duration: 0.8 }}
+      viewport={{ once: true }}
+      style={{
+        borderBottom: "1px solid var(--gray-light)",
+        padding: "80px 60px",
+        display: "grid",
+        gridTemplateColumns: "1fr 2fr",
+        gap: "80px",
+        alignItems: "start",
+      }}
+    >
+      {/* LEFT */}
+      <div>
+        <p
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "13px",
+            color: "var(--gold)",
+            letterSpacing: "0.1em",
+            marginBottom: "16px",
+          }}
+        >
+          {service.number}
+        </p>
+        <h2
+          style={{
+            fontFamily: "var(--font-serif)",
+            fontSize: "clamp(36px, 4vw, 52px)",
+            fontWeight: 300,
+            lineHeight: 1.15,
+            marginBottom: "28px",
+          }}
+        >
+          {service.name}
+        </h2>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+          {service.tags.map((tag) => (
+            <span
+              key={tag}
+              style={{
+                fontSize: "10px",
+                letterSpacing: "0.1em",
+                textTransform: "uppercase",
+                padding: "5px 12px",
+                border: "1px solid var(--gray-light)",
+                color: "var(--gray)",
+              }}
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* RIGHT */}
+      <div>
+        <p
+          style={{
+            fontSize: "16px",
+            color: "var(--gray)",
+            lineHeight: 1.8,
+            marginBottom: "40px",
+          }}
+        >
+          {service.description}
+        </p>
+
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: "0 0 48px 0",
+            display: "flex",
+            flexDirection: "column",
+            gap: "14px",
+          }}
+        >
+          {service.features.map((feature) => (
+            <li
+              key={feature}
+              style={{
+                fontSize: "14px",
+                color: "var(--black)",
+                display: "flex",
+                alignItems: "baseline",
+                gap: "12px",
+              }}
+            >
+              <span
+                style={{
+                  color: "var(--gold)",
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "16px",
+                  flexShrink: 0,
+                }}
+              >
+                —
+              </span>
+              {feature}
+            </li>
+          ))}
+        </ul>
+
+        <Link
+          to="/contact"
+          className="btn-ghost-bs"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          style={{ color: hovered ? "var(--black)" : "var(--gray)" }}
+        >
+          Start this project
+        </Link>
+      </div>
+    </motion.div>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────
+
+export default function Services() {
   useTrafficTracker("page_view", "/services");
-
-  const serviceList = [
-    {
-      title: "Web Design & Development",
-      icon: "bi-window-sidebar",
-      desc: "Fast, modern, conversion-focused websites — built with React, TypeScript and premium UX.",
-    },
-    {
-      title: "AI Chat Assistants",
-      icon: "bi-chat-text",
-      desc: "Train AI on your business so it answers questions, captures leads and supports clients 24/7.",
-    },
-    {
-      title: "AI Voice Agents",
-      icon: "bi-mic-fill",
-      desc: "AI that answers phone calls, books appointments and handles clients just like a real assistant.",
-    },
-    {
-      title: "Business Automation",
-      icon: "bi-lightning-charge",
-      desc: "Automate repetitive tasks, reminders, emails and workflows to save time and eliminate chaos.",
-    },
-    {
-      title: "Custom Dashboards",
-      icon: "bi-speedometer2",
-      desc: "Real-time dashboards for analytics, KPIs, lead tracking, operations and team performance.",
-    },
-    {
-      title: "SEO & Growth Systems",
-      icon: "bi-graph-up-arrow",
-      desc: "Rank higher, drive organic traffic, and turn your website into a real client-acquisition machine.",
-    },
-    {
-      title: "Content & Copywriting",
-      icon: "bi-pencil-square",
-      desc: "Clear, confident and SEO-optimized content for websites, automations, funnels and emails.",
-    },
-    {
-      title: "Multilingual Experiences",
-      icon: "bi-translate",
-      desc: "Websites and AI agents that speak English, Spanish and more — instantly and naturally.",
-    },
-    {
-      title: "Custom Web Apps",
-      icon: "bi-kanban",
-      desc: "From portals to workflows — scalable, secure, fully custom applications built for your business.",
-    },
-  ];
-
-  const transformationList = [
-    "A website that sells for you — even when you're offline.",
-    "AI answering calls, booking leads, and sending confirmations automatically.",
-    "Dashboards showing leads, KPIs and real-time activity in one place.",
-    "Emails, follow-ups and reminders handled automatically with your voice & tone.",
-    "A fast multilingual experience where every client feels understood.",
-    "Animations, video headers, smart CTAs and UX that convert more traffic.",
-  ];
 
   return (
     <>
       <Helmet>
-        <title>Web & AI Services | Batistack Development</title>
+        <title>Services | Batistack</title>
         <meta
           name="description"
-          content="Premium websites, AI assistants, automations and dashboards built with clarity, performance and strategy. Explore Batistack's full service suite."
+          content="Custom web design, AI integration, landing pages, and website redesigns. Batistack builds digital tools that grow your business."
         />
-        <meta
-          name="keywords"
-          content="web design, AI chatbots, AI voice agents, dashboards, automation, SEO, Batistack, NYC developer"
-        />
-        <meta property="og:title" content="Web & AI Services | Batistack" />
-        <meta
-          property="og:description"
-          content="Explore Batistack’s premium digital services — websites, AI systems, dashboards and automation."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://batistack.com/services" />
-        <link rel="canonical" href="https://batistack.com/services" />
       </Helmet>
 
       <div
         style={{
-          background:
-            "radial-gradient(circle at top, #020617 0%, #020617 45%, #000 100%)",
-          color: "#f8fafc",
+          background: "var(--off-white)",
+          color: "var(--black)",
           overflowX: "hidden",
-          fontFamily:
-            '-apple-system, system-ui, BlinkMacSystemFont, "Inter", sans-serif',
         }}
       >
-        <HeroSection
-          title="Think It. Code It. Launch It."
-          description="Premium websites, AI systems and smart automations — built with clarity, speed and intention."
-          buttonText="Start Your Project"
-          buttonHref="/contact"
-        />
-
+        {/* ── HERO ────────────────────────────────────── */}
         <section
           style={{
-            padding: "5.5rem 0",
-            borderTop: "1px solid rgba(148,163,184,0.35)",
-            background: "rgba(15,23,42,0.96)",
+            paddingTop: "160px",
+            padding: "160px 60px 100px",
+            background: "var(--off-white)",
           }}
         >
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+          <motion.div
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 32 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <SectionLabel>What We Build</SectionLabel>
+            <h1
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "90px",
+                fontWeight: 300,
+                lineHeight: 1.05,
+                maxWidth: "760px",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: "Services built<br/>for <em>real results</em>",
+              }}
+            />
+            <p
+              style={{
+                fontSize: "16px",
+                color: "var(--gray)",
+                maxWidth: "520px",
+                marginTop: "24px",
+                lineHeight: 1.7,
+              }}
             >
-              <h2
-                className="fw-bold mb-3"
-                style={{ fontSize: "clamp(2.2rem, 3vw, 3rem)" }}
-              >
-                What We Deliver
-              </h2>
-              <p
-                style={{
-                  maxWidth: 720,
-                  margin: "0 auto",
-                  color: "#cbd5e1",
-                  fontSize: "1.1rem",
-                }}
-              >
-                Everything you need to run, automate, grow and scale your
-                business online — without the stress.
-              </p>
-            </motion.div>
+              Every service we offer is designed to drive measurable growth for
+              your business — from first visit to loyal customer.
+            </p>
+          </motion.div>
 
-            <Row className="gy-4">
-              {serviceList.map((item, i) => (
-                <Col md={4} key={item.title}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 40 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                    style={{
-                      padding: 26,
-                      borderRadius: 24,
-                      background: "rgba(2,6,23,0.85)",
-                      border: "1px solid rgba(148,163,184,0.45)",
-                      backdropFilter: "blur(18px)",
-                      boxShadow: "0 18px 45px rgba(0,0,0,0.6)",
-                      height: "100%",
-                    }}
-                  >
-                    <i
-                      className={`bi ${item.icon}`}
-                      style={{
-                        fontSize: "2.8rem",
-                        color: "#38bdf8",
-                        display: "block",
-                        marginBottom: 14,
-                      }}
-                    />
-                    <h5 className="fw-bold mb-2">{item.title}</h5>
-                    <p style={{ color: "#e2e8f0", fontSize: "0.98rem" }}>
-                      {item.desc}
-                    </p>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-          </Container>
+          {/* Decorative line */}
+          <div
+            style={{
+              borderTop: "1px solid var(--gray-light)",
+              marginTop: "60px",
+            }}
+          />
         </section>
 
+        {/* ── SERVICE DETAIL SECTIONS ─────────────────── */}
+        <div>
+          {services.map((service) => (
+            <ServiceDetail key={service.number} service={service} />
+          ))}
+        </div>
+
+        {/* ── SERVICE OVERVIEW CARDS ──────────────────── */}
         <section
           style={{
-            padding: "5.5rem 0",
-            borderTop: "1px solid rgba(148,163,184,0.35)",
-            background: "#020617",
+            padding: "100px 60px",
+            borderBottom: "1px solid var(--gray-light)",
           }}
         >
-          <Container>
-            <motion.div
-              className="text-center mb-5"
-              initial={{ opacity: 0, y: 36 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
+          <motion.div
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 32 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            style={{ marginBottom: "60px" }}
+          >
+            <SectionLabel>At a Glance</SectionLabel>
+            <h2
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "clamp(36px, 4vw, 52px)",
+                fontWeight: 300,
+                lineHeight: 1.15,
+              }}
             >
-              <h2
-                style={{
-                  fontSize: "clamp(2.2rem, 3vw, 3rem)",
-                  fontWeight: 700,
-                }}
-              >
-                What If Your Business Had This?
-              </h2>
-              <p
-                style={{
-                  color: "#cbd5e1",
-                  maxWidth: 700,
-                  margin: "0 auto",
-                  fontSize: "1.1rem",
-                }}
-              >
-                Imagine your entire digital system working for you — automatically.
-              </p>
-            </motion.div>
+              Everything we offer.
+            </h2>
+          </motion.div>
 
-            <Row className="g-4">
-              {transformationList.map((item, i) => (
-                <Col md={6} key={i}>
-                  <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: i * 0.1 }}
-                    viewport={{ once: true }}
-                    style={{
-                      padding: 22,
-                      borderRadius: 20,
-                      background: "rgba(15,23,42,0.88)",
-                      border: "1px solid rgba(148,163,184,0.4)",
-                      backdropFilter: "blur(14px)",
-                      boxShadow: "0 18px 40px rgba(0,0,0,0.6)",
-                    }}
-                  >
-                    <p style={{ fontSize: "1.05rem", margin: 0 }}>
-                      {item}
-                    </p>
-                  </motion.div>
-                </Col>
-              ))}
-            </Row>
-
-            <motion.div
-              className="text-center mt-5"
-              initial={{ opacity: 0, y: 35 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              viewport={{ once: true }}
-            >
-              <h3 className="fw-bold mb-4">
-                It’s not a dream.{" "}
-                <span style={{ color: "#38bdf8" }}>It’s Batistack.</span>
-              </h3>
-              <AnimatedButton text="Let’s Build It" href="/contact" />
-            </motion.div>
-          </Container>
+          <div
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gap: "2px",
+              background: "var(--gray-light)",
+            }}
+          >
+            {services.map((service) => (
+              <ServiceCard
+                key={service.number}
+                number={service.number}
+                title={service.name}
+                description={service.description}
+                tags={service.tags}
+              />
+            ))}
+          </div>
         </section>
 
-        <Footer />
+        {/* ── CTA BAND ────────────────────────────────── */}
+        <section
+          style={{
+            background: "var(--black)",
+            padding: "100px 60px",
+            textAlign: "center",
+          }}
+        >
+          <motion.div
+            whileInView={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 32 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+          >
+            <h2
+              style={{
+                fontFamily: "var(--font-serif)",
+                fontSize: "64px",
+                fontWeight: 300,
+                color: "#fff",
+                lineHeight: 1.1,
+              }}
+              dangerouslySetInnerHTML={{
+                __html: "Ready to build<br/>something <em>great?</em>",
+              }}
+            />
+            <p
+              style={{
+                fontSize: "16px",
+                color: "#777",
+                marginTop: "20px",
+                maxWidth: "480px",
+                margin: "20px auto 0",
+                lineHeight: 1.7,
+              }}
+            >
+              Tell us about your project and we'll put together a plan that fits
+              your goals, timeline, and budget.
+            </p>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                gap: "20px",
+                marginTop: "48px",
+                flexWrap: "wrap",
+                alignItems: "center",
+              }}
+            >
+              <Link
+                to="/contact"
+                className="btn-primary-bs"
+                style={{
+                  background: "var(--off-white)",
+                  color: "var(--black)",
+                }}
+              >
+                Start a Project
+              </Link>
+              <Link
+                to="/speedPage"
+                className="btn-ghost-bs"
+                style={{ color: "#fff" }}
+              >
+                Free Website Audit
+              </Link>
+            </div>
+          </motion.div>
+        </section>
       </div>
     </>
   );
 }
-
-export default Services;

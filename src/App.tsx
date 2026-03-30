@@ -14,7 +14,11 @@ import ApplicationsCenter from "./Pages/ApplicationsCenter";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
 import WebsiteAudit from "./Pages/WebsiteAudit";
-import "./global.css"
+import CustomCursor from "./components/CustomCursor";
+import Footer from "./components/Footer";
+import "./global.css";
+import "./styles/globals.css";
+
 function App() {
   const location = useLocation();
   const { isAuthenticated } = useAuth();
@@ -23,27 +27,29 @@ function App() {
     trackPageView(location.pathname + location.search);
   }, [location]);
 
+  const hideChrome = ["/dashboardPage", "/login"].includes(location.pathname);
+  const hideFooter = ["/dashboardPage", "/login"].includes(location.pathname);
+
   return (
     <>
+      <CustomCursor />
       <ScrollToTop />
-      <NavBar />
+      {!hideChrome && <NavBar />}
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/speedPage" element={<WebsiteAudit />} />
-        <Route path="/services" element={<Services />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/contact" element={<ContactForm />} />
+        <Route path="/"             element={<Home />} />
+        <Route path="/about"        element={<About />} />
+        <Route path="/speedPage"    element={<WebsiteAudit />} />
+        <Route path="/services"     element={<Services />} />
+        <Route path="/login"        element={<Login />} />
+        <Route path="/contact"      element={<ContactForm />} />
         <Route path="/applications" element={<ApplicationsCenter />} />
-       
-
-        <Route path="/policy" element={<PrivacyPolicy />} />
-
+        <Route path="/policy"       element={<PrivacyPolicy />} />
         <Route
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}
         />
       </Routes>
+      {!hideFooter && <Footer />}
       <ChatBot />
     </>
   );
