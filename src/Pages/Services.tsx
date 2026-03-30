@@ -82,6 +82,7 @@ function ServiceDetail({
 
   return (
     <motion.div
+      className="services-detail-row"
       whileInView={{ opacity: 1, y: 0 }}
       initial={{ opacity: 0, y: 32 }}
       transition={{ duration: 0.8 }}
@@ -225,6 +226,7 @@ export default function Services() {
       >
         {/* ── HERO ────────────────────────────────────── */}
         <section
+          className="services-page-hero"
           style={{
             paddingTop: "160px",
             padding: "160px 60px 100px",
@@ -241,7 +243,7 @@ export default function Services() {
             <h1
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "90px",
+                fontSize: "clamp(44px, 8vw, 90px)",
                 fontWeight: 300,
                 lineHeight: 1.05,
                 maxWidth: "760px",
@@ -331,6 +333,7 @@ export default function Services() {
 
         {/* ── CTA BAND ────────────────────────────────── */}
         <section
+          className="services-page-cta"
           style={{
             background: "var(--black)",
             padding: "100px 60px",
@@ -346,7 +349,7 @@ export default function Services() {
             <h2
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "64px",
+                fontSize: "clamp(36px, 6vw, 64px)",
                 fontWeight: 300,
                 color: "#fff",
                 lineHeight: 1.1,
@@ -401,6 +404,20 @@ export default function Services() {
         </section>
 
         <style>{`
+          @media (max-width: 900px) {
+            .services-page-hero,
+            .services-page-cta {
+              padding-left: 28px !important;
+              padding-right: 28px !important;
+            }
+
+            .services-detail-row {
+              grid-template-columns: 1fr !important;
+              gap: 36px !important;
+              padding: 64px 28px !important;
+            }
+          }
+
           @media (max-width: 1100px) {
             .services-overview-grid {
               grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
@@ -408,6 +425,8 @@ export default function Services() {
           }
 
           @media (max-width: 768px) {
+            .services-page-hero,
+            .services-page-cta,
             .services-overview-section {
               padding: 80px 28px !important;
             }

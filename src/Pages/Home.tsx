@@ -261,7 +261,7 @@ export default function Home() {
             transition={{ duration: 0.7, delay: 0.4 }}
             style={{
               fontFamily: "var(--font-serif)",
-              fontSize: "clamp(56px, 6vw, 90px)",
+              fontSize: "clamp(42px, 8vw, 90px)",
               fontWeight: 400,
               lineHeight: 1.05,
               color: "var(--black)",

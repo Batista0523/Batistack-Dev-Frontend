@@ -92,6 +92,7 @@ export default function About() {
       </Helmet>
 
       <div
+        className="about-page"
         style={{
           background: "var(--off-white)",
           color: "var(--black)",
@@ -99,7 +100,7 @@ export default function About() {
         }}
       >
         {/* ── HERO ────────────────────────────────────── */}
-        <section style={{ padding: "160px 60px 100px" }}>
+        <section className="about-hero" style={{ padding: "160px 60px 100px" }}>
           <motion.div
             whileInView={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 32 }}
@@ -110,10 +111,11 @@ export default function About() {
             <h1
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "clamp(60px, 6vw, 90px)",
+                fontSize: "clamp(42px, 8vw, 90px)",
                 fontWeight: 300,
                 lineHeight: 1.05,
                 maxWidth: "760px",
+                overflowWrap: "anywhere",
               }}
               dangerouslySetInnerHTML={{
                 __html: "Built in New York.<br/><em>Driven by results.</em>",
@@ -145,6 +147,7 @@ export default function About() {
 
         {/* ── STORY SECTION ───────────────────────────── */}
         <section
+          className="about-story"
           style={{
             padding: "100px 60px",
             borderBottom: "1px solid var(--gray-light)",
@@ -226,6 +229,7 @@ export default function About() {
 
         {/* ── VALUES SECTION ──────────────────────────── */}
         <section
+          className="about-values"
           style={{
             padding: "100px 60px",
             borderBottom: "1px solid var(--gray-light)",
@@ -251,6 +255,7 @@ export default function About() {
           </motion.div>
 
           <motion.div
+            className="about-values-grid"
             whileInView={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 32 }}
             transition={{ duration: 0.8, delay: 0.1 }}
@@ -271,6 +276,7 @@ export default function About() {
 
         {/* ── FOUNDER SECTION ─────────────────────────── */}
         <section
+          className="about-founder"
           style={{
             padding: "100px 60px",
             background: "var(--cream)",
@@ -282,6 +288,7 @@ export default function About() {
         >
           {/* Left — quote */}
           <motion.div
+            className="about-founder-quote"
             whileInView={{ opacity: 1, y: 0 }}
             initial={{ opacity: 0, y: 32 }}
             transition={{ duration: 0.8 }}
@@ -290,7 +297,7 @@ export default function About() {
             <span
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "80px",
+                fontSize: "clamp(52px, 8vw, 80px)",
                 color: "var(--gold)",
                 lineHeight: 0.6,
                 display: "block",
@@ -302,11 +309,13 @@ export default function About() {
             <p
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "64px",
+                fontSize: "clamp(34px, 5vw, 64px)",
                 fontWeight: 300,
                 lineHeight: 1.15,
                 color: "var(--black)",
                 margin: 0,
+                maxWidth: "18ch",
+                overflowWrap: "anywhere",
               }}
             >
               I started Batistack because I was tired of seeing small businesses
@@ -316,7 +325,7 @@ export default function About() {
             <span
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "80px",
+                fontSize: "clamp(52px, 8vw, 80px)",
                 color: "var(--gold)",
                 lineHeight: 0.4,
                 display: "block",
@@ -401,6 +410,7 @@ export default function About() {
 
         {/* ── CTA ─────────────────────────────────────── */}
         <section
+          className="about-cta"
           style={{
             padding: "100px 60px",
             background: "var(--black)",
@@ -416,7 +426,7 @@ export default function About() {
             <h2
               style={{
                 fontFamily: "var(--font-serif)",
-                fontSize: "56px",
+                fontSize: "clamp(36px, 5vw, 56px)",
                 fontWeight: 300,
                 color: "#fff",
                 lineHeight: 1.15,
@@ -432,6 +442,62 @@ export default function About() {
             </Link>
           </motion.div>
         </section>
+
+        <style>{`
+          @media (max-width: 900px) {
+            .about-hero,
+            .about-story,
+            .about-values,
+            .about-founder,
+            .about-cta {
+              padding-left: 28px !important;
+              padding-right: 28px !important;
+            }
+
+            .about-hero {
+              padding-top: 132px !important;
+              padding-bottom: 72px !important;
+            }
+
+            .about-story,
+            .about-founder {
+              grid-template-columns: 1fr !important;
+              gap: 48px !important;
+            }
+
+            .about-values-grid {
+              grid-template-columns: 1fr !important;
+              margin-top: 40px !important;
+            }
+
+            .about-founder-quote {
+              order: 2;
+            }
+          }
+
+          @media (max-width: 640px) {
+            .about-hero,
+            .about-story,
+            .about-values,
+            .about-founder,
+            .about-cta {
+              padding-left: 24px !important;
+              padding-right: 24px !important;
+            }
+
+            .about-story,
+            .about-values,
+            .about-founder,
+            .about-cta {
+              padding-top: 72px !important;
+              padding-bottom: 72px !important;
+            }
+
+            .about-founder-quote p {
+              max-width: none !important;
+            }
+          }
+        `}</style>
       </div>
     </>
   );
