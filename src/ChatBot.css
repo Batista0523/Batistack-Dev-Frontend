@@ -99,6 +99,28 @@
   z-index: 99999;
   display: flex;
   flex-direction: column;
+  cursor: auto;
+}
+
+.chatbot-panel * {
+  cursor: auto;
+}
+
+.chatbot-panel input,
+.chatbot-panel textarea {
+  cursor: text !important;
+}
+
+.chatbot-panel button,
+.chatbot-panel a,
+.chatbot-panel select,
+.chatbot-panel summary,
+.chatbot-panel [role="button"] {
+  cursor: pointer !important;
+}
+
+.chatbot-backdrop {
+  cursor: auto;
 }
 
 .chatbot-header {

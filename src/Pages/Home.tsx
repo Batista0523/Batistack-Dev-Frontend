@@ -85,7 +85,7 @@ function AIFeatureRow({ icon, name, desc }: { icon: string; name: string; desc: 
         >
           {name}
         </p>
-        <p style={{ fontSize: "13px", color: "#777", lineHeight: 1.7, margin: 0 }}>{desc}</p>
+        <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.75, margin: 0 }}>{desc}</p>
       </div>
     </div>
   );
@@ -140,7 +140,7 @@ function ProcessStep({
       >
         {title}
       </p>
-      <p style={{ fontSize: "13px", color: "var(--gray)", lineHeight: 1.7, margin: 0 }}>{desc}</p>
+      <p style={{ fontSize: "14px", color: "var(--gray)", lineHeight: 1.75, margin: 0 }}>{desc}</p>
     </div>
   );
 }
@@ -262,7 +262,7 @@ export default function Home() {
             style={{
               fontFamily: "var(--font-serif)",
               fontSize: "clamp(56px, 6vw, 90px)",
-              fontWeight: 300,
+              fontWeight: 400,
               lineHeight: 1.05,
               color: "var(--black)",
               margin: 0,
@@ -300,9 +300,6 @@ export default function Home() {
           >
             <Link to="/contact" className="btn-primary-bs">
               Start a Project
-            </Link>
-            <Link to="/services" className="btn-ghost-bs">
-              See our work
             </Link>
           </motion.div>
         </div>
@@ -563,11 +560,11 @@ export default function Home() {
             </h2>
             <p
               style={{
-                fontSize: "15px",
+                fontSize: "16px",
                 color: "var(--gray)",
-                lineHeight: 1.7,
+                lineHeight: 1.75,
                 marginTop: "24px",
-                maxWidth: "320px",
+                maxWidth: "340px",
               }}
             >
               Every project we take on is built with purpose — designed to reflect your brand and
@@ -735,7 +732,7 @@ export default function Home() {
               <br />
               for you 24/7
             </h2>
-            <p style={{ fontSize: "15px", color: "#777", lineHeight: 1.7, maxWidth: "380px", margin: 0 }}>
+            <p style={{ fontSize: "16px", color: "#777", lineHeight: 1.75, maxWidth: "400px", margin: 0 }}>
               Modern AI tools integrated directly into your website can answer questions, qualify
               leads, and automate follow-ups — while you focus on running your business.
             </p>

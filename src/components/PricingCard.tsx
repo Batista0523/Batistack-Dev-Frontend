@@ -90,10 +90,11 @@ export default function PricingCard({ tier, price, period, features, featured, b
           <li
             key={f}
             style={{
-              fontSize: "14px",
+              fontSize: "15px",
               color: featured ? "#aaa" : "var(--gray)",
               display: "flex",
               gap: "12px",
+              lineHeight: 1.7,
               alignItems: "flex-start",
             }}
           >

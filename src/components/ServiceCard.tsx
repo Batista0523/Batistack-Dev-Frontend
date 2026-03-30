@@ -57,7 +57,7 @@ export default function ServiceCard({ number, title, description, tags }: Servic
       >
         {title}
       </h3>
-      <p style={{ fontSize: "14px", lineHeight: 1.7, color: "var(--gray)" }}>
+      <p style={{ fontSize: "15px", lineHeight: 1.75, color: "var(--gray)" }}>
         {description}
       </p>
       <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "24px" }}>
