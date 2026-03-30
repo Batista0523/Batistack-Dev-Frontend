@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
-import images from "../images";
 import "../ChatBot.css";
 import ChatHeader from "./chatbot/ChatHeader";
 import ChatMessages from "./chatbot/ChatMessages";
 import ChatInput from "./chatbot/ChatInput";
+import ChatBrand from "./chatbot/ChatBrand";
 import type { ChatMessage } from "./chatbot/types";
 
 const widgetMotion = {
@@ -128,14 +128,14 @@ function ChatBot() {
           <motion.button
             {...widgetMotion}
             type="button"
-            className="chatbot-trigger cursor-hover"
+            className="chatbot-trigger"
             onClick={() => setOpen(true)}
             whileHover={{ y: -4, scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             aria-label="Open Batistack AI chat"
           >
             <span className="chatbot-trigger-ring" />
-            <img src={images.logo2} alt="Batistack AI" className="chatbot-trigger-image" />
+            <ChatBrand compact />
           </motion.button>
         )}
       </AnimatePresence>
@@ -143,14 +143,14 @@ function ChatBot() {
       <AnimatePresence>
         {open && (
           <>
-            <motion.button
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               className="chatbot-backdrop"
               onClick={() => setOpen(false)}
-              aria-label="Close chat overlay"
+              aria-hidden="true"
             />
             <motion.section
               {...panelMotion}

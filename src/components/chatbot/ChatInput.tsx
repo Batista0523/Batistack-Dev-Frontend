@@ -28,7 +28,7 @@ function ChatInput({ value, loading, onChange, onSend }: ChatInputProps) {
 
         <motion.button
           type="button"
-          className="chatbot-send-button cursor-hover"
+          className="chatbot-send-button"
           onClick={onSend}
           disabled={!canSend}
           whileHover={canSend ? { y: -1, scale: 1.02 } : undefined}

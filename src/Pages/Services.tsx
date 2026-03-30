@@ -286,6 +286,7 @@ export default function Services() {
             padding: "100px 60px",
             borderBottom: "1px solid var(--gray-light)",
           }}
+          className="services-overview-section"
         >
           <motion.div
             whileInView={{ opacity: 1, y: 0 }}
@@ -308,9 +309,10 @@ export default function Services() {
           </motion.div>
 
           <div
+            className="services-overview-grid"
             style={{
               display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
+              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
               gap: "2px",
               background: "var(--gray-light)",
             }}
@@ -397,6 +399,24 @@ export default function Services() {
             </div>
           </motion.div>
         </section>
+
+        <style>{`
+          @media (max-width: 1100px) {
+            .services-overview-grid {
+              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+            }
+          }
+
+          @media (max-width: 768px) {
+            .services-overview-section {
+              padding: 80px 28px !important;
+            }
+
+            .services-overview-grid {
+              grid-template-columns: 1fr !important;
+            }
+          }
+        `}</style>
       </div>
     </>
   );

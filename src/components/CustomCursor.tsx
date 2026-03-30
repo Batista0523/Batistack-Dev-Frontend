@@ -1,5 +1,11 @@
 import { useEffect, useRef } from "react";
 
+const CURSOR_HIDE_SELECTOR =
+  "input, textarea, select, button, summary, [contenteditable='true'], .chatbot-panel, .chatbot-trigger";
+
+const CURSOR_EXPAND_SELECTOR =
+  "a, .service-card, .step, .ai-feature, .pricing-card, [data-cursor-expand]";
+
 export default function CustomCursor() {
   const dotRef  = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
@@ -9,9 +15,33 @@ export default function CustomCursor() {
     let rx = 0, ry = 0;
     let rafId: number;
 
+    const setHidden = (hidden: boolean) => {
+      dotRef.current?.classList.toggle("cursor-hidden", hidden);
+      ringRef.current?.classList.toggle("cursor-hidden", hidden);
+    };
+
+    const setExpanded = (expanded: boolean) => {
+      ringRef.current?.classList.toggle("expand", expanded);
+    };
+
+    const syncCursorState = (target: EventTarget | null) => {
+      if (!(target instanceof Element)) {
+        setHidden(false);
+        setExpanded(false);
+        return;
+      }
+
+      const shouldHide = Boolean(target.closest(CURSOR_HIDE_SELECTOR));
+      const shouldExpand = !shouldHide && Boolean(target.closest(CURSOR_EXPAND_SELECTOR));
+
+      setHidden(shouldHide);
+      setExpanded(shouldExpand);
+    };
+
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
+      syncCursorState(e.target);
       if (dotRef.current) {
         dotRef.current.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
       }
@@ -27,40 +57,21 @@ export default function CustomCursor() {
     };
     animate();
 
-    const onEnter = () => ringRef.current?.classList.add("expand");
-    const onLeave = () => ringRef.current?.classList.remove("expand");
-
-    const interactives = document.querySelectorAll(
-      "a, button, .service-card, .step, .ai-feature, .pricing-card, [data-cursor-expand]"
-    );
-    interactives.forEach((el) => {
-      el.addEventListener("mouseenter", onEnter);
-      el.addEventListener("mouseleave", onLeave);
-    });
-
-    // Use MutationObserver to catch dynamically added elements
-    const observer = new MutationObserver(() => {
-      document.querySelectorAll(
-        "a, button, .service-card, .step, .ai-feature, .pricing-card, [data-cursor-expand]"
-      ).forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-        el.addEventListener("mouseenter", onEnter);
-        el.addEventListener("mouseleave", onLeave);
-      });
-    });
-    observer.observe(document.body, { childList: true, subtree: true });
+    const onFocusIn = (e: FocusEvent) => syncCursorState(e.target);
+    const onFocusOut = () => {
+      const activeElement = document.activeElement;
+      syncCursorState(activeElement);
+    };
 
     document.addEventListener("mousemove", onMove);
+    document.addEventListener("focusin", onFocusIn);
+    document.addEventListener("focusout", onFocusOut);
 
     return () => {
       document.removeEventListener("mousemove", onMove);
+      document.removeEventListener("focusin", onFocusIn);
+      document.removeEventListener("focusout", onFocusOut);
       cancelAnimationFrame(rafId);
-      observer.disconnect();
-      interactives.forEach((el) => {
-        el.removeEventListener("mouseenter", onEnter);
-        el.removeEventListener("mouseleave", onLeave);
-      });
     };
   }, []);
 
