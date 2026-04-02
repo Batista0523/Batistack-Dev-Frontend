@@ -159,7 +159,8 @@ function Dashboard() {
         {/* ── SIDEBAR ── */}
         <aside className="dashboard-sidebar">
           <div className="dashboard-sidebar-brand">
-            Bati<span>stack</span>
+            <span className="dashboard-sidebar-brand-bati">BATI</span>
+            <span className="dashboard-sidebar-brand-stack">STACK</span>
           </div>
           <p className="dashboard-sidebar-label">Navigation</p>
           <ul className="dashboard-sidebar-nav">

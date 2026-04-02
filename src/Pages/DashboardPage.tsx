@@ -14,9 +14,7 @@ function DashboardPage() {
         <meta name="author" content="Batistack Development" />
       </Helmet>
 
-      <div>
-        <Dashboard />
-      </div>
+      <Dashboard />
     </>
   );
 }

@@ -1,82 +1,258 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
+
+const NAV_LINKS = [
+  { label: "Services", to: "/services"  },
+  { label: "Work",     to: "/speedPage" },
+  { label: "About",    to: "/about"     },
+  { label: "Pricing",  to: "/pricing"   },
+  { label: "Contact",  to: "/contact"   },
+];
 
 export default function Footer() {
   return (
     <footer
-      className="site-footer"
       style={{
-        background: "var(--black)",
-        color: "var(--off-white)",
-        padding: "60px clamp(28px, 5vw, 60px)",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        flexWrap: "wrap",
-        gap: "24px",
+        background:  "var(--void)",
+        borderTop:   "1px solid var(--smoke)",
+        padding:     "80px 0 40px",
       }}
     >
-      {/* Logo */}
+      {/* Main container */}
       <div
+        className="footer-container"
         style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "24px",
-          fontWeight: 300,
-          letterSpacing: "0.04em",
+          maxWidth: "1280px",
+          margin:   "0 auto",
+          padding:  "0 60px",
         }}
       >
-        Bati<span style={{ color: "var(--gold)" }}>stack</span>
-      </div>
-
-      {/* Copyright */}
-      <p
-        style={{
-          fontSize: "12px",
-          color: "#555",
-          letterSpacing: "0.06em",
-          textAlign: "center",
-          margin: 0,
-        }}
-      >
-        © {new Date().getFullYear()} Batistack Development Corp. · New York City
-      </p>
-
-      {/* Links */}
-      <ul
-        style={{
-          display: "flex",
-          gap: "32px",
-          listStyle: "none",
-          margin: 0,
-          padding: 0,
-          flexWrap: "wrap",
-        }}
-      >
-        {[
-          { label: "Services", to: "/services" },
-          { label: "About",    to: "/about"    },
-          { label: "Contact",  to: "/contact"  },
-          { label: "Privacy",  to: "/policy"   },
-          { label: "Applications", to: "/applications" },
-        ].map((l) => (
-          <li key={l.to}>
+        {/* 3-column row */}
+        <div
+          className="footer-grid"
+          style={{
+            display:         "flex",
+            justifyContent:  "space-between",
+            gap:             "40px",
+          }}
+        >
+          {/* Column 1 — Logo + tagline */}
+          <div>
             <Link
-              to={l.to}
+              to="/"
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "baseline", gap: 0 }}
+            >
+              <span
+                style={{
+                  fontFamily:    "var(--font-display)",
+                  fontSize:      "28px",
+                  color:         "var(--bone)",
+                  letterSpacing: "0.04em",
+                  lineHeight:    1,
+                }}
+              >
+                BATI
+              </span>
+              <span
+                style={{
+                  fontFamily:    "var(--font-serif)",
+                  fontStyle:     "italic",
+                  fontSize:      "28px",
+                  color:         "var(--gold)",
+                  letterSpacing: "0.02em",
+                  lineHeight:    1,
+                }}
+              >
+                STACK
+              </span>
+            </Link>
+            <p
               style={{
-                fontSize: "11px",
+                fontFamily:  "var(--font-serif)",
+                fontStyle:   "italic",
+                fontSize:    "18px",
+                color:       "var(--mist)",
+                marginTop:   "12px",
+                lineHeight:  1.5,
+              }}
+            >
+              Built in New York. Powered by AI.
+            </p>
+          </div>
+
+          {/* Column 2 — Nav links */}
+          <nav>
+            <ul
+              style={{
+                listStyle:     "none",
+                padding:       0,
+                margin:        0,
+                display:       "flex",
+                flexDirection: "column",
+                gap:           "14px",
+              }}
+            >
+              {NAV_LINKS.map((link) => (
+                <li key={link.to}>
+                  <FooterNavLink to={link.to} label={link.label} />
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Column 3 — Contact */}
+          <div
+            style={{
+              display:       "flex",
+              flexDirection: "column",
+              gap:           "10px",
+            }}
+          >
+            <FooterEmailLink />
+            <span
+              style={{
+                fontFamily:    "var(--font-sans)",
+                fontSize:      "11px",
+                color:         "var(--mist)",
+                letterSpacing: "0.05em",
+              }}
+            >
+              NYC, New York
+            </span>
+            <span
+              style={{
+                fontFamily:    "var(--font-sans)",
+                fontSize:      "10px",
+                color:         "var(--mist)",
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#555",
-                textDecoration: "none",
-                transition: "color 0.25s",
+                opacity:       0.7,
               }}
-              onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.color = "var(--gold)")}
-              onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.color = "#555")}
             >
-              {l.label}
-            </Link>
-          </li>
-        ))}
-      </ul>
+              Available for new projects
+            </span>
+          </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div
+          className="footer-bottom"
+          style={{
+            borderTop:      "1px solid var(--smoke)",
+            marginTop:      "60px",
+            paddingTop:     "24px",
+            display:        "flex",
+            justifyContent: "space-between",
+            alignItems:     "center",
+            flexWrap:       "wrap",
+            gap:            "12px",
+          }}
+        >
+          <span
+            style={{
+              fontFamily:    "var(--font-sans)",
+              fontSize:      "11px",
+              color:         "var(--mist)",
+              letterSpacing: "0.04em",
+            }}
+          >
+            © 2024 Batistack Development Corp.
+          </span>
+
+          {/* Decorative gold divider */}
+          <div
+            style={{
+              width:     "1px",
+              height:    "40px",
+              background:"var(--gold-dim)",
+              transform: "rotate(20deg)",
+              opacity:   0.6,
+            }}
+            aria-hidden="true"
+          />
+
+          <span
+            style={{
+              fontFamily:    "var(--font-sans)",
+              fontSize:      "11px",
+              color:         "var(--mist)",
+              letterSpacing: "0.04em",
+            }}
+          >
+            batistack.com
+          </span>
+        </div>
+      </div>
+
+      {/* Responsive styles */}
+      <style>{`
+        @media (max-width: 768px) {
+          .footer-container {
+            padding: 0 24px !important;
+          }
+          .footer-grid {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+          .footer-grid > * {
+            align-items: center !important;
+          }
+          .footer-bottom {
+            flex-direction: column !important;
+            align-items: center !important;
+            text-align: center !important;
+          }
+        }
+      `}</style>
     </footer>
+  );
+}
+
+// ── Sub-components ──────────────────────────────────────────────────────────
+
+function FooterNavLink({ to, label }: { to: string; label: string }) {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <Link
+      to={to}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily:    "var(--font-sans)",
+        fontSize:      "11px",
+        textTransform: "uppercase",
+        letterSpacing: "0.15em",
+        color:         hovered ? "var(--gold)" : "var(--mist)",
+        textDecoration:"none",
+        transition:    "color 0.2s ease",
+        display:       "inline-block",
+      }}
+    >
+      {label}
+    </Link>
+  );
+}
+
+function FooterEmailLink() {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <a
+      href="mailto:elisaul@batistack.com"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily:    "var(--font-sans)",
+        fontSize:      "13px",
+        color:         hovered ? "var(--gold)" : "var(--mist)",
+        textDecoration:"none",
+        transition:    "color 0.2s ease",
+        letterSpacing: "0.02em",
+      }}
+    >
+      elisaul@batistack.com
+    </a>
   );
 }

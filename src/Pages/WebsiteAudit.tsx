@@ -1,76 +1,23 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
-import {
-  FaCheckCircle,
-  FaExclamationTriangle,
-  FaTimesCircle,
-} from "react-icons/fa";
 import { motion } from "framer-motion";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 
-// ─── Design tokens ────────────────────────────────────────────────────────────
-const t = {
-  black: "#0a0a0a",
-  offWhite: "#f5f3ef",
-  cream: "#ede9e1",
-  gold: "#c9a84c",
-  goldLight: "#e8d5a3",
-  gray: "#6b6b6b",
-  grayLight: "#d4d0c8",
-  fontSerif: "'Cormorant Garamond', Georgia, serif",
-  fontSans: "'DM Sans', sans-serif",
-};
+// ─── Preserved logic helpers ──────────────────────────────────────────────────
 
-// ─── URL input with gold underline focus ──────────────────────────────────────
-function GoldUrlInput({
-  value,
-  onChange,
-}: {
-  value: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}) {
-  const [focused, setFocused] = useState(false);
-  return (
-    <input
-      type="url"
-      placeholder="https://yourdomain.com"
-      value={value}
-      onChange={onChange}
-      required
-      className="bs-audit-placeholder"
-      style={{
-        width: "100%",
-        padding: "14px 0",
-        border: "none",
-        borderBottom: `1.5px solid ${focused ? t.gold : t.grayLight}`,
-        background: "transparent",
-        fontFamily: t.fontSans,
-        fontSize: 15,
-        color: t.black,
-        outline: "none",
-        transition: "border-color 0.3s",
-        display: "block",
-        boxSizing: "border-box",
-      }}
-      onFocus={() => setFocused(true)}
-      onBlur={() => setFocused(false)}
-    />
-  );
-}
-
-// ─── Component ────────────────────────────────────────────────────────────────
 function WebsiteAudit() {
   useTrafficTracker("page_view", "/speedPage");
 
   const [url, setUrl] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-  const [recommendation, setRecommendation] = useState("");
+  const [recommendation, setRecommendation] = useState<string[]>([]);
   const [scores, setScores] = useState<any>(null);
   const [progress, setProgress] = useState(0);
   const resultRef = useRef<HTMLDivElement>(null);
   const url1 = import.meta.env.VITE_BASE_URL;
+  const [inputFocused, setInputFocused] = useState(false);
 
   // ── Preserved exactly ──────────────────────────────────────────────────────
   const getScore = (scoresObj: any, label: string): number => {
@@ -85,7 +32,6 @@ function WebsiteAudit() {
 
     if (label === "Best Practices") {
       const altKeys = ["BestPractices"];
-
       for (const key of altKeys) {
         const val = scoresObj[key];
         if (typeof val === "number") return val;
@@ -102,7 +48,7 @@ function WebsiteAudit() {
   const handleAnalyze = async () => {
     setLoading(true);
     setError("");
-    setRecommendation("");
+    setRecommendation([]);
     setScores(null);
     setProgress(0);
 
@@ -120,7 +66,17 @@ function WebsiteAudit() {
       const res = await axios.post(`${url1}/pagespeed`, { domain: url });
       const { recommendations, scores } = res.data;
       setScores(scores);
-      setRecommendation(recommendations);
+      // Handle both string and array responses
+      if (Array.isArray(recommendations)) {
+        setRecommendation(recommendations);
+      } else if (typeof recommendations === "string") {
+        setRecommendation(
+          recommendations
+            .split("\n")
+            .map((l: string) => l.trim())
+            .filter(Boolean)
+        );
+      }
 
       setTimeout(() => {
         resultRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -132,26 +88,35 @@ function WebsiteAudit() {
       window.clearInterval(interval);
     }
   };
-
-  const getIconByScore = (score: number) => {
-    if (score >= 90) return <FaCheckCircle style={{ color: "#2d7a47", marginRight: 8 }} />;
-    if (score >= 70) return <FaExclamationTriangle style={{ color: "#b87333", marginRight: 8 }} />;
-    return <FaTimesCircle style={{ color: "#b93333", marginRight: 8 }} />;
-  };
   // ── End preserved ──────────────────────────────────────────────────────────
 
-  const scoreRating = (n: number) => {
-    if (n >= 90) return "Excellent";
-    if (n >= 70) return "Needs Work";
-    return "Poor";
+  const scoreColor = (n: number) => {
+    if (n >= 90) return "var(--gold)";
+    if (n >= 50) return "#e8a04a";
+    return "#e05c5c";
+  };
+
+  const scoreLabel = (n: number) => {
+    if (n >= 90) return "EXCELLENT";
+    if (n >= 50) return "NEEDS WORK";
+    return "CRITICAL";
   };
 
   const scoreCategories = ["Performance", "Accessibility", "SEO", "Best Practices"];
 
+  // Extract domain name for display
+  const displayDomain = (() => {
+    try {
+      return new URL(url).hostname;
+    } catch {
+      return url;
+    }
+  })();
+
   return (
     <>
       <Helmet>
-        <title>AI Website Audit & Speed Test | Batistack</title>
+        <title>AI Website Audit &amp; Speed Test | Batistack</title>
         <meta
           name="description"
           content="Run an AI-powered audit of your website's performance, SEO, accessibility, and best practices. Get instant scores and clear recommendations from Batistack."
@@ -175,135 +140,154 @@ function WebsiteAudit() {
       </Helmet>
 
       <style>{`
-        .bs-audit-placeholder::placeholder { color: ${t.grayLight}; }
+        .bs-audit-input::placeholder { color: var(--mist); }
+        .bs-audit-input:focus { outline: none; border-color: var(--gold) !important; }
+
+        @keyframes shimmer {
+          0% { transform: translateX(-100%); }
+          100% { transform: translateX(400%); }
+        }
+
         @media (max-width: 768px) {
-          .bs-audit-hero { padding: 120px 28px 60px !important; }
-          .bs-audit-scores { grid-template-columns: 1fr !important; }
-          .bs-audit-info { grid-template-columns: 1fr !important; padding: 0 28px 80px !important; }
+          .bs-audit-scores-grid {
+            grid-template-columns: 1fr 1fr !important;
+          }
+          .bs-audit-container {
+            padding: 0 24px !important;
+          }
         }
       `}</style>
 
-      <div style={{ background: t.offWhite, color: t.black }}>
-
-        {/* ── SECTION 1: HERO / INPUT ──────────────────────────────────────── */}
-        <section
-          className="bs-audit-hero"
-          style={{ padding: "160px 60px 80px", background: t.offWhite }}
-        >
-          <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+      <div
+        style={{
+          background: "var(--void)",
+          color: "var(--bone)",
+          minHeight: "100vh",
+          paddingTop: "120px",
+        }}
+      >
+        {/* ── HERO / INPUT ──────────────────────────────────────────────── */}
+        <section style={{ paddingBottom: "80px" }}>
+          <div className="bs-audit-container" style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}>
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7 }}
             >
-              {/* Section label */}
               <p
                 style={{
-                  fontFamily: t.fontSans,
-                  fontSize: 11,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "11px",
                   letterSpacing: "0.2em",
                   textTransform: "uppercase",
-                  color: t.gold,
-                  marginBottom: 24,
+                  color: "var(--gold)",
+                  marginBottom: "24px",
                 }}
               >
-                Free Website Audit
+                FREE TOOL
               </p>
 
-              {/* Headline */}
               <h1
                 style={{
-                  fontFamily: t.fontSerif,
-                  fontSize: "clamp(48px, 5vw, 80px)",
-                  fontWeight: 300,
-                  lineHeight: 1.05,
-                  color: t.black,
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(60px, 10vw, 120px)",
+                  lineHeight: 0.9,
+                  color: "var(--bone)",
                   margin: "0 0 24px",
                 }}
               >
-                See how your
+                FREE WEBSITE
                 <br />
-                website <em>really</em>
-                <br />
-                performs.
+                AUDIT.
               </h1>
 
-              {/* Subtext */}
               <p
                 style={{
-                  fontFamily: t.fontSans,
-                  fontSize: 16,
-                  color: t.gray,
-                  maxWidth: 520,
-                  lineHeight: 1.8,
-                  margin: "0 0 48px",
+                  fontFamily: "var(--font-serif)",
+                  fontStyle: "italic",
+                  fontSize: "20px",
+                  color: "var(--mist)",
+                  marginBottom: "60px",
+                  lineHeight: 1.5,
                 }}
               >
-                Run a full audit powered by Google Lighthouse + Batistack AI.
-                Get scores for Performance, Accessibility, SEO, and Best
-                Practices — plus AI-generated recommendations.
+                See exactly why you're losing customers to competitors.
               </p>
 
-              {/* URL input area */}
-              <div style={{ maxWidth: 600 }}>
-                <label
-                  style={{
-                    display: "block",
-                    fontFamily: t.fontSans,
-                    fontSize: 10,
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: t.gold,
-                    marginBottom: 10,
-                  }}
-                >
-                  Enter your website URL
-                </label>
-
+              {/* Input form */}
+              <div style={{ maxWidth: "640px" }}>
                 <form
                   onSubmit={(e) => {
                     e.preventDefault();
                     if (!loading && url) handleAnalyze();
                   }}
                 >
-                  <GoldUrlInput
+                  <input
+                    type="url"
+                    placeholder="yourdomain.com"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
+                    required
+                    className="bs-audit-input"
+                    onFocus={() => setInputFocused(true)}
+                    onBlur={() => setInputFocused(false)}
+                    style={{
+                      width: "100%",
+                      background: "var(--ash)",
+                      border: `1px solid ${inputFocused ? "var(--gold)" : "var(--smoke)"}`,
+                      padding: "20px 24px",
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "16px",
+                      color: "var(--bone)",
+                      borderRadius: 0,
+                      outline: "none",
+                      transition: "border-color 0.2s",
+                      boxSizing: "border-box",
+                      display: "block",
+                    }}
                   />
 
                   <button
                     type="submit"
-                    disabled={loading || !url.startsWith("http")}
+                    disabled={loading}
                     style={{
-                      marginTop: 20,
+                      display: "block",
                       width: "100%",
-                      padding: "18px 0",
-                      background:
-                        loading || !url.startsWith("http") ? t.gray : t.black,
-                      color: "#ffffff",
+                      marginTop: "12px",
+                      fontFamily: "var(--font-display)",
+                      fontSize: "20px",
+                      letterSpacing: "0.05em",
+                      background: "var(--gold)",
+                      color: "var(--void)",
+                      padding: "18px",
                       border: "none",
-                      fontFamily: t.fontSans,
-                      fontSize: 12,
-                      letterSpacing: "0.12em",
-                      textTransform: "uppercase",
-                      cursor:
-                        loading || !url.startsWith("http")
-                          ? "not-allowed"
-                          : "pointer",
-                      transition: "background 0.3s",
+                      cursor: loading ? "not-allowed" : "pointer",
+                      opacity: loading ? 0.8 : 1,
+                      transition: "opacity 0.2s",
                     }}
                   >
-                    {loading ? "Analyzing..." : "Run Audit \u2192"}
+                    {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
                   </button>
                 </form>
+
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "12px",
+                    color: "var(--mist)",
+                    marginTop: "12px",
+                  }}
+                >
+                  Takes 15–30 seconds. No signup required.
+                </p>
 
                 {error && (
                   <p
                     style={{
-                      fontFamily: t.fontSans,
-                      fontSize: 13,
-                      color: "#b93333",
-                      marginTop: 12,
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "13px",
+                      color: "#e05c5c",
+                      marginTop: "12px",
                     }}
                   >
                     {error}
@@ -314,136 +298,158 @@ function WebsiteAudit() {
           </div>
         </section>
 
-        {/* ── SECTION 2: LOADING BAR ──────────────────────────────────────── */}
+        {/* ── LOADING STATE ─────────────────────────────────────────────── */}
         {loading && (
-          <section style={{ padding: "0 60px 40px" }}>
-            <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <section style={{ paddingBottom: "80px" }}>
+            <div
+              className="bs-audit-container"
+              style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px", textAlign: "center" }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(40px, 6vw, 80px)",
+                  color: "var(--gold)",
+                  marginBottom: "16px",
+                  lineHeight: 1,
+                }}
+              >
+                ANALYZING...
+              </p>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "14px",
+                  color: "var(--mist)",
+                  marginBottom: "32px",
+                }}
+              >
+                Running Lighthouse audit via Google PageSpeed API...
+              </p>
+              {/* Shimmer bar */}
               <div
                 style={{
-                  height: 2,
-                  background: t.grayLight,
+                  width: "300px",
+                  height: "2px",
+                  background: "var(--smoke)",
+                  margin: "0 auto",
                   overflow: "hidden",
-                  marginBottom: 20,
+                  position: "relative",
+                }}
+              >
+                <div
+                  style={{
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                    width: "60px",
+                    height: "100%",
+                    background: "var(--gold)",
+                    animation: "shimmer 1.5s ease-in-out infinite",
+                  }}
+                />
+              </div>
+              {/* Progress bar */}
+              <div
+                style={{
+                  width: "300px",
+                  height: "2px",
+                  background: "var(--smoke)",
+                  margin: "12px auto 0",
+                  overflow: "hidden",
                 }}
               >
                 <div
                   style={{
                     height: "100%",
                     width: `${progress}%`,
-                    background: t.gold,
+                    background: "var(--gold)",
                     transition: "width 0.5s ease",
                   }}
                 />
               </div>
-              <p
-                style={{
-                  fontFamily: t.fontSans,
-                  fontSize: 14,
-                  color: t.gray,
-                  textAlign: "center",
-                }}
-              >
-                Running full audit…
-              </p>
             </div>
           </section>
         )}
 
-        {/* ── SECTION 3: RESULTS ──────────────────────────────────────────── */}
+        {/* ── SCORE CARDS ───────────────────────────────────────────────── */}
         {!loading && scores && (
-          <section
-            ref={resultRef}
-            style={{ padding: "0 60px 80px" }}
-          >
-            <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-              <h2
+          <section ref={resultRef} style={{ paddingBottom: "80px" }}>
+            <div
+              className="bs-audit-container"
+              style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+            >
+              <p
                 style={{
-                  fontFamily: t.fontSerif,
-                  fontSize: "clamp(32px, 3vw, 48px)",
-                  fontWeight: 300,
-                  color: t.black,
-                  marginBottom: 48,
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--gold)",
+                  marginBottom: "32px",
                 }}
               >
-                Your Audit Results
-              </h2>
+                AUDIT RESULTS FOR {displayDomain}
+              </p>
 
               <div
-                className="bs-audit-scores"
+                className="bs-audit-scores-grid"
                 style={{
                   display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: 24,
+                  gridTemplateColumns: "repeat(4, 1fr)",
+                  gap: "1px",
+                  background: "var(--smoke)",
                 }}
               >
                 {scoreCategories.map((label) => {
-                  const numeric = getScore(scores, label);
+                  const n = getScore(scores, label);
                   return (
                     <motion.div
                       key={label}
-                      initial={{ opacity: 0, y: 24 }}
+                      initial={{ opacity: 0, y: 20 }}
                       whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
+                      viewport={{ once: true, margin: "-80px" }}
                       transition={{ duration: 0.5 }}
                       style={{
-                        padding: 40,
-                        background: t.cream,
-                        border: `1px solid ${t.grayLight}`,
+                        background: "var(--ash)",
+                        padding: "40px 32px",
+                        textAlign: "center",
                       }}
                     >
                       <p
                         style={{
-                          fontFamily: t.fontSans,
-                          fontSize: 10,
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "10px",
                           letterSpacing: "0.2em",
                           textTransform: "uppercase",
-                          color: t.gold,
-                          margin: "0 0 12px",
+                          color: "var(--mist)",
+                          marginBottom: "16px",
                         }}
                       >
                         {label}
                       </p>
-
-                      <p
-                        style={{
-                          fontFamily: t.fontSerif,
-                          fontSize: 64,
-                          fontWeight: 300,
-                          color: t.gold,
-                          margin: "0 0 16px",
-                          lineHeight: 1,
-                        }}
-                      >
-                        {numeric}
-                      </p>
-
-                      {/* thin progress bar */}
                       <div
                         style={{
-                          height: 2,
-                          background: t.grayLight,
-                          marginBottom: 12,
-                          overflow: "hidden",
+                          fontFamily: "var(--font-display)",
+                          fontSize: "80px",
+                          lineHeight: 1,
+                          color: scoreColor(n),
+                          marginBottom: "12px",
                         }}
                       >
-                        <div
-                          style={{
-                            height: "100%",
-                            width: `${numeric}%`,
-                            background: t.gold,
-                          }}
-                        />
+                        {n}
                       </div>
-
                       <p
                         style={{
-                          fontFamily: t.fontSans,
-                          fontSize: 13,
-                          color: t.gray,
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "11px",
+                          letterSpacing: "0.1em",
+                          textTransform: "uppercase",
+                          color: scoreColor(n),
                           margin: 0,
                         }}
                       >
-                        {scoreRating(numeric)}
+                        {scoreLabel(n)}
                       </p>
                     </motion.div>
                   );
@@ -453,178 +459,75 @@ function WebsiteAudit() {
           </section>
         )}
 
-        {/* ── SECTION 4: AI RECOMMENDATIONS ───────────────────────────────── */}
-        {recommendation && (
-          <section
-            style={{
-              padding: "0 60px 80px",
-              borderTop: `1px solid ${t.grayLight}`,
-              paddingTop: 60,
-              marginTop: 0,
-            }}
-          >
-            <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-              <p
+        {/* ── AI RECOMMENDATIONS ────────────────────────────────────────── */}
+        {recommendation.length > 0 && (
+          <section style={{ paddingBottom: "120px" }}>
+            <div
+              className="bs-audit-container"
+              style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+            >
+              <div
                 style={{
-                  fontFamily: t.fontSans,
-                  fontSize: 11,
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: t.gold,
-                  marginBottom: 12,
+                  background: "var(--ash)",
+                  border: "1px solid var(--smoke)",
+                  padding: "40px",
                 }}
               >
-                AI Analysis
-              </p>
-
-              <h2
-                style={{
-                  fontFamily: t.fontSerif,
-                  fontSize: "clamp(28px, 3vw, 44px)",
-                  fontWeight: 300,
-                  color: t.black,
-                  marginBottom: 40,
-                }}
-              >
-                Recommendations
-              </h2>
-
-              {recommendation.split("\n").map((line, idx) => {
-                if (!line.trim()) return null;
-
-                // Determine score icon (preserved logic)
-                const lower = line.toLowerCase().trim();
-                let score: number | null = null;
-                if (lower.includes("performance")) {
-                  score = scores ? getScore(scores, "Performance") : null;
-                } else if (lower.includes("accessibility")) {
-                  score = scores ? getScore(scores, "Accessibility") : null;
-                } else if (lower.includes("seo")) {
-                  score = scores ? getScore(scores, "SEO") : null;
-                } else if (lower.includes("best")) {
-                  score = scores ? getScore(scores, "Best Practices") : null;
-                }
-                const hideIcon = lower.includes("batistack");
-
-                return (
-                  <p
-                    key={idx}
+                {/* Header */}
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "12px",
+                    marginBottom: "32px",
+                  }}
+                >
+                  <div
                     style={{
-                      fontFamily: t.fontSans,
-                      fontSize: 14,
-                      color: t.gray,
-                      lineHeight: 1.8,
-                      borderLeft: `2px solid ${t.goldLight}`,
-                      paddingLeft: 16,
-                      marginBottom: 12,
-                      display: "flex",
-                      alignItems: "center",
+                      width: "8px",
+                      height: "8px",
+                      borderRadius: "50%",
+                      background: "var(--gold)",
+                      flexShrink: 0,
+                    }}
+                  />
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "11px",
+                      letterSpacing: "0.2em",
+                      textTransform: "uppercase",
+                      color: "var(--gold)",
+                      margin: 0,
                     }}
                   >
-                    {!hideIcon && score !== null && getIconByScore(score)}
-                    {line}
+                    AI RECOMMENDATIONS
                   </p>
-                );
-              })}
+                </div>
+
+                {/* Recommendation lines */}
+                {recommendation.map((line, idx) => (
+                  <div
+                    key={idx}
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "14px",
+                      color: "var(--bone)",
+                      padding: "16px 0",
+                      borderBottom: idx < recommendation.length - 1 ? "1px solid var(--smoke)" : "none",
+                      lineHeight: 1.6,
+                      display: "flex",
+                      gap: "8px",
+                    }}
+                  >
+                    <span style={{ color: "var(--gold-dim)", flexShrink: 0 }}>&gt;</span>
+                    {line}
+                  </div>
+                ))}
+              </div>
             </div>
           </section>
         )}
-
-        {/* ── SECTION 5: INFO CARDS ────────────────────────────────────────── */}
-        <section
-          className="bs-audit-info"
-          style={{ padding: "0 60px 120px" }}
-        >
-          <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: 24,
-              }}
-            >
-              {/* Card 1 */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-                style={{
-                  padding: "48px 40px",
-                  background: t.cream,
-                  borderLeft: `3px solid ${t.gold}`,
-                }}
-              >
-                <h3
-                  style={{
-                    fontFamily: t.fontSerif,
-                    fontSize: 24,
-                    fontWeight: 400,
-                    color: t.black,
-                    marginBottom: 24,
-                  }}
-                >
-                  Why audit your website?
-                </h3>
-                <ul
-                  style={{
-                    paddingLeft: 18,
-                    margin: 0,
-                    fontFamily: t.fontSans,
-                    fontSize: 14,
-                    color: t.gray,
-                    lineHeight: 1.8,
-                  }}
-                >
-                  <li>Improve load speed and user experience.</li>
-                  <li>Fix SEO issues that block traffic.</li>
-                  <li>Make your site accessible to more users.</li>
-                  <li>Build trust with modern best practices.</li>
-                </ul>
-              </motion.div>
-
-              {/* Card 2 */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                style={{
-                  padding: "48px 40px",
-                  background: t.cream,
-                  borderLeft: `3px solid ${t.gold}`,
-                }}
-              >
-                <h3
-                  style={{
-                    fontFamily: t.fontSerif,
-                    fontSize: 24,
-                    fontWeight: 400,
-                    color: t.black,
-                    marginBottom: 24,
-                  }}
-                >
-                  How Batistack can help
-                </h3>
-                <ul
-                  style={{
-                    paddingLeft: 18,
-                    margin: 0,
-                    fontFamily: t.fontSans,
-                    fontSize: 14,
-                    color: t.gray,
-                    lineHeight: 1.8,
-                  }}
-                >
-                  <li>Custom optimization & redesign.</li>
-                  <li>AI chat + voice assistants for more leads.</li>
-                  <li>Analytics dashboards to track growth.</li>
-                  <li>Ongoing support and maintenance.</li>
-                </ul>
-              </motion.div>
-            </div>
-          </div>
-        </section>
       </div>
     </>
   );

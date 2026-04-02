@@ -2,81 +2,77 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import SectionLabel from "../components/SectionLabel";
-import { useState } from "react";
 
-// ─── Value card data ───────────────────────────────────────────────────────
+// ─── Values data ──────────────────────────────────────────────────────────────
 
 const values = [
   {
-    title: "Results First",
-    body: "We don't ship pretty sites. We ship sites that rank, convert, and grow. Every design decision is justified by a business goal.",
+    number: "01",
+    name: "Speed",
+    description:
+      "We respect your time. Projects are scoped tightly and delivered fast. If it's taking forever, something's wrong.",
   },
   {
-    title: "Radical Transparency",
-    body: "No hidden fees. No scope creep surprises. You know exactly what's being built, when, and why — from kickoff to launch.",
+    number: "02",
+    name: "Honesty",
+    description:
+      "We quote what it actually costs. We tell you when something won't work. We don't upsell what you don't need.",
   },
   {
-    title: "AI-Native Thinking",
-    body: "AI isn't an add-on for us — it's part of every build. We think about automation, qualification, and intelligence from day one.",
+    number: "03",
+    name: "Results",
+    description:
+      "The goal is never a beautiful website. The goal is a website that gets you more customers.",
   },
 ];
 
-// ─── Value card component ─────────────────────────────────────────────────
+// ─── SVG icons ────────────────────────────────────────────────────────────────
 
-function ValueCard({ title, body }: { title: string; body: string }) {
-  const [hovered, setHovered] = useState(false);
-
+function IconLocation() {
   return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        padding: "48px 40px",
-        background: hovered ? "var(--cream)" : "var(--off-white)",
-        position: "relative",
-        overflow: "hidden",
-        transition: "background 0.3s",
-      }}
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      style={{ flexShrink: 0 }}
     >
-      {/* Gold left accent bar */}
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "3px",
-          height: hovered ? "100%" : "0%",
-          background: "var(--gold)",
-          transition: "height 0.4s ease",
-        }}
+      <path
+        d="M12 2C8.69 2 6 4.69 6 8c0 5.25 6 14 6 14s6-8.75 6-14c0-3.31-2.69-6-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
+        fill="currentColor"
       />
-      <h3
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "26px",
-          fontWeight: 400,
-          lineHeight: 1.2,
-          marginBottom: "16px",
-        }}
-      >
-        {title}
-      </h3>
-      <p
-        style={{
-          fontSize: "15px",
-          color: "var(--gray)",
-          lineHeight: 1.75,
-          margin: 0,
-        }}
-      >
-        {body}
-      </p>
-    </div>
+    </svg>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────
+function IconEmail() {
+  return (
+    <svg
+      aria-hidden="true"
+      focusable="false"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      style={{ flexShrink: 0 }}
+    >
+      <path
+        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="1.5"
+      />
+      <polyline
+        points="22,6 12,13 2,6"
+        stroke="currentColor"
+        fill="none"
+        strokeWidth="1.5"
+      />
+    </svg>
+  );
+}
+
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function About() {
   useTrafficTracker("page_view", "/about");
@@ -84,421 +80,404 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About | Batistack</title>
+        <title>About | Batistack Development</title>
         <meta
           name="description"
           content="Learn about Batistack — a NYC-based web development studio building custom websites, AI integrations, and automation for growing businesses."
         />
       </Helmet>
 
-      <div
-        className="about-page"
-        style={{
-          background: "var(--off-white)",
-          color: "var(--black)",
-          overflowX: "hidden",
-        }}
-      >
-        {/* ── HERO ────────────────────────────────────── */}
-        <section className="about-hero" style={{ padding: "160px 60px 100px" }}>
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <SectionLabel>Our Story</SectionLabel>
-            <h1
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(42px, 8vw, 90px)",
-                fontWeight: 300,
-                lineHeight: 1.05,
-                maxWidth: "760px",
-                overflowWrap: "anywhere",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: "Built in New York.<br/><em>Driven by results.</em>",
-              }}
-            />
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                maxWidth: "520px",
-                marginTop: "24px",
-                lineHeight: 1.7,
-              }}
-            >
-              We are a boutique digital studio that builds websites, AI systems,
-              and automation tools — crafted for businesses that are serious about
-              growth.
-            </p>
-          </motion.div>
+      <div style={{ background: "var(--void)", color: "var(--bone)", overflowX: "hidden" }}>
 
-          {/* Decorative line */}
-          <div
-            style={{
-              borderTop: "1px solid var(--gray-light)",
-              marginTop: "60px",
-            }}
-          />
+        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        <section style={{ background: "var(--void)", padding: "160px 0 80px" }}>
+          <div className="about-container">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--gold)",
+                  marginBottom: "24px",
+                }}
+              >
+                ABOUT
+              </p>
+
+              <h1
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(80px, 14vw, 150px)",
+                  lineHeight: 0.9,
+                  margin: 0,
+                }}
+              >
+                <span style={{ color: "var(--bone)" }}>BUILT IN</span>
+                <br />
+                <span style={{ color: "var(--gold)" }}>NEW YORK.</span>
+              </h1>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontStyle: "italic",
+                  fontSize: "24px",
+                  color: "var(--mist)",
+                  maxWidth: "560px",
+                  marginTop: "32px",
+                  lineHeight: 1.5,
+                }}
+              >
+                A small team with a big obsession: building websites that actually move the needle.
+              </p>
+            </motion.div>
+          </div>
         </section>
 
-        {/* ── STORY SECTION ───────────────────────────── */}
-        <section
-          className="about-story"
-          style={{
-            padding: "100px 60px",
-            borderBottom: "1px solid var(--gray-light)",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "100px",
-            alignItems: "start",
-          }}
-        >
-          {/* Left */}
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <SectionLabel>Who We Are</SectionLabel>
-            <h2
+        {/* ── STORY SECTION ────────────────────────────────────────────── */}
+        <section style={{ background: "var(--bone)", color: "var(--void)", padding: "120px 0" }}>
+          <div className="about-container">
+            <div
+              className="about-story-grid"
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(32px, 3.5vw, 48px)",
-                fontWeight: 300,
-                lineHeight: 1.2,
+                display: "grid",
+                gridTemplateColumns: "60fr 40fr",
+                gap: "80px",
+                alignItems: "start",
               }}
-              dangerouslySetInnerHTML={{
-                __html:
-                  "A development studio<br/>that <em>thinks like</em><br/>a business partner.",
-              }}
-            />
-          </motion.div>
+            >
+              {/* Left */}
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8 }}
+              >
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "10px",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "var(--gold-dim)",
+                    marginBottom: "24px",
+                  }}
+                >
+                  THE STORY
+                </p>
+                <h2
+                  style={{
+                    fontFamily: "var(--font-serif)",
+                    fontSize: "44px",
+                    fontWeight: 300,
+                    color: "var(--void)",
+                    lineHeight: 1.2,
+                    marginBottom: "32px",
+                  }}
+                >
+                  Started because we were tired of overpriced mediocrity.
+                </h2>
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "16px",
+                    color: "#333",
+                    lineHeight: 1.8,
+                    marginBottom: "20px",
+                  }}
+                >
+                  Batistack was built in New York City by Elisaul Batista — a developer who spent years watching businesses overpay for websites that didn't convert, didn't load fast, and didn't grow with them.
+                </p>
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "16px",
+                    color: "#333",
+                    lineHeight: 1.8,
+                    marginBottom: "20px",
+                  }}
+                >
+                  The mission is simple: deliver agency-quality work at a price that makes sense for real businesses. Custom-built in React, AI-integrated from day one, shipped fast.
+                </p>
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "16px",
+                    color: "#333",
+                    lineHeight: 1.8,
+                    marginBottom: "20px",
+                  }}
+                >
+                  No subcontractors. No templates. No account managers between you and the person doing the work.
+                </p>
+              </motion.div>
 
-          {/* Right */}
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            viewport={{ once: true }}
-            style={{ display: "flex", flexDirection: "column", gap: "24px" }}
-          >
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                lineHeight: 1.8,
-                margin: 0,
-              }}
-            >
-              Batistack was founded with one belief: that small businesses deserve
-              the same powerful digital tools as major corporations. We build
-              websites, AI systems, and automation that put independent businesses
-              on equal footing.
-            </p>
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                lineHeight: 1.8,
-                margin: 0,
-              }}
-            >
-              Based in New York City, we work with entrepreneurs, service
-              businesses, and startups across every industry — from HVAC and
-              barbershops to real estate and e-commerce.
-            </p>
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                lineHeight: 1.8,
-                margin: 0,
-              }}
-            >
-              Every project we take on is treated like our own business. We ask
-              the hard questions, push back when needed, and deliver solutions
-              that actually move the needle.
-            </p>
-          </motion.div>
+              {/* Right — founder card */}
+              <motion.div
+                initial={{ opacity: 0, y: 32 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.8, delay: 0.15 }}
+              >
+                <div
+                  style={{
+                    border: "1px solid var(--smoke)",
+                    padding: "40px",
+                    background: "var(--void)",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "28px",
+                      fontWeight: 300,
+                      color: "var(--bone)",
+                      marginBottom: "8px",
+                    }}
+                  >
+                    Elisaul Batista
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "11px",
+                      letterSpacing: "0.15em",
+                      textTransform: "uppercase",
+                      color: "var(--mist)",
+                      marginBottom: "0",
+                    }}
+                  >
+                    Founder &amp; Lead Developer
+                  </p>
+
+                  <div
+                    style={{
+                      height: "1px",
+                      background: "var(--smoke)",
+                      margin: "24px 0",
+                    }}
+                  />
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      color: "var(--mist)",
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "14px",
+                      marginBottom: "16px",
+                    }}
+                  >
+                    <IconLocation />
+                    New York City
+                  </div>
+
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "12px",
+                      color: "var(--mist)",
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "14px",
+                    }}
+                  >
+                    <IconEmail />
+                    elisaul@batistack.com
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+          </div>
         </section>
 
-        {/* ── VALUES SECTION ──────────────────────────── */}
-        <section
-          className="about-values"
-          style={{
-            padding: "100px 60px",
-            borderBottom: "1px solid var(--gray-light)",
-          }}
-        >
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <SectionLabel>What We Believe</SectionLabel>
-            <h2
+        {/* ── VALUES SECTION ───────────────────────────────────────────── */}
+        <section style={{ background: "var(--void)", padding: "120px 0" }}>
+          <div className="about-container">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8 }}
+              style={{ marginBottom: "60px" }}
+            >
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--gold)",
+                  marginBottom: "16px",
+                }}
+              >
+                HOW WE WORK
+              </p>
+              <h2
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontSize: "52px",
+                  fontWeight: 300,
+                  color: "var(--bone)",
+                  lineHeight: 1.15,
+                }}
+              >
+                Three things we never compromise on.
+              </h2>
+            </motion.div>
+
+            {/* Value cards */}
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8, delay: 0.1 }}
+              className="about-values-cards"
               style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 4vw, 52px)",
-                fontWeight: 300,
-                lineHeight: 1.15,
+                display: "flex",
+                gap: "1px",
+                background: "var(--smoke)",
               }}
             >
-              Our principles.
-            </h2>
-          </motion.div>
-
-          <motion.div
-            className="about-values-grid"
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            viewport={{ once: true }}
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(3, 1fr)",
-              gap: "2px",
-              background: "var(--gray-light)",
-              marginTop: "60px",
-            }}
-          >
-            {values.map((v) => (
-              <ValueCard key={v.title} title={v.title} body={v.body} />
-            ))}
-          </motion.div>
+              {values.map((v) => (
+                <div
+                  key={v.number}
+                  style={{
+                    background: "var(--ash)",
+                    padding: "48px 40px",
+                    flex: 1,
+                  }}
+                >
+                  <div
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontSize: "48px",
+                      color: "var(--gold-dim)",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {v.number}
+                  </div>
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-serif)",
+                      fontSize: "32px",
+                      fontWeight: 300,
+                      color: "var(--bone)",
+                      margin: "16px 0 12px",
+                    }}
+                  >
+                    {v.name}
+                  </h3>
+                  <p
+                    style={{
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "15px",
+                      color: "var(--mist)",
+                      lineHeight: 1.7,
+                      margin: 0,
+                    }}
+                  >
+                    {v.description}
+                  </p>
+                </div>
+              ))}
+            </motion.div>
+          </div>
         </section>
 
-        {/* ── FOUNDER SECTION ─────────────────────────── */}
-        <section
-          className="about-founder"
-          style={{
-            padding: "100px 60px",
-            background: "var(--cream)",
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "80px",
-            alignItems: "center",
-          }}
-        >
-          {/* Left — quote */}
-          <motion.div
-            className="about-founder-quote"
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <span
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(52px, 8vw, 80px)",
-                color: "var(--gold)",
-                lineHeight: 0.6,
-                display: "block",
-                marginBottom: "8px",
-              }}
+        {/* ── CTA SECTION ──────────────────────────────────────────────── */}
+        <section style={{ background: "var(--ash)", padding: "120px 0" }}>
+          <div className="about-container" style={{ textAlign: "center" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8 }}
             >
-              "
-            </span>
-            <p
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(34px, 5vw, 64px)",
-                fontWeight: 300,
-                lineHeight: 1.15,
-                color: "var(--black)",
-                margin: 0,
-                maxWidth: "18ch",
-                overflowWrap: "anywhere",
-              }}
-            >
-              I started Batistack because I was tired of seeing small businesses
-              with great products held back by terrible websites and zero digital
-              strategy.
-            </p>
-            <span
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(52px, 8vw, 80px)",
-                color: "var(--gold)",
-                lineHeight: 0.4,
-                display: "block",
-                textAlign: "right",
-                marginTop: "8px",
-              }}
-            >
-              "
-            </span>
-          </motion.div>
-
-          {/* Right — founder details */}
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            viewport={{ once: true }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "13px",
-                color: "var(--gold)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                marginBottom: "16px",
-              }}
-            >
-              The person behind the work
-            </p>
-            <h3
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "36px",
-                fontWeight: 300,
-                marginBottom: "8px",
-              }}
-            >
-              Elisaul Batista
-            </h3>
-            <p
-              style={{
-                fontSize: "13px",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                color: "var(--gray)",
-                marginBottom: "24px",
-              }}
-            >
-              Founder &amp; Lead Developer
-            </p>
-            <p
-              style={{
-                fontSize: "14px",
-                color: "var(--gray)",
-                lineHeight: 1.8,
-                marginBottom: "28px",
-              }}
-            >
-              Full-stack developer, AI builder, and founder based in New York
-              City. Elisaul has spent years working with businesses of every size
-              — learning what separates a digital presence that gets results from
-              one that just sits there. Every project at Batistack is built with
-              that same hard-won perspective.
-            </p>
-            <a
-              href="mailto:elisaul@batistack.com"
-              style={{
-                fontSize: "13px",
-                letterSpacing: "0.08em",
-                color: "var(--gold)",
-                textDecoration: "none",
-                borderBottom: "1px solid var(--gold-light)",
-                paddingBottom: "2px",
-                transition: "color 0.25s",
-              }}
-            >
-              elisaul@batistack.com
-            </a>
-          </motion.div>
+              <h2
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "80px",
+                  color: "var(--bone)",
+                  lineHeight: 0.9,
+                  marginBottom: "24px",
+                }}
+              >
+                LET'S BUILD
+                <br />
+                SOMETHING.
+              </h2>
+              <p
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontStyle: "italic",
+                  fontSize: "22px",
+                  color: "var(--mist)",
+                  marginBottom: "40px",
+                }}
+              >
+                No application needed. Just a conversation.
+              </p>
+              <Link
+                to="/contact"
+                data-cursor="cta"
+                style={{
+                  display: "inline-block",
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "12px",
+                  letterSpacing: "0.15em",
+                  textTransform: "uppercase",
+                  background: "var(--gold)",
+                  color: "var(--void)",
+                  padding: "18px 48px",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                }}
+              >
+                START THE CONVERSATION →
+              </Link>
+            </motion.div>
+          </div>
         </section>
 
-        {/* ── CTA ─────────────────────────────────────── */}
-        <section
-          className="about-cta"
-          style={{
-            padding: "100px 60px",
-            background: "var(--black)",
-            textAlign: "center",
-          }}
-        >
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 5vw, 56px)",
-                fontWeight: 300,
-                color: "#fff",
-                lineHeight: 1.15,
-                marginBottom: "40px",
-              }}
-              dangerouslySetInnerHTML={{
-                __html:
-                  "Let's build your<br/><em>digital future</em> together.",
-              }}
-            />
-            <Link to="/contact" className="btn-primary-bs">
-              Start a Conversation
-            </Link>
-          </motion.div>
-        </section>
-
-        <style>{`
-          @media (max-width: 900px) {
-            .about-hero,
-            .about-story,
-            .about-values,
-            .about-founder,
-            .about-cta {
-              padding-left: 28px !important;
-              padding-right: 28px !important;
-            }
-
-            .about-hero {
-              padding-top: 132px !important;
-              padding-bottom: 72px !important;
-            }
-
-            .about-story,
-            .about-founder {
-              grid-template-columns: 1fr !important;
-              gap: 48px !important;
-            }
-
-            .about-values-grid {
-              grid-template-columns: 1fr !important;
-              margin-top: 40px !important;
-            }
-
-            .about-founder-quote {
-              order: 2;
-            }
-          }
-
-          @media (max-width: 640px) {
-            .about-hero,
-            .about-story,
-            .about-values,
-            .about-founder,
-            .about-cta {
-              padding-left: 24px !important;
-              padding-right: 24px !important;
-            }
-
-            .about-story,
-            .about-values,
-            .about-founder,
-            .about-cta {
-              padding-top: 72px !important;
-              padding-bottom: 72px !important;
-            }
-
-            .about-founder-quote p {
-              max-width: none !important;
-            }
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        .about-container {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 0 60px;
+        }
+
+        @media (max-width: 900px) {
+          .about-container {
+            padding: 0 32px;
+          }
+
+          .about-story-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+
+          .about-values-cards {
+            flex-direction: column !important;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .about-container {
+            padding: 0 24px;
+          }
+        }
+      `}</style>
     </>
   );
 }

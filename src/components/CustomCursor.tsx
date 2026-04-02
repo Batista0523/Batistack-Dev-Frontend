@@ -1,79 +1,82 @@
 import { useEffect, useRef } from "react";
 
-const CURSOR_HIDE_SELECTOR =
-  "input, textarea, select, button, summary, [contenteditable='true'], .chatbot-panel, .chatbot-trigger";
-
-const CURSOR_EXPAND_SELECTOR =
-  "a, .service-card, .step, .ai-feature, .pricing-card, [data-cursor-expand]";
-
 export default function CustomCursor() {
   const dotRef  = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Render nothing on touch/mobile devices
+    if (window.matchMedia("(hover: none)").matches) return;
+
     let mx = 0, my = 0;
     let rx = 0, ry = 0;
     let rafId: number;
+    let visible = true;
 
-    const setHidden = (hidden: boolean) => {
-      dotRef.current?.classList.toggle("cursor-hidden", hidden);
-      ringRef.current?.classList.toggle("cursor-hidden", hidden);
+    const setVisible = (show: boolean) => {
+      if (visible === show) return;
+      visible = show;
+      if (dotRef.current)  dotRef.current.style.opacity  = show ? "1" : "0";
+      if (ringRef.current) ringRef.current.style.opacity = show ? "1" : "0";
     };
 
-    const setExpanded = (expanded: boolean) => {
-      ringRef.current?.classList.toggle("expand", expanded);
+    const clearRingModes = () => {
+      ringRef.current?.classList.remove("crosshair", "text-bar");
     };
 
-    const syncCursorState = (target: EventTarget | null) => {
+    const syncCursorMode = (target: EventTarget | null) => {
       if (!(target instanceof Element)) {
-        setHidden(false);
-        setExpanded(false);
+        clearRingModes();
         return;
       }
+      const ctaEl   = target.closest("[data-cursor='cta']");
+      const textEl  = target.closest("[data-cursor='text']");
 
-      const shouldHide = Boolean(target.closest(CURSOR_HIDE_SELECTOR));
-      const shouldExpand = !shouldHide && Boolean(target.closest(CURSOR_EXPAND_SELECTOR));
-
-      setHidden(shouldHide);
-      setExpanded(shouldExpand);
+      clearRingModes();
+      if (ctaEl)        ringRef.current?.classList.add("crosshair");
+      else if (textEl)  ringRef.current?.classList.add("text-bar");
     };
 
     const onMove = (e: MouseEvent) => {
       mx = e.clientX;
       my = e.clientY;
-      syncCursorState(e.target);
+      setVisible(true);
+      syncCursorMode(e.target);
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate(${mx - 4}px, ${my - 4}px)`;
+        dotRef.current.style.transform = `translate(calc(-50% + ${mx}px), calc(-50% + ${my}px))`;
       }
     };
 
+    const onMouseLeave = () => setVisible(false);
+    const onMouseEnter = () => setVisible(true);
+
     const animate = () => {
-      rx += (mx - rx - 18) * 0.12;
-      ry += (my - ry - 18) * 0.12;
+      // Lerp ring toward dot position
+      rx += (mx - rx) * 0.08;
+      ry += (my - ry) * 0.08;
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate(${rx}px, ${ry}px)`;
+        ringRef.current.style.transform = `translate(calc(-50% + ${rx}px), calc(-50% + ${ry}px))`;
       }
       rafId = requestAnimationFrame(animate);
     };
     animate();
 
-    const onFocusIn = (e: FocusEvent) => syncCursorState(e.target);
-    const onFocusOut = () => {
-      const activeElement = document.activeElement;
-      syncCursorState(activeElement);
-    };
-
     document.addEventListener("mousemove", onMove);
-    document.addEventListener("focusin", onFocusIn);
-    document.addEventListener("focusout", onFocusOut);
+    document.addEventListener("mouseleave", onMouseLeave);
+    document.addEventListener("mouseenter", onMouseEnter);
 
     return () => {
       document.removeEventListener("mousemove", onMove);
-      document.removeEventListener("focusin", onFocusIn);
-      document.removeEventListener("focusout", onFocusOut);
+      document.removeEventListener("mouseleave", onMouseLeave);
+      document.removeEventListener("mouseenter", onMouseEnter);
       cancelAnimationFrame(rafId);
     };
   }, []);
+
+  // Don't render on touch devices at all
+  if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) {
+    return null;
+  }
 
   return (
     <>

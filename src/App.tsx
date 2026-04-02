@@ -10,10 +10,10 @@ import DashboardPage from "./Pages/DashboardPage";
 import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
-import ApplicationsCenter from "./Pages/ApplicationsCenter";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
 import WebsiteAudit from "./Pages/WebsiteAudit";
+import CaseStudyPage from "./Pages/CaseStudyPage";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import "./global.css";
@@ -42,8 +42,8 @@ function App() {
         <Route path="/services"     element={<Services />} />
         <Route path="/login"        element={<Login />} />
         <Route path="/contact"      element={<ContactForm />} />
-        <Route path="/applications" element={<ApplicationsCenter />} />
         <Route path="/policy"       element={<PrivacyPolicy />} />
+        <Route path="/case-studies/:id" element={<CaseStudyPage />} />
         <Route
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}

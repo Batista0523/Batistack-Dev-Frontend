@@ -1,1027 +1,1090 @@
-import { useState, useRef } from "react";
-import { Helmet } from "react-helmet-async";
-import { motion, useInView } from "framer-motion";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import { useTrafficTracker } from "../hook/useTrafficTracker";
-import ServiceCard from "../components/ServiceCard";
-import PricingCard from "../components/PricingCard";
-import SectionLabel from "../components/SectionLabel";
+import { useEffect, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
+import { HelmetProvider, Helmet } from 'react-helmet-async'
+import emailjs from '@emailjs/browser'
+import { useTrafficTracker } from '../hook/useTrafficTracker'
 
-const marqueeItems = [
-  "Custom Web Design",
-  "AI Integration",
-  "React & Next.js",
-  "AI Chatbots",
-  "Landing Pages",
-  "Business Websites",
-  "Automation",
-  "NYC Based",
-];
+// ─── SECTION 1: Hero ─────────────────────────────────────────────────────────
+const TERMINAL_LINES = [
+  '> initializing batistack.ai...',
+  '> scanning your market...',
+  '> loading conversion engine...',
+  '✓ your new website is ready.',
+  '✓ AI assistant deployed.',
+  '✓ leads incoming.',
+]
 
-const aiFeatures = [
-  {
-    icon: "💬",
-    name: "AI Chat Assistant",
-    desc: "A trained chatbot that knows your business, answers customer questions, and captures leads automatically.",
-  },
-  {
-    icon: "📋",
-    name: "Smart Lead Qualification",
-    desc: "AI filters and scores inquiries so you focus on the best prospects — not every contact form.",
-  },
-  {
-    icon: "⚡",
-    name: "Workflow Automation",
-    desc: "Automated follow-ups, appointment booking, and CRM integration — all connected to your site.",
-  },
-  {
-    icon: "📊",
-    name: "Content & SEO Tools",
-    desc: "AI-assisted content updates and SEO recommendations that keep your site ranking and converting.",
-  },
-];
+function TerminalBlock() {
+  const [displayed, setDisplayed] = useState('')
+  const fullText = TERMINAL_LINES.join('\n')
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const indexRef = useRef(0)
 
-function AIFeatureRow({ icon, name, desc }: { icon: string; name: string; desc: string }) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        borderTop: "1px solid #222",
-        padding: "32px 0",
-        display: "flex",
-        gap: "20px",
-        alignItems: "flex-start",
-        paddingLeft: hovered ? "8px" : "0",
-        transition: "padding-left 0.3s ease",
-      }}
-    >
-      <div
-        style={{
-          width: "40px",
-          height: "40px",
-          border: "1px solid #333",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          fontSize: "18px",
-          flexShrink: 0,
-        }}
-      >
-        {icon}
-      </div>
-      <div>
-        <p
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "20px",
-            fontWeight: 400,
-            color: "var(--off-white)",
-            marginBottom: "8px",
-            margin: "0 0 8px 0",
-          }}
-        >
-          {name}
-        </p>
-        <p style={{ fontSize: "14px", color: "#777", lineHeight: 1.75, margin: 0 }}>{desc}</p>
-      </div>
-    </div>
-  );
-}
-
-function ProcessStep({
-  num,
-  title,
-  desc,
-  isLast,
-}: {
-  num: string;
-  title: string;
-  desc: string;
-  isLast: boolean;
-}) {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        padding: "48px 40px",
-        borderRight: isLast ? "none" : "1px solid var(--gray-light)",
-        background: hovered ? "var(--cream)" : "transparent",
-        transition: "background 0.3s ease",
-        cursor: "default",
-      }}
-    >
-      <div
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "72px",
-          fontWeight: 300,
-          color: hovered ? "var(--gold-light)" : "var(--cream)",
-          lineHeight: 1,
-          marginBottom: "24px",
-          transition: "color 0.3s ease",
-        }}
-      >
-        {num}
-      </div>
-      <p
-        style={{
-          fontFamily: "var(--font-serif)",
-          fontSize: "20px",
-          fontWeight: 400,
-          marginBottom: "12px",
-          color: "var(--black)",
-          margin: "0 0 12px 0",
-        }}
-      >
-        {title}
-      </p>
-      <p style={{ fontSize: "14px", color: "var(--gray)", lineHeight: 1.75, margin: 0 }}>{desc}</p>
-    </div>
-  );
-}
-
-export default function Home() {
-  useTrafficTracker("page_view", "/");
-  const apiBaseUrl = import.meta.env.VITE_BASE_URL;
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    service: "",
-    message: "",
-    source: "Website",
-  });
-  const [formState, setFormState] = useState<{
-    loading: boolean;
-    success: string;
-    error: string;
-  }>({
-    loading: false,
-    success: "",
-    error: "",
-  });
-
-  const servicesRef = useRef(null);
-  const processRef = useRef(null);
-  const aiRef = useRef(null);
-  const pricingRef = useRef(null);
-  const contactRef = useRef(null);
-
-  const servicesInView = useInView(servicesRef, { once: true, margin: "-80px" });
-  const processInView = useInView(processRef, { once: true, margin: "-80px" });
-  const aiInView = useInView(aiRef, { once: true, margin: "-80px" });
-  const pricingInView = useInView(pricingRef, { once: true, margin: "-80px" });
-  const contactInView = useInView(contactRef, { once: true, margin: "-80px" });
-
-  const handleFormChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleHomeLeadSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setFormState({ loading: true, success: "", error: "" });
-
-    try {
-      await axios.post(`${apiBaseUrl}/leads`, formData);
-      setFormState({
-        loading: false,
-        success: "Message sent successfully.",
-        error: "",
-      });
-      setFormData({
-        name: "",
-        email: "",
-        service: "",
-        message: "",
-        source: "Website",
-      });
-    } catch {
-      setFormState({
-        loading: false,
-        success: "",
-        error: "Failed to send message. Please try again.",
-      });
+  useEffect(() => {
+    intervalRef.current = setInterval(() => {
+      if (indexRef.current >= fullText.length) {
+        if (intervalRef.current) clearInterval(intervalRef.current)
+        return
+      }
+      indexRef.current += 1
+      setDisplayed(fullText.slice(0, indexRef.current))
+    }, 20)
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current)
     }
-  };
+  }, [fullText])
 
   return (
-    <>
-      <Helmet>
-        <title>Batistack — Web Design & AI Integration NYC</title>
-        <meta
-          name="description"
-          content="Batistack builds custom websites and AI integrations for businesses in NYC. Chat assistants, automation, SEO, and analytics."
-        />
-      </Helmet>
+    <div style={styles.terminal}>
+      <div style={styles.terminalChrome}>
+        <span style={{ ...styles.dot, background: '#ff5f57' }} />
+        <span style={{ ...styles.dot, background: '#febc2e' }} />
+        <span style={{ ...styles.dot, background: '#28c840' }} />
+      </div>
+      <pre style={styles.terminalText}>
+        {displayed}
+        <span style={styles.cursor}>|</span>
+      </pre>
+    </div>
+  )
+}
 
-      {/* ── HERO ────────────────────────────────────────────────────────── */}
-      <section
-        style={{
-          minHeight: "100vh",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "60px",
-          padding: "120px 60px 0",
-          alignItems: "center",
-          position: "relative",
-          overflow: "hidden",
-        }}
-        className="hero-section"
-      >
-        {/* Hero Left */}
-        <div>
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            style={{
-              fontSize: "11px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "var(--gold)",
-              marginBottom: "28px",
-              fontFamily: "var(--font-sans)",
-              fontWeight: 500,
-              margin: "0 0 28px 0",
-            }}
-          >
-            New York City · Web Design &amp; AI Integration
-          </motion.p>
+function HeroSection() {
+  const reduced = useReducedMotion()
+  const words = [
+    { text: 'WE BUILD', color: 'var(--bone)' },
+    { text: 'WEBSITES', color: 'var(--bone)' },
+    { text: 'THAT CLOSE', color: 'var(--gold)' },
+  ]
 
-          <motion.h1
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "clamp(42px, 8vw, 90px)",
-              fontWeight: 400,
-              lineHeight: 1.05,
-              color: "var(--black)",
-              margin: 0,
-            }}
-          >
-            Websites that
-            <br />
-            <em>work harder</em>
-            <br />
-            with AI built in
-          </motion.h1>
+  return (
+    <section style={styles.hero}>
+      <div className="section-container" style={styles.heroInner}>
+        {/* Left */}
+        <div style={styles.heroLeft}>
+          <p style={styles.heroLabel}>NEW YORK CITY · EST. 2024</p>
 
-          <motion.p
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.6 }}
-            style={{
-              fontSize: "16px",
-              color: "var(--gray)",
-              maxWidth: "420px",
-              marginTop: "28px",
-              lineHeight: 1.7,
-              fontFamily: "var(--font-sans)",
-            }}
-          >
-            We design and build custom websites for businesses ready to grow — then integrate AI
-            tools that automate, convert, and impress.
-          </motion.p>
+          <div>
+            {words.map((w, i) => (
+              <motion.div
+                key={w.text}
+                initial={reduced ? {} : { opacity: 0, y: 60 }}
+                animate={reduced ? {} : { opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, delay: i * 0.12, ease: 'easeOut' }}
+                style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 'clamp(80px, 12vw, 140px)',
+                  lineHeight: 0.9,
+                  color: w.color,
+                }}
+              >
+                {w.text}
+              </motion.div>
+            ))}
+          </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.8 }}
-            style={{ display: "flex", gap: "16px", marginTop: "48px", flexWrap: "wrap" }}
-          >
-            <Link to="/contact" className="btn-primary-bs">
-              Start a Project
+          <p style={styles.heroSub}>
+            Custom web design and AI integration for businesses that refuse to be ignored.
+          </p>
+
+          <div style={styles.heroCTAs}>
+            <Link
+              to="/contact"
+              className="btn-primary"
+              data-cursor="cta"
+              style={{ fontSize: 18 }}
+            >
+              START YOUR PROJECT →
             </Link>
-          </motion.div>
+            <Link to="/services" className="btn-ghost" style={{ fontSize: 18 }}>
+              SEE OUR WORK
+            </Link>
+          </div>
+
+          <div style={styles.heroStats}>
+            {[
+              { num: '48H', label: 'Average response time' },
+              { num: '$0', label: 'Hidden fees' },
+              { num: '100%', label: 'Custom built' },
+            ].map((s) => (
+              <div key={s.num}>
+                <div style={styles.statNum}>{s.num}</div>
+                <div style={styles.statLabel}>{s.label}</div>
+              </div>
+            ))}
+          </div>
         </div>
 
-        {/* Hero Right */}
+        {/* Right */}
+        <div style={styles.heroRight}>
+          <TerminalBlock />
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 2: Marquee ───────────────────────────────────────────────────────
+const ROW1 =
+  'WEB DESIGN · MOBILE APPS · AI INTEGRATION · REACT & NEXT.JS · AUTOMATION · NYC BASED'
+const ROW2 =
+  'LEAD GENERATION · CONVERSION FOCUSED · CUSTOM BUILT · FAST DELIVERY · NO TEMPLATES · YOUR GROWTH'
+
+function MarqueeStrip() {
+  const repeat = (text: string) => Array(3).fill(text).join('  ·  ')
+  return (
+    <div style={{ background: 'var(--gold)', overflow: 'hidden' }}>
+      {[
+        { text: ROW1, reverse: false },
+        { text: ROW2, reverse: true },
+      ].map((row, i) => (
         <div
-          className="hero-right"
-          style={{ display: "flex", justifyContent: "flex-end", alignItems: "center" }}
+          key={i}
+          style={{ padding: '14px 0', overflow: 'hidden' }}
         >
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 1.2, delay: 0.5 }}
-            style={{
-              background: "var(--cream)",
-              aspectRatio: "3/4",
-              maxWidth: "480px",
-              width: "100%",
-              position: "relative",
-              padding: "28px",
-              boxSizing: "border-box",
-            }}
+          <div
+            className={`marquee-track${row.reverse ? ' marquee-track-reverse' : ''}`}
           >
-            {/* Browser bar */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "8px",
-                marginBottom: "24px",
-              }}
-            >
-              <div
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "50%",
-                  background: "#ff5f57",
-                }}
-              />
-              <div
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "50%",
-                  background: "#ffbd2e",
-                }}
-              />
-              <div
-                style={{
-                  width: "12px",
-                  height: "12px",
-                  borderRadius: "50%",
-                  background: "#28c840",
-                }}
-              />
-              <div
-                style={{
-                  flex: 1,
-                  height: "8px",
-                  background: "var(--gray-light)",
-                  marginLeft: "12px",
-                  borderRadius: "4px",
-                }}
-              />
-            </div>
+            {Array(3)
+              .fill(null)
+              .map((_, j) => (
+                <span key={j} className="marquee-item">
+                  {repeat(row.text)}
+                </span>
+              ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  )
+}
 
-            {/* Mock content */}
-            <div
-              style={{
-                width: "60%",
-                height: "4px",
-                background: "var(--gold)",
-                marginBottom: "16px",
-              }}
-            />
-            <div
-              style={{
-                width: "85%",
-                height: "8px",
-                background: "var(--gray-light)",
-                borderRadius: "2px",
-                marginBottom: "10px",
-              }}
-            />
-            <div
-              style={{
-                width: "70%",
-                height: "8px",
-                background: "var(--gray-light)",
-                borderRadius: "2px",
-                marginBottom: "28px",
-              }}
-            />
+// ─── SECTION 3: Services ──────────────────────────────────────────────────────
+const SERVICES = [
+  {
+    num: '01',
+    name: 'Custom Web Design',
+    desc: 'From landing pages to full platforms.',
+    tags: ['React', 'TypeScript', 'Vite'],
+  },
+  {
+    num: '02',
+    name: 'Mobile Applications',
+    desc: 'iOS and Android, built in React Native.',
+    tags: ['React Native', 'Expo'],
+  },
+  {
+    num: '03',
+    name: 'AI Integration',
+    desc: 'Make your site work smarter.',
+    tags: ['Claude API', 'OpenAI'],
+  },
+  {
+    num: '04',
+    name: 'Website Redesign',
+    desc: 'Turn an outdated site into a revenue machine.',
+    tags: ['Audit', 'UX', 'Migration'],
+  },
+]
 
-            {/* 2x2 card grid */}
-            <div
-              style={{
-                display: "grid",
-                gridTemplateColumns: "1fr 1fr",
-                gap: "12px",
-              }}
-            >
-              {[0, 1, 2, 3].map((i) => (
-                <div
-                  key={i}
+function ServicesSection() {
+  const reduced = useReducedMotion()
+  const [hovered, setHovered] = useState<string | null>(null)
+
+  return (
+    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>01 / WHAT WE BUILD</p>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 64, fontStyle: 'italic', color: 'var(--bone)', fontWeight: 400 }}>
+          Every pixel has a job to do.
+        </h2>
+
+        <div style={{ marginTop: 80 }}>
+          {SERVICES.map((svc, i) => {
+            const isHovered = hovered === svc.num
+            return (
+              <motion.div
+                key={svc.num}
+                initial={reduced ? {} : { opacity: 0, y: 40 }}
+                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: i * 0.08 }}
+                onMouseEnter={() => setHovered(svc.num)}
+                onMouseLeave={() => setHovered(null)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '40px 0',
+                  borderBottom: '1px solid var(--smoke)',
+                  background: isHovered ? 'var(--ash)' : 'transparent',
+                  transition: 'background 0.3s',
+                  paddingLeft: isHovered ? 16 : 0,
+                  paddingRight: isHovered ? 16 : 0,
+                }}
+              >
+                <span
                   style={{
-                    background: "var(--off-white)",
-                    borderRadius: "2px",
-                    padding: "20px 16px",
-                    minHeight: "80px",
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 'clamp(100px, 12vw, 160px)',
+                    lineHeight: 1,
+                    marginRight: 40,
+                    color: isHovered ? 'var(--gold-dim)' : 'var(--smoke)',
+                    transition: 'color 0.3s',
+                    flexShrink: 0,
+                  }}
+                >
+                  {svc.num}
+                </span>
+                <div style={{ flex: 1 }}>
+                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: 44, color: 'var(--bone)', marginBottom: 8, fontWeight: 400 }}>
+                    {svc.name}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--mist)' }}>
+                    {svc.desc}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
+                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
+                    {svc.tags.map((t) => (
+                      <span key={t} className="tag">{t}</span>
+                    ))}
+                  </div>
+                  <span
+                    style={{
+                      fontFamily: 'var(--font-display)',
+                      fontSize: 24,
+                      color: 'var(--gold)',
+                      transition: 'transform 0.2s',
+                      transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
+                      display: 'inline-block',
+                    }}
+                  >
+                    →
+                  </span>
+                </div>
+              </motion.div>
+            )
+          })}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 4: Social Proof ──────────────────────────────────────────────────
+function SocialProofSection() {
+  const reduced = useReducedMotion()
+  const stats = [
+    { stat: '14 Days', label: 'Average delivery time' },
+    { stat: '3×', label: 'Average traffic increase' },
+    { stat: '24/7', label: 'AI works while you don\'t' },
+  ]
+
+  return (
+    <section style={{ background: 'var(--bone)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>02 / WHY US</p>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--void)', fontWeight: 400, maxWidth: 700 }}>
+          The agency that treats your ROI like it's our paycheck.
+        </h2>
+
+        <div style={{ display: 'flex', marginTop: 60, borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
+          {stats.map((s, i) => (
+            <motion.div
+              key={s.stat}
+              initial={reduced ? {} : { opacity: 0, y: 40 }}
+              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              style={{
+                flex: 1,
+                padding: 40,
+                borderRight: i < stats.length - 1 ? '1px solid #ccc' : 'none',
+              }}
+            >
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 80, color: 'var(--void)', lineHeight: 1 }}>
+                {s.stat}
+              </div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: '#555', textTransform: 'uppercase', letterSpacing: '0.15em', marginTop: 8 }}>
+                {s.label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <div style={{ display: 'flex', gap: 60, marginTop: 80 }}>
+          <div style={{ flex: 1 }}>
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 700, color: 'var(--void)' }}>
+              We don't do templates. We don't do cookie-cutter.
+            </h3>
+          </div>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: 'var(--font-sans)', fontSize: 16, lineHeight: 1.7, color: '#444' }}>
+              Every Batistack project starts with a real conversation about your goals, your customers, and what's actually holding back your growth. Then we build something that works.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 5: AI Spotlight ──────────────────────────────────────────────────
+const AI_FEATURES = [
+  {
+    name: 'AI Chat Assistant',
+    desc: 'Trained on your business, captures leads 24/7',
+    icon: <path d="M2 2h12v8H7l-5 4V2z" stroke="currentColor" strokeWidth="1.5" fill="none" />,
+  },
+  {
+    name: 'Smart Lead Scoring',
+    desc: 'AI qualifies leads before they hit your inbox',
+    icon: <path d="M12 2l2 4-8 6-4-6 10-4z" stroke="currentColor" strokeWidth="1.5" fill="none" />,
+  },
+  {
+    name: 'Workflow Automation',
+    desc: 'Booking, follow-ups, CRM — fully automated',
+    icon: <path d="M2 8h4M10 8h4M8 4v8" stroke="currentColor" strokeWidth="1.5" />,
+  },
+  {
+    name: 'SEO Intelligence',
+    desc: 'AI content and keyword tools built into your site',
+    icon: (
+      <>
+        <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" fill="none" />
+        <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" />
+      </>
+    ),
+  },
+]
+
+function AISpotlightSection() {
+  const reduced = useReducedMotion()
+
+  return (
+    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>03 / AI INTEGRATION</p>
+        <div style={{ display: 'flex', gap: 80 }}>
+          {/* Rotated label */}
+          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+            <span
+              style={{
+                fontFamily: 'var(--font-display)',
+                fontSize: 12,
+                color: 'var(--gold-dim)',
+                letterSpacing: '0.3em',
+                textTransform: 'uppercase',
+                transform: 'rotate(-90deg)',
+                transformOrigin: 'center',
+                whiteSpace: 'nowrap',
+                display: 'block',
+              }}
+            >
+              ARTIFICIAL INTELLIGENCE
+            </span>
+          </div>
+
+          {/* Content */}
+          <div style={{ flex: 1 }}>
+            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 64, color: 'var(--bone)', lineHeight: 1.1, fontWeight: 400 }}>
+              Your website should work harder than your team.
+            </h2>
+
+            <div style={{ marginTop: 64 }}>
+              {AI_FEATURES.map((feat, i) => (
+                <motion.div
+                  key={feat.name}
+                  initial={reduced ? {} : { opacity: 0, y: 40 }}
+                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    gap: 24,
+                    padding: '28px 0',
+                    borderBottom: '1px solid var(--smoke)',
                   }}
                 >
                   <div
                     style={{
-                      width: "50%",
-                      height: "6px",
-                      background: "var(--gray-light)",
-                      borderRadius: "2px",
-                      marginBottom: "8px",
+                      width: 40,
+                      height: 40,
+                      border: '1px solid var(--smoke)',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      flexShrink: 0,
                     }}
-                  />
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "5px",
-                      background: "var(--cream)",
-                      borderRadius: "2px",
-                    }}
-                  />
-                </div>
+                  >
+                    <svg width="16" height="16" viewBox="0 0 16 16" style={{ color: 'var(--gold)' }}>
+                      {feat.icon}
+                    </svg>
+                  </div>
+                  <div>
+                    <div style={{ fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600, color: 'var(--bone)' }}>
+                      {feat.name}
+                    </div>
+                    <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 4 }}>
+                      {feat.desc}
+                    </div>
+                  </div>
+                </motion.div>
               ))}
             </div>
-
-            {/* AI Badge */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 1.0 }}
-              style={{
-                position: "absolute",
-                left: "-32px",
-                bottom: "60px",
-                background: "var(--black)",
-                color: "var(--off-white)",
-                padding: "20px 24px",
-                boxShadow: "0 8px 40px rgba(0,0,0,0.18)",
-              }}
-            >
-              <span
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "48px",
-                  fontWeight: 400,
-                  color: "var(--gold)",
-                  display: "block",
-                  lineHeight: 1,
-                  marginBottom: "6px",
-                }}
-              >
-                AI
-              </span>
-              <span
-                style={{
-                  fontSize: "11px",
-                  letterSpacing: "0.15em",
-                  textTransform: "uppercase",
-                  color: "var(--gray-light)",
-                  fontFamily: "var(--font-sans)",
-                }}
-              >
-                Powered Builds
-              </span>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Scroll indicator */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "40px",
-            left: "60px",
-            display: "flex",
-            alignItems: "center",
-            gap: "12px",
-          }}
-        >
-          <motion.div
-            animate={{ scaleY: [1, 0.5, 1] }}
-            transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            style={{
-              width: "1px",
-              height: "40px",
-              background: "var(--gold)",
-              transformOrigin: "top",
-            }}
-          />
-          <span
-            style={{
-              fontSize: "10px",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: "var(--gray)",
-              fontFamily: "var(--font-sans)",
-            }}
-          >
-            Scroll
-          </span>
-        </div>
-      </section>
-
-      {/* ── MARQUEE TICKER ──────────────────────────────────────────────── */}
-      <div className="marquee-section">
-        <div className="marquee-track">
-          {[...marqueeItems, ...marqueeItems].map((item, i) => (
-            <span key={i} className="marquee-item">
-              {item}
-            </span>
-          ))}
+          </div>
         </div>
       </div>
+    </section>
+  )
+}
 
-      {/* ── SERVICES ────────────────────────────────────────────────────── */}
-      <section
-        ref={servicesRef}
-        style={{ padding: "140px 60px" }}
-        className="services-section"
-      >
-        <motion.div
-          animate={servicesInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          initial={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 2fr",
-            gap: "80px",
-            alignItems: "start",
-          }}
-          className="services-inner"
-        >
-          {/* Services left */}
-          <div style={{ position: "sticky", top: "120px" }}>
-            <SectionLabel>What we do</SectionLabel>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 3.5vw, 54px)",
-                fontWeight: 300,
-                lineHeight: 1.1,
-                color: "var(--black)",
-                margin: 0,
-              }}
-            >
-              Built to <em>convert.</em>
-              <br />
-              Designed to last.
-            </h2>
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                lineHeight: 1.75,
-                marginTop: "24px",
-                maxWidth: "340px",
-              }}
-            >
-              Every project we take on is built with purpose — designed to reflect your brand and
-              engineered to perform.
-            </p>
-          </div>
+// ─── SECTION 6: Process ───────────────────────────────────────────────────────
+const STEPS = [
+  {
+    num: '01',
+    title: 'Discovery',
+    desc: 'We learn your business, your customers, and your goals in a 30-min call. No jargon, no fluff — just clarity.',
+  },
+  {
+    num: '02',
+    title: 'Design',
+    desc: 'We design in the open. You see wireframes and mockups early and often. No surprises at the end.',
+  },
+  {
+    num: '03',
+    title: 'Build',
+    desc: 'We build fast. Most projects are in your hands within 14 days. TypeScript, React, performance-first.',
+  },
+  {
+    num: '04',
+    title: 'Launch',
+    desc: "Go live with SEO config, analytics, and a handoff so clean you'll never need to call us for basic changes.",
+  },
+]
 
-          {/* Services right — 2x2 grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "2px",
-              background: "var(--gray-light)",
-            }}
-            className="services-grid"
-          >
-            <ServiceCard
-              number="01"
-              title="Custom Web Design"
-              description="Hand-crafted, pixel-perfect websites that reflect your brand and convert visitors into customers."
-              tags={["React", "Next.js", "Responsive"]}
-            />
-            <ServiceCard
-              number="02"
-              title="AI Integration"
-              description="Smart chatbots, automated workflows, and AI-powered features that work while you sleep."
-              tags={["Claude API", "OpenAI", "Automations"]}
-            />
-            <ServiceCard
-              number="03"
-              title="Landing Pages"
-              description="High-converting landing pages built for speed, clarity, and maximum ROI on your ad spend."
-              tags={["Performance", "SEO", "A/B Ready"]}
-            />
-            <ServiceCard
-              number="04"
-              title="Website Redesign"
-              description="Transform your outdated site into a modern, professional presence that matches your ambition."
-              tags={["Audit", "UX Design", "Migration"]}
-            />
-          </div>
-        </motion.div>
-      </section>
+function ProcessSection() {
+  const reduced = useReducedMotion()
+  const [openStep, setOpenStep] = useState<number | null>(null)
 
-      {/* ── PROCESS ─────────────────────────────────────────────────────── */}
-      <section
-        ref={processRef}
-        style={{ padding: "0 60px 140px" }}
-        className="process-section"
-      >
-        <motion.div
-          animate={processInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          initial={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Process header */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-end",
-              marginBottom: "60px",
-              flexWrap: "wrap",
-              gap: "24px",
-            }}
-          >
-            <div>
-              <SectionLabel>How we work</SectionLabel>
-              <h2
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(36px, 3.5vw, 54px)",
-                  fontWeight: 300,
-                  lineHeight: 1.1,
-                  color: "var(--black)",
-                  margin: 0,
-                }}
-              >
-                A clear process.
-                <br />
-                <em>Zero surprises.</em>
-              </h2>
-            </div>
-            <Link to="/contact" className="btn-ghost-bs">
-              Start today
-            </Link>
-          </div>
+  return (
+    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>04 / HOW WE WORK</p>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400 }}>
+          Four steps from idea to live.
+        </h2>
 
-          {/* Steps */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr 1fr",
-              border: "1px solid var(--gray-light)",
-            }}
-            className="process-grid"
-          >
-            <ProcessStep
-              num="01"
-              title="Discovery"
-              desc="We learn about your business, goals, and audience to build a strategy that actually works."
-              isLast={false}
-            />
-            <ProcessStep
-              num="02"
-              title="Design"
-              desc="We craft a bespoke visual identity and layout that fits your brand and converts your visitors."
-              isLast={false}
-            />
-            <ProcessStep
-              num="03"
-              title="Build"
-              desc="We develop your site using modern React-based technologies, optimised for speed and scale."
-              isLast={false}
-            />
-            <ProcessStep
-              num="04"
-              title="Launch"
-              desc="We deploy, test, and hand over a production-ready site — with support when you need it."
-              isLast={true}
-            />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── WHY AI ──────────────────────────────────────────────────────── */}
-      <section
-        ref={aiRef}
-        style={{
-          background: "var(--black)",
-          color: "var(--off-white)",
-          padding: "140px 60px",
-        }}
-        className="ai-section"
-      >
-        <motion.div
-          animate={aiInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          initial={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "100px",
-            alignItems: "center",
-          }}
-          className="ai-inner"
-        >
-          {/* AI Left */}
-          <div>
-            <SectionLabel light>Why AI?</SectionLabel>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 3.5vw, 54px)",
-                fontWeight: 300,
-                lineHeight: 1.1,
-                color: "var(--off-white)",
-                margin: "0 0 28px 0",
-              }}
-            >
-              Your website
-              <br />
-              should <em>work</em>
-              <br />
-              for you 24/7
-            </h2>
-            <p style={{ fontSize: "16px", color: "#777", lineHeight: 1.75, maxWidth: "400px", margin: 0 }}>
-              Modern AI tools integrated directly into your website can answer questions, qualify
-              leads, and automate follow-ups — while you focus on running your business.
-            </p>
-          </div>
-
-          {/* AI Right — feature rows */}
-          <div>
-            {aiFeatures.map((f) => (
-              <AIFeatureRow key={f.name} icon={f.icon} name={f.name} desc={f.desc} />
-            ))}
-            <div style={{ borderTop: "1px solid #222" }} />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── PRICING ─────────────────────────────────────────────────────── */}
-      <section
-        ref={pricingRef}
-        style={{ padding: "140px 60px" }}
-        className="pricing-section"
-      >
-        <motion.div
-          animate={pricingInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          initial={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.8 }}
-        >
-          {/* Pricing header centered */}
-          <div style={{ textAlign: "center", marginBottom: "64px" }}>
-            <SectionLabel>Transparent pricing</SectionLabel>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 3.5vw, 54px)",
-                fontWeight: 300,
-                lineHeight: 1.1,
-                color: "var(--black)",
-                margin: 0,
-              }}
-            >
-              Simple packages.
-              <br />
-              <em>Real results.</em>
-            </h2>
-          </div>
-
-          {/* Pricing grid */}
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr 1fr",
-              gap: "2px",
-              background: "var(--gray-light)",
-            }}
-            className="pricing-grid"
-          >
-            <PricingCard
-              tier="Starter"
-              price="1,200"
-              period="one-time payment"
-              features={[
-                "Custom 5-page website",
-                "Mobile responsive design",
-                "Contact form + basic SEO",
-                "2 rounds of revisions",
-                "14-day delivery",
-              ]}
-            />
-            <PricingCard
-              tier="Growth"
-              price="2,800"
-              period="one-time payment"
-              featured={true}
-              badgeText="Most Popular"
-              features={[
-                "Custom website (up to 10 pages)",
-                "AI chatbot integration",
-                "Lead capture automation",
-                "Performance optimization",
-                "3 rounds of revisions",
-                "21-day delivery",
-              ]}
-            />
-            <PricingCard
-              tier="Enterprise"
-              price="Custom"
-              period="tailored to your project"
-              ctaLabel="Let's Talk"
-              features={[
-                "Full custom web platform",
-                "Advanced AI integrations",
-                "API connections & automations",
-                "Priority support & maintenance",
-                "Ongoing retainer available",
-              ]}
-            />
-          </div>
-        </motion.div>
-      </section>
-
-      {/* ── CONTACT ─────────────────────────────────────────────────────── */}
-      <section
-        ref={contactRef}
-        style={{ padding: "0 60px 140px" }}
-        className="contact-section"
-      >
-        <motion.div
-          animate={contactInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
-          initial={{ opacity: 0, y: 32 }}
-          transition={{ duration: 0.8 }}
-          style={{
-            display: "grid",
-            gridTemplateColumns: "1fr 1fr",
-            gap: "100px",
-            alignItems: "start",
-          }}
-          className="contact-inner"
-        >
-          {/* Contact Left */}
-          <div>
-            <SectionLabel>Let's work together</SectionLabel>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 3.5vw, 54px)",
-                fontWeight: 300,
-                lineHeight: 1.1,
-                color: "var(--black)",
-                margin: 0,
-              }}
-            >
-              Ready to build
-              <br />
-              something <em>great?</em>
-            </h2>
-          </div>
-
-          {/* Contact Right */}
-          <div>
-            {formState.success && (
-              <p style={{ color: "#2d7a47", fontSize: "14px", marginBottom: "20px" }}>
-                {formState.success}
-              </p>
-            )}
-            {formState.error && (
-              <p style={{ color: "#b93333", fontSize: "14px", marginBottom: "20px" }}>
-                {formState.error}
-              </p>
-            )}
-            <form onSubmit={handleHomeLeadSubmit}>
-              <div style={{ marginBottom: "28px" }}>
-                <label className="home-contact-label">Name</label>
-                <input
-                  className="home-contact-input"
-                  type="text"
-                  name="name"
-                  placeholder="John Smith"
-                  value={formData.name}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-              <div style={{ marginBottom: "28px" }}>
-                <label className="home-contact-label">Email</label>
-                <input
-                  className="home-contact-input"
-                  type="email"
-                  name="email"
-                  placeholder="john@company.com"
-                  value={formData.email}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-              <div style={{ marginBottom: "28px" }}>
-                <label className="home-contact-label">Service Interested In</label>
-                <select
-                  className="home-contact-input"
-                  name="service"
-                  value={formData.service}
-                  onChange={handleFormChange}
-                  required
+        <div style={{ marginTop: 64 }}>
+          {STEPS.map((step, i) => {
+            const isOpen = openStep === i
+            return (
+              <div key={step.num} style={{ borderBottom: '1px solid var(--smoke)' }}>
+                <button
+                  onClick={() => setOpenStep(isOpen ? null : i)}
+                  style={{
+                    width: '100%',
+                    background: 'none',
+                    border: 'none',
+                    display: 'flex',
+                    alignItems: 'center',
+                    padding: '32px 0',
+                    cursor: 'pointer',
+                    textAlign: 'left',
+                  }}
                 >
-                  <option value="">Select a service...</option>
-                  <option>Custom Web Design</option>
-                  <option>AI Integration</option>
-                  <option>Landing Pages</option>
-                  <option>Website Redesign</option>
-                  <option>Full Package (Growth)</option>
-                </select>
-              </div>
-              <div style={{ marginBottom: "28px" }}>
-                <label className="home-contact-label">Tell us about your project</label>
-                <textarea
-                  className="home-contact-input home-contact-textarea"
-                  name="message"
-                  placeholder="Describe your business and what you're looking to build..."
-                  value={formData.message}
-                  onChange={handleFormChange}
-                  required
-                />
-              </div>
-              <button type="submit" className="btn-primary-bs" disabled={formState.loading}>
-                {formState.loading ? "Sending..." : "Send Message"}
-              </button>
-            </form>
-          </div>
-        </motion.div>
-      </section>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--gold)', width: 80, flexShrink: 0 }}>
+                    {step.num}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: 36, color: 'var(--bone)', flex: 1, fontWeight: 400 }}>
+                    {step.title}
+                  </span>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--gold)' }}>
+                    {isOpen ? '−' : '+'}
+                  </span>
+                </button>
 
-      {/* ── RESPONSIVE STYLES ───────────────────────────────────────────── */}
-      <style>{`
-        @media (max-width: 900px) {
-          .hero-section {
-            grid-template-columns: 1fr !important;
-            padding: 120px 28px 60px !important;
-          }
-          .hero-right {
-            display: none !important;
-          }
-          .services-section {
-            padding: 80px 28px !important;
-          }
-          .services-inner {
-            grid-template-columns: 1fr !important;
-          }
-          .services-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .process-section {
-            padding: 0 28px 80px !important;
-          }
-          .process-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
-          .ai-section {
-            padding: 80px 28px !important;
-          }
-          .ai-inner {
-            grid-template-columns: 1fr !important;
-            gap: 60px !important;
-          }
-          .pricing-section {
-            padding: 80px 28px !important;
-          }
-          .pricing-grid {
-            grid-template-columns: 1fr !important;
-          }
-          .contact-section {
-            padding: 0 28px 80px !important;
-          }
-          .contact-inner {
-            grid-template-columns: 1fr !important;
-            gap: 60px !important;
-          }
-          .home-contact-input {
-            font-size: 15px !important;
-          }
-        }
-        .home-contact-label {
-          display: block;
-          margin-bottom: 10px;
-          font-size: 10px;
-          letter-spacing: 0.18em;
-          text-transform: uppercase;
-          color: var(--gray);
-        }
-        .home-contact-input {
-          width: 100%;
-          padding: 14px 0;
-          border: none;
-          border-bottom: 1.5px solid var(--gray-light);
-          background: transparent;
-          color: var(--black);
-          font-family: var(--font-sans);
-          outline: none;
-          transition: border-color 0.3s ease;
-          -webkit-appearance: none;
-        }
-        .home-contact-input:focus {
-          border-bottom-color: var(--gold);
-        }
-        .home-contact-input::placeholder {
-          color: var(--gray-light);
-        }
-        .home-contact-textarea {
-          resize: none;
-          min-height: 100px;
-        }
-      `}</style>
-    </>
-  );
+                <AnimatePresence initial={false}>
+                  {isOpen && (
+                    <motion.div
+                      key="body"
+                      initial={reduced ? {} : { height: 0, opacity: 0 }}
+                      animate={reduced ? {} : { height: 'auto', opacity: 1 }}
+                      exit={reduced ? {} : { height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: 'easeInOut' }}
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <p style={{ fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--mist)', maxWidth: 600, lineHeight: 1.7, padding: '0 0 32px 104px' }}>
+                        {step.desc}
+                      </p>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )
+          })}
+        </div>
+
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: 'var(--mist)', marginTop: 40 }}>
+          Most projects ship in 14–21 days.
+        </p>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 7: Pricing ───────────────────────────────────────────────────────
+const PLANS = [
+  {
+    tier: 'STARTER',
+    price: '$1,200',
+    tagline: 'Launch fast, look sharp.',
+    features: ['5-page responsive site', 'Contact form + SEO', 'Mobile-first', '14-day delivery'],
+    cta: 'GET STARTED',
+    featured: false,
+  },
+  {
+    tier: 'GROWTH',
+    price: '$2,800',
+    tagline: 'The full conversion machine.',
+    features: ['10-page custom site', 'AI chat assistant', 'Lead automation', 'Analytics setup', '21-day delivery'],
+    cta: 'START YOUR PROJECT',
+    featured: true,
+  },
+  {
+    tier: 'ENTERPRISE',
+    price: 'Custom',
+    tagline: 'Full platform, built to scale.',
+    features: ['Unlimited pages', 'Advanced AI integration', 'Custom backend', 'Retainer available', 'Timeline: TBD'],
+    cta: "LET'S TALK",
+    featured: false,
+  },
+]
+
+function PricingSection() {
+  const reduced = useReducedMotion()
+
+  return (
+    <section style={{ background: 'var(--ash)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>05 / INVESTMENT</p>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400 }}>
+          Transparent pricing. No surprises.
+        </h2>
+        <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 16, color: 'var(--gold)', marginTop: 12 }}>
+          Introductory rates — limited spots at these prices
+        </p>
+
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)' }}>
+          {PLANS.map((plan, i) => (
+            <motion.div
+              key={plan.tier}
+              initial={reduced ? {} : { opacity: 0, y: 40 }}
+              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+              style={{
+                background: plan.featured ? 'var(--gold)' : 'var(--void)',
+                padding: '48px 40px',
+                display: 'flex',
+                flexDirection: 'column',
+                position: 'relative',
+              }}
+            >
+              {plan.featured && (
+                <span style={{
+                  position: 'absolute',
+                  top: 20,
+                  right: 20,
+                  fontFamily: 'var(--font-sans)',
+                  fontSize: 9,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  background: 'var(--void)',
+                  color: 'var(--gold)',
+                  padding: '4px 10px',
+                }}>
+                  MOST POPULAR
+                </span>
+              )}
+
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: plan.featured ? 'var(--void)' : 'var(--mist)', marginBottom: 16 }}>
+                {plan.tier}
+              </div>
+              <div style={{ fontFamily: 'var(--font-display)', fontSize: 72, color: plan.featured ? 'var(--void)' : 'var(--bone)', lineHeight: 1 }}>
+                {plan.price}
+              </div>
+              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: plan.featured ? 'var(--void)' : 'var(--mist)', marginBottom: 32, marginTop: 8 }}>
+                {plan.tagline}
+              </div>
+
+              <ul style={{ listStyle: 'none', marginBottom: 'auto', paddingBottom: 32 }}>
+                {plan.features.map((f) => (
+                  <li key={f} style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: plan.featured ? 'var(--void)' : 'var(--bone)', lineHeight: 2 }}>
+                    <span style={{ color: plan.featured ? 'var(--void)' : 'var(--gold-dim)', marginRight: 6 }}>—</span>
+                    {f}
+                  </li>
+                ))}
+              </ul>
+
+              <div style={{ borderTop: `1px solid ${plan.featured ? 'rgba(8,8,8,0.2)' : 'var(--smoke)'}`, paddingTop: 24, marginTop: 'auto' }}>
+                <Link
+                  to="/contact"
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    textAlign: 'center',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 16,
+                    padding: 16,
+                    textDecoration: 'none',
+                    border: plan.featured ? 'none' : '1px solid var(--smoke)',
+                    background: plan.featured ? 'var(--void)' : 'transparent',
+                    color: plan.featured ? 'var(--gold)' : 'var(--bone)',
+                    letterSpacing: '0.08em',
+                    transition: 'opacity 0.2s',
+                  }}
+                >
+                  {plan.cta}
+                </Link>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 40 }}>
+          Not sure which plan fits?{' '}
+          <Link to="/contact" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+            Let's figure it out together →
+          </Link>
+        </p>
+      </div>
+    </section>
+  )
+}
+
+// ─── SECTION 8: Contact ───────────────────────────────────────────────────────
+type FormState = 'idle' | 'sending' | 'success' | 'error'
+
+function ContactSection() {
+  const reduced = useReducedMotion()
+  const [formState, setFormState] = useState<FormState>('idle')
+  const [errorMsg, setErrorMsg] = useState('')
+  const formRef = useRef<HTMLFormElement>(null)
+
+  const [fields, setFields] = useState({
+    name: '',
+    email: '',
+    service: '',
+    budget: '',
+    message: '',
+  })
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }))
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setFormState('sending')
+    setErrorMsg('')
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: fields.name,
+          from_email: fields.email,
+          service: fields.service,
+          budget: fields.budget,
+          message: fields.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      setFormState('success')
+    } catch {
+      setFormState('error')
+      setErrorMsg('Something went wrong. Please try again or email us directly.')
+    }
+  }
+
+  const inputStyle: React.CSSProperties = {
+    width: '100%',
+    background: 'transparent',
+    border: 'none',
+    borderBottom: '1px solid var(--smoke)',
+    padding: '12px 0',
+    fontFamily: 'var(--font-sans)',
+    fontSize: 15,
+    color: 'var(--bone)',
+    outline: 'none',
+    transition: 'border-color 0.2s',
+    appearance: 'none',
+  }
+
+  const labelStyle: React.CSSProperties = {
+    display: 'block',
+    fontFamily: 'var(--font-sans)',
+    fontSize: 10,
+    textTransform: 'uppercase',
+    letterSpacing: '0.2em',
+    color: 'var(--mist)',
+    marginBottom: 8,
+  }
+
+  return (
+    <section style={{ background: 'var(--ash)', padding: '120px 0' }}>
+      <div className="section-container">
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>06 / LET'S BUILD</p>
+
+        <h2
+          style={{
+            fontFamily: 'var(--font-display)',
+            fontSize: 'clamp(60px, 10vw, 120px)',
+            color: 'var(--bone)',
+            lineHeight: 1,
+            whiteSpace: 'pre-line',
+            marginBottom: 80,
+          }}
+        >
+          {'READY WHEN\nYOU ARE.'}
+        </h2>
+
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
+          {/* Left */}
+          <motion.div
+            initial={reduced ? {} : { opacity: 0, x: -40 }}
+            whileInView={reduced ? {} : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 22, color: 'var(--mist)' }}>
+              No gatekeepers. No account managers. Just results.
+            </p>
+
+            <ul style={{ listStyle: 'none', marginTop: 40 }}>
+              {[
+                'Fast turnaround — most sites ship in 2–3 weeks',
+                'Direct communication — you work with the builder, not a middleman',
+                'AI-first approach — every site can have intelligence built in',
+                'NYC based — available for in-person meetings',
+              ].map((item) => (
+                <li key={item} style={{ display: 'flex', gap: 16, marginBottom: 20, alignItems: 'flex-start' }}>
+                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, color: 'var(--gold)', flexShrink: 0, marginTop: 2 }}>✓</span>
+                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--bone)', lineHeight: 1.5 }}>{item}</span>
+                </li>
+              ))}
+            </ul>
+
+            <div style={{ marginTop: 48, fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)' }}>
+              <a
+                href="mailto:elisaul@batistack.com"
+                style={{ color: 'var(--gold)', textDecoration: 'none', display: 'block', marginBottom: 8 }}
+                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
+                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
+              >
+                elisaul@batistack.com
+              </a>
+              <span>New York City, NY</span>
+            </div>
+          </motion.div>
+
+          {/* Right — Form */}
+          <motion.div
+            initial={reduced ? {} : { opacity: 0, x: 40 }}
+            whileInView={reduced ? {} : { opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            {formState === 'success' ? (
+              <div style={{ textAlign: 'center', paddingTop: 60 }}>
+                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ margin: '0 auto 24px', display: 'block' }}>
+                  <circle cx="24" cy="24" r="23" stroke="var(--gold)" strokeWidth="1.5" />
+                  <path d="M14 24l8 8 12-16" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+                <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 24, color: 'var(--bone)' }}>
+                  We'll be in touch within 24 hours.
+                </p>
+              </div>
+            ) : (
+              <form ref={formRef} onSubmit={handleSubmit}>
+                <div style={{ marginBottom: 32 }}>
+                  <label style={labelStyle}>Name</label>
+                  <input
+                    name="name"
+                    required
+                    value={fields.name}
+                    onChange={handleChange}
+                    style={inputStyle}
+                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
+                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 32 }}>
+                  <label style={labelStyle}>Email</label>
+                  <input
+                    name="email"
+                    type="email"
+                    required
+                    value={fields.email}
+                    onChange={handleChange}
+                    style={inputStyle}
+                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
+                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
+                  />
+                </div>
+
+                <div style={{ marginBottom: 32 }}>
+                  <label style={labelStyle}>Service</label>
+                  <select
+                    name="service"
+                    value={fields.service}
+                    onChange={handleChange}
+                    style={{ ...inputStyle, appearance: 'none' as const }}
+                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
+                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
+                  >
+                    <option value="" style={{ background: 'var(--ash)' }}>Select a service</option>
+                    <option value="Custom Web Design" style={{ background: 'var(--ash)' }}>Custom Web Design</option>
+                    <option value="Mobile App" style={{ background: 'var(--ash)' }}>Mobile App</option>
+                    <option value="AI Integration" style={{ background: 'var(--ash)' }}>AI Integration</option>
+                    <option value="Website Redesign" style={{ background: 'var(--ash)' }}>Website Redesign</option>
+                    <option value="Other" style={{ background: 'var(--ash)' }}>Other</option>
+                  </select>
+                </div>
+
+                <div style={{ marginBottom: 32 }}>
+                  <label style={labelStyle}>Budget</label>
+                  <select
+                    name="budget"
+                    value={fields.budget}
+                    onChange={handleChange}
+                    style={{ ...inputStyle, appearance: 'none' as const }}
+                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
+                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
+                  >
+                    <option value="" style={{ background: 'var(--ash)' }}>Select a budget range</option>
+                    <option value="Under $2,000" style={{ background: 'var(--ash)' }}>Under $2,000</option>
+                    <option value="$2,000–$5,000" style={{ background: 'var(--ash)' }}>$2,000–$5,000</option>
+                    <option value="$5,000–$15,000" style={{ background: 'var(--ash)' }}>$5,000–$15,000</option>
+                    <option value="$15,000+" style={{ background: 'var(--ash)' }}>$15,000+</option>
+                    <option value="Not sure yet" style={{ background: 'var(--ash)' }}>Not sure yet</option>
+                  </select>
+                </div>
+
+                <div style={{ marginBottom: 32 }}>
+                  <label style={labelStyle}>Message</label>
+                  <textarea
+                    name="message"
+                    required
+                    rows={4}
+                    value={fields.message}
+                    onChange={handleChange}
+                    style={{ ...inputStyle, resize: 'vertical' }}
+                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
+                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={formState === 'sending'}
+                  style={{
+                    width: '100%',
+                    fontFamily: 'var(--font-display)',
+                    fontSize: 20,
+                    background: 'var(--gold)',
+                    color: 'var(--void)',
+                    border: 'none',
+                    padding: 20,
+                    cursor: formState === 'sending' ? 'not-allowed' : 'pointer',
+                    opacity: formState === 'sending' ? 0.7 : 1,
+                    letterSpacing: '0.08em',
+                  }}
+                >
+                  {formState === 'sending' ? 'SENDING...' : 'SEND IT →'}
+                </button>
+
+                {formState === 'error' && (
+                  <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: '#e05c5c', marginTop: 12 }}>
+                    {errorMsg}
+                  </p>
+                )}
+              </form>
+            )}
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+// ─── Shared style objects ─────────────────────────────────────────────────────
+const styles = {
+  hero: {
+    minHeight: '100vh',
+    background: 'var(--void)',
+    paddingTop: 80,
+    display: 'flex',
+    alignItems: 'center',
+  } as React.CSSProperties,
+
+  heroInner: {
+    display: 'grid',
+    gridTemplateColumns: '55% 45%',
+    gap: 60,
+    alignItems: 'center',
+  } as React.CSSProperties,
+
+  heroLeft: {
+    display: 'flex',
+    flexDirection: 'column',
+  } as React.CSSProperties,
+
+  heroRight: {
+    display: 'flex',
+    alignItems: 'center',
+  } as React.CSSProperties,
+
+  heroLabel: {
+    fontFamily: 'var(--font-sans)',
+    fontSize: 10,
+    letterSpacing: '0.2em',
+    color: 'var(--gold)',
+    textTransform: 'uppercase',
+    marginBottom: 32,
+  } as React.CSSProperties,
+
+  heroSub: {
+    fontFamily: 'var(--font-serif)',
+    fontStyle: 'italic',
+    fontSize: 22,
+    color: 'var(--mist)',
+    maxWidth: 460,
+    margin: '32px 0',
+  } as React.CSSProperties,
+
+  heroCTAs: {
+    display: 'flex',
+    gap: 20,
+    flexWrap: 'wrap',
+  } as React.CSSProperties,
+
+  heroStats: {
+    display: 'flex',
+    gap: 40,
+    marginTop: 48,
+    flexWrap: 'wrap',
+  } as React.CSSProperties,
+
+  statNum: {
+    fontFamily: 'var(--font-display)',
+    fontSize: 40,
+    color: 'var(--gold)',
+  } as React.CSSProperties,
+
+  statLabel: {
+    fontFamily: 'var(--font-sans)',
+    fontSize: 11,
+    color: 'var(--mist)',
+    textTransform: 'uppercase',
+    letterSpacing: '0.15em',
+  } as React.CSSProperties,
+
+  terminal: {
+    background: 'var(--ash)',
+    border: '1px solid var(--smoke)',
+    borderRadius: 4,
+    padding: 32,
+    width: '100%',
+  } as React.CSSProperties,
+
+  terminalChrome: {
+    display: 'flex',
+    gap: 6,
+    marginBottom: 20,
+  } as React.CSSProperties,
+
+  dot: {
+    width: 8,
+    height: 8,
+    borderRadius: '50%',
+    display: 'inline-block',
+  } as React.CSSProperties,
+
+  terminalText: {
+    fontFamily: 'monospace',
+    fontSize: 14,
+    color: 'var(--gold)',
+    lineHeight: 1.8,
+    whiteSpace: 'pre-wrap',
+    wordBreak: 'break-word',
+  } as React.CSSProperties,
+
+  cursor: {
+    display: 'inline-block',
+    animation: 'blink 1s infinite',
+    color: 'var(--gold)',
+  } as React.CSSProperties,
+
+  sectionMarker: {
+    fontFamily: 'var(--font-sans)',
+    fontSize: 11,
+    letterSpacing: '0.2em',
+    textTransform: 'uppercase',
+    marginBottom: 24,
+  } as React.CSSProperties,
+}
+
+// ─── Home Page ────────────────────────────────────────────────────────────────
+export default function Home() {
+  useTrafficTracker('page_view', '/')
+
+  return (
+    <HelmetProvider>
+      <Helmet>
+        <title>Batistack — Web Design & AI Integration | NYC</title>
+        <meta
+          name="description"
+          content="Custom web design and AI integration for NYC businesses. Fast delivery, transparent pricing."
+        />
+        <meta
+          name="keywords"
+          content="web design NYC, AI integration, custom website New York, web developer NYC, AI chatbot, React developer NYC"
+        />
+        <meta property="og:title" content="Batistack — Web Design & AI Integration | NYC" />
+        <meta
+          property="og:description"
+          content="Custom web design and AI integration for NYC businesses. Fast delivery, transparent pricing."
+        />
+        <meta property="og:type" content="website" />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'LocalBusiness',
+            name: 'Batistack',
+            description: 'Custom web design and AI integration for NYC businesses.',
+            address: {
+              '@type': 'PostalAddress',
+              addressLocality: 'New York',
+              addressRegion: 'NY',
+              addressCountry: 'US',
+            },
+          })}
+        </script>
+      </Helmet>
+
+      <HeroSection />
+      <MarqueeStrip />
+      <ServicesSection />
+      <SocialProofSection />
+      <AISpotlightSection />
+      <ProcessSection />
+      <PricingSection />
+      <ContactSection />
+    </HelmetProvider>
+  )
 }

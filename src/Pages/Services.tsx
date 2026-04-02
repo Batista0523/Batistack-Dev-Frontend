@@ -2,207 +2,255 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import SectionLabel from "../components/SectionLabel";
-import ServiceCard from "../components/ServiceCard";
-import { useState } from "react";
 
-// ─── Service detail data ───────────────────────────────────────────────────
+// ─── Service data ─────────────────────────────────────────────────────────────
 
 const services = [
   {
     number: "01",
     name: "Custom Web Design",
-    tags: ["React", "Next.js", "TypeScript", "Responsive"],
     description:
-      "We design and build websites from scratch — no templates, no shortcuts. Each site is crafted to match your brand, communicate your value, and convert visitors into customers. Mobile-first, performance-optimized, and built to last.",
+      "Your website is your best salesperson. We build fast, beautiful, conversion-focused sites in React — no templates, no page builders, no excuses.",
     features: [
-      "Fully custom design — no templates",
-      "Mobile-first, fully responsive",
-      "Page speed & Core Web Vitals optimized",
-      "SEO-ready structure from day one",
-      "CMS integration available",
-      "2-3 rounds of revisions included",
+      "Custom design from scratch",
+      "React + TypeScript + Vite",
+      "Mobile-first responsive",
+      "SEO foundation",
+      "Performance optimized",
+      "14-day delivery",
     ],
+    stack: ["React", "TypeScript", "Vite", "Framer Motion"],
+    bg: "var(--void)" as const,
+    boxBg: "var(--ash)" as const,
   },
   {
     number: "02",
-    name: "AI Integration",
-    tags: ["OpenAI", "Claude API", "Dialogflow", "Automation"],
+    name: "Mobile Applications",
     description:
-      "We add intelligent AI features to your website that work around the clock. Whether it's a chatbot that qualifies leads, a voice agent that handles calls, or automated workflows that save your team hours — we build AI that actually works for your business.",
+      "Native-quality mobile apps built in React Native. iOS and Android from a single codebase, with real performance and real polish.",
     features: [
-      "AI chat assistant trained on your business",
-      "Voice agent via Twilio + ElevenLabs",
-      "Lead qualification & smart routing",
-      "Automated email follow-ups",
-      "CRM & calendar integration",
-      "Ongoing AI training & updates",
+      "iOS & Android (React Native)",
+      "Expo for fast deployment",
+      "Push notifications",
+      "Offline-ready architecture",
+      "App Store submission support",
     ],
+    stack: ["React Native", "Expo", "TypeScript"],
+    bg: "var(--ash)" as const,
+    boxBg: "var(--void)" as const,
   },
   {
     number: "03",
-    name: "Landing Pages",
-    tags: ["Conversion", "Performance", "A/B Testing", "SEO"],
+    name: "AI Integration",
     description:
-      "Every dollar you spend on ads needs a page that converts. We build high-performance landing pages designed for one purpose: getting the lead, the sale, or the sign-up. Fast, focused, and built to maximize your ad ROI.",
+      "AI isn't a gimmick — it's infrastructure. We integrate Claude, GPT, and custom models directly into your website so it works harder than any team member.",
     features: [
-      "Single-purpose conversion design",
-      "Sub-2s load time guaranteed",
-      "A/B testing ready setup",
-      "Heatmap & analytics integration",
-      "Ad platform compliance (Google, Meta)",
-      "7-day delivery available",
+      "AI chat assistant trained on your business",
+      "Lead capture & qualification",
+      "Workflow automation",
+      "CRM integrations",
+      "Real-time recommendations",
+      "Analytics on AI interactions",
     ],
+    stack: ["Claude API", "OpenAI", "Node.js", "Webhooks"],
+    bg: "var(--void)" as const,
+    boxBg: "var(--ash)" as const,
   },
   {
     number: "04",
     name: "Website Redesign",
-    tags: ["Audit", "UX Redesign", "Migration", "Performance"],
     description:
-      "Your existing site may be holding your business back. We audit, redesign, and rebuild your website with a focus on modern UX, speed, and conversion. You keep your content and brand voice — we give you a site that works like it should.",
+      "Your current site is costing you customers. We audit it, rebuild it, and hand you something you're proud to send to prospects.",
     features: [
-      "Full UX & performance audit",
-      "Brand-aligned visual redesign",
-      "Content migration included",
-      "SEO preservation & improvement",
-      "Zero downtime launch",
-      "30-day post-launch support",
+      "Full UX audit",
+      "Performance analysis",
+      "Complete visual rebuild",
+      "Content migration",
+      "SEO preservation",
+      "Analytics setup",
     ],
+    stack: ["Audit", "React", "Migration", "GA4"],
+    bg: "var(--ash)" as const,
+    boxBg: "var(--void)" as const,
   },
 ];
 
-// ─── ServiceDetail row component ──────────────────────────────────────────
+// ─── Service section ──────────────────────────────────────────────────────────
 
-function ServiceDetail({
+function ServiceSection({
   service,
+  index,
 }: {
   service: (typeof services)[0];
+  index: number;
 }) {
-  const [hovered, setHovered] = useState(false);
+  const isEven = index % 2 === 0;
 
   return (
-    <motion.div
-      className="services-detail-row"
-      whileInView={{ opacity: 1, y: 0 }}
-      initial={{ opacity: 0, y: 32 }}
-      transition={{ duration: 0.8 }}
-      viewport={{ once: true }}
+    <section
       style={{
-        borderBottom: "1px solid var(--gray-light)",
-        padding: "80px 60px",
-        display: "grid",
-        gridTemplateColumns: "1fr 2fr",
-        gap: "80px",
-        alignItems: "start",
+        background: service.bg,
+        padding: "120px 0",
       }}
     >
-      {/* LEFT */}
-      <div>
-        <p
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "13px",
-            color: "var(--gold)",
-            letterSpacing: "0.1em",
-            marginBottom: "16px",
-          }}
+      <div
+        className="section-container"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "80px",
+          alignItems: "center",
+        }}
+      >
+        {/* Left column */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8 }}
+          style={{ order: isEven ? 0 : 1 }}
+          className="service-left-col"
         >
-          {service.number}
-        </p>
-        <h2
-          style={{
-            fontFamily: "var(--font-serif)",
-            fontSize: "clamp(36px, 4vw, 52px)",
-            fontWeight: 300,
-            lineHeight: 1.15,
-            marginBottom: "28px",
-          }}
+          <div
+            style={{
+              fontFamily: "var(--font-display)",
+              fontSize: "180px",
+              lineHeight: 1,
+              color: "var(--smoke)",
+              marginBottom: "-20px",
+            }}
+          >
+            {service.number}
+          </div>
+          <h2
+            style={{
+              fontFamily: "var(--font-serif)",
+              fontSize: "52px",
+              fontWeight: 300,
+              color: "var(--bone)",
+              lineHeight: 1.1,
+              marginBottom: "24px",
+            }}
+          >
+            {service.name}
+          </h2>
+          <p
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "16px",
+              color: "var(--mist)",
+              lineHeight: 1.7,
+              marginBottom: "40px",
+              maxWidth: "480px",
+            }}
+          >
+            {service.description}
+          </p>
+          <Link
+            to="/contact"
+            data-cursor="cta"
+            style={{
+              display: "inline-block",
+              fontFamily: "var(--font-sans)",
+              fontSize: "12px",
+              letterSpacing: "0.15em",
+              textTransform: "uppercase",
+              color: "var(--bone)",
+              textDecoration: "none",
+              border: "1px solid var(--smoke)",
+              padding: "14px 32px",
+              transition: "border-color 0.25s, color 0.25s",
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--gold)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--gold)";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--smoke)";
+              (e.currentTarget as HTMLAnchorElement).style.color = "var(--bone)";
+            }}
+          >
+            START THIS PROJECT →
+          </Link>
+        </motion.div>
+
+        {/* Right column — What's Included box */}
+        <motion.div
+          initial={{ opacity: 0, y: 32 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.8, delay: 0.15 }}
+          style={{ order: isEven ? 1 : 0 }}
+          className="service-right-col"
         >
-          {service.name}
-        </h2>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-          {service.tags.map((tag) => (
-            <span
-              key={tag}
+          <div
+            style={{
+              border: "1px solid var(--smoke)",
+              padding: "40px",
+              background: service.boxBg,
+            }}
+          >
+            <p
               style={{
+                fontFamily: "var(--font-sans)",
                 fontSize: "10px",
-                letterSpacing: "0.1em",
+                letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                padding: "5px 12px",
-                border: "1px solid var(--gray-light)",
-                color: "var(--gray)",
+                color: "var(--gold)",
+                marginBottom: "24px",
               }}
             >
-              {tag}
-            </span>
-          ))}
-        </div>
+              WHAT'S INCLUDED
+            </p>
+
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px 0" }}>
+              {service.features.map((feature) => (
+                <li
+                  key={feature}
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "15px",
+                    color: "var(--bone)",
+                    padding: "12px 0",
+                    borderBottom: "1px solid var(--smoke)",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "10px",
+                  }}
+                >
+                  <span style={{ color: "var(--gold-dim)", flexShrink: 0 }}>→</span>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+
+            {/* Tech stack pills */}
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
+              {service.stack.map((tech) => (
+                <span
+                  key={tech}
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "10px",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "var(--mist)",
+                    border: "1px solid var(--smoke)",
+                    padding: "4px 12px",
+                  }}
+                >
+                  {tech}
+                </span>
+              ))}
+            </div>
+          </div>
+        </motion.div>
       </div>
-
-      {/* RIGHT */}
-      <div>
-        <p
-          style={{
-            fontSize: "16px",
-            color: "var(--gray)",
-            lineHeight: 1.8,
-            marginBottom: "40px",
-          }}
-        >
-          {service.description}
-        </p>
-
-        <ul
-          style={{
-            listStyle: "none",
-            padding: 0,
-            margin: "0 0 48px 0",
-            display: "flex",
-            flexDirection: "column",
-            gap: "14px",
-          }}
-        >
-          {service.features.map((feature) => (
-            <li
-              key={feature}
-              style={{
-                fontSize: "14px",
-                color: "var(--black)",
-                display: "flex",
-                alignItems: "baseline",
-                gap: "12px",
-              }}
-            >
-              <span
-                style={{
-                  color: "var(--gold)",
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "16px",
-                  flexShrink: 0,
-                }}
-              >
-                —
-              </span>
-              {feature}
-            </li>
-          ))}
-        </ul>
-
-        <Link
-          to="/contact"
-          className="btn-ghost-bs"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          style={{ color: hovered ? "var(--black)" : "var(--gray)" }}
-        >
-          Start this project
-        </Link>
-      </div>
-    </motion.div>
+    </section>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────
+// ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Services() {
   useTrafficTracker("page_view", "/services");
@@ -210,233 +258,175 @@ export default function Services() {
   return (
     <>
       <Helmet>
-        <title>Services | Batistack</title>
+        <title>Services | Batistack Development</title>
         <meta
           name="description"
-          content="Custom web design, AI integration, landing pages, and website redesigns. Batistack builds digital tools that grow your business."
+          content="Custom web design, mobile apps, AI integration, and website redesigns. Batistack builds digital tools that grow your business."
         />
       </Helmet>
 
-      <div
-        style={{
-          background: "var(--off-white)",
-          color: "var(--black)",
-          overflowX: "hidden",
-        }}
-      >
-        {/* ── HERO ────────────────────────────────────── */}
-        <section
-          className="services-page-hero"
-          style={{
-            paddingTop: "160px",
-            padding: "160px 60px 100px",
-            background: "var(--off-white)",
-          }}
-        >
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <SectionLabel>What We Build</SectionLabel>
-            <h1
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(44px, 8vw, 90px)",
-                fontWeight: 300,
-                lineHeight: 1.05,
-                maxWidth: "760px",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: "Services built<br/>for <em>real results</em>",
-              }}
-            />
-            <p
-              style={{
-                fontSize: "16px",
-                color: "var(--gray)",
-                maxWidth: "520px",
-                marginTop: "24px",
-                lineHeight: 1.7,
-              }}
+      <div style={{ background: "var(--void)", color: "var(--bone)", overflowX: "hidden" }}>
+
+        {/* ── HERO ─────────────────────────────────────────────────────── */}
+        <section style={{ background: "var(--void)", padding: "160px 0 120px" }}>
+          <div className="section-container">
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
             >
-              Every service we offer is designed to drive measurable growth for
-              your business — from first visit to loyal customer.
-            </p>
-          </motion.div>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--gold)",
+                  marginBottom: "24px",
+                }}
+              >
+                SERVICES
+              </p>
 
-          {/* Decorative line */}
-          <div
-            style={{
-              borderTop: "1px solid var(--gray-light)",
-              marginTop: "60px",
-            }}
-          />
-        </section>
+              <h1
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(80px, 14vw, 160px)",
+                  lineHeight: 0.9,
+                  color: "var(--bone)",
+                  margin: 0,
+                }}
+              >
+                WE BUILD
+                <br />
+                THINGS
+                <br />
+                <span style={{ color: "var(--gold)" }}>WORK.</span>
+              </h1>
 
-        {/* ── SERVICE DETAIL SECTIONS ─────────────────── */}
-        <div>
-          {services.map((service) => (
-            <ServiceDetail key={service.number} service={service} />
-          ))}
-        </div>
-
-        {/* ── SERVICE OVERVIEW CARDS ──────────────────── */}
-        <section
-          style={{
-            padding: "100px 60px",
-            borderBottom: "1px solid var(--gray-light)",
-          }}
-          className="services-overview-section"
-        >
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            style={{ marginBottom: "60px" }}
-          >
-            <SectionLabel>At a Glance</SectionLabel>
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 4vw, 52px)",
-                fontWeight: 300,
-                lineHeight: 1.15,
-              }}
-            >
-              Everything we offer.
-            </h2>
-          </motion.div>
-
-          <div
-            className="services-overview-grid"
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, minmax(0, 1fr))",
-              gap: "2px",
-              background: "var(--gray-light)",
-            }}
-          >
-            {services.map((service) => (
-              <ServiceCard
-                key={service.number}
-                number={service.number}
-                title={service.name}
-                description={service.description}
-                tags={service.tags}
-              />
-            ))}
+              <p
+                style={{
+                  fontFamily: "var(--font-serif)",
+                  fontStyle: "italic",
+                  fontSize: "22px",
+                  color: "var(--mist)",
+                  maxWidth: "520px",
+                  marginTop: "32px",
+                  lineHeight: 1.5,
+                }}
+              >
+                Four focused services. Zero fluff.
+              </p>
+            </motion.div>
           </div>
         </section>
 
-        {/* ── CTA BAND ────────────────────────────────── */}
-        <section
-          className="services-page-cta"
-          style={{
-            background: "var(--black)",
-            padding: "100px 60px",
-            textAlign: "center",
-          }}
-        >
-          <motion.div
-            whileInView={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 32 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-          >
-            <h2
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontSize: "clamp(36px, 6vw, 64px)",
-                fontWeight: 300,
-                color: "#fff",
-                lineHeight: 1.1,
-              }}
-              dangerouslySetInnerHTML={{
-                __html: "Ready to build<br/>something <em>great?</em>",
-              }}
-            />
-            <p
-              style={{
-                fontSize: "16px",
-                color: "#777",
-                marginTop: "20px",
-                maxWidth: "480px",
-                margin: "20px auto 0",
-                lineHeight: 1.7,
-              }}
-            >
-              Tell us about your project and we'll put together a plan that fits
-              your goals, timeline, and budget.
-            </p>
+        {/* ── SERVICE SECTIONS ─────────────────────────────────────────── */}
+        {services.map((service, index) => (
+          <ServiceSection key={service.number} service={service} index={index} />
+        ))}
 
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                gap: "20px",
-                marginTop: "48px",
-                flexWrap: "wrap",
-                alignItems: "center",
-              }}
+        {/* ── BOTTOM CTA ───────────────────────────────────────────────── */}
+        <section style={{ background: "var(--gold)", padding: "80px 0" }}>
+          <div className="section-container" style={{ textAlign: "center" }}>
+            <motion.div
+              initial={{ opacity: 0, y: 32 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.8 }}
             >
-              <Link
-                to="/contact"
-                className="btn-primary-bs"
+              <h2
                 style={{
-                  background: "var(--off-white)",
-                  color: "var(--black)",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "80px",
+                  color: "var(--void)",
+                  lineHeight: 0.9,
+                  marginBottom: "20px",
                 }}
               >
-                Start a Project
-              </Link>
-              <Link
-                to="/speedPage"
-                className="btn-ghost-bs"
-                style={{ color: "#fff" }}
+                READY TO BUILD?
+              </h2>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "16px",
+                  color: "rgba(8,8,8,0.7)",
+                  marginBottom: "40px",
+                  lineHeight: 1.6,
+                }}
               >
-                Free Website Audit
+                Most projects ship in 14–21 days. Transparent pricing. No surprises.
+              </p>
+              <Link
+                to="/contact"
+                data-cursor="cta"
+                style={{
+                  display: "inline-block",
+                  fontFamily: "var(--font-display)",
+                  fontSize: "18px",
+                  letterSpacing: "0.05em",
+                  background: "var(--void)",
+                  color: "var(--gold)",
+                  padding: "20px 60px",
+                  border: "none",
+                  textDecoration: "none",
+                  cursor: "pointer",
+                }}
+              >
+                SEE PRICING →
               </Link>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
         </section>
 
-        <style>{`
-          @media (max-width: 900px) {
-            .services-page-hero,
-            .services-page-cta {
-              padding-left: 28px !important;
-              padding-right: 28px !important;
-            }
-
-            .services-detail-row {
-              grid-template-columns: 1fr !important;
-              gap: 36px !important;
-              padding: 64px 28px !important;
-            }
-          }
-
-          @media (max-width: 1100px) {
-            .services-overview-grid {
-              grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
-            }
-          }
-
-          @media (max-width: 768px) {
-            .services-page-hero,
-            .services-page-cta,
-            .services-overview-section {
-              padding: 80px 28px !important;
-            }
-
-            .services-overview-grid {
-              grid-template-columns: 1fr !important;
-            }
-          }
-        `}</style>
       </div>
+
+      <style>{`
+        .section-container {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 0 60px;
+        }
+
+        @media (max-width: 900px) {
+          .section-container {
+            padding: 0 32px;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .section-container {
+            padding: 0 24px;
+          }
+
+          .service-left-col,
+          .service-right-col {
+            order: unset !important;
+          }
+
+          .service-left-col + .service-right-col,
+          .service-right-col + .service-left-col {
+            margin-top: 0;
+          }
+        }
+
+        @media (max-width: 768px) {
+          section[style*="padding: 120px"] > .section-container,
+          section[style*='padding: "120px 0"'] > .section-container {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+        }
+      `}</style>
+
+      <style>{`
+        @media (max-width: 768px) {
+          .bs-services-grid {
+            grid-template-columns: 1fr !important;
+            gap: 40px !important;
+          }
+        }
+      `}</style>
     </>
   );
 }
