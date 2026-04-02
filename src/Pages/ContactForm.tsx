@@ -254,7 +254,7 @@ function ContactForm() {
       from_email: formData.email.trim(),
       reply_to: formData.email.trim(),
       service: formData.service || "Not specified",
-      budget: formData.budget || "Not specified",
+      budget: "Not specified",
       message: formData.message.trim(),
       source: formData.source,
     };
