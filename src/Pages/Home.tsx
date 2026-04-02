@@ -59,8 +59,8 @@ function HeroSection() {
   ]
 
   return (
-    <section style={styles.hero}>
-      <div className="section-container" style={styles.heroInner}>
+    <section className="home-hero-section" style={styles.hero}>
+      <div className="section-container home-hero-inner" style={styles.heroInner}>
         {/* Left */}
         <div style={styles.heroLeft}>
           <p style={styles.heroLabel}>NEW YORK CITY · EST. 2024</p>
@@ -74,8 +74,8 @@ function HeroSection() {
                 transition={{ duration: 0.7, delay: i * 0.12, ease: 'easeOut' }}
                 style={{
                   fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(80px, 12vw, 140px)',
-                  lineHeight: 0.9,
+                  fontSize: 'clamp(52px, 13vw, 140px)',
+                  lineHeight: 0.95,
                   color: w.color,
                 }}
               >
@@ -117,7 +117,7 @@ function HeroSection() {
         </div>
 
         {/* Right */}
-        <div style={styles.heroRight}>
+        <div className="home-hero-right" style={styles.heroRight}>
           <TerminalBlock />
         </div>
       </div>
@@ -212,6 +212,7 @@ function ServicesSection() {
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 onMouseEnter={() => setHovered(svc.num)}
                 onMouseLeave={() => setHovered(null)}
+                className="home-svc-row"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -224,9 +225,10 @@ function ServicesSection() {
                 }}
               >
                 <span
+                  className="svc-num-col"
                   style={{
                     fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(100px, 12vw, 160px)',
+                    fontSize: 'clamp(64px, 10vw, 160px)',
                     lineHeight: 1,
                     marginRight: 40,
                     color: isHovered ? 'var(--gold-dim)' : 'var(--smoke)',
@@ -289,7 +291,7 @@ function SocialProofSection() {
           The agency that treats your ROI like it's our paycheck.
         </h2>
 
-        <div style={{ display: 'flex', marginTop: 60, borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
+        <div className="home-stats-row" style={{ display: 'flex', marginTop: 60, borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
           {stats.map((s, i) => (
             <motion.div
               key={s.stat}
@@ -313,7 +315,7 @@ function SocialProofSection() {
           ))}
         </div>
 
-        <div style={{ display: 'flex', gap: 60, marginTop: 80 }}>
+        <div className="home-why-cols" style={{ display: 'flex', gap: 60, marginTop: 80 }}>
           <div style={{ flex: 1 }}>
             <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 700, color: 'var(--void)' }}>
               We don't do templates. We don't do cookie-cutter.
@@ -366,7 +368,7 @@ function AISpotlightSection() {
     <section style={{ background: 'var(--void)', padding: '120px 0' }}>
       <div className="section-container">
         <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>03 / AI INTEGRATION</p>
-        <div style={{ display: 'flex', gap: 80 }}>
+        <div className="home-ai-flex" style={{ display: 'flex', gap: 80 }}>
           {/* Rotated label */}
           <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
             <span
@@ -516,7 +518,7 @@ function ProcessSection() {
                       transition={{ duration: 0.35, ease: 'easeInOut' }}
                       style={{ overflow: 'hidden' }}
                     >
-                      <p style={{ fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--mist)', maxWidth: 600, lineHeight: 1.7, padding: '0 0 32px 104px' }}>
+                      <p className="process-step-desc" style={{ fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--mist)', maxWidth: 600, lineHeight: 1.7, padding: '0 0 32px 104px' }}>
                         {step.desc}
                       </p>
                     </motion.div>
@@ -577,7 +579,7 @@ function PricingSection() {
           Introductory rates — limited spots at these prices
         </p>
 
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)' }}>
+        <div className="home-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)' }}>
           {PLANS.map((plan, i) => (
             <motion.div
               key={plan.tier}
@@ -740,9 +742,10 @@ function ContactSection() {
         <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>06 / LET'S BUILD</p>
 
         <h2
+          className="home-contact-headline"
           style={{
             fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(60px, 10vw, 120px)',
+            fontSize: 'clamp(48px, 10vw, 120px)',
             color: 'var(--bone)',
             lineHeight: 1,
             whiteSpace: 'pre-line',
@@ -752,7 +755,7 @@ function ContactSection() {
           {'READY WHEN\nYOU ARE.'}
         </h2>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
+        <div className="home-contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
           {/* Left */}
           <motion.div
             initial={reduced ? {} : { opacity: 0, x: -40 }}
@@ -961,7 +964,7 @@ const styles = {
   heroSub: {
     fontFamily: 'var(--font-serif)',
     fontStyle: 'italic',
-    fontSize: 22,
+    fontSize: 'clamp(16px, 2.5vw, 22px)',
     color: 'var(--mist)',
     maxWidth: 460,
     margin: '32px 0',
@@ -1085,6 +1088,190 @@ export default function Home() {
       <ProcessSection />
       <PricingSection />
       <ContactSection />
+
+      {/* ── Global responsive overrides ── */}
+      <style>{`
+        /* ── Section container ── */
+        .section-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 60px;
+        }
+
+        /* ── Hero ── */
+        .home-hero-inner {
+          grid-template-columns: 55% 45%;
+          gap: 60px;
+          align-items: center;
+        }
+
+        /* ── Services ── */
+        .home-svc-num {
+          font-size: clamp(100px, 12vw, 160px);
+        }
+
+        /* ── Pricing ── */
+        .home-pricing-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        /* ── Contact ── */
+        .home-contact-grid {
+          grid-template-columns: 1fr 1fr;
+          gap: 80px;
+        }
+
+        /* ── Marquee reverse ── */
+        .marquee-track-reverse {
+          animation-direction: reverse;
+        }
+
+        /* ═══════════════════════════════
+           TABLET  ≤ 900px
+           ═══════════════════════════════ */
+        @media (max-width: 900px) {
+          .section-container {
+            padding: 0 28px;
+          }
+
+          /* Hero: stack cols, hide terminal, reduce padding */
+          .home-hero-section {
+            padding-top: 100px !important;
+            padding-bottom: 60px !important;
+            align-items: flex-start !important;
+          }
+          .home-hero-inner {
+            grid-template-columns: 1fr !important;
+            gap: 0 !important;
+          }
+          .home-hero-right {
+            display: none !important;
+          }
+
+          /* Service rows: compress */
+          .home-svc-row {
+            padding: 24px 0 !important;
+          }
+          .svc-num-col {
+            font-size: clamp(48px, 10vw, 80px) !important;
+            margin-right: 20px !important;
+          }
+
+          /* Stats: wrap */
+          .home-stats-row {
+            flex-wrap: wrap !important;
+          }
+          .home-stats-row > * {
+            flex: 1 1 calc(50% - 1px) !important;
+            min-width: 140px !important;
+            padding: 24px 20px !important;
+            border-right: none !important;
+            border-bottom: 1px solid #ccc !important;
+          }
+
+          /* Why-us text cols */
+          .home-why-cols {
+            flex-direction: column !important;
+            gap: 32px !important;
+          }
+
+          /* AI section h2 */
+          .home-ai-flex h2 {
+            font-size: clamp(32px, 6vw, 56px) !important;
+          }
+
+          /* AI flex: hide rotated label, stack content */
+          .home-ai-flex {
+            flex-direction: column !important;
+            gap: 40px !important;
+          }
+          .home-ai-flex > div:first-child {
+            display: none !important;
+          }
+
+          /* Pricing: single column */
+          .home-pricing-grid {
+            grid-template-columns: 1fr !important;
+          }
+
+          /* Contact headline */
+          .home-contact-grid ~ * .contact-heading,
+          .home-contact-headline {
+            font-size: clamp(48px, 10vw, 80px) !important;
+            white-space: normal !important;
+          }
+
+          /* Contact: single column */
+          .home-contact-grid {
+            grid-template-columns: 1fr !important;
+            gap: 48px !important;
+          }
+
+          /* Sections: reduce padding on tablet */
+          section {
+            padding-top: 80px !important;
+            padding-bottom: 80px !important;
+          }
+        }
+
+        /* ═══════════════════════════════
+           MOBILE  ≤ 600px
+           ═══════════════════════════════ */
+        @media (max-width: 600px) {
+          .section-container {
+            padding: 0 20px;
+          }
+
+          /* Hero */
+          .home-hero-section {
+            min-height: auto !important;
+            padding-top: 96px !important;
+            padding-bottom: 48px !important;
+          }
+
+          /* Service numbers: smaller on phone */
+          .svc-num-col {
+            font-size: 56px !important;
+            margin-right: 16px !important;
+          }
+
+          /* Service tags: hide on very small screens */
+          .home-svc-row > div:last-child {
+            display: none !important;
+          }
+
+          /* Stats: fully stacked */
+          .home-stats-row {
+            flex-direction: column !important;
+          }
+          .home-stats-row > * {
+            flex: 1 1 100% !important;
+            border-right: none !important;
+          }
+
+          /* Pricing padding tighter */
+          .home-pricing-grid > * {
+            padding: 32px 24px !important;
+          }
+
+          /* Process step: reduce indent for desc */
+          .process-step-desc {
+            padding-left: 0 !important;
+          }
+
+          /* Sections: reduce padding further */
+          section {
+            padding-top: 64px !important;
+            padding-bottom: 64px !important;
+          }
+        }
+
+        /* ── Cursor blink ── */
+        @keyframes blink {
+          0%, 100% { opacity: 1; }
+          50%       { opacity: 0; }
+        }
+      `}</style>
     </HelmetProvider>
   )
 }
