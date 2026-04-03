@@ -5,6 +5,9 @@ import { motion } from "framer-motion";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 
 // ─── Preserved logic helpers ──────────────────────────────────────────────────
+// TEMPORARY MAINTENANCE FLAG:
+// Keep the audit logic intact, but disable user-triggered audit actions in the UI for now.
+const workAuditMaintenance = true;
 
 function WebsiteAudit() {
   useTrafficTracker("page_view", "/speedPage");
@@ -46,6 +49,9 @@ function WebsiteAudit() {
   };
 
   const handleAnalyze = async () => {
+    // Temporary maintenance guard so no API request can be triggered while disabled.
+    if (workAuditMaintenance) return;
+
     setLoading(true);
     setError("");
     setRecommendation([]);
@@ -216,82 +222,100 @@ function WebsiteAudit() {
 
               {/* Input form */}
               <div style={{ maxWidth: "640px" }}>
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (!loading && url) handleAnalyze();
-                  }}
-                >
-                  <input
-                    type="url"
-                    placeholder="yourdomain.com"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    required
-                    className="bs-audit-input"
-                    onFocus={() => setInputFocused(true)}
-                    onBlur={() => setInputFocused(false)}
-                    style={{
-                      width: "100%",
-                      background: "var(--ash)",
-                      border: `1px solid ${inputFocused ? "var(--gold)" : "var(--smoke)"}`,
-                      padding: "20px 24px",
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "16px",
-                      color: "var(--bone)",
-                      borderRadius: 0,
-                      outline: "none",
-                      transition: "border-color 0.2s",
-                      boxSizing: "border-box",
-                      display: "block",
-                    }}
-                  />
-
-                  <button
-                    type="submit"
-                    disabled={loading}
-                    style={{
-                      display: "block",
-                      width: "100%",
-                      marginTop: "12px",
-                      fontFamily: "var(--font-display)",
-                      fontSize: "20px",
-                      letterSpacing: "0.05em",
-                      background: "var(--gold)",
-                      color: "var(--void)",
-                      padding: "18px",
-                      border: "none",
-                      cursor: loading ? "not-allowed" : "pointer",
-                      opacity: loading ? 0.8 : 1,
-                      transition: "opacity 0.2s",
-                    }}
-                  >
-                    {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
-                  </button>
-                </form>
-
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "12px",
-                    color: "var(--mist)",
-                    marginTop: "12px",
-                  }}
-                >
-                  Takes 15–30 seconds. No signup required.
-                </p>
-
-                {error && (
+                {workAuditMaintenance ? (
                   <p
                     style={{
                       fontFamily: "var(--font-sans)",
-                      fontSize: "13px",
-                      color: "#e05c5c",
-                      marginTop: "12px",
+                      fontSize: "16px",
+                      color: "var(--mist)",
+                      marginTop: "8px",
+                      border: "1px solid var(--smoke)",
+                      background: "var(--ash)",
+                      padding: "18px 20px",
                     }}
                   >
-                    {error}
+                    This feature is currently under maintenance. Please check back soon.
                   </p>
+                ) : (
+                  <>
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        if (!loading && url) handleAnalyze();
+                      }}
+                    >
+                      <input
+                        type="url"
+                        placeholder="yourdomain.com"
+                        value={url}
+                        onChange={(e) => setUrl(e.target.value)}
+                        required
+                        className="bs-audit-input"
+                        onFocus={() => setInputFocused(true)}
+                        onBlur={() => setInputFocused(false)}
+                        style={{
+                          width: "100%",
+                          background: "var(--ash)",
+                          border: `1px solid ${inputFocused ? "var(--gold)" : "var(--smoke)"}`,
+                          padding: "20px 24px",
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "16px",
+                          color: "var(--bone)",
+                          borderRadius: 0,
+                          outline: "none",
+                          transition: "border-color 0.2s",
+                          boxSizing: "border-box",
+                          display: "block",
+                        }}
+                      />
+
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          marginTop: "12px",
+                          fontFamily: "var(--font-display)",
+                          fontSize: "20px",
+                          letterSpacing: "0.05em",
+                          background: "var(--gold)",
+                          color: "var(--void)",
+                          padding: "18px",
+                          border: "none",
+                          cursor: loading ? "not-allowed" : "pointer",
+                          opacity: loading ? 0.8 : 1,
+                          transition: "opacity 0.2s",
+                        }}
+                      >
+                        {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
+                      </button>
+                    </form>
+
+                    <p
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "12px",
+                        color: "var(--mist)",
+                        marginTop: "12px",
+                      }}
+                    >
+                      Takes 15–30 seconds. No signup required.
+                    </p>
+
+                    {error && (
+                      <p
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "13px",
+                          color: "#e05c5c",
+                          marginTop: "12px",
+                        }}
+                      >
+                        {error}
+                      </p>
+                    )}
+                  </>
                 )}
               </div>
             </motion.div>
@@ -299,7 +323,7 @@ function WebsiteAudit() {
         </section>
 
         {/* ── LOADING STATE ─────────────────────────────────────────────── */}
-        {loading && (
+        {!workAuditMaintenance && loading && (
           <section style={{ paddingBottom: "80px" }}>
             <div
               className="bs-audit-container"
@@ -373,7 +397,7 @@ function WebsiteAudit() {
         )}
 
         {/* ── SCORE CARDS ───────────────────────────────────────────────── */}
-        {!loading && scores && (
+        {!workAuditMaintenance && !loading && scores && (
           <section ref={resultRef} style={{ paddingBottom: "80px" }}>
             <div
               className="bs-audit-container"
@@ -460,7 +484,7 @@ function WebsiteAudit() {
         )}
 
         {/* ── AI RECOMMENDATIONS ────────────────────────────────────────── */}
-        {recommendation.length > 0 && (
+        {!workAuditMaintenance && recommendation.length > 0 && (
           <section style={{ paddingBottom: "120px" }}>
             <div
               className="bs-audit-container"
