@@ -8,9 +8,8 @@ import ChatInput from "./chatbot/ChatInput";
 import ChatBrand from "./chatbot/ChatBrand";
 import type { ChatMessage } from "./chatbot/types";
 
-// TEMPORARY MAINTENANCE FLAG:
-// Keep chatbot logic in the codebase, but disable public interaction for now.
-const chatbotMaintenance = true;
+// Feature flag: keep chatbot code in place while hiding all chatbot UI from users.
+const ENABLE_CHATBOT = false;
 
 const widgetMotion = {
   initial: { opacity: 0, y: 24, scale: 0.92 },
@@ -27,31 +26,14 @@ const panelMotion = {
 };
 
 function ChatBot() {
-  if (chatbotMaintenance) {
-    return (
-      <div
-        style={{
-          position: "fixed",
-          right: "30px",
-          bottom: "30px",
-          zIndex: 9999,
-          maxWidth: "320px",
-          background: "var(--ash)",
-          border: "1px solid var(--smoke)",
-          color: "var(--bone)",
-          padding: "14px 16px",
-          fontFamily: "var(--font-sans)",
-          fontSize: "13px",
-          lineHeight: 1.5,
-          boxShadow: "0 10px 30px rgba(0, 0, 0, 0.35)",
-        }}
-        aria-live="polite"
-      >
-        This feature is currently under maintenance. Please check back soon.
-      </div>
-    );
+  if (!ENABLE_CHATBOT) {
+    return null;
   }
 
+  return <ChatBotWidget />;
+}
+
+function ChatBotWidget() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
