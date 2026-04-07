@@ -14,6 +14,8 @@ import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
 import WebsiteAudit from "./Pages/WebsiteAudit";
 import CaseStudyPage from "./Pages/CaseStudyPage";
+import Blog from "./Pages/Blog";
+import BlogPost from "./Pages/BlogPost";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import "./global.css";
@@ -44,6 +46,8 @@ function App() {
         <Route path="/contact"      element={<ContactForm />} />
         <Route path="/policy"       element={<PrivacyPolicy />} />
         <Route path="/case-studies/:id" element={<CaseStudyPage />} />
+        <Route path="/blog"       element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogPost />} />
         <Route
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}

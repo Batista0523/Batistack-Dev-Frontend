@@ -134,3 +134,54 @@ export function generatePageMeta(
     ogDescription: description,
   };
 }
+
+export function generateArticleSchema(post: {
+  title: string;
+  description: string;
+  date: string;
+  slug: string;
+}) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    url: `${SITE_URL}/blog/${post.slug}`,
+    author: {
+      "@type": "Person",
+      name: "Batista",
+      url: SITE_URL,
+    },
+    publisher: {
+      "@type": "Organization",
+      name: "Batistack",
+      url: SITE_URL,
+      logo: {
+        "@type": "ImageObject",
+        url: `${SITE_URL}/batistackLogo.png`,
+      },
+    },
+    image: OG_IMAGE,
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": `${SITE_URL}/blog/${post.slug}`,
+    },
+  };
+}
+
+export function generateBlogIndexSchema(posts: Array<{ title: string; slug: string; date: string }>) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    name: "Batistack Blog",
+    url: `${SITE_URL}/blog`,
+    blogPost: posts.map((p) => ({
+      "@type": "BlogPosting",
+      headline: p.title,
+      url: `${SITE_URL}/blog/${p.slug}`,
+      datePublished: p.date,
+    })),
+  };
+}

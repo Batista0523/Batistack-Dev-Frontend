@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 
 const NAV_LINKS = [
-  { label: "Services", to: "/services"  },
-  { label: "Work",     to: "/speedPage" },
-  { label: "About",    to: "/about"     },
-  { label: "Pricing",  to: "/pricing"   },
-  { label: "Contact",  to: "/contact"   },
+  { label: "Services",   to: "/services"  },
+  { label: "Speed Test", to: "/speedPage" },
+  { label: "Blog",       to: "/blog"      },
+  { label: "About",      to: "/about"     },
+  { label: "Contact",    to: "/contact"   },
 ];
 
 export default function Footer() {
@@ -156,7 +156,7 @@ export default function Footer() {
               letterSpacing: "0.04em",
             }}
           >
-            © 2024 Batistack Development Corp.
+            © {new Date().getFullYear()} Batistack Development Corp.
           </span>
 
           {/* Decorative gold divider */}
