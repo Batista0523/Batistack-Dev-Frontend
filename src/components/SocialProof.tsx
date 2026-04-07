@@ -24,7 +24,7 @@ const testimonials = [
 ];
 
 const trustBadges = [
-  "5+ Projects Delivered",
+  "AI Chatbots That Work 24/7",
   "2–3 Week Avg. Delivery",
   "NYC Based & Available",
   "Money-Back Guarantee",

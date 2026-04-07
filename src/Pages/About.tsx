@@ -1,4 +1,5 @@
 import { useTrafficTracker } from "../hook/useTrafficTracker";
+import { localBusinessSchema, generatePageMeta } from "../lib/seoSchema";
 import { Helmet } from "react-helmet-async";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
@@ -80,11 +81,28 @@ export default function About() {
   return (
     <>
       <Helmet>
-        <title>About | Batistack Development</title>
-        <meta
-          name="description"
-          content="Learn about Batistack — a NYC-based web development studio building custom websites, AI integrations, and automation for growing businesses."
-        />
+        {(() => {
+          const meta = generatePageMeta(
+            "About Batistack — NYC Web Designer & AI Developer",
+            "Batistack is an NYC-based web design studio building conversion-focused websites and AI tools for small businesses.",
+            "/about"
+          );
+          return (
+            <>
+              <title>{meta.title}</title>
+              <meta name="description" content={meta.description} />
+              <link rel="canonical" href={meta.canonical} />
+              <meta property="og:title" content={meta.ogTitle} />
+              <meta property="og:description" content={meta.ogDescription} />
+              <meta property="og:url" content={meta.canonical} />
+              <meta property="og:image" content={meta.ogImage} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              <meta property="og:type" content="website" />
+              <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+            </>
+          );
+        })()}
       </Helmet>
 
       <div style={{ background: "var(--void)", color: "var(--bone)", overflowX: "hidden" }}>

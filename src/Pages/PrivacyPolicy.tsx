@@ -1,4 +1,5 @@
 import { Helmet } from "react-helmet-async";
+import { generatePageMeta } from "../lib/seoSchema";
 import { motion } from "framer-motion";
 import SectionLabel from "../components/SectionLabel";
 
@@ -178,11 +179,24 @@ function PrivacyPolicy() {
   return (
     <>
       <Helmet>
-        <title>Privacy Policy | Batistack Development</title>
-        <meta
-          name="description"
-          content="Read our professional Privacy Policy to understand how Batistack Development collects, uses, and protects your data."
-        />
+        {(() => {
+          const meta = generatePageMeta(
+            "Privacy Policy | Batistack",
+            "Batistack privacy policy — how we handle your data.",
+            "/policy"
+          );
+          return (
+            <>
+              <title>{meta.title}</title>
+              <meta name="description" content={meta.description} />
+              <link rel="canonical" href={meta.canonical} />
+              <meta property="og:title" content={meta.ogTitle} />
+              <meta property="og:description" content={meta.ogDescription} />
+              <meta property="og:url" content={meta.canonical} />
+              <meta property="og:type" content="website" />
+            </>
+          );
+        })()}
       </Helmet>
 
       <div

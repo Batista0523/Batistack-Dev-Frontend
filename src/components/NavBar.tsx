@@ -4,10 +4,10 @@ import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { label: "Services", to: "/services"  },
-  { label: "Work",     to: "/speedPage" },
-  { label: "About",    to: "/about"     },
-  { label: "Contact",  to: "/contact"   },
+  { label: "Services",   to: "/services"  },
+  { label: "Speed Test", to: "/speedPage" },
+  { label: "About",      to: "/about"     },
+  { label: "Contact",    to: "/contact"   },
 ];
 
 export default function NavBar() {
@@ -133,7 +133,11 @@ export default function NavBar() {
           </ul>
 
           {/* Desktop CTA */}
-          <div className="nav-desktop-cta">
+          <div
+            className="nav-desktop-cta"
+            style={{ display: "flex", alignItems: "center", gap: "16px" }}
+          >
+            <FreeAuditButton />
             <CtaButton />
           </div>
 
@@ -291,13 +295,39 @@ export default function NavBar() {
                   </Link>
                 </motion.li>
               )}
-              {/* Mobile CTA */}
+              {/* Mobile Free Audit CTA */}
               <motion.li
                 variants={{
                   hidden: { opacity: 0, y: 30 },
                   show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
                 }}
                 style={{ marginTop: "32px" }}
+              >
+                <a
+                  href="/#free-audit"
+                  style={{
+                    fontFamily:     "var(--font-display)",
+                    fontSize:       "14px",
+                    letterSpacing:  "0.1em",
+                    textTransform:  "uppercase",
+                    color:          "var(--gold)",
+                    border:         "1px solid var(--gold)",
+                    padding:        "14px 40px",
+                    textDecoration: "none",
+                    display:        "inline-block",
+                    background:     "transparent",
+                  }}
+                >
+                  Free Audit
+                </a>
+              </motion.li>
+              {/* Mobile CTA */}
+              <motion.li
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
+                }}
+                style={{ marginTop: "12px" }}
               >
                 <Link
                   to="/contact"
@@ -416,5 +446,32 @@ function CtaButton() {
     >
       Start a Project
     </Link>
+  );
+}
+
+function FreeAuditButton() {
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <a
+      href="/#free-audit"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        fontFamily:     "var(--font-sans)",
+        fontSize:       "11px",
+        letterSpacing:  "0.12em",
+        textTransform:  "uppercase",
+        color:          hovered ? "var(--void)" : "var(--gold)",
+        border:         "1px solid var(--gold)",
+        padding:        "8px 18px",
+        textDecoration: "none",
+        display:        "inline-block",
+        background:     hovered ? "var(--gold)" : "transparent",
+        transition:     "background 0.25s ease, color 0.25s ease",
+      }}
+    >
+      Free Audit
+    </a>
   );
 }

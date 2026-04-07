@@ -1,6 +1,7 @@
 import { useState, useRef } from "react";
 import axios from "axios";
 import { Helmet } from "react-helmet-async";
+import { localBusinessSchema, generatePageMeta } from "../lib/seoSchema";
 import { motion } from "framer-motion";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 
@@ -122,27 +123,28 @@ function WebsiteAudit() {
   return (
     <>
       <Helmet>
-        <title>AI Website Audit &amp; Speed Test | Batistack</title>
-        <meta
-          name="description"
-          content="Run an AI-powered audit of your website's performance, SEO, accessibility, and best practices. Get instant scores and clear recommendations from Batistack."
-        />
-        <meta
-          name="keywords"
-          content="website speed test, AI website audit, lighthouse report, SEO audit, accessibility audit, performance optimization, Batistack website analyzer"
-        />
-        <meta property="og:title" content="AI Website Analyzer | Batistack" />
-        <meta
-          property="og:description"
-          content="Instantly scan your website for speed, SEO, accessibility, and best practices — powered by Google Lighthouse and AI."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://batistack.com/speedPage" />
-        <meta
-          property="og:image"
-          content="https://batistack.com/assets/og-website-audit.jpg"
-        />
-        <link rel="canonical" href="https://batistack.com/speedPage" />
+        {(() => {
+          const meta = generatePageMeta(
+            "Free Website Speed & AI Audit | Batistack",
+            "Test your website speed and get a free AI-powered audit. Find performance issues, SEO gaps, and conversion opportunities instantly.",
+            "/speedPage"
+          );
+          return (
+            <>
+              <title>{meta.title}</title>
+              <meta name="description" content={meta.description} />
+              <link rel="canonical" href={meta.canonical} />
+              <meta property="og:title" content={meta.ogTitle} />
+              <meta property="og:description" content={meta.ogDescription} />
+              <meta property="og:url" content={meta.canonical} />
+              <meta property="og:image" content={meta.ogImage} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              <meta property="og:type" content="website" />
+              <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+            </>
+          );
+        })()}
       </Helmet>
 
       <style>{`

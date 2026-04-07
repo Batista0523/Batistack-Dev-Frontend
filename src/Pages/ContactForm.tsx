@@ -3,6 +3,7 @@ import emailjs from "@emailjs/browser";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import { localBusinessSchema, generatePageMeta } from "../lib/seoSchema";
 
 // ─── Types (preserved) ────────────────────────────────────────────────────────
 
@@ -274,11 +275,28 @@ function ContactForm() {
   return (
     <>
       <Helmet>
-        <title>Contact Us | Batistack Development</title>
-        <meta
-          name="description"
-          content="Get in touch with Batistack Development. Tell us about your project and we'll respond within 24 hours."
-        />
+        {(() => {
+          const meta = generatePageMeta(
+            "Start Your Project | Batistack Web Design NYC",
+            "Ready to build your website or AI chatbot? Contact Batistack — NYC web design agency with 2–3 week delivery.",
+            "/contact"
+          );
+          return (
+            <>
+              <title>{meta.title}</title>
+              <meta name="description" content={meta.description} />
+              <link rel="canonical" href={meta.canonical} />
+              <meta property="og:title" content={meta.ogTitle} />
+              <meta property="og:description" content={meta.ogDescription} />
+              <meta property="og:url" content={meta.canonical} />
+              <meta property="og:image" content={meta.ogImage} />
+              <meta property="og:image:width" content="1200" />
+              <meta property="og:image:height" content="630" />
+              <meta property="og:type" content="website" />
+              <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+            </>
+          );
+        })()}
       </Helmet>
 
       <style>{`

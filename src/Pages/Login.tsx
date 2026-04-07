@@ -94,7 +94,7 @@ function LoginPage() {
           content="Login to Batistack Development's admin dashboard to manage data and view performance."
         />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.batistack.com/login" />
+        <meta property="og:url" content="https://batistack.com/login" />
       </Helmet>
 
       <style>{`

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { HelmetProvider, Helmet } from 'react-helmet-async'
+import { Helmet } from 'react-helmet-async'
 import emailjs from '@emailjs/browser'
 import { useTrafficTracker } from '../hook/useTrafficTracker'
+import { localBusinessSchema, homeFaqSchema, generatePageMeta } from '../lib/seoSchema'
 
 // ─── SECTION 1: Hero ─────────────────────────────────────────────────────────
 const TERMINAL_LINES = [
@@ -97,9 +98,9 @@ function HeroSection() {
             >
               START YOUR PROJECT →
             </Link>
-            <Link to="/services" className="btn-ghost" style={{ fontSize: 18 }}>
-              SEE OUR WORK
-            </Link>
+            <a href="/#free-audit" className="btn-ghost" style={{ fontSize: 18 }}>
+              GET A FREE SITE AUDIT
+            </a>
           </div>
 
           <div style={styles.heroStats}>
@@ -1047,38 +1048,30 @@ export default function Home() {
   useTrafficTracker('page_view', '/')
 
   return (
-    <HelmetProvider>
-      <Helmet>
-        <title>Batistack — Web Design & AI Integration | NYC</title>
-        <meta
-          name="description"
-          content="Custom web design and AI integration for NYC businesses. Fast delivery, transparent pricing."
-        />
-        <meta
-          name="keywords"
-          content="web design NYC, AI integration, custom website New York, web developer NYC, AI chatbot, React developer NYC"
-        />
-        <meta property="og:title" content="Batistack — Web Design & AI Integration | NYC" />
-        <meta
-          property="og:description"
-          content="Custom web design and AI integration for NYC businesses. Fast delivery, transparent pricing."
-        />
-        <meta property="og:type" content="website" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'LocalBusiness',
-            name: 'Batistack',
-            description: 'Custom web design and AI integration for NYC businesses.',
-            address: {
-              '@type': 'PostalAddress',
-              addressLocality: 'New York',
-              addressRegion: 'NY',
-              addressCountry: 'US',
-            },
-          })}
-        </script>
-      </Helmet>
+    <>
+      {(() => {
+        const meta = generatePageMeta(
+          'Batistack — Web Design & AI Chatbots for NYC Businesses',
+          'NYC web design agency specializing in custom websites and AI chatbots that generate leads 24/7. 2–3 week delivery. Money-back guarantee.',
+          '/'
+        )
+        return (
+          <Helmet>
+            <title>{meta.title}</title>
+            <meta name="description" content={meta.description} />
+            <link rel="canonical" href={meta.canonical} />
+            <meta property="og:title" content={meta.ogTitle} />
+            <meta property="og:description" content={meta.ogDescription} />
+            <meta property="og:url" content={meta.canonical} />
+            <meta property="og:image" content={meta.ogImage} />
+            <meta property="og:image:width" content="1200" />
+            <meta property="og:image:height" content="630" />
+            <meta property="og:type" content="website" />
+            <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
+            <script type="application/ld+json">{JSON.stringify(homeFaqSchema)}</script>
+          </Helmet>
+        )
+      })()}
 
       <HeroSection />
       <MarqueeStrip />
@@ -1272,6 +1265,6 @@ export default function Home() {
           50%       { opacity: 0; }
         }
       `}</style>
-    </HelmetProvider>
+    </>
   )
 }

@@ -72,6 +72,7 @@ export default function LeadMagnet({ apiBaseUrl }: LeadMagnetProps) {
 
   return (
     <section
+      id="free-audit"
       style={{
         background: "var(--off-white)",
         padding: "140px 60px",

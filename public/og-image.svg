@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <!-- Background -->
+  <rect width="1200" height="630" fill="#080808"/>
+
+  <!-- Left gold accent bar -->
+  <rect x="0" y="0" width="6" height="630" fill="#c9a84c"/>
+
+  <!-- Bottom gold line -->
+  <rect x="0" y="610" width="1200" height="2" fill="#c9a84c" opacity="0.3"/>
+
+  <!-- Wordmark: BATI (white) + STACK (gold) -->
+  <text
+    x="80"
+    y="290"
+    font-family="Arial Black, Impact, sans-serif"
+    font-size="120"
+    font-weight="900"
+    letter-spacing="6"
+    fill="#f5f3ef"
+  >BATI</text>
+  <text
+    x="80"
+    y="410"
+    font-family="Georgia, 'Times New Roman', serif"
+    font-size="120"
+    font-weight="400"
+    font-style="italic"
+    letter-spacing="4"
+    fill="#c9a84c"
+  >STACK</text>
+
+  <!-- Tagline -->
+  <text
+    x="80"
+    y="470"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="26"
+    font-weight="300"
+    letter-spacing="3"
+    fill="#888888"
+  >WEB DESIGN &amp; AI FOR NYC BUSINESSES</text>
+
+  <!-- Domain -->
+  <text
+    x="1120"
+    y="590"
+    font-family="Arial, Helvetica, sans-serif"
+    font-size="18"
+    font-weight="400"
+    letter-spacing="2"
+    fill="#c9a84c"
+    text-anchor="end"
+  >batistack.com</text>
+</svg>

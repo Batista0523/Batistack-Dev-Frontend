@@ -371,7 +371,7 @@ export default function PricingSection() {
             marginTop: "40px",
           }}
         >
-          All prices are founding-client rates. Building my portfolio = your advantage.
+          Current rates are guaranteed through June 2026. Pricing increases for new clients in Q3.
         </motion.p>
       </div>
 
