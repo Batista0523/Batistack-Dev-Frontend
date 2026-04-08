@@ -9,7 +9,7 @@ import ChatBrand from "./chatbot/ChatBrand";
 import type { ChatMessage } from "./chatbot/types";
 
 // Feature flag: keep chatbot code in place while hiding all chatbot UI from users.
-const ENABLE_CHATBOT = false;
+const ENABLE_CHATBOT = true;
 
 const widgetMotion = {
   initial: { opacity: 0, y: 24, scale: 0.92 },

@@ -8,7 +8,7 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 // ─── Preserved logic helpers ──────────────────────────────────────────────────
 // TEMPORARY MAINTENANCE FLAG:
 // Keep the audit logic intact, but disable user-triggered audit actions in the UI for now.
-const workAuditMaintenance = true;
+const workAuditMaintenance = false;
 
 function WebsiteAudit() {
   useTrafficTracker("page_view", "/speedPage");

@@ -55,8 +55,8 @@ export default function SEOSection() {
                     <td>{k.keyword}</td>
                     <td style={{ textAlign: "right" }}>{k.impressions}</td>
                     <td style={{ textAlign: "right", color: "var(--gold)" }}>{k.clicks}</td>
-                    <td style={{ textAlign: "right" }}>{(k.ctr * 100).toFixed(1)}%</td>
-                    <td style={{ textAlign: "right" }}>{k.avg_position.toFixed(1)}</td>
+                    <td style={{ textAlign: "right" }}>{(Number(k.ctr) * 100).toFixed(1)}%</td>
+                    <td style={{ textAlign: "right" }}>{Number(k.avg_position).toFixed(1)}</td>
                     <td style={{ textAlign: "right", color: "var(--mist)", fontSize: "11px" }}>
                       {new Date(k.date + "T12:00:00").toLocaleDateString()}
                     </td>
