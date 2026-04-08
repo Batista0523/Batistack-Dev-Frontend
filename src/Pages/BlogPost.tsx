@@ -210,12 +210,12 @@ export default function BlogPost() {
                     <p
                       key={para.slice(0, 32)}
                       style={{
-                        fontFamily: "var(--font-serif)",
-                        fontSize: "clamp(16px, 1.5vw, 19px)",
-                        fontWeight: 300,
-                        lineHeight: 1.8,
-                        color: "var(--mist)",
-                        margin: "0 0 20px 0",
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "clamp(16px, 1.5vw, 18px)",
+                        fontWeight: 400,
+                        lineHeight: 1.85,
+                        color: "var(--bone)",
+                        margin: "0 0 24px 0",
                       }}
                     >
                       {para}

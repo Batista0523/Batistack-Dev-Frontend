@@ -23,8 +23,8 @@
 
   /* ── Typography ── */
   --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
-  --font-serif:   'Cormorant Garamond', Georgia, serif;
-  --font-sans:    'DM Sans', system-ui, sans-serif;
+  --font-serif:   'Playfair Display', Georgia, serif;
+  --font-sans:    'Inter', system-ui, sans-serif;
 
   /* ── Spacing scale ── */
   --space-xs:  8px;
