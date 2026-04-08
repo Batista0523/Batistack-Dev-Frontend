@@ -4,11 +4,12 @@ import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { label: "Services",   to: "/services"  },
-  { label: "Speed Test", to: "/speedPage" },
-  { label: "Blog",       to: "/blog"      },
-  { label: "About",      to: "/about"     },
-  { label: "Contact",    to: "/contact"   },
+  { label: "Services",         to: "/services"          },
+  { label: "Digital Presence", to: "/digital-presence"  },
+  { label: "Speed Test",       to: "/speedPage"         },
+  { label: "Blog",             to: "/blog"              },
+  { label: "About",            to: "/about"             },
+  { label: "Contact",          to: "/contact"           },
 ];
 
 export default function NavBar() {
