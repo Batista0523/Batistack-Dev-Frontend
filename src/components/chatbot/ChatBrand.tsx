@@ -18,4 +18,6 @@ function ChatBrand({ compact }: ChatBrandProps) {
   );
 }
 
+
+
 export default ChatBrand;
