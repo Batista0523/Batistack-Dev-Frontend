@@ -40,13 +40,7 @@ export default function OverviewSection() {
           (l) => l.status === "new" && l.created_at >= weekAgo
         ).length;
 
-        const sourceCounts: Record<string, number> = {};
-        leads.forEach((l) => {
-          const s = l.source ?? "direct";
-          sourceCounts[s] = (sourceCounts[s] || 0) + 1;
-        });
-        const topSource =
-          Object.entries(sourceCounts).sort((a, b) => b[1] - a[1])[0]?.[0] ?? "—";
+        const topSource = summary.topPages[0]?.path ?? "—";
 
         setData({
           todayVisits,
@@ -67,7 +61,7 @@ export default function OverviewSection() {
     { label: "Today's Visits",     value: loading ? "…" : String(data.todayVisits) },
     { label: "Total Leads",         value: loading ? "…" : String(data.totalLeads) },
     { label: "New Leads This Week", value: loading ? "…" : String(data.newLeadsThisWeek) },
-    { label: "Top Traffic Source",  value: loading ? "…" : data.topSource },
+    { label: "Top Page",  value: loading ? "…" : data.topSource },
   ];
 
   return (

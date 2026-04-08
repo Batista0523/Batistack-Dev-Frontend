@@ -49,6 +49,10 @@ export default function CampaignsSection() {
   };
 
   const handleSubmit = async () => {
+    if (!form.name.trim() || !form.platform.trim() || !form.budget) {
+      alert("Name, platform, and budget are required.");
+      return;
+    }
     const payload = { ...form, budget: Number(form.budget) };
     try {
       if (editingId !== null) {
