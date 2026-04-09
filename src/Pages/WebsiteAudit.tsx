@@ -79,6 +79,12 @@ function WebsiteAudit() {
       return;
     }
 
+    // Same-domain guard
+    if (competitorUrl && url === competitorUrl) {
+      setError("Please enter a different URL for the competitor.");
+      return;
+    }
+
     // Competitor own-domain guard
     if (competitorUrl && isOwnDomain(competitorUrl)) {
       setError("Please enter a competitor domain that is not batistack.com.");
@@ -329,28 +335,6 @@ function WebsiteAudit() {
                         }}
                       />
 
-                      <button
-                        type="submit"
-                        disabled={loading}
-                        style={{
-                          display: "block",
-                          width: "100%",
-                          marginTop: "12px",
-                          fontFamily: "var(--font-display)",
-                          fontSize: "20px",
-                          letterSpacing: "0.05em",
-                          background: "var(--gold)",
-                          color: "var(--void)",
-                          padding: "18px",
-                          border: "none",
-                          cursor: loading ? "not-allowed" : "pointer",
-                          opacity: loading ? 0.8 : 1,
-                          transition: "opacity 0.2s",
-                        }}
-                      >
-                        {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
-                      </button>
-
                       {/* Competitor URL input */}
                       <div style={{ marginTop: "20px" }}>
                         <input
@@ -391,6 +375,28 @@ function WebsiteAudit() {
                           Add a competitor to get a side-by-side AI comparison.
                         </p>
                       </div>
+
+                      <button
+                        type="submit"
+                        disabled={loading}
+                        style={{
+                          display: "block",
+                          width: "100%",
+                          marginTop: "12px",
+                          fontFamily: "var(--font-display)",
+                          fontSize: "20px",
+                          letterSpacing: "0.05em",
+                          background: "var(--gold)",
+                          color: "var(--void)",
+                          padding: "18px",
+                          border: "none",
+                          cursor: loading ? "not-allowed" : "pointer",
+                          opacity: loading ? 0.8 : 1,
+                          transition: "opacity 0.2s",
+                        }}
+                      >
+                        {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
+                      </button>
 
                       <p
                         style={{
