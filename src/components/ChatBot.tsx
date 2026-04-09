@@ -114,6 +114,56 @@ function ChatBotWidget() {
     }
   };
 
+  const QUICK_REPLIES = [
+    "I need a new website",
+    "How much does it cost?",
+    "I want more leads",
+    "I have an existing site to improve",
+    "Tell me about your services",
+  ];
+
+  const handleQuickReply = (text: string) => {
+    setInput(text);
+    setTimeout(() => {
+      setInput("");
+      const userMessage: ChatMessage = {
+        role: "user",
+        content: text,
+        timestamp: createTimestamp(),
+      };
+      setMessages((prev) => [...prev, userMessage]);
+      setLoading(true);
+      axios
+        .post(`${url}/chatbot`, {
+          message: text,
+          chatHistory: [...messages, userMessage],
+          isFinished: false,
+          userDetails: { fullName, email, phoneNumber },
+        })
+        .then((res) => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: res.data.reply || "",
+              timestamp: createTimestamp(),
+            },
+          ]);
+        })
+        .catch(() => {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: "assistant",
+              content: "An error occurred. Please try again.",
+              timestamp: createTimestamp(),
+            },
+          ]);
+        })
+        .finally(() => setLoading(false));
+    }, 0);
+  };
+
   const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -126,7 +176,7 @@ function ChatBotWidget() {
     setMessages([
       {
         role: "assistant",
-        content: `Hi ${fullName}, I’m here to help. What would you like to do today?`,
+        content: `Hi ${fullName}! What brings you here today — are you looking to build something new, improve an existing site, or just exploring what’s possible?`,
         timestamp: createTimestamp(),
       },
     ]);
@@ -229,6 +279,20 @@ function ChatBotWidget() {
                     loading={loading}
                     bottomRef={messagesEndRef}
                   />
+                  {messages.length === 1 && !loading && (
+                    <div className="chatbot-quick-replies">
+                      {QUICK_REPLIES.map((text) => (
+                        <button
+                          key={text}
+                          type="button"
+                          className="chatbot-quick-reply-chip"
+                          onClick={() => handleQuickReply(text)}
+                        >
+                          {text}
+                        </button>
+                      ))}
+                    </div>
+                  )}
                   <ChatInput
                     value={input}
                     loading={loading}

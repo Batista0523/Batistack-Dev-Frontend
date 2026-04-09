@@ -433,6 +433,35 @@
   animation-delay: 0.3s;
 }
 
+/* ── Quick reply chips ── */
+.chatbot-quick-replies {
+  padding: 0 18px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--void);
+  flex-shrink: 0;
+}
+
+.chatbot-quick-reply-chip {
+  border: 1px solid var(--smoke);
+  background: transparent;
+  color: var(--mist);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  padding: 6px 12px;
+  cursor: pointer !important;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+  white-space: nowrap;
+}
+
+.chatbot-quick-reply-chip:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+  background: rgba(200, 168, 75, 0.06);
+}
+
 /* ── Input bar ── */
 .chatbot-input-bar {
   padding: 14px 16px 16px;
