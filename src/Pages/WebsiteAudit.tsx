@@ -121,7 +121,7 @@ function WebsiteAudit() {
         } else if (typeof recommendations === "string") {
           setRecommendation(
             recommendations
-              .split("\n")
+              .split(/\r?\n/)
               .map((l: string) => l.trim())
               .filter(Boolean)
           );
