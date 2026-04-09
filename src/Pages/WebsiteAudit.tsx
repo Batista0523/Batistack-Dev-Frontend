@@ -163,6 +163,14 @@ function WebsiteAudit() {
     }
   })();
 
+  const displayCompetitorDomain = (() => {
+    try {
+      return new URL(competitorUrl).hostname;
+    } catch {
+      return competitorUrl;
+    }
+  })();
+
   return (
     <>
       <Helmet>
@@ -205,6 +213,9 @@ function WebsiteAudit() {
           }
           .bs-audit-container {
             padding: 0 24px !important;
+          }
+          .bs-compare-grid {
+            grid-template-columns: 1fr !important;
           }
         }
       `}</style>
@@ -540,6 +551,267 @@ function WebsiteAudit() {
               </div>
             </div>
           </section>
+        )}
+
+        {/* ── COMPARE RESULTS ──────────────────────────────────────────── */}
+        {!workAuditMaintenance && !loading && compareData && (
+          <div ref={resultRef}>
+            {/* Side-by-side score grids */}
+            <section style={{ paddingBottom: "60px" }}>
+              <div
+                className="bs-audit-container"
+                style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+              >
+                <p
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "11px",
+                    letterSpacing: "0.2em",
+                    textTransform: "uppercase",
+                    color: "var(--gold)",
+                    marginBottom: "32px",
+                  }}
+                >
+                  HEAD-TO-HEAD: {displayDomain} vs {displayCompetitorDomain}
+                </p>
+
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "1fr 1fr",
+                    gap: "24px",
+                  }}
+                  className="bs-compare-grid"
+                >
+                  {[
+                    { label: displayDomain, scores: compareData.your.scores },
+                    { label: displayCompetitorDomain, scores: compareData.competitor.scores },
+                  ].map(({ label, scores: s }) => (
+                    <div key={label}>
+                      <p
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "10px",
+                          letterSpacing: "0.18em",
+                          textTransform: "uppercase",
+                          color: "var(--mist)",
+                          marginBottom: "16px",
+                        }}
+                      >
+                        {label}
+                      </p>
+                      <div
+                        style={{
+                          display: "grid",
+                          gridTemplateColumns: "repeat(2, 1fr)",
+                          gap: "1px",
+                          background: "var(--smoke)",
+                        }}
+                      >
+                        {scoreCategories.map((cat) => {
+                          const n = getScore(s, cat);
+                          return (
+                            <motion.div
+                              key={cat}
+                              initial={{ opacity: 0, y: 16 }}
+                              whileInView={{ opacity: 1, y: 0 }}
+                              viewport={{ once: true, margin: "-60px" }}
+                              transition={{ duration: 0.4 }}
+                              style={{
+                                background: "var(--ash)",
+                                padding: "28px 20px",
+                                textAlign: "center",
+                              }}
+                            >
+                              <p
+                                style={{
+                                  fontFamily: "var(--font-sans)",
+                                  fontSize: "9px",
+                                  letterSpacing: "0.18em",
+                                  textTransform: "uppercase",
+                                  color: "var(--mist)",
+                                  marginBottom: "12px",
+                                }}
+                              >
+                                {cat}
+                              </p>
+                              <div
+                                style={{
+                                  fontFamily: "var(--font-display)",
+                                  fontSize: "56px",
+                                  lineHeight: 1,
+                                  color: scoreColor(n),
+                                  marginBottom: "8px",
+                                }}
+                              >
+                                {n}
+                              </div>
+                              <p
+                                style={{
+                                  fontFamily: "var(--font-sans)",
+                                  fontSize: "9px",
+                                  letterSpacing: "0.1em",
+                                  textTransform: "uppercase",
+                                  color: scoreColor(n),
+                                  margin: 0,
+                                }}
+                              >
+                                {scoreLabel(n)}
+                              </p>
+                            </motion.div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Your site analysis */}
+            <section style={{ paddingBottom: "40px" }}>
+              <div
+                className="bs-audit-container"
+                style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+              >
+                <div
+                  style={{
+                    background: "var(--ash)",
+                    border: "1px solid var(--smoke)",
+                    padding: "40px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--gold)", flexShrink: 0 }} />
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", margin: 0 }}>
+                      YOUR SITE — {displayDomain}
+                    </p>
+                  </div>
+                  {compareData.your.recommendations.split("\n").filter(Boolean).map((line, idx, arr) => (
+                    <div
+                      key={idx}
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "14px",
+                        color: "var(--bone)",
+                        padding: "16px 0",
+                        borderBottom: idx < arr.length - 1 ? "1px solid var(--smoke)" : "none",
+                        lineHeight: 1.6,
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <span style={{ color: "var(--gold)", flexShrink: 0 }}>&gt;</span>
+                      {line}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Competitor analysis */}
+            <section style={{ paddingBottom: "40px" }}>
+              <div
+                className="bs-audit-container"
+                style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+              >
+                <div
+                  style={{
+                    background: "var(--ash)",
+                    border: "1px solid var(--smoke)",
+                    padding: "40px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--mist)", flexShrink: 0 }} />
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--mist)", margin: 0 }}>
+                      COMPETITOR — {displayCompetitorDomain}
+                    </p>
+                  </div>
+                  {compareData.competitor.recommendations.split("\n").filter(Boolean).map((line, idx, arr) => (
+                    <div
+                      key={idx}
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "14px",
+                        color: "var(--bone)",
+                        padding: "16px 0",
+                        borderBottom: idx < arr.length - 1 ? "1px solid var(--smoke)" : "none",
+                        lineHeight: 1.6,
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <span style={{ color: "var(--mist)", flexShrink: 0 }}>&gt;</span>
+                      {line}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            {/* Verdict block */}
+            <section style={{ paddingBottom: "120px" }}>
+              <div
+                className="bs-audit-container"
+                style={{ maxWidth: 1280, margin: "0 auto", padding: "0 60px" }}
+              >
+                <div
+                  style={{
+                    background: "var(--ash)",
+                    border: "1px solid var(--smoke)",
+                    borderTop: "2px solid var(--gold)",
+                    padding: "40px",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", marginBottom: "28px" }}>
+                    <div style={{ width: "8px", height: "8px", borderRadius: "50%", background: "var(--gold)", flexShrink: 0 }} />
+                    <p style={{ fontFamily: "var(--font-sans)", fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "var(--gold)", margin: 0 }}>
+                      HEAD-TO-HEAD VERDICT
+                    </p>
+                  </div>
+                  {compareData.verdict.split("\n").filter(Boolean).map((line, idx, arr) => (
+                    <div
+                      key={idx}
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "14px",
+                        color: "var(--bone)",
+                        padding: "16px 0",
+                        borderBottom: idx < arr.length - 1 ? "1px solid var(--smoke)" : "none",
+                        lineHeight: 1.6,
+                        display: "flex",
+                        gap: "8px",
+                      }}
+                    >
+                      <span style={{ color: "var(--gold)", flexShrink: 0 }}>&gt;</span>
+                      {line}
+                    </div>
+                  ))}
+                  <div style={{ marginTop: "32px", paddingTop: "24px", borderTop: "1px solid var(--smoke)" }}>
+                    <p style={{ fontFamily: "var(--font-serif)", fontStyle: "italic", fontSize: "18px", color: "var(--bone)", margin: "0 0 20px", lineHeight: 1.5 }}>
+                      Ready to close the gap?
+                    </p>
+                    <a
+                      href="/contact"
+                      style={{
+                        display: "inline-block",
+                        fontFamily: "var(--font-display)",
+                        fontSize: "16px",
+                        letterSpacing: "0.1em",
+                        background: "var(--gold)",
+                        color: "var(--void)",
+                        padding: "14px 28px",
+                        textDecoration: "none",
+                      }}
+                    >
+                      CONTACT BATISTACK TODAY →
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
         )}
 
         {/* ── SCORE CARDS ───────────────────────────────────────────────── */}
