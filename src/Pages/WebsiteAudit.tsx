@@ -10,6 +10,13 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 // Keep the audit logic intact, but disable user-triggered audit actions in the UI for now.
 const workAuditMaintenance = false;
 
+const OWN_DOMAIN_RE = /^https?:\/\/(www\.)?batistack\.com(\/.*)?$/i;
+
+const isOwnDomain = (value: string) =>
+  OWN_DOMAIN_RE.test(value) ||
+  value === "batistack.com" ||
+  value === "www.batistack.com";
+
 interface CompareResult {
   your: { scores: Record<string, number>; recommendations: string };
   competitor: { scores: Record<string, number>; recommendations: string };
@@ -59,13 +66,6 @@ function WebsiteAudit() {
     return 0;
   };
 
-  const OWN_DOMAIN_RE = /^https?:\/\/(www\.)?batistack\.com(\/.*)?$/i;
-
-  const isOwnDomain = (value: string) =>
-    OWN_DOMAIN_RE.test(value) ||
-    value === "batistack.com" ||
-    value === "www.batistack.com";
-
   const handleAnalyze = async () => {
     if (workAuditMaintenance) return;
 
@@ -76,6 +76,12 @@ function WebsiteAudit() {
       setRecommendation([]);
       setCompareData(null);
       setError("");
+      return;
+    }
+
+    // Competitor own-domain guard
+    if (competitorUrl && isOwnDomain(competitorUrl)) {
+      setError("Please enter a competitor domain that is not batistack.com.");
       return;
     }
 
@@ -333,56 +339,59 @@ function WebsiteAudit() {
                       >
                         {loading ? "ANALYZING..." : "ANALYZE MY SITE →"}
                       </button>
-                    </form>
 
-                    <p
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "12px",
-                        color: "var(--mist)",
-                        marginTop: "12px",
-                      }}
-                    >
-                      Takes 15–30 seconds. No signup required.
-                    </p>
+                      {/* Competitor URL input */}
+                      <div style={{ marginTop: "20px" }}>
+                        <input
+                          type="url"
+                          placeholder="Competitor URL (optional) — https://competitor.com"
+                          value={competitorUrl}
+                          onChange={(e) => {
+                            setCompetitorUrl(e.target.value);
+                            if (!e.target.value) setCompareData(null);
+                          }}
+                          className="bs-audit-input"
+                          onFocus={() => setCompetitorFocused(true)}
+                          onBlur={() => setCompetitorFocused(false)}
+                          style={{
+                            width: "100%",
+                            background: "var(--ash)",
+                            border: `1px solid ${competitorFocused ? "var(--gold)" : "var(--smoke)"}`,
+                            padding: "20px 24px",
+                            fontFamily: "var(--font-sans)",
+                            fontSize: "16px",
+                            color: "var(--bone)",
+                            borderRadius: 0,
+                            outline: "none",
+                            transition: "border-color 0.2s",
+                            boxSizing: "border-box" as const,
+                            display: "block",
+                          }}
+                        />
+                        <p
+                          style={{
+                            fontFamily: "var(--font-sans)",
+                            fontSize: "11px",
+                            color: "var(--mist)",
+                            marginTop: "8px",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          Add a competitor to get a side-by-side AI comparison.
+                        </p>
+                      </div>
 
-                    {/* Competitor URL input */}
-                    <div style={{ marginTop: "20px" }}>
-                      <input
-                        type="url"
-                        placeholder="Competitor URL (optional) — https://competitor.com"
-                        value={competitorUrl}
-                        onChange={(e) => setCompetitorUrl(e.target.value)}
-                        className="bs-audit-input"
-                        onFocus={() => setCompetitorFocused(true)}
-                        onBlur={() => setCompetitorFocused(false)}
-                        style={{
-                          width: "100%",
-                          background: "var(--ash)",
-                          border: `1px solid ${competitorFocused ? "var(--gold)" : "var(--smoke)"}`,
-                          padding: "20px 24px",
-                          fontFamily: "var(--font-sans)",
-                          fontSize: "16px",
-                          color: "var(--bone)",
-                          borderRadius: 0,
-                          outline: "none",
-                          transition: "border-color 0.2s",
-                          boxSizing: "border-box" as const,
-                          display: "block",
-                        }}
-                      />
                       <p
                         style={{
                           fontFamily: "var(--font-sans)",
-                          fontSize: "11px",
+                          fontSize: "12px",
                           color: "var(--mist)",
-                          marginTop: "8px",
-                          letterSpacing: "0.04em",
+                          marginTop: "12px",
                         }}
                       >
-                        Add a competitor to get a side-by-side AI comparison.
+                        Takes 15–30 seconds. No signup required.
                       </p>
-                    </div>
+                    </form>
 
                     {error && (
                       <p
