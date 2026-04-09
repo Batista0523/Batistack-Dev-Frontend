@@ -10,6 +10,12 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 // Keep the audit logic intact, but disable user-triggered audit actions in the UI for now.
 const workAuditMaintenance = false;
 
+interface CompareResult {
+  your: { scores: Record<string, number>; recommendations: string };
+  competitor: { scores: Record<string, number>; recommendations: string };
+  verdict: string;
+}
+
 function WebsiteAudit() {
   useTrafficTracker("page_view", "/speedPage");
 
@@ -22,6 +28,10 @@ function WebsiteAudit() {
   const resultRef = useRef<HTMLDivElement>(null);
   const url1 = import.meta.env.VITE_BASE_URL;
   const [inputFocused, setInputFocused] = useState(false);
+  const [competitorUrl, setCompetitorUrl] = useState("");
+  const [compareData, setCompareData] = useState<CompareResult | null>(null);
+  const [ownDomain, setOwnDomain] = useState(false);
+  const [competitorFocused, setCompetitorFocused] = useState(false);
 
   // ── Preserved exactly ──────────────────────────────────────────────────────
   const getScore = (scoresObj: any, label: string): number => {
@@ -49,14 +59,32 @@ function WebsiteAudit() {
     return 0;
   };
 
+  const OWN_DOMAIN_RE = /^https?:\/\/(www\.)?batistack\.com(\/.*)?$/i;
+
+  const isOwnDomain = (value: string) =>
+    OWN_DOMAIN_RE.test(value) ||
+    value === "batistack.com" ||
+    value === "www.batistack.com";
+
   const handleAnalyze = async () => {
-    // Temporary maintenance guard so no API request can be triggered while disabled.
     if (workAuditMaintenance) return;
 
+    // Own-domain guard
+    if (isOwnDomain(url)) {
+      setOwnDomain(true);
+      setScores(null);
+      setRecommendation([]);
+      setCompareData(null);
+      setError("");
+      return;
+    }
+
+    setOwnDomain(false);
     setLoading(true);
     setError("");
     setRecommendation([]);
     setScores(null);
+    setCompareData(null);
     setProgress(0);
 
     let progressValue = 0;
@@ -70,19 +98,28 @@ function WebsiteAudit() {
     }, 600);
 
     try {
-      const res = await axios.post(`${url1}/pagespeed`, { domain: url });
-      const { recommendations, scores } = res.data;
-      setScores(scores);
-      // Handle both string and array responses
-      if (Array.isArray(recommendations)) {
-        setRecommendation(recommendations);
-      } else if (typeof recommendations === "string") {
-        setRecommendation(
-          recommendations
-            .split("\n")
-            .map((l: string) => l.trim())
-            .filter(Boolean)
-        );
+      if (competitorUrl && competitorUrl.startsWith("http")) {
+        // Compare mode
+        const res = await axios.post(`${url1}/pagespeed/compare`, {
+          domain: url,
+          competitor: competitorUrl,
+        });
+        setCompareData(res.data);
+      } else {
+        // Single audit mode (existing behavior)
+        const res = await axios.post(`${url1}/pagespeed`, { domain: url });
+        const { recommendations, scores } = res.data;
+        setScores(scores);
+        if (Array.isArray(recommendations)) {
+          setRecommendation(recommendations);
+        } else if (typeof recommendations === "string") {
+          setRecommendation(
+            recommendations
+              .split("\n")
+              .map((l: string) => l.trim())
+              .filter(Boolean)
+          );
+        }
       }
 
       setTimeout(() => {
@@ -250,7 +287,11 @@ function WebsiteAudit() {
                         type="url"
                         placeholder="yourdomain.com"
                         value={url}
-                        onChange={(e) => setUrl(e.target.value)}
+                        onChange={(e) => {
+                          setUrl(e.target.value);
+                          setOwnDomain(false);
+                          setCompareData(null);
+                        }}
                         required
                         className="bs-audit-input"
                         onFocus={() => setInputFocused(true)}
@@ -305,6 +346,44 @@ function WebsiteAudit() {
                       Takes 15–30 seconds. No signup required.
                     </p>
 
+                    {/* Competitor URL input */}
+                    <div style={{ marginTop: "20px" }}>
+                      <input
+                        type="url"
+                        placeholder="Competitor URL (optional) — https://competitor.com"
+                        value={competitorUrl}
+                        onChange={(e) => setCompetitorUrl(e.target.value)}
+                        className="bs-audit-input"
+                        onFocus={() => setCompetitorFocused(true)}
+                        onBlur={() => setCompetitorFocused(false)}
+                        style={{
+                          width: "100%",
+                          background: "var(--ash)",
+                          border: `1px solid ${competitorFocused ? "var(--gold)" : "var(--smoke)"}`,
+                          padding: "20px 24px",
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "16px",
+                          color: "var(--bone)",
+                          borderRadius: 0,
+                          outline: "none",
+                          transition: "border-color 0.2s",
+                          boxSizing: "border-box" as const,
+                          display: "block",
+                        }}
+                      />
+                      <p
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "11px",
+                          color: "var(--mist)",
+                          marginTop: "8px",
+                          letterSpacing: "0.04em",
+                        }}
+                      >
+                        Add a competitor to get a side-by-side AI comparison.
+                      </p>
+                    </div>
+
                     {error && (
                       <p
                         style={{
@@ -316,6 +395,62 @@ function WebsiteAudit() {
                       >
                         {error}
                       </p>
+                    )}
+
+                    {/* Own-domain redirect card */}
+                    {ownDomain && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 12 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.4 }}
+                        style={{
+                          marginTop: "24px",
+                          border: "1px solid var(--smoke)",
+                          borderTop: "2px solid var(--gold)",
+                          background: "var(--ash)",
+                          padding: "28px 24px",
+                        }}
+                      >
+                        <p
+                          style={{
+                            fontFamily: "var(--font-sans)",
+                            fontSize: "10px",
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            color: "var(--gold)",
+                            margin: "0 0 12px",
+                          }}
+                        >
+                          Hey, that's us.
+                        </p>
+                        <p
+                          style={{
+                            fontFamily: "var(--font-serif)",
+                            fontStyle: "italic",
+                            fontSize: "20px",
+                            color: "var(--bone)",
+                            margin: "0 0 20px",
+                            lineHeight: 1.4,
+                          }}
+                        >
+                          Let's talk about your site instead.
+                        </p>
+                        <a
+                          href="/contact"
+                          style={{
+                            display: "inline-block",
+                            fontFamily: "var(--font-display)",
+                            fontSize: "14px",
+                            letterSpacing: "0.1em",
+                            background: "var(--gold)",
+                            color: "var(--void)",
+                            padding: "12px 24px",
+                            textDecoration: "none",
+                          }}
+                        >
+                          BOOK A FREE AUDIT →
+                        </a>
+                      </motion.div>
                     )}
                   </>
                 )}
