@@ -586,8 +586,8 @@ function WebsiteAudit() {
                   {[
                     { label: displayDomain, scores: compareData.your.scores },
                     { label: displayCompetitorDomain, scores: compareData.competitor.scores },
-                  ].map(({ label, scores: s }) => (
-                    <div key={label}>
+                  ].map(({ label, scores: s }, i) => (
+                    <div key={i}>
                       <p
                         style={{
                           fontFamily: "var(--font-sans)",
@@ -687,7 +687,7 @@ function WebsiteAudit() {
                       YOUR SITE — {displayDomain}
                     </p>
                   </div>
-                  {compareData.your.recommendations.split("\n").filter(Boolean).map((line, idx, arr) => (
+                  {compareData.your.recommendations.split(/\r?\n/).filter(Boolean).map((line, idx, arr) => (
                     <div
                       key={idx}
                       style={{
@@ -728,7 +728,7 @@ function WebsiteAudit() {
                       COMPETITOR — {displayCompetitorDomain}
                     </p>
                   </div>
-                  {compareData.competitor.recommendations.split("\n").filter(Boolean).map((line, idx, arr) => (
+                  {compareData.competitor.recommendations.split(/\r?\n/).filter(Boolean).map((line, idx, arr) => (
                     <div
                       key={idx}
                       style={{
@@ -770,7 +770,7 @@ function WebsiteAudit() {
                       HEAD-TO-HEAD VERDICT
                     </p>
                   </div>
-                  {compareData.verdict.split("\n").filter(Boolean).map((line, idx, arr) => (
+                  {compareData.verdict.split(/\r?\n/).filter(Boolean).map((line, idx, arr) => (
                     <div
                       key={idx}
                       style={{
