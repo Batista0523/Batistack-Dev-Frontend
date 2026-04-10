@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion } from "framer-motion";
 import { Helmet } from "react-helmet-async";
+import BrandLogo from "../components/BrandLogo";
 
 // ─── Gold-underline input ─────────────────────────────────────────────────────
 
@@ -125,25 +126,7 @@ function LoginPage() {
         >
           {/* Logo */}
           <div style={{ textAlign: "center", marginBottom: "8px" }}>
-            <span
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "28px",
-                color: "var(--bone)",
-              }}
-            >
-              BATI
-            </span>
-            <span
-              style={{
-                fontFamily: "var(--font-serif)",
-                fontStyle: "italic",
-                fontSize: "28px",
-                color: "var(--gold)",
-              }}
-            >
-              STACK
-            </span>
+            <BrandLogo />
           </div>
 
           {/* Admin label */}

@@ -8,6 +8,7 @@ import TrafficSection from "./sections/TrafficSection";
 import SEOSection from "./sections/SEOSection";
 import CampaignsSection from "./sections/CampaignsSection";
 import SettingsSection from "./sections/SettingsSection";
+import BrandLogo from "../BrandLogo";
 
 type Section = "Overview" | "Leads" | "Traffic" | "SEO" | "Campaigns" | "Settings";
 
@@ -29,8 +30,7 @@ function Dashboard() {
         {/* ── SIDEBAR ── */}
         <aside className="dashboard-sidebar">
           <div className="dashboard-sidebar-brand">
-            <span className="dashboard-sidebar-brand-bati">BATI</span>
-            <span className="dashboard-sidebar-brand-stack">STACK</span>
+            <BrandLogo size="sm" />
           </div>
 
           <p className="dashboard-sidebar-label">Navigation</p>

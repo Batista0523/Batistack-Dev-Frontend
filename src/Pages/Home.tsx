@@ -98,9 +98,9 @@ function HeroSection() {
             >
               START YOUR PROJECT →
             </Link>
-            <a href="/#free-audit" className="btn-ghost" style={{ fontSize: 18 }}>
+            <Link to="/speedPage" className="btn-ghost" style={{ fontSize: 18 }}>
               GET A FREE SITE AUDIT
-            </a>
+            </Link>
           </div>
 
           <div style={styles.heroStats}>
@@ -538,129 +538,118 @@ function ProcessSection() {
   )
 }
 
-// ─── SECTION 7: Pricing ───────────────────────────────────────────────────────
-const PLANS = [
+// ─── SECTION 7: Client Growth ─────────────────────────────────────────────────
+const CLIENT_DRIVERS = [
   {
-    tier: 'STARTER',
-    price: '$1,200',
-    tagline: 'Launch fast, look sharp.',
-    features: ['5-page responsive site', 'Contact form + SEO', 'Mobile-first', '14-day delivery'],
-    cta: 'GET STARTED',
-    featured: false,
+    label: 'Local Search',
+    headline: 'Show up when buyers are ready.',
+    detail: 'Service pages, metadata, schema, and Google-ready structure built around the terms your customers actually search.',
+    proof: 'More qualified discovery from people already looking for your service.',
   },
   {
-    tier: 'GROWTH',
-    price: '$2,800',
-    tagline: 'The full conversion machine.',
-    features: ['10-page custom site', 'AI chat assistant', 'Lead automation', 'Analytics setup', '21-day delivery'],
-    cta: 'START YOUR PROJECT',
-    featured: true,
+    label: 'Trust Signals',
+    headline: 'Make visitors feel safe choosing you.',
+    detail: 'Reviews, project proof, service guarantees, founder story, and clear contact paths placed where hesitation happens.',
+    proof: 'More calls from visitors who need confidence before they reach out.',
   },
   {
-    tier: 'ENTERPRISE',
-    price: 'Custom',
-    tagline: 'Full platform, built to scale.',
-    features: ['Unlimited pages', 'Advanced AI integration', 'Custom backend', 'Retainer available', 'Timeline: TBD'],
-    cta: "LET'S TALK",
-    featured: false,
+    label: 'Conversion Flow',
+    headline: 'Turn attention into booked calls.',
+    detail: 'Sharper copy, stronger CTAs, short forms, mobile-first sections, and pages designed around one clear next step.',
+    proof: 'Less browsing, fewer dead ends, more submitted leads.',
+  },
+  {
+    label: 'AI Follow-Up',
+    headline: 'Respond before leads go cold.',
+    detail: 'AI chat, intake prompts, automated email alerts, and lead routing that help capture demand after hours.',
+    proof: 'More conversations from visitors who are not ready to call yet.',
+  },
+  {
+    label: 'Speed & Mobile',
+    headline: 'Keep impatient visitors on the page.',
+    detail: 'Fast-loading pages, stable layouts, clean mobile spacing, and fewer distractions between landing and contacting you.',
+    proof: 'More visitors stay long enough to understand why you are the better choice.',
+  },
+  {
+    label: 'Tracking',
+    headline: 'Know what is actually working.',
+    detail: 'Analytics events, form tracking, page insights, and simple reporting so marketing decisions are based on behavior.',
+    proof: 'Clearer decisions on which pages, offers, and campaigns bring clients.',
   },
 ]
 
-function PricingSection() {
+function ClientGrowthSection() {
   const reduced = useReducedMotion()
 
   return (
     <section style={{ background: 'var(--ash)', padding: '120px 0' }}>
       <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>05 / INVESTMENT</p>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400 }}>
-          Transparent pricing. No surprises.
+        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>05 / CLIENTS</p>
+        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400, maxWidth: 840 }}>
+          Built around the moments that bring clients.
         </h2>
-        <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 16, color: 'var(--gold)', marginTop: 12 }}>
-          Introductory rates — limited spots at these prices
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 17, color: 'var(--mist)', marginTop: 18, lineHeight: 1.7, maxWidth: 720 }}>
+          Your website should not just look finished. It should help people find you, trust you, contact you, and remember why you are the obvious choice.
         </p>
 
-        <div className="home-pricing-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)' }}>
-          {PLANS.map((plan, i) => (
+        <div className="home-client-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)', background: 'var(--smoke)' }}>
+          {CLIENT_DRIVERS.map((driver, i) => (
             <motion.div
-              key={plan.tier}
+              key={driver.label}
               initial={reduced ? {} : { opacity: 0, y: 40 }}
               whileInView={reduced ? {} : { opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-100px' }}
               transition={{ duration: 0.5, delay: i * 0.1 }}
               style={{
-                background: plan.featured ? 'var(--gold)' : 'var(--void)',
-                padding: '48px 40px',
+                background: i === 2 ? 'var(--gold)' : 'var(--void)',
+                padding: '38px 34px',
                 display: 'flex',
                 flexDirection: 'column',
-                position: 'relative',
+                minHeight: 320,
               }}
             >
-              {plan.featured && (
-                <span style={{
-                  position: 'absolute',
-                  top: 20,
-                  right: 20,
+              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 20, alignItems: 'flex-start', marginBottom: 28 }}>
+                <p style={{
                   fontFamily: 'var(--font-sans)',
-                  fontSize: 9,
+                  fontSize: 11,
                   textTransform: 'uppercase',
-                  letterSpacing: '0.1em',
-                  background: 'var(--void)',
-                  color: 'var(--gold)',
-                  padding: '4px 10px',
+                  letterSpacing: '0.16em',
+                  color: i === 2 ? 'var(--void)' : 'var(--gold)',
+                  margin: 0,
                 }}>
-                  MOST POPULAR
+                  {driver.label}
+                </p>
+                <span style={{
+                  fontFamily: 'var(--font-display)',
+                  fontSize: 36,
+                  lineHeight: 1,
+                  color: i === 2 ? 'rgba(8,8,8,0.28)' : 'rgba(201,168,76,0.32)',
+                }}>
+                  {String(i + 1).padStart(2, '0')}
                 </span>
-              )}
-
-              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.2em', color: plan.featured ? 'var(--void)' : 'var(--mist)', marginBottom: 16 }}>
-                {plan.tier}
-              </div>
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 72, color: plan.featured ? 'var(--void)' : 'var(--bone)', lineHeight: 1 }}>
-                {plan.price}
-              </div>
-              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: plan.featured ? 'var(--void)' : 'var(--mist)', marginBottom: 32, marginTop: 8 }}>
-                {plan.tagline}
               </div>
 
-              <ul style={{ listStyle: 'none', marginBottom: 'auto', paddingBottom: 32 }}>
-                {plan.features.map((f) => (
-                  <li key={f} style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: plan.featured ? 'var(--void)' : 'var(--bone)', lineHeight: 2 }}>
-                    <span style={{ color: plan.featured ? 'var(--void)' : 'var(--gold-dim)', marginRight: 6 }}>—</span>
-                    {f}
-                  </li>
-                ))}
-              </ul>
+              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 24, color: i === 2 ? 'var(--void)' : 'var(--bone)', lineHeight: 1.2, margin: '0 0 18px', fontWeight: 650 }}>
+                {driver.headline}
+              </h3>
+              <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: i === 2 ? 'rgba(8,8,8,0.78)' : 'var(--mist)', lineHeight: 1.75, margin: '0 0 28px' }}>
+                {driver.detail}
+              </p>
 
-              <div style={{ borderTop: `1px solid ${plan.featured ? 'rgba(8,8,8,0.2)' : 'var(--smoke)'}`, paddingTop: 24, marginTop: 'auto' }}>
-                <Link
-                  to="/contact"
-                  style={{
-                    display: 'block',
-                    width: '100%',
-                    textAlign: 'center',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 16,
-                    padding: 16,
-                    textDecoration: 'none',
-                    border: plan.featured ? 'none' : '1px solid var(--smoke)',
-                    background: plan.featured ? 'var(--void)' : 'transparent',
-                    color: plan.featured ? 'var(--gold)' : 'var(--bone)',
-                    letterSpacing: '0.08em',
-                    transition: 'opacity 0.2s',
-                  }}
-                >
-                  {plan.cta}
-                </Link>
+              <div style={{ borderTop: `1px solid ${i === 2 ? 'rgba(8,8,8,0.22)' : 'var(--smoke)'}`, paddingTop: 20, marginTop: 'auto' }}>
+                <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: i === 2 ? 'var(--void)' : 'var(--bone)', lineHeight: 1.6, margin: 0 }}>
+                  <span style={{ color: i === 2 ? 'var(--void)' : 'var(--gold)', marginRight: 8 }}>→</span>
+                  {driver.proof}
+                </p>
               </div>
             </motion.div>
           ))}
         </div>
 
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 40 }}>
-          Not sure which plan fits?{' '}
-          <Link to="/contact" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
-            Let's figure it out together →
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 40, maxWidth: 760, lineHeight: 1.7 }}>
+          Start with a website audit or tell us where leads are dropping off.{' '}
+          <Link to="/speedPage" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
+            Find the gaps →
           </Link>
         </p>
       </div>
@@ -1079,7 +1068,7 @@ export default function Home() {
       <SocialProofSection />
       <AISpotlightSection />
       <ProcessSection />
-      <PricingSection />
+      <ClientGrowthSection />
       <ContactSection />
 
       {/* ── Global responsive overrides ── */}
@@ -1103,8 +1092,8 @@ export default function Home() {
           font-size: clamp(100px, 12vw, 160px);
         }
 
-        /* ── Pricing ── */
-        .home-pricing-grid {
+        /* ── Client drivers ── */
+        .home-client-grid {
           grid-template-columns: repeat(3, 1fr);
         }
 
@@ -1182,8 +1171,8 @@ export default function Home() {
             display: none !important;
           }
 
-          /* Pricing: single column */
-          .home-pricing-grid {
+          /* Client drivers: single column */
+          .home-client-grid {
             grid-template-columns: 1fr !important;
           }
 
@@ -1242,8 +1231,8 @@ export default function Home() {
             border-right: none !important;
           }
 
-          /* Pricing padding tighter */
-          .home-pricing-grid > * {
+          /* Client driver padding tighter */
+          .home-client-grid > * {
             padding: 32px 24px !important;
           }
 

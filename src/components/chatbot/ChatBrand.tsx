@@ -1,3 +1,5 @@
+import BrandLogo from "../BrandLogo";
+
 interface ChatBrandProps {
   compact?: boolean;
 }
@@ -10,9 +12,7 @@ function ChatBrand({ compact }: ChatBrandProps) {
         <span className="chatbot-brand-mark-ai">AI</span>
       </span>
       {!compact && (
-        <span className="chatbot-brand-wordmark">
-          Bati<span>stack</span>
-        </span>
+        <BrandLogo size="sm" />
       )}
     </div>
   );
