@@ -349,6 +349,8 @@ export default function NavBar() {
         @media (max-width: 768px) {
           .nav-inner {
             padding: 0 24px !important;
+            grid-template-columns: 1fr auto !important;
+            gap: 16px !important;
           }
           .nav-desktop-links,
           .nav-desktop-cta {
