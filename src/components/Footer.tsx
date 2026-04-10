@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
   { label: "Services",   to: "/services"  },
@@ -40,31 +41,9 @@ export default function Footer() {
           <div>
             <Link
               to="/"
-              style={{ textDecoration: "none", display: "inline-flex", alignItems: "baseline", gap: 0 }}
+              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
             >
-              <span
-                style={{
-                  fontFamily:    "var(--font-display)",
-                  fontSize:      "28px",
-                  color:         "var(--bone)",
-                  letterSpacing: "0.04em",
-                  lineHeight:    1,
-                }}
-              >
-                BATI
-              </span>
-              <span
-                style={{
-                  fontFamily:    "var(--font-serif)",
-                  fontStyle:     "italic",
-                  fontSize:      "28px",
-                  color:         "var(--gold)",
-                  letterSpacing: "0.02em",
-                  lineHeight:    1,
-                }}
-              >
-                STACK
-              </span>
+              <BrandLogo />
             </Link>
             <p
               style={{

@@ -280,8 +280,8 @@ export default function BlogPost() {
                 Batista will personally review your site and send you a full report covering speed,
                 SEO gaps, and conversion opportunities — within 24 hours. No sales call required.
               </p>
-              <a
-                href="/#free-audit"
+              <Link
+                to="/speedPage"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontSize: "13px",
@@ -297,7 +297,7 @@ export default function BlogPost() {
                 }}
               >
                 Get My Free Audit
-              </a>
+              </Link>
             </motion.div>
           </div>
         </section>

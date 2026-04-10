@@ -2,14 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
-  { label: "Services",         to: "/services"          },
-  { label: "Digital Presence", to: "/digital-presence"  },
-  { label: "Speed Test",       to: "/speedPage"         },
-  { label: "Blog",             to: "/blog"              },
-  { label: "About",            to: "/about"             },
-  { label: "Contact",          to: "/contact"           },
+  { label: "Services", to: "/services" },
+  { label: "Digital", to: "/digital-presence" },
+  { label: "Blog", to: "/blog" },
+  { label: "About", to: "/about" },
 ];
 
 export default function NavBar() {
@@ -62,51 +61,34 @@ export default function NavBar() {
             width:         "100%",
             margin:        "0 auto",
             padding:       "0 60px",
-            display:       "flex",
+            display:       "grid",
+            gridTemplateColumns: "auto minmax(0, 1fr) auto",
             alignItems:    "center",
-            justifyContent:"space-between",
+            gap:           "28px",
           }}
         >
           {/* Logo */}
           <Link
             to="/"
-            style={{ textDecoration: "none", display: "inline-flex", alignItems: "baseline", gap: 0 }}
+            style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
           >
-            <span
-              style={{
-                fontFamily:    "var(--font-display)",
-                fontSize:      "28px",
-                color:         "var(--bone)",
-                letterSpacing: "0.04em",
-                lineHeight:    1,
-              }}
-            >
-              BATI
-            </span>
-            <span
-              style={{
-                fontFamily:    "var(--font-serif)",
-                fontStyle:     "italic",
-                fontSize:      "28px",
-                color:         "var(--gold)",
-                letterSpacing: "0.02em",
-                lineHeight:    1,
-              }}
-            >
-              STACK
-            </span>
+            <BrandLogo />
           </Link>
 
           {/* Desktop nav links */}
           <ul
             className="nav-desktop-links"
             style={{
+              justifySelf: "center",
               display:    "flex",
-              gap:        "40px",
+              gap:        "8px",
               listStyle:  "none",
               margin:     0,
-              padding:    0,
+              padding:    "6px",
               alignItems: "center",
+              border:     "1px solid rgba(201,168,76,0.18)",
+              background:  scrolled ? "rgba(255,255,255,0.035)" : "rgba(8,8,8,0.22)",
+              borderRadius: "8px",
             }}
           >
             {NAV_LINKS.map((link) => (
@@ -137,7 +119,7 @@ export default function NavBar() {
           {/* Desktop CTA */}
           <div
             className="nav-desktop-cta"
-            style={{ display: "flex", alignItems: "center", gap: "16px" }}
+            style={{ display: "flex", alignItems: "center", gap: "10px", justifySelf: "end" }}
           >
             <FreeAuditButton />
             <CtaButton />
@@ -305,8 +287,8 @@ export default function NavBar() {
                 }}
                 style={{ marginTop: "32px" }}
               >
-                <a
-                  href="/#free-audit"
+                <Link
+                  to="/speedPage"
                   style={{
                     fontFamily:     "var(--font-display)",
                     fontSize:       "14px",
@@ -321,7 +303,7 @@ export default function NavBar() {
                   }}
                 >
                   Free Audit
-                </a>
+                </Link>
               </motion.li>
               {/* Mobile CTA */}
               <motion.li
@@ -382,8 +364,8 @@ export default function NavBar() {
         .nav-link-item::after {
           content: '';
           position: absolute;
-          bottom: -3px;
-          left: 0;
+          bottom: 6px;
+          left: 14px;
           width: 0;
           height: 1px;
           background: var(--gold);
@@ -403,19 +385,25 @@ export default function NavBar() {
 // ── Sub-components ──────────────────────────────────────────────────────────
 
 function NavLink({ to, label }: { to: string; label: string }) {
+  const location = useLocation();
+  const active = location.pathname === to;
+
   return (
     <Link
       to={to}
       className="nav-link-item"
       style={{
         fontFamily:    "var(--font-sans)",
-        fontSize:      "11px",
-        letterSpacing: "0.15em",
+        fontSize:      "12px",
+        letterSpacing: "0.04em",
         textTransform: "uppercase",
-        color:         "var(--mist)",
+        color:         active ? "var(--bone)" : "var(--mist)",
         textDecoration:"none",
         transition:    "color 0.2s ease",
         display:       "inline-block",
+        padding:       "10px 14px",
+        borderRadius:  "6px",
+        background:    active ? "rgba(201,168,76,0.12)" : "transparent",
       }}
     >
       {label}
@@ -435,13 +423,14 @@ function CtaButton() {
       style={{
         fontFamily:    "var(--font-display)",
         fontSize:      "14px",
-        letterSpacing: "0.1em",
+        letterSpacing: "0.06em",
         textTransform: "uppercase",
         color:         hovered ? "var(--void)" : "var(--bone)",
         border:        "1px solid var(--gold)",
-        padding:       "10px 24px",
+        padding:       "11px 20px",
         textDecoration:"none",
         display:       "inline-block",
+        borderRadius:  "6px",
         background:    hovered ? "var(--gold)" : "transparent",
         transition:    "background 0.25s ease, color 0.25s ease",
       }}
@@ -455,25 +444,26 @@ function FreeAuditButton() {
   const [hovered, setHovered] = useState(false);
 
   return (
-    <a
-      href="/#free-audit"
+    <Link
+      to="/speedPage"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
         fontFamily:     "var(--font-sans)",
-        fontSize:       "11px",
-        letterSpacing:  "0.12em",
+        fontSize:       "12px",
+        letterSpacing:  "0.05em",
         textTransform:  "uppercase",
         color:          hovered ? "var(--void)" : "var(--gold)",
         border:         "1px solid var(--gold)",
-        padding:        "8px 18px",
+        padding:        "11px 18px",
         textDecoration: "none",
         display:        "inline-block",
+        borderRadius:   "6px",
         background:     hovered ? "var(--gold)" : "transparent",
         transition:     "background 0.25s ease, color 0.25s ease",
       }}
     >
       Free Audit
-    </a>
+    </Link>
   );
 }
