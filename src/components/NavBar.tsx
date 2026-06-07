@@ -5,10 +5,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
-  { label: "Services", to: "/services" },
-  { label: "Digital", to: "/digital-presence" },
-  { label: "Blog", to: "/blog" },
-  { label: "About", to: "/about" },
+  { label: "Home",         to: "/"             },
+  { label: "About",        to: "/about"         },
+  { label: "Services",     to: "/services"      },
+  { label: "AI Agents",    to: "/ai-agents"     },
+  { label: "How It Works", to: "/how-it-works"  },
+  { label: "Industries",   to: "/industries"    },
+  { label: "Contact",      to: "/contact"       },
 ];
 
 export default function NavBar() {
@@ -17,17 +20,14 @@ export default function NavBar() {
   const { isAuthenticated }       = useAuth();
   const location                  = useLocation();
 
-  // Scroll detection
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 60);
+    const onScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Close overlay on route change
   useEffect(() => setMenuOpen(false), [location]);
 
-  // Lock body scroll when overlay is open
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -38,57 +38,56 @@ export default function NavBar() {
       {/* ── Nav bar ── */}
       <nav
         style={{
-          position:        "fixed",
-          top:             0,
-          left:            0,
-          right:           0,
-          zIndex:          100,
-          height:          "80px",
-          display:         "flex",
-          alignItems:      "center",
-          background:      scrolled ? "rgba(8,8,8,0.92)" : "transparent",
-          backdropFilter:  scrolled ? "blur(20px)"         : "none",
-          WebkitBackdropFilter: scrolled ? "blur(20px)"    : "none",
-          borderBottom:    scrolled ? "1px solid var(--gold-dim)" : "none",
-          transition:      "background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease",
+          position:       "fixed",
+          top:            0,
+          left:           0,
+          right:          0,
+          zIndex:         100,
+          height:         "72px",
+          display:        "flex",
+          alignItems:     "center",
+          background:     scrolled
+            ? "rgba(10,10,10,0.96)"
+            : "rgba(10,10,10,0.90)",
+          backdropFilter:  scrolled ? "blur(20px)" : "blur(8px)",
+          WebkitBackdropFilter: scrolled ? "blur(20px)" : "blur(8px)",
+          borderBottom:   "1px solid #00AEEF",
+          transition:     "background 0.3s ease, backdrop-filter 0.3s ease",
         }}
       >
-        {/* Inner container */}
         <div
           className="nav-inner"
           style={{
-            maxWidth:      "1280px",
-            width:         "100%",
-            margin:        "0 auto",
-            padding:       "0 60px",
-            display:       "grid",
-            gridTemplateColumns: "auto minmax(0, 1fr) auto",
-            alignItems:    "center",
-            gap:           "28px",
+            maxWidth:            "1280px",
+            width:               "100%",
+            margin:              "0 auto",
+            padding:             "0 48px",
+            display:             "grid",
+            gridTemplateColumns: "auto 1fr auto",
+            alignItems:          "center",
+            gap:                 "24px",
           }}
         >
           {/* Logo */}
           <Link
             to="/"
             style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
+            aria-label="Batistack home"
           >
-            <BrandLogo />
+            <BrandLogo size="sm" />
           </Link>
 
           {/* Desktop nav links */}
           <ul
             className="nav-desktop-links"
             style={{
-              justifySelf: "center",
-              display:    "flex",
-              gap:        "8px",
-              listStyle:  "none",
-              margin:     0,
-              padding:    "6px",
-              alignItems: "center",
-              border:     "1px solid rgba(201,168,76,0.18)",
-              background:  scrolled ? "rgba(255,255,255,0.035)" : "rgba(8,8,8,0.22)",
-              borderRadius: "8px",
+              justifySelf:  "center",
+              display:      "flex",
+              gap:          "2px",
+              listStyle:    "none",
+              margin:       0,
+              padding:      0,
+              alignItems:   "center",
             }}
           >
             {NAV_LINKS.map((link) => (
@@ -98,31 +97,14 @@ export default function NavBar() {
             ))}
             {isAuthenticated && (
               <li>
-                <Link
-                  to="/dashboardPage"
-                  style={{
-                    fontFamily:    "var(--font-sans)",
-                    fontSize:      "11px",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    color:         "var(--mist)",
-                    textDecoration:"none",
-                    transition:    "color 0.2s ease",
-                  }}
-                >
-                  Dashboard
-                </Link>
+                <NavLink to="/dashboardPage" label="Dashboard" />
               </li>
             )}
           </ul>
 
           {/* Desktop CTA */}
-          <div
-            className="nav-desktop-cta"
-            style={{ display: "flex", alignItems: "center", gap: "10px", justifySelf: "end" }}
-          >
-            <FreeAuditButton />
-            <CtaButton />
+          <div className="nav-desktop-cta" style={{ display: "flex", alignItems: "center", gap: "10px", justifySelf: "end" }}>
+            <GetStartedButton />
           </div>
 
           {/* Hamburger — mobile only */}
@@ -142,36 +124,23 @@ export default function NavBar() {
               zIndex:        201,
             }}
           >
-            <span
-              style={{
-                display:    "block",
-                width:      "22px",
-                height:     "1px",
-                background: "var(--bone)",
-                transition: "transform 0.3s ease, opacity 0.3s ease",
-                transform:  menuOpen ? "translateY(6px) rotate(45deg)" : "none",
-              }}
-            />
-            <span
-              style={{
-                display:    "block",
-                width:      "22px",
-                height:     "1px",
-                background: "var(--bone)",
-                transition: "opacity 0.3s ease",
-                opacity:    menuOpen ? 0 : 1,
-              }}
-            />
-            <span
-              style={{
-                display:    "block",
-                width:      "22px",
-                height:     "1px",
-                background: "var(--bone)",
-                transition: "transform 0.3s ease",
-                transform:  menuOpen ? "translateY(-6px) rotate(-45deg)" : "none",
-              }}
-            />
+            {[0, 1, 2].map((i) => (
+              <span
+                key={i}
+                style={{
+                  display:    "block",
+                  width:      "22px",
+                  height:     "1.5px",
+                  background: i === 1 && menuOpen ? "transparent" : "#FFFFFF",
+                  borderRadius: "1px",
+                  transition: "transform 0.3s ease, opacity 0.3s ease, background 0.3s ease",
+                  transform:
+                    i === 0 && menuOpen ? "translateY(6.5px) rotate(45deg)"
+                    : i === 2 && menuOpen ? "translateY(-6.5px) rotate(-45deg)"
+                    : "none",
+                }}
+              />
+            ))}
           </button>
         </div>
       </nav>
@@ -181,37 +150,48 @@ export default function NavBar() {
         {menuOpen && (
           <motion.div
             key="mobile-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
+            initial={{ opacity: 0, y: -8 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -8 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
             style={{
               position:       "fixed",
               inset:          0,
-              background:     "#080808",
+              background:     "#0A0A0A",
               zIndex:         200,
               display:        "flex",
               flexDirection:  "column",
               alignItems:     "center",
               justifyContent: "center",
-              gap:            "8px",
+              gap:            "0",
+              borderTop:      "1px solid #00AEEF",
             }}
           >
+            {/* Logo in mobile overlay */}
+            <div style={{ position: "absolute", top: "20px", left: "24px" }}>
+              <BrandLogo size="sm" />
+            </div>
+
             {/* Close button */}
             <button
               onClick={() => setMenuOpen(false)}
               aria-label="Close menu"
               style={{
                 position:   "absolute",
-                top:        "28px",
-                right:      "24px",
+                top:        "20px",
+                right:      "20px",
                 background: "transparent",
-                border:     "none",
-                color:      "var(--bone)",
-                fontSize:   "28px",
-                lineHeight: 1,
+                border:     "1px solid #1E1E1E",
+                color:      "#FFFFFF",
+                width:      "36px",
+                height:     "36px",
+                borderRadius: "6px",
+                fontSize:   "20px",
+                lineHeight: "1",
                 cursor:     "pointer",
-                padding:    "8px",
+                display:    "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
               ×
@@ -220,33 +200,32 @@ export default function NavBar() {
             <motion.ul
               variants={{
                 hidden: {},
-                show: { transition: { staggerChildren: 0.08 } },
+                show: { transition: { staggerChildren: 0.06 } },
               }}
               initial="hidden"
               animate="show"
-              style={{ listStyle: "none", textAlign: "center", padding: 0, margin: 0 }}
+              style={{ listStyle: "none", textAlign: "center", padding: 0, margin: 0, width: "100%" }}
             >
               {NAV_LINKS.map((link) => (
                 <motion.li
                   key={link.to}
                   variants={{
-                    hidden: { opacity: 0, y: 30 },
-                    show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
+                    hidden: { opacity: 0, y: 20 },
+                    show:   { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
                   }}
-                  style={{ marginBottom: "8px" }}
+                  style={{ borderBottom: "1px solid #1E1E1E" }}
                 >
                   <Link
                     to={link.to}
                     style={{
-                      fontFamily:    "var(--font-serif)",
-                      fontStyle:     "italic",
-                      fontSize:      "clamp(36px, 9vw, 60px)",
-                      fontWeight:    300,
-                      color:         "var(--bone)",
+                      fontFamily:    "'Raleway', sans-serif",
+                      fontWeight:    600,
+                      fontSize:      "clamp(22px, 5vw, 32px)",
+                      color:         location.pathname === link.to ? "#00AEEF" : "#FFFFFF",
                       textDecoration:"none",
-                      letterSpacing: "0.02em",
-                      lineHeight:    1.2,
+                      letterSpacing: "0.04em",
                       display:       "block",
+                      padding:       "18px 24px",
                     }}
                   >
                     {link.label}
@@ -256,83 +235,58 @@ export default function NavBar() {
               {isAuthenticated && (
                 <motion.li
                   variants={{
-                    hidden: { opacity: 0, y: 30 },
-                    show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
+                    hidden: { opacity: 0, y: 20 },
+                    show:   { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
                   }}
-                  style={{ marginBottom: "8px" }}
+                  style={{ borderBottom: "1px solid #1E1E1E" }}
                 >
                   <Link
                     to="/dashboardPage"
                     style={{
-                      fontFamily:    "var(--font-serif)",
-                      fontStyle:     "italic",
-                      fontSize:      "clamp(36px, 9vw, 60px)",
-                      fontWeight:    300,
-                      color:         "var(--bone)",
+                      fontFamily:    "'Raleway', sans-serif",
+                      fontWeight:    600,
+                      fontSize:      "clamp(22px, 5vw, 32px)",
+                      color:         "#888888",
                       textDecoration:"none",
-                      letterSpacing: "0.02em",
-                      lineHeight:    1.2,
+                      letterSpacing: "0.04em",
                       display:       "block",
+                      padding:       "18px 24px",
                     }}
                   >
                     Dashboard
                   </Link>
                 </motion.li>
               )}
-              {/* Mobile Free Audit CTA */}
-              <motion.li
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
-                }}
-                style={{ marginTop: "32px" }}
-              >
-                <Link
-                  to="/speedPage"
-                  style={{
-                    fontFamily:     "var(--font-display)",
-                    fontSize:       "14px",
-                    letterSpacing:  "0.1em",
-                    textTransform:  "uppercase",
-                    color:          "var(--gold)",
-                    border:         "1px solid var(--gold)",
-                    padding:        "14px 40px",
-                    textDecoration: "none",
-                    display:        "inline-block",
-                    background:     "transparent",
-                  }}
-                >
-                  Free Audit
-                </Link>
-              </motion.li>
-              {/* Mobile CTA */}
-              <motion.li
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  show:   { opacity: 1, y: 0, transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] } },
-                }}
-                style={{ marginTop: "12px" }}
-              >
-                <Link
-                  to="/contact"
-                  data-cursor="cta"
-                  style={{
-                    fontFamily:     "var(--font-display)",
-                    fontSize:       "14px",
-                    letterSpacing:  "0.1em",
-                    textTransform:  "uppercase",
-                    color:          "var(--bone)",
-                    border:         "1px solid var(--gold)",
-                    padding:        "14px 40px",
-                    textDecoration: "none",
-                    display:        "inline-block",
-                    background:     "transparent",
-                  }}
-                >
-                  Start a Project
-                </Link>
-              </motion.li>
             </motion.ul>
+
+            {/* Mobile CTA */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.35, delay: 0.4 }}
+              style={{ marginTop: "32px", padding: "0 24px", width: "100%" }}
+            >
+              <Link
+                to="/contact"
+                style={{
+                  display:       "block",
+                  width:         "100%",
+                  textAlign:     "center",
+                  fontFamily:    "'Raleway', sans-serif",
+                  fontWeight:    700,
+                  fontSize:      "14px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color:         "#0A0A0A",
+                  background:    "#00AEEF",
+                  padding:       "16px 24px",
+                  textDecoration:"none",
+                  borderRadius:  "6px",
+                }}
+              >
+                Get Started
+              </Link>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -346,11 +300,11 @@ export default function NavBar() {
         .nav-hamburger {
           display: none !important;
         }
-        @media (max-width: 768px) {
+        @media (max-width: 960px) {
           .nav-inner {
             padding: 0 24px !important;
-            grid-template-columns: 1fr auto !important;
-            gap: 16px !important;
+            grid-template-columns: auto 1fr !important;
+            gap: 0 !important;
           }
           .nav-desktop-links,
           .nav-desktop-cta {
@@ -358,58 +312,44 @@ export default function NavBar() {
           }
           .nav-hamburger {
             display: flex !important;
-            position: fixed !important;
-            top: 24px !important;
-            right: 20px !important;
-            margin: 0 !important;
+            justify-self: end;
           }
         }
-        .nav-link-item {
-          position: relative;
+        .nav-link-pill {
+          transition: background 0.2s ease, color 0.2s ease;
         }
-        .nav-link-item::after {
-          content: '';
-          position: absolute;
-          bottom: 6px;
-          left: 14px;
-          width: 0;
-          height: 1px;
-          background: var(--gold);
-          transition: width 0.25s ease;
-        }
-        .nav-link-item:hover::after {
-          width: 100%;
-        }
-        .nav-link-item:hover {
-          color: #ffffff !important;
+        .nav-link-pill:hover {
+          background: rgba(0,174,239,0.08) !important;
+          color: #FFFFFF !important;
         }
       `}</style>
     </>
   );
 }
 
-// ── Sub-components ──────────────────────────────────────────────────────────
+/* ── Sub-components ── */
 
 function NavLink({ to, label }: { to: string; label: string }) {
   const location = useLocation();
-  const active = location.pathname === to;
+  const active = location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
 
   return (
     <Link
       to={to}
-      className="nav-link-item"
+      className="nav-link-pill"
       style={{
-        fontFamily:    "var(--font-sans)",
+        fontFamily:    "'Raleway', sans-serif",
+        fontWeight:    active ? 700 : 500,
         fontSize:      "12px",
         letterSpacing: "0.04em",
         textTransform: "uppercase",
-        color:         active ? "var(--bone)" : "var(--mist)",
+        color:         active ? "#00AEEF" : "#888888",
         textDecoration:"none",
-        transition:    "color 0.2s ease",
         display:       "inline-block",
-        padding:       "10px 14px",
+        padding:       "8px 12px",
         borderRadius:  "6px",
-        background:    active ? "rgba(201,168,76,0.12)" : "transparent",
+        background:    active ? "rgba(0,174,239,0.1)" : "transparent",
+        whiteSpace:    "nowrap",
       }}
     >
       {label}
@@ -417,7 +357,7 @@ function NavLink({ to, label }: { to: string; label: string }) {
   );
 }
 
-function CtaButton() {
+function GetStartedButton() {
   const [hovered, setHovered] = useState(false);
 
   return (
@@ -427,49 +367,23 @@ function CtaButton() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily:    "var(--font-display)",
-        fontSize:      "14px",
-        letterSpacing: "0.06em",
+        fontFamily:    "'Raleway', sans-serif",
+        fontWeight:    700,
+        fontSize:      "12px",
+        letterSpacing: "0.08em",
         textTransform: "uppercase",
-        color:         hovered ? "var(--void)" : "var(--bone)",
-        border:        "1px solid var(--gold)",
-        padding:       "11px 20px",
+        color:         hovered ? "#FFFFFF" : "#0A0A0A",
+        background:    hovered ? "#22c4ff" : "#00AEEF",
+        padding:       "10px 20px",
         textDecoration:"none",
         display:       "inline-block",
         borderRadius:  "6px",
-        background:    hovered ? "var(--gold)" : "transparent",
-        transition:    "background 0.25s ease, color 0.25s ease",
+        transition:    "background 0.2s ease, color 0.2s ease, box-shadow 0.2s ease",
+        boxShadow:     hovered ? "0 4px 16px rgba(0,174,239,0.35)" : "none",
+        whiteSpace:    "nowrap",
       }}
     >
-      Start a Project
-    </Link>
-  );
-}
-
-function FreeAuditButton() {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <Link
-      to="/speedPage"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        fontFamily:     "var(--font-sans)",
-        fontSize:       "12px",
-        letterSpacing:  "0.05em",
-        textTransform:  "uppercase",
-        color:          hovered ? "var(--void)" : "var(--gold)",
-        border:         "1px solid var(--gold)",
-        padding:        "11px 18px",
-        textDecoration: "none",
-        display:        "inline-block",
-        borderRadius:   "6px",
-        background:     hovered ? "var(--gold)" : "transparent",
-        transition:     "background 0.25s ease, color 0.25s ease",
-      }}
-    >
-      Free Audit
+      Get Started
     </Link>
   );
 }

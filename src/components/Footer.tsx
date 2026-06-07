@@ -1,115 +1,168 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaLinkedinIn, FaInstagram, FaYoutube, FaFacebookF } from "react-icons/fa";
 import BrandLogo from "./BrandLogo";
 
-const NAV_LINKS = [
-  { label: "Services",   to: "/services"  },
-  { label: "Speed Test", to: "/speedPage" },
-  { label: "Blog",       to: "/blog"      },
-  { label: "About",      to: "/about"     },
-  { label: "Contact",    to: "/contact"   },
+const COMPANY_LINKS = [
+  { label: "About",         to: "/about"    },
+  { label: "Services",      to: "/services" },
+  { label: "Blog",          to: "/blog"     },
+  { label: "Contact",       to: "/contact"  },
+  { label: "Privacy Policy",to: "/policy"   },
+];
+
+const SERVICES_LINKS = [
+  { label: "AI Infrastructure",    to: "/services"       },
+  { label: "AI Agents",            to: "/ai-agents"      },
+  { label: "How It Works",         to: "/how-it-works"   },
+  { label: "Digital Presence",     to: "/digital-presence" },
+  { label: "Custom Applications",  to: "/services"       },
+];
+
+const INDUSTRIES_LINKS = [
+  { label: "HVAC & Mechanical",   to: "/industries" },
+  { label: "Plumbing Services",   to: "/industries" },
+  { label: "Electrical",          to: "/industries" },
+  { label: "Real Estate",         to: "/industries" },
+  { label: "Gyms & Fitness",      to: "/industries" },
+  { label: "Legal Services",      to: "/industries" },
+  { label: "Cleaning Services",   to: "/industries" },
+  { label: "Insurance",           to: "/industries" },
+];
+
+const SOCIAL = [
+  { icon: <FaLinkedinIn />, label: "LinkedIn",  href: "https://www.linkedin.com/company/batistack" },
+  { icon: <FaInstagram />,  label: "Instagram", href: "https://www.instagram.com/batistack"        },
+  { icon: <FaYoutube />,    label: "YouTube",   href: "https://www.youtube.com/@batistack"          },
+  { icon: <FaFacebookF />,  label: "Facebook",  href: "https://www.facebook.com/batistack"         },
 ];
 
 export default function Footer() {
   return (
     <footer
       style={{
-        background:  "var(--void)",
-        borderTop:   "1px solid var(--smoke)",
-        padding:     "80px 0 40px",
+        background:  "#0A0A0A",
+        borderTop:   "1px solid #1E1E1E",
+        paddingTop:  "72px",
       }}
     >
-      {/* Main container */}
       <div
         className="footer-container"
-        style={{
-          maxWidth: "1280px",
-          margin:   "0 auto",
-          padding:  "0 60px",
-        }}
+        style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 60px" }}
       >
-        {/* 3-column row */}
+        {/* Blue accent line */}
+        <div
+          style={{
+            height: "2px",
+            background: "linear-gradient(90deg, #00AEEF 0%, rgba(0,174,239,0.1) 100%)",
+            marginBottom: "56px",
+            borderRadius: "1px",
+          }}
+        />
+
+        {/* 4-column grid */}
         <div
           className="footer-grid"
           style={{
-            display:         "flex",
-            justifyContent:  "space-between",
-            gap:             "40px",
+            display:             "grid",
+            gridTemplateColumns: "2fr 1fr 1.4fr 1.4fr",
+            gap:                 "48px",
+            alignItems:          "start",
           }}
         >
-          {/* Column 1 — Logo + tagline */}
+          {/* Col 1 — Brand */}
           <div>
-            <Link
-              to="/"
-              style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
-            >
+            <Link to="/" style={{ textDecoration: "none", display: "inline-flex" }}>
               <BrandLogo />
             </Link>
+
             <p
               style={{
-                fontFamily:  "var(--font-serif)",
-                fontStyle:   "italic",
-                fontSize:    "18px",
-                color:       "var(--mist)",
-                marginTop:   "12px",
-                lineHeight:  1.5,
+                fontFamily:  "'Raleway', sans-serif",
+                fontWeight:  400,
+                fontSize:    "14px",
+                color:       "#888888",
+                marginTop:   "16px",
+                lineHeight:  1.7,
+                maxWidth:    "280px",
               }}
             >
-              Built in New York. Powered by AI.
+              We Build Your AI Workforce.
+              You Grow Your Business.
             </p>
+
+            {/* Social icons */}
+            <div style={{ display: "flex", gap: "10px", marginTop: "24px" }}>
+              {SOCIAL.map((s) => (
+                <SocialIcon key={s.label} {...s} />
+              ))}
+            </div>
           </div>
 
-          {/* Column 2 — Nav links */}
-          <nav>
-            <ul
-              style={{
-                listStyle:     "none",
-                padding:       0,
-                margin:        0,
-                display:       "flex",
-                flexDirection: "column",
-                gap:           "14px",
-              }}
-            >
-              {NAV_LINKS.map((link) => (
-                <li key={link.to}>
+          {/* Col 2 — Company */}
+          <div>
+            <FooterColTitle>Company</FooterColTitle>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {COMPANY_LINKS.map((link) => (
+                <li key={link.to + link.label} style={{ marginBottom: "10px" }}>
                   <FooterNavLink to={link.to} label={link.label} />
                 </li>
               ))}
             </ul>
-          </nav>
+          </div>
 
-          {/* Column 3 — Contact */}
-          <div
-            style={{
-              display:       "flex",
-              flexDirection: "column",
-              gap:           "10px",
-            }}
-          >
-            <FooterEmailLink />
-            <span
+          {/* Col 3 — Services */}
+          <div>
+            <FooterColTitle>Services</FooterColTitle>
+            <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+              {SERVICES_LINKS.map((link) => (
+                <li key={link.label} style={{ marginBottom: "10px" }}>
+                  <FooterNavLink to={link.to} label={link.label} />
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Col 4 — Industries + Contact */}
+          <div>
+            <FooterColTitle>Industries</FooterColTitle>
+            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px" }}>
+              {INDUSTRIES_LINKS.map((link) => (
+                <li key={link.label} style={{ marginBottom: "8px" }}>
+                  <FooterNavLink to={link.to} label={link.label} />
+                </li>
+              ))}
+            </ul>
+
+            <FooterColTitle>Contact</FooterColTitle>
+            <div
               style={{
-                fontFamily:    "var(--font-sans)",
-                fontSize:      "11px",
-                color:         "var(--mist)",
-                letterSpacing: "0.05em",
+                display:       "flex",
+                flexDirection: "column",
+                gap:           "8px",
               }}
             >
-              NYC, New York
-            </span>
-            <span
-              style={{
-                fontFamily:    "var(--font-sans)",
-                fontSize:      "10px",
-                color:         "var(--mist)",
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                opacity:       0.7,
-              }}
-            >
-              Available for new projects
-            </span>
+              <a
+                href="mailto:elisaul@batistack.com"
+                style={{
+                  fontFamily:  "'Raleway', sans-serif",
+                  fontSize:    "12px",
+                  color:       "#888888",
+                  textDecoration: "none",
+                  transition:  "color 0.2s",
+                }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "#00AEEF")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "#888888")}
+              >
+                elisaul@batistack.com
+              </a>
+              <span style={{ fontFamily: "'Raleway', sans-serif", fontSize: "12px", color: "#888888" }}>
+                New York City, NY
+              </span>
+              <span style={{ fontFamily: "'Raleway', sans-serif", fontSize: "11px", color: "#555555" }}>
+                Mon–Fri 9AM–6PM EST
+              </span>
+            </div>
           </div>
         </div>
 
@@ -117,9 +170,10 @@ export default function Footer() {
         <div
           className="footer-bottom"
           style={{
-            borderTop:      "1px solid var(--smoke)",
-            marginTop:      "60px",
+            borderTop:      "1px solid #1E1E1E",
+            marginTop:      "56px",
             paddingTop:     "24px",
+            paddingBottom:  "40px",
             display:        "flex",
             justifyContent: "space-between",
             alignItems:     "center",
@@ -129,32 +183,21 @@ export default function Footer() {
         >
           <span
             style={{
-              fontFamily:    "var(--font-sans)",
-              fontSize:      "11px",
-              color:         "var(--mist)",
-              letterSpacing: "0.04em",
+              fontFamily:    "'Raleway', sans-serif",
+              fontWeight:    400,
+              fontSize:      "12px",
+              color:         "#555555",
+              letterSpacing: "0.02em",
             }}
           >
-            © {new Date().getFullYear()} Batistack Development Corp.
+            © 2023 Batistack Development Corp. All rights reserved.
           </span>
-
-          {/* Decorative gold divider */}
-          <div
-            style={{
-              width:     "1px",
-              height:    "40px",
-              background:"var(--gold-dim)",
-              transform: "rotate(20deg)",
-              opacity:   0.6,
-            }}
-            aria-hidden="true"
-          />
 
           <span
             style={{
-              fontFamily:    "var(--font-sans)",
-              fontSize:      "11px",
-              color:         "var(--mist)",
+              fontFamily:    "'Raleway', sans-serif",
+              fontSize:      "12px",
+              color:         "#555555",
               letterSpacing: "0.04em",
             }}
           >
@@ -165,22 +208,26 @@ export default function Footer() {
 
       {/* Responsive styles */}
       <style>{`
-        @media (max-width: 768px) {
+        @media (max-width: 1024px) {
+          .footer-container {
+            padding: 0 32px !important;
+          }
+          .footer-grid {
+            grid-template-columns: 1fr 1fr !important;
+            gap: 40px !important;
+          }
+        }
+        @media (max-width: 640px) {
           .footer-container {
             padding: 0 24px !important;
           }
           .footer-grid {
-            flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
-          }
-          .footer-grid > * {
-            align-items: center !important;
+            grid-template-columns: 1fr !important;
+            gap: 36px !important;
           }
           .footer-bottom {
             flex-direction: column !important;
-            align-items: center !important;
-            text-align: center !important;
+            align-items: flex-start !important;
           }
         }
       `}</style>
@@ -188,50 +235,74 @@ export default function Footer() {
   );
 }
 
-// ── Sub-components ──────────────────────────────────────────────────────────
+/* ── Sub-components ── */
+
+function FooterColTitle({ children }: { children: React.ReactNode }) {
+  return (
+    <p
+      style={{
+        fontFamily:    "'Raleway', sans-serif",
+        fontWeight:    700,
+        fontSize:      "10px",
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+        color:         "#00AEEF",
+        marginBottom:  "16px",
+      }}
+    >
+      {children}
+    </p>
+  );
+}
 
 function FooterNavLink({ to, label }: { to: string; label: string }) {
-  const [hovered, setHovered] = useState(false);
-
   return (
     <Link
       to={to}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily:    "var(--font-sans)",
-        fontSize:      "11px",
-        textTransform: "uppercase",
-        letterSpacing: "0.15em",
-        color:         hovered ? "var(--gold)" : "var(--mist)",
+        fontFamily:    "'Raleway', sans-serif",
+        fontWeight:    400,
+        fontSize:      "13px",
+        color:         "#888888",
         textDecoration:"none",
-        transition:    "color 0.2s ease",
         display:       "inline-block",
+        transition:    "color 0.2s ease",
       }}
+      onMouseEnter={(e) => (e.currentTarget.style.color = "#FFFFFF")}
+      onMouseLeave={(e) => (e.currentTarget.style.color = "#888888")}
     >
       {label}
     </Link>
   );
 }
 
-function FooterEmailLink() {
+function SocialIcon({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) {
   const [hovered, setHovered] = useState(false);
 
   return (
     <a
-      href="mailto:elisaul@batistack.com"
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={label}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
-        fontFamily:    "var(--font-sans)",
-        fontSize:      "13px",
-        color:         hovered ? "var(--gold)" : "var(--mist)",
-        textDecoration:"none",
-        transition:    "color 0.2s ease",
-        letterSpacing: "0.02em",
+        display:        "inline-flex",
+        alignItems:     "center",
+        justifyContent: "center",
+        width:          "36px",
+        height:         "36px",
+        borderRadius:   "8px",
+        border:         `1px solid ${hovered ? "#00AEEF" : "#1E1E1E"}`,
+        color:          hovered ? "#00AEEF" : "#888888",
+        background:     hovered ? "rgba(0,174,239,0.08)" : "transparent",
+        fontSize:       "14px",
+        transition:     "border-color 0.2s ease, color 0.2s ease, background 0.2s ease",
+        textDecoration: "none",
       }}
     >
-      elisaul@batistack.com
+      {icon}
     </a>
   );
 }

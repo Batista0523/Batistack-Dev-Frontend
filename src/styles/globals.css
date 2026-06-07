@@ -1,6 +1,6 @@
 /* ============================================
-   BATISTACK GLOBAL DESIGN SYSTEM v2
-   Dark Brutalism · NYC Agency · Gold Accent
+   BATISTACK GLOBAL DESIGN SYSTEM v3
+   AI Infrastructure · NYC · Electric Blue
    ============================================ */
 
 *,
@@ -13,18 +13,23 @@
 
 :root {
   /* ── Brand Palette ── */
-  --void:      #080808;
-  --bone:      #f0ede6;
-  --gold:      #c8a84b;
-  --gold-dim:  #7a6428;
-  --ash:       #1a1a1a;
-  --smoke:     #2e2e2e;
-  --mist:      #8a8a8a;
+  --void:        #0A0A0A;   /* Obsidian Black */
+  --secondary:   #0D0D0D;
+  --bone:        #FFFFFF;   /* White text */
+  --ash:         #141414;   /* Card background */
+  --smoke:       #1E1E1E;   /* Border */
+  --mist:        #888888;   /* Gray text */
+  --silver:      #D9D9D9;   /* Titanium Silver */
+
+  /* ── Accent ── */
+  --gold:        #00AEEF;   /* Electric Blue — PRIMARY ACCENT */
+  --gold-dim:    rgba(0, 174, 239, 0.5);
+  --blue-glow:   rgba(0, 174, 239, 0.15);
 
   /* ── Typography ── */
-  --font-display: 'Bebas Neue', 'Arial Black', sans-serif;
-  --font-serif:   'Playfair Display', Georgia, serif;
-  --font-sans:    'Inter', system-ui, sans-serif;
+  --font-display: 'Raleway', sans-serif;
+  --font-serif:   'Raleway', sans-serif;
+  --font-sans:    'Raleway', sans-serif;
 
   /* ── Spacing scale ── */
   --space-xs:  8px;
@@ -97,7 +102,7 @@ body {
 .cursor-ring {
   width: 40px;
   height: 40px;
-  border: 1.5px solid rgba(200, 168, 75, 0.4);
+  border: 1.5px solid rgba(0, 174, 239, 0.4);
   border-radius: 50%;
   position: fixed;
   top: 0;
@@ -150,65 +155,68 @@ body {
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--gold);
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 20px;
   font-family: var(--font-sans);
 }
 
 /* ── Section Title ── */
 .section-title {
-  font-family: var(--font-serif);
+  font-family: var(--font-display);
   font-size: clamp(36px, 4vw, 60px);
-  font-weight: 400;
+  font-weight: 700;
   line-height: 1.1;
 }
 
 .section-title em {
-  font-style: italic;
+  font-style: normal;
   color: var(--gold);
 }
 
 /* ── Button System ── */
 
-/* Primary: gold fill, void text */
+/* Primary: electric blue fill, black text */
 .btn-primary {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 18px 48px;
+  padding: 16px 40px;
   background: var(--gold);
   color: var(--void);
-  font-family: var(--font-display);
-  font-size: 16px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease;
-  position: relative;
-  overflow: hidden;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .btn-primary:hover {
-  background: #d4b55a;
+  background: #22c4ff;
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 174, 239, 0.3);
 }
 
-/* Ghost: transparent, gold border */
+/* Ghost: transparent, electric blue border */
 .btn-ghost {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 17px 47px;
+  padding: 15px 39px;
   background: transparent;
   color: var(--bone);
-  font-family: var(--font-display);
-  font-size: 16px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   border: 1px solid var(--gold-dim);
+  border-radius: 6px;
   cursor: pointer;
   transition: border-color 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
@@ -239,26 +247,28 @@ body {
   gap: 14px;
 }
 
-/* Legacy button classes preserved */
+/* Legacy button classes — remapped to new palette */
 .btn-primary-bs,
 a.btn-primary-bs {
   display: inline-block;
   padding: 16px 40px;
   background: var(--gold);
   color: var(--void);
-  font-family: var(--font-display);
-  font-size: 16px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
   text-decoration: none;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .btn-primary-bs:hover,
 a.btn-primary-bs:hover {
-  background: #d4b55a;
+  background: #22c4ff;
   transform: translateY(-2px);
   color: var(--void);
 }
@@ -306,11 +316,14 @@ a.btn-ghost-bs:hover::after {
   border: 1px solid var(--smoke);
   color: var(--mist);
   font-family: var(--font-sans);
+  border-radius: 4px;
 }
 
 /* ── Marquee ── */
 .marquee-section {
-  background: var(--gold);
+  background: var(--ash);
+  border-top: 1px solid var(--smoke);
+  border-bottom: 1px solid var(--smoke);
   padding: 14px 0;
   overflow: hidden;
 }
@@ -328,11 +341,12 @@ a.btn-ghost-bs:hover::after {
 }
 
 .marquee-item {
-  font-family: var(--font-display);
-  font-size: 16px;
-  letter-spacing: 0.12em;
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--void);
+  color: var(--bone);
   display: flex;
   align-items: center;
   gap: 24px;
@@ -341,15 +355,15 @@ a.btn-ghost-bs:hover::after {
 
 .marquee-item::after {
   content: '·';
-  color: var(--void);
-  opacity: 0.5;
+  color: var(--gold);
+  opacity: 0.8;
   font-size: 20px;
 }
 
 /* ── Divider ── */
 .gold-divider {
   height: 1px;
-  background: var(--gold-dim);
+  background: var(--smoke);
   border: none;
 }
 
@@ -402,7 +416,7 @@ button:focus-visible,
 a:focus-visible,
 [role="button"]:focus-visible,
 summary:focus-visible {
-  outline: 1.5px solid rgba(200, 168, 75, 0.6);
+  outline: 1.5px solid rgba(0, 174, 239, 0.6);
   outline-offset: 4px;
   border-radius: 2px;
 }

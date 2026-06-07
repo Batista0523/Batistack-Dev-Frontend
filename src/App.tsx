@@ -17,6 +17,9 @@ import CaseStudyPage from "./Pages/CaseStudyPage";
 import Blog from "./Pages/Blog";
 import BlogPost from "./Pages/BlogPost";
 import DigitalPresence from "./Pages/DigitalPresence";
+import AIAgents from "./Pages/AIAgents";
+import HowItWorks from "./Pages/HowItWorks";
+import Industries from "./Pages/Industries";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import "./global.css";
@@ -50,6 +53,9 @@ function App() {
         <Route path="/blog"              element={<Blog />} />
         <Route path="/blog/:slug"       element={<BlogPost />} />
         <Route path="/digital-presence" element={<DigitalPresence />} />
+        <Route path="/ai-agents"        element={<AIAgents />} />
+        <Route path="/how-it-works"     element={<HowItWorks />} />
+        <Route path="/industries"       element={<Industries />} />
         <Route
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}
