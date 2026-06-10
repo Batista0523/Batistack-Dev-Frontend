@@ -14,19 +14,19 @@ const SERVICES_LINKS = [
   { label: "AI Infrastructure",    to: "/services"       },
   { label: "AI Agents",            to: "/ai-agents"      },
   { label: "How It Works",         to: "/how-it-works"   },
-  { label: "Digital Presence",     to: "/digital-presence" },
+  { label: "Digital Presence",     to: "/services"       },
   { label: "Custom Applications",  to: "/services"       },
 ];
 
 const INDUSTRIES_LINKS = [
-  { label: "HVAC & Mechanical",   to: "/industries" },
-  { label: "Plumbing Services",   to: "/industries" },
-  { label: "Electrical",          to: "/industries" },
-  { label: "Real Estate",         to: "/industries" },
-  { label: "Gyms & Fitness",      to: "/industries" },
-  { label: "Legal Services",      to: "/industries" },
-  { label: "Cleaning Services",   to: "/industries" },
-  { label: "Insurance",           to: "/industries" },
+  { label: "HVAC & Mechanical",   to: "/industries/hvac"                },
+  { label: "Plumbing Services",   to: "/industries/plumbing"            },
+  { label: "Electrical",          to: "/industries/electrical"          },
+  { label: "Real Estate",         to: "/industries/real-estate"         },
+  { label: "Gyms & Fitness",      to: "/industries/gyms-fitness"        },
+  { label: "Legal Services",      to: "/industries/legal"               },
+  { label: "Cleaning Services",   to: "/industries/commercial-cleaning" },
+  { label: "Insurance",           to: "/industries/insurance"           },
 ];
 
 const SOCIAL = [

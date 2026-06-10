@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import BrandLogo from "./BrandLogo";
 
@@ -17,7 +16,6 @@ const NAV_LINKS = [
 export default function NavBar() {
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
-  const { isAuthenticated }       = useAuth();
   const location                  = useLocation();
 
   useEffect(() => {
@@ -95,11 +93,6 @@ export default function NavBar() {
                 <NavLink to={link.to} label={link.label} />
               </li>
             ))}
-            {isAuthenticated && (
-              <li>
-                <NavLink to="/dashboardPage" label="Dashboard" />
-              </li>
-            )}
           </ul>
 
           {/* Desktop CTA */}
@@ -232,31 +225,6 @@ export default function NavBar() {
                   </Link>
                 </motion.li>
               ))}
-              {isAuthenticated && (
-                <motion.li
-                  variants={{
-                    hidden: { opacity: 0, y: 20 },
-                    show:   { opacity: 1, y: 0, transition: { duration: 0.35, ease: "easeOut" } },
-                  }}
-                  style={{ borderBottom: "1px solid #1E1E1E" }}
-                >
-                  <Link
-                    to="/dashboardPage"
-                    style={{
-                      fontFamily:    "'Raleway', sans-serif",
-                      fontWeight:    600,
-                      fontSize:      "clamp(22px, 5vw, 32px)",
-                      color:         "#888888",
-                      textDecoration:"none",
-                      letterSpacing: "0.04em",
-                      display:       "block",
-                      padding:       "18px 24px",
-                    }}
-                  >
-                    Dashboard
-                  </Link>
-                </motion.li>
-              )}
             </motion.ul>
 
             {/* Mobile CTA */}

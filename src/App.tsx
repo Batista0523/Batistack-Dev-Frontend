@@ -3,10 +3,7 @@ import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Services from "./Pages/Services";
 import NavBar from "./components/NavBar";
-import Login from "./Pages/Login";
 import ContactForm from "./Pages/ContactForm";
-import { useAuth } from "./context/AuthContext";
-import DashboardPage from "./Pages/DashboardPage";
 import { useEffect } from "react";
 import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
@@ -16,7 +13,6 @@ import NotFound from "./Pages/NotFound";
 import CaseStudyPage from "./Pages/CaseStudyPage";
 import Blog from "./Pages/Blog";
 import BlogPost from "./Pages/BlogPost";
-import DigitalPresence from "./Pages/DigitalPresence";
 import AIAgents from "./Pages/AIAgents";
 import HowItWorks from "./Pages/HowItWorks";
 import Industries from "./Pages/Industries";
@@ -27,39 +23,30 @@ import "./styles/globals.css";
 
 function App() {
   const location = useLocation();
-  const { isAuthenticated } = useAuth();
 
   useEffect(() => {
     trackPageView(location.pathname + location.search);
   }, [location]);
 
-  const hideChrome = ["/dashboardPage", "/login"].includes(location.pathname);
-  const hideFooter = ["/dashboardPage", "/login"].includes(location.pathname);
-
   return (
     <>
       <CustomCursor />
       <ScrollToTop />
-      {!hideChrome && <NavBar />}
+      <NavBar />
       <Routes>
         <Route path="/"             element={<Home />} />
         <Route path="/about"        element={<About />} />
         <Route path="/speedPage"    element={<Navigate to="/" replace />} />
         <Route path="/services"     element={<Services />} />
-        <Route path="/login"        element={<Login />} />
         <Route path="/contact"      element={<ContactForm />} />
         <Route path="/policy"       element={<PrivacyPolicy />} />
         <Route path="/case-studies/:id" element={<CaseStudyPage />} />
         <Route path="/blog"              element={<Blog />} />
         <Route path="/blog/:slug"       element={<BlogPost />} />
-        <Route path="/digital-presence" element={<DigitalPresence />} />
+        <Route path="/digital-presence" element={<Navigate to="/services" replace />} />
         <Route path="/ai-agents"        element={<AIAgents />} />
         <Route path="/how-it-works"     element={<HowItWorks />} />
         <Route path="/industries"       element={<Industries />} />
-        <Route
-          path="/dashboardPage"
-          element={isAuthenticated ? <DashboardPage /> : <Login />}
-        />
         <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideFooter && <Footer />}
