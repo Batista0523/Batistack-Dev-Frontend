@@ -187,82 +187,123 @@ function Hero() {
 
 function AutopilotStation() {
   return (
-    <div style={{ position: "relative", display: "flex", justifyContent: "center", padding: "32px 0" }}>
-      <svg
-        width="340"
-        height="360"
-        viewBox="0 0 340 360"
-        fill="none"
-        role="img"
-        aria-label="Batistack Autopilot Station — AI agent hardware installed in NYC businesses"
-        style={{ maxWidth: "100%", height: "auto" }}
+    <div style={{ position: "relative", display: "flex", justifyContent: "center", alignItems: "center", padding: "40px 16px" }}>
+      {/* Outer glow ring */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          width: "320px",
+          height: "320px",
+          borderRadius: "50%",
+          background: "radial-gradient(circle, rgba(0,174,239,0.13) 0%, rgba(0,174,239,0.04) 50%, transparent 72%)",
+          animation: "pulseGlow 4s ease-in-out infinite",
+        }}
+      />
+
+      {/* Main card */}
+      <div
+        style={{
+          position: "relative",
+          width: "300px",
+          background: "linear-gradient(160deg, #141414 0%, #0e0e0e 100%)",
+          border: "1px solid rgba(0,174,239,0.35)",
+          borderRadius: "20px",
+          padding: "40px 32px 36px",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "20px",
+          boxShadow: "0 0 60px rgba(0,174,239,0.08), 0 24px 48px rgba(0,0,0,0.6)",
+        }}
       >
-        <defs>
-          <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#1c1c1c" />
-            <stop offset="100%" stopColor="#101010" />
-          </linearGradient>
-          <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#141414" />
-            <stop offset="100%" stopColor="#0c0c0c" />
-          </linearGradient>
-          <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#181818" />
-            <stop offset="100%" stopColor="#0e0e0e" />
-          </linearGradient>
-          <radialGradient id="floorGlow" cx="0.5" cy="0.5" r="0.5">
-            <stop offset="0%" stopColor="rgba(0,174,239,0.35)" />
-            <stop offset="100%" stopColor="rgba(0,174,239,0)" />
-          </radialGradient>
-          <linearGradient id="bChrome" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#FFFFFF" />
-            <stop offset="45%" stopColor="#D9D9D9" />
-            <stop offset="100%" stopColor="#8A8A8A" />
-          </linearGradient>
-        </defs>
+        {/* Top accent line */}
+        <div
+          aria-hidden
+          style={{
+            position: "absolute",
+            top: 0,
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "60%",
+            height: "2px",
+            background: "linear-gradient(90deg, transparent, #00AEEF, transparent)",
+            borderRadius: "1px",
+          }}
+        />
 
-        {/* Floor glow */}
-        <ellipse cx="170" cy="318" rx="150" ry="34" fill="url(#floorGlow)" />
+        {/* Real logo */}
+        <img
+          src="/brand/batistack-logo.png"
+          alt="Batistack"
+          style={{
+            width: "200px",
+            height: "auto",
+            display: "block",
+            filter: "drop-shadow(0 0 18px rgba(0,174,239,0.45))",
+            animation: "pulseGlow 4s ease-in-out infinite",
+          }}
+        />
 
-        {/* Cube — isometric */}
-        <polygon points="170,60 290,120 170,180 50,120" fill="url(#cubeTop)" stroke="#262626" strokeWidth="1" />
-        <polygon points="50,120 170,180 170,310 50,250" fill="url(#cubeLeft)" stroke="#1E1E1E" strokeWidth="1" />
-        <polygon points="290,120 170,180 170,310 290,250" fill="url(#cubeRight)" stroke="#1E1E1E" strokeWidth="1" />
+        {/* Divider */}
+        <div style={{ width: "100%", height: "1px", background: "#1E1E1E" }} />
 
-        {/* Blue seam lines */}
-        <polyline points="50,120 170,180 290,120" fill="none" stroke="rgba(0,174,239,0.5)" strokeWidth="1.2" />
-        <line x1="170" y1="180" x2="170" y2="310" stroke="rgba(0,174,239,0.35)" strokeWidth="1.2" />
+        {/* Live indicator row */}
+        <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+          <span className="status-dot" />
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontWeight: 700,
+              fontSize: "11px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "var(--silver)",
+            }}
+          >
+            AI Workforce — Online
+          </span>
+        </div>
 
-        {/* Glowing B on right face */}
-        <g transform="translate(196 200) skewY(-26.5) scale(0.85)" style={{ animation: "pulseGlow 3.2s ease-in-out infinite" }}>
-          <rect x="0" y="0" width="7" height="64" rx="2" fill="url(#bChrome)" />
-          <path d="M7 0 L26 0 C38 0 44 7 44 15 C44 23 38 30 26 30 L7 30 Z" fill="url(#bChrome)" />
-          <path d="M7 30 L29 30 C42 30 48 38 48 46 C48 56 42 64 29 64 L7 64 Z" fill="url(#bChrome)" />
-          <circle cx="30" cy="14" r="6" fill="#00AEEF" />
-          <circle cx="32" cy="46" r="6" fill="#00AEEF" />
-        </g>
-
-        {/* Status LED strip on left face */}
-        <g transform="translate(66 218) skewY(26.5)">
-          {[0, 1, 2, 3].map((i) => (
-            <rect
-              key={i}
-              x={i * 16}
-              y="0"
-              width="8"
-              height="3"
-              rx="1.5"
-              fill="#00AEEF"
-              opacity={0.9 - i * 0.18}
-            />
+        {/* Agent count row */}
+        <div
+          style={{
+            width: "100%",
+            display: "grid",
+            gridTemplateColumns: "repeat(3, 1fr)",
+            gap: "10px",
+            textAlign: "center",
+          }}
+        >
+          {[
+            { val: "7", label: "Agents" },
+            { val: "24/7", label: "Runtime" },
+            { val: "8d", label: "To Live" },
+          ].map((s) => (
+            <div
+              key={s.label}
+              style={{
+                background: "#0A0A0A",
+                border: "1px solid #1E1E1E",
+                borderRadius: "8px",
+                padding: "10px 6px",
+              }}
+            >
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "16px", color: "#00AEEF", margin: 0 }}>
+                {s.val}
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "10px", letterSpacing: "0.1em", textTransform: "uppercase", color: "var(--mist)", margin: "4px 0 0" }}>
+                {s.label}
+              </p>
+            </div>
           ))}
-        </g>
-      </svg>
+        </div>
+      </div>
 
       {/* Floating stat chips */}
-      <FloatChip text="24/7 Operation" style={{ top: "8%", left: "-2%", animationDelay: "0s" }} />
-      <FloatChip text="98% Task Success" style={{ top: "38%", right: "-4%", animationDelay: "1.4s" }} />
-      <FloatChip text="Agents Always On" style={{ bottom: "6%", left: "6%", animationDelay: "2.6s" }} />
+      <FloatChip text="24/7 Operation" style={{ top: "4%", left: "-4%", animationDelay: "0s" }} />
+      <FloatChip text="Apple Silicon" style={{ top: "42%", right: "-8%", animationDelay: "1.4s" }} />
+      <FloatChip text="NYC Installed" style={{ bottom: "4%", left: "2%", animationDelay: "2.6s" }} />
     </div>
   );
 }
