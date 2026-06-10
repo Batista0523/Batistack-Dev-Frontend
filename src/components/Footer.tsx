@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaLinkedinIn, FaInstagram, FaYoutube, FaFacebookF } from "react-icons/fa";
-import BrandLogo from "./BrandLogo";
 
 const COMPANY_LINKS = [
   { label: "About",         to: "/about"    },
@@ -73,7 +72,12 @@ export default function Footer() {
           {/* Col 1 — Brand */}
           <div>
             <Link to="/" style={{ textDecoration: "none", display: "inline-flex" }}>
-              <BrandLogo />
+              <img
+                src="/brand/batistack-logo.png"
+                alt="Batistack Development Corp — AI Infrastructure & Agent Services, New York City"
+                loading="lazy"
+                style={{ width: "220px", maxWidth: "100%", height: "auto", display: "block" }}
+              />
             </Link>
 
             <p
@@ -201,7 +205,7 @@ export default function Footer() {
               letterSpacing: "0.04em",
             }}
           >
-            batistack.com
+            Batistack Development Corp — New York, NY
           </span>
         </div>
       </div>

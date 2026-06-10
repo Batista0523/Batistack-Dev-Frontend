@@ -5,12 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import BrandLogo from "./BrandLogo";
 
 const NAV_LINKS = [
-  { label: "Home",         to: "/"             },
-  { label: "About",        to: "/about"         },
-  { label: "Services",     to: "/services"      },
+  { label: "Home",         to: "/"              },
   { label: "AI Agents",    to: "/ai-agents"     },
   { label: "How It Works", to: "/how-it-works"  },
   { label: "Industries",   to: "/industries"    },
+  { label: "Services",     to: "/services"      },
+  { label: "About",        to: "/about"         },
   { label: "Contact",      to: "/contact"       },
 ];
 

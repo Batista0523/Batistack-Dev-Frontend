@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
 import Services from "./Pages/Services";
@@ -12,7 +12,7 @@ import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
 import PrivacyPolicy from "./Pages/PrivacyPolicy";
 import ChatBot from "./components/ChatBot";
-import WebsiteAudit from "./Pages/WebsiteAudit";
+import NotFound from "./Pages/NotFound";
 import CaseStudyPage from "./Pages/CaseStudyPage";
 import Blog from "./Pages/Blog";
 import BlogPost from "./Pages/BlogPost";
@@ -44,7 +44,7 @@ function App() {
       <Routes>
         <Route path="/"             element={<Home />} />
         <Route path="/about"        element={<About />} />
-        <Route path="/speedPage"    element={<WebsiteAudit />} />
+        <Route path="/speedPage"    element={<Navigate to="/" replace />} />
         <Route path="/services"     element={<Services />} />
         <Route path="/login"        element={<Login />} />
         <Route path="/contact"      element={<ContactForm />} />
@@ -60,6 +60,7 @@ function App() {
           path="/dashboardPage"
           element={isAuthenticated ? <DashboardPage /> : <Login />}
         />
+        <Route path="*" element={<NotFound />} />
       </Routes>
       {!hideFooter && <Footer />}
       <ChatBot />
