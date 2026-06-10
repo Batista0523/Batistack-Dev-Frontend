@@ -1,451 +1,579 @@
-import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { localBusinessSchema, servicePageSchema, generatePageMeta } from "../lib/seoSchema";
-import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Seo, { serviceSchema } from "../components/Seo";
+import {
+  Section,
+  SectionHeading,
+  GlowCard,
+  Reveal,
+  PrimaryLink,
+  GhostLink,
+  CTABanner,
+} from "../components/ui";
 
-// ─── Service data ─────────────────────────────────────────────────────────────
+const SEO_DESCRIPTION =
+  "Three ways Batistack moves your business forward: AI infrastructure & agents installed on Apple hardware, professional digital presence, and custom apps.";
 
-const services = [
-  {
-    number: "01",
-    name: "Custom Web Design",
-    description:
-      "Your website is your best salesperson. We build fast, beautiful, conversion-focused sites in React — no templates, no page builders, no excuses.",
-    features: [
-      "Custom design from scratch",
-      "React + TypeScript + Vite",
-      "Mobile-first responsive",
-      "SEO foundation",
-      "Performance optimized",
-      "14-day delivery",
-    ],
-    stack: ["React", "TypeScript", "Vite", "Framer Motion"],
-    bg: "var(--void)" as const,
-    boxBg: "var(--ash)" as const,
-  },
-  {
-    number: "02",
-    name: "Mobile Applications",
-    description:
-      "Native-quality mobile apps built in React Native. iOS and Android from a single codebase, with real performance and real polish.",
-    features: [
-      "iOS & Android (React Native)",
-      "Expo for fast deployment",
-      "Push notifications",
-      "Offline-ready architecture",
-      "App Store submission support",
-    ],
-    stack: ["React Native", "Expo", "TypeScript"],
-    bg: "var(--ash)" as const,
-    boxBg: "var(--void)" as const,
-  },
-  {
-    number: "03",
-    name: "AI Integration",
-    description:
-      "AI isn't a gimmick — it's infrastructure. We integrate Claude, GPT, and custom models directly into your website so it works harder than any team member.",
-    features: [
-      "AI chat assistant trained on your business",
-      "Lead capture & qualification",
-      "Workflow automation",
-      "CRM integrations",
-      "Real-time recommendations",
-      "Analytics on AI interactions",
-    ],
-    stack: ["Claude API", "OpenAI", "Node.js", "Webhooks"],
-    bg: "var(--void)" as const,
-    boxBg: "var(--ash)" as const,
-  },
-  {
-    number: "04",
-    name: "Website Redesign",
-    description:
-      "Your current site is costing you customers. We audit it, rebuild it, and hand you something you're proud to send to prospects.",
-    features: [
-      "Full UX audit",
-      "Performance analysis",
-      "Complete visual rebuild",
-      "Content migration",
-      "SEO preservation",
-      "Analytics setup",
-    ],
-    stack: ["Audit", "React", "Migration", "GA4"],
-    bg: "var(--ash)" as const,
-    boxBg: "var(--void)" as const,
-  },
-];
+export default function Services() {
+  return (
+    <main style={{ background: "var(--void)", paddingTop: "72px" }}>
+      <Seo
+        title="AI Infrastructure, Websites & Custom Apps | Batistack NYC"
+        description={SEO_DESCRIPTION}
+        path="/services"
+        jsonLd={serviceSchema("AI Infrastructure & Agent Services", SEO_DESCRIPTION, "/services")}
+      />
+      <Hero />
+      <ServiceTiers />
+      <DecisionStrip />
+      <CTABanner
+        title="One Conversation. A Clear Plan."
+        sub="Tell us what's slowing you down — we'll tell you exactly what to install."
+      />
+    </main>
+  );
+}
 
-// ─── Service section ──────────────────────────────────────────────────────────
+/* ════════════════ SHARED ════════════════ */
 
-function ServiceSection({
-  service,
-  index,
-}: {
-  service: (typeof services)[0];
-  index: number;
-}) {
-  const isEven = index % 2 === 0;
+function CheckIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#00AEEF"
+      strokeWidth="2.4"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+      style={{ flexShrink: 0, marginTop: "3px" }}
+    >
+      <path d="m4 12 5 5L20 6" />
+    </svg>
+  );
+}
 
+function Checklist({ items }: { items: string[] }) {
+  return (
+    <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+      {items.map((item) => (
+        <li
+          key={item}
+          style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "11px" }}
+        >
+          <CheckIcon />
+          <span
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "13.5px",
+              color: "var(--silver)",
+              lineHeight: 1.55,
+            }}
+          >
+            {item}
+          </span>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+/* ════════════════ HERO ════════════════ */
+
+function Hero() {
   return (
     <section
       style={{
-        background: service.bg,
-        padding: "120px 0",
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,174,239,0.08) 0%, transparent 60%), #0A0A0A",
+        borderBottom: "1px solid #1E1E1E",
       }}
     >
       <div
-        className="section-container"
+        aria-hidden
         style={{
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "80px",
-          alignItems: "center",
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(0,174,239,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(0,174,239,0.035) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 75%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 75%)",
+        }}
+      />
+      <div
+        className="section-container services-hero"
+        style={{
+          position: "relative",
+          textAlign: "center",
+          padding: "96px 60px 88px",
         }}
       >
-        {/* Left column */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.8 }}
-          style={{ order: isEven ? 0 : 1 }}
-          className="service-left-col"
-        >
-          <div
+        <Reveal>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              border: "1px solid rgba(0,174,239,0.4)",
+              borderRadius: "100px",
+              padding: "8px 18px",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 600,
+              fontSize: "11px",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--silver)",
+              background: "rgba(0,174,239,0.05)",
+            }}
+          >
+            <span className="status-dot" />
+            What We Build — NYC
+          </span>
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <h1
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "180px",
-              lineHeight: 1,
-              color: "var(--smoke)",
-              marginBottom: "-20px",
-            }}
-          >
-            {service.number}
-          </div>
-          <h2
-            style={{
-              fontFamily: "var(--font-serif)",
-              fontSize: "52px",
-              fontWeight: 300,
-              color: "var(--bone)",
+              fontWeight: 800,
+              fontSize: "clamp(34px, 5vw, 58px)",
               lineHeight: 1.1,
-              marginBottom: "24px",
+              color: "var(--bone)",
+              margin: "28px auto 0",
+              maxWidth: "860px",
+              letterSpacing: "-0.015em",
             }}
           >
-            {service.name}
-          </h2>
+            <span style={{ color: "#00AEEF" }}>AI Infrastructure</span>, Websites
+            &amp; Custom Applications
+          </h1>
+        </Reveal>
+
+        <Reveal delay={0.2}>
           <p
             style={{
               fontFamily: "var(--font-sans)",
-              fontSize: "16px",
+              fontSize: "17px",
               color: "var(--mist)",
-              lineHeight: 1.7,
-              marginBottom: "40px",
-              maxWidth: "480px",
+              lineHeight: 1.75,
+              maxWidth: "620px",
+              margin: "24px auto 0",
             }}
           >
-            {service.description}
+            Three ways we move your business forward. One is the flagship: an AI
+            workforce physically installed in your office, working 24/7. The
+            other two make sure the rest of your operation keeps up.
           </p>
-          <Link
-            to="/contact"
-            data-cursor="cta"
-            style={{
-              display: "inline-block",
-              fontFamily: "var(--font-sans)",
-              fontSize: "12px",
-              letterSpacing: "0.15em",
-              textTransform: "uppercase",
-              color: "var(--bone)",
-              textDecoration: "none",
-              border: "1px solid var(--smoke)",
-              padding: "14px 32px",
-              transition: "border-color 0.25s, color 0.25s",
-            }}
-            onMouseEnter={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--gold)";
-              (e.currentTarget as HTMLAnchorElement).style.color = "var(--gold)";
-            }}
-            onMouseLeave={(e) => {
-              (e.currentTarget as HTMLAnchorElement).style.borderColor = "var(--smoke)";
-              (e.currentTarget as HTMLAnchorElement).style.color = "var(--bone)";
-            }}
-          >
-            START THIS PROJECT →
-          </Link>
-        </motion.div>
-
-        {/* Right column — What's Included box */}
-        <motion.div
-          initial={{ opacity: 0, y: 32 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-80px" }}
-          transition={{ duration: 0.8, delay: 0.15 }}
-          style={{ order: isEven ? 1 : 0 }}
-          className="service-right-col"
-        >
-          <div
-            style={{
-              border: "1px solid var(--smoke)",
-              padding: "40px",
-              background: service.boxBg,
-            }}
-          >
-            <p
-              style={{
-                fontFamily: "var(--font-sans)",
-                fontSize: "10px",
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                color: "var(--gold)",
-                marginBottom: "24px",
-              }}
-            >
-              WHAT'S INCLUDED
-            </p>
-
-            <ul style={{ listStyle: "none", padding: 0, margin: "0 0 32px 0" }}>
-              {service.features.map((feature) => (
-                <li
-                  key={feature}
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "15px",
-                    color: "var(--bone)",
-                    padding: "12px 0",
-                    borderBottom: "1px solid var(--smoke)",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: "10px",
-                  }}
-                >
-                  <span style={{ color: "var(--gold-dim)", flexShrink: 0 }}>→</span>
-                  {feature}
-                </li>
-              ))}
-            </ul>
-
-            {/* Tech stack pills */}
-            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px" }}>
-              {service.stack.map((tech) => (
-                <span
-                  key={tech}
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "10px",
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    color: "var(--mist)",
-                    border: "1px solid var(--smoke)",
-                    padding: "4px 12px",
-                  }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
+        </Reveal>
       </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .services-hero { padding: 72px 24px 64px !important; }
+        }
+      `}</style>
     </section>
   );
 }
 
-// ─── Page ─────────────────────────────────────────────────────────────────────
+/* ════════════════ SERVICE TIERS ════════════════ */
 
-export default function Services() {
-  useTrafficTracker("page_view", "/services");
-
+function ServerIcon() {
   return (
-    <>
-      <Helmet>
-        {(() => {
-          const meta = generatePageMeta(
-            "Web Design & AI Chatbot Services NYC | Batistack",
-            "Custom web design, AI chatbot integration, and lead automation for NYC small businesses and restaurants. Fast delivery, no templates.",
-            "/services"
-          );
-          return (
-            <>
-              <title>{meta.title}</title>
-              <meta name="description" content={meta.description} />
-              <link rel="canonical" href={meta.canonical} />
-              <meta property="og:title" content={meta.ogTitle} />
-              <meta property="og:description" content={meta.ogDescription} />
-              <meta property="og:url" content={meta.canonical} />
-              <meta property="og:image" content={meta.ogImage} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
-              <meta property="og:type" content="website" />
-              <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
-              <script type="application/ld+json">{JSON.stringify(servicePageSchema)}</script>
-            </>
-          );
-        })()}
-      </Helmet>
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#00AEEF"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <rect x="3" y="4" width="18" height="7" rx="1.5" />
+      <rect x="3" y="13" width="18" height="7" rx="1.5" />
+      <path d="M7 7.5h.01M7 16.5h.01M11 7.5h2m-2 9h2" />
+    </svg>
+  );
+}
 
-      <div style={{ background: "var(--void)", color: "var(--bone)", overflowX: "hidden" }}>
+function GlobeIcon() {
+  return (
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#00AEEF"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <circle cx="12" cy="12" r="9" />
+      <path d="M3 12h18M12 3a14.5 14.5 0 0 1 0 18 14.5 14.5 0 0 1 0-18Z" />
+    </svg>
+  );
+}
 
-        {/* ── HERO ─────────────────────────────────────────────────────── */}
-        <section style={{ background: "var(--void)", padding: "160px 0 120px" }}>
-          <div className="section-container">
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-            >
+function AppIcon() {
+  return (
+    <svg
+      width="30"
+      height="30"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#00AEEF"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <rect x="7" y="2.5" width="10" height="19" rx="2.5" />
+      <path d="M10.5 5h3m-3.5 14h4" />
+      <path d="m13.5 9.5-3 3 3 3" opacity="0.9" />
+    </svg>
+  );
+}
+
+function ServiceTiers() {
+  return (
+    <Section>
+      <SectionHeading
+        label="The Services"
+        title={
+          <>
+            Start With the <em style={{ color: "#00AEEF", fontStyle: "normal" }}>Workforce</em>.
+            Build Around It.
+          </>
+        }
+        sub="Most clients begin with an AI infrastructure install — then add digital presence and custom apps as their operation grows."
+      />
+
+      {/* ── Tier 1: AI Infrastructure & Agents — DOMINANT ── */}
+      <Reveal>
+        <GlowCard featured style={{ padding: "clamp(32px, 4vw, 48px)", marginBottom: "24px" }}>
+          <span
+            style={{
+              position: "absolute",
+              top: "-12px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              background: "#00AEEF",
+              color: "#0A0A0A",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 700,
+              fontSize: "10px",
+              letterSpacing: "0.14em",
+              textTransform: "uppercase",
+              padding: "5px 16px",
+              borderRadius: "100px",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Primary Service
+          </span>
+          <div
+            className="tier-featured-grid"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "1.1fr 1fr",
+              gap: "48px",
+              alignItems: "center",
+            }}
+          >
+            <div>
+              <ServerIcon />
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
                   fontSize: "11px",
-                  letterSpacing: "0.2em",
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "var(--gold)",
-                  marginBottom: "24px",
+                  color: "#00AEEF",
+                  margin: "20px 0 0",
                 }}
               >
-                SERVICES
+                The Flagship
               </p>
-
-              <h1
+              <h3
                 style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "clamp(80px, 14vw, 160px)",
-                  lineHeight: 0.9,
+                  fontWeight: 800,
+                  fontSize: "clamp(26px, 3.2vw, 36px)",
                   color: "var(--bone)",
-                  margin: 0,
+                  lineHeight: 1.15,
+                  margin: "12px 0 16px",
                 }}
               >
-                WE BUILD
-                <br />
-                THINGS
-                <br />
-                <span style={{ color: "var(--gold)" }}>WORK.</span>
-              </h1>
-
-              <p
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontStyle: "italic",
-                  fontSize: "22px",
-                  color: "var(--mist)",
-                  maxWidth: "520px",
-                  marginTop: "32px",
-                  lineHeight: 1.5,
-                }}
-              >
-                Four focused services. Zero fluff.
-              </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── SERVICE SECTIONS ─────────────────────────────────────────── */}
-        {services.map((service, index) => (
-          <ServiceSection key={service.number} service={service} index={index} />
-        ))}
-
-        {/* ── BOTTOM CTA ───────────────────────────────────────────────── */}
-        <section style={{ background: "var(--gold)", padding: "80px 0" }}>
-          <div className="section-container" style={{ textAlign: "center" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "80px",
-                  color: "var(--void)",
-                  lineHeight: 0.9,
-                  marginBottom: "20px",
-                }}
-              >
-                READY TO BUILD?
-              </h2>
+                AI Infrastructure &amp; Agents
+              </h3>
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: "16px",
-                  color: "rgba(8,8,8,0.7)",
-                  marginBottom: "40px",
-                  lineHeight: 1.6,
+                  fontSize: "15px",
+                  color: "var(--mist)",
+                  lineHeight: 1.75,
+                  margin: "0 0 28px",
                 }}
               >
-                Most projects ship in 14–21 days. Transparent pricing. No surprises.
+                Instead of hiring another employee, install an AI workforce. We
+                physically deliver and configure Apple Silicon hardware in your
+                business, deploy custom agents trained on your operation, and
+                hand you the controls — all from Telegram on your phone.
               </p>
-              <Link
-                to="/contact"
-                data-cursor="cta"
+              <div style={{ display: "flex", gap: "16px", flexWrap: "wrap" }}>
+                <PrimaryLink to="/contact">Schedule Free Assessment</PrimaryLink>
+                <GhostLink to="/ai-agents">Meet the 7 Agents</GhostLink>
+              </div>
+            </div>
+            <div
+              style={{
+                background: "rgba(10,10,10,0.6)",
+                border: "1px solid #1E1E1E",
+                borderRadius: "12px",
+                padding: "28px",
+              }}
+            >
+              <p
                 style={{
-                  display: "inline-block",
-                  fontFamily: "var(--font-display)",
-                  fontSize: "18px",
-                  letterSpacing: "0.05em",
-                  background: "var(--void)",
-                  color: "var(--gold)",
-                  padding: "20px 60px",
-                  border: "none",
-                  textDecoration: "none",
-                  cursor: "pointer",
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                  fontSize: "11px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "var(--silver)",
+                  margin: "0 0 18px",
                 }}
               >
-                SEE PRICING →
-              </Link>
-            </motion.div>
+                What's Included
+              </p>
+              <Checklist
+                items={[
+                  "Mac mini or Mac Studio hardware, installed on site",
+                  "Custom AI agents built for your workflows",
+                  "Telegram command center — approve from anywhere",
+                  "24/7 monitoring and performance reporting",
+                  "Ongoing updates as your business evolves",
+                ]}
+              />
+            </div>
           </div>
-        </section>
+        </GlowCard>
+      </Reveal>
 
+      {/* ── Tiers 2 & 3 ── */}
+      <div
+        className="tier-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "24px",
+          alignItems: "stretch",
+        }}
+      >
+        <Reveal delay={0.1} style={{ height: "100%" }}>
+          <GlowCard style={{ display: "flex", flexDirection: "column" }}>
+            <GlobeIcon />
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 700,
+                fontSize: "11px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#00AEEF",
+                margin: "20px 0 0",
+              }}
+            >
+              Be Found Everywhere
+            </p>
+            <h3
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "24px",
+                color: "var(--bone)",
+                margin: "10px 0 14px",
+              }}
+            >
+              Digital Presence
+            </h3>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "14px",
+                color: "var(--mist)",
+                lineHeight: 1.7,
+                margin: "0 0 24px",
+              }}
+            >
+              Your AI agents generate leads — your digital presence converts
+              them. We build the storefront your business deserves across every
+              channel customers actually check.
+            </p>
+            <div style={{ flexGrow: 1, marginBottom: "28px" }}>
+              <Checklist
+                items={[
+                  "Professional website, designed and built",
+                  "Google Business Profile, fully optimized",
+                  "Social media profiles set up and branded",
+                  "WhatsApp Business configured for customers",
+                ]}
+              />
+            </div>
+            <div>
+              <GhostLink to="/contact">Get Started</GhostLink>
+            </div>
+          </GlowCard>
+        </Reveal>
+
+        <Reveal delay={0.2} style={{ height: "100%" }}>
+          <GlowCard style={{ display: "flex", flexDirection: "column" }}>
+            <AppIcon />
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 700,
+                fontSize: "11px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "#00AEEF",
+                margin: "20px 0 0",
+              }}
+            >
+              Built for Your Workflow
+            </p>
+            <h3
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "24px",
+                color: "var(--bone)",
+                margin: "10px 0 14px",
+              }}
+            >
+              Custom Applications
+            </h3>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "14px",
+                color: "var(--mist)",
+                lineHeight: 1.7,
+                margin: "0 0 24px",
+              }}
+            >
+              When off-the-shelf software doesn't fit, we build web and mobile
+              applications around your exact operation — with AI agents embedded
+              directly inside them.
+            </p>
+            <div style={{ flexGrow: 1, marginBottom: "28px" }}>
+              <Checklist
+                items={[
+                  "Web and mobile apps, built from scratch",
+                  "AI agents embedded in the product",
+                  "Integrations with your existing tools",
+                  "Designed, shipped, and maintained by us",
+                ]}
+              />
+            </div>
+            <div>
+              <GhostLink to="/contact">Get Started</GhostLink>
+            </div>
+          </GlowCard>
+        </Reveal>
       </div>
 
       <style>{`
-        .section-container {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 0 60px;
-        }
-
-        @media (max-width: 900px) {
-          .section-container {
-            padding: 0 32px;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .section-container {
-            padding: 0 24px;
-          }
-
-          .service-left-col,
-          .service-right-col {
-            order: unset !important;
-          }
-
-          .service-left-col + .service-right-col,
-          .service-right-col + .service-left-col {
-            margin-top: 0;
-          }
-        }
-
-        @media (max-width: 768px) {
-          section[style*="padding: 120px"] > .section-container,
-          section[style*='padding: "120px 0"'] > .section-container {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-          }
+        @media (max-width: 960px) {
+          .tier-featured-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .tier-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
+    </Section>
+  );
+}
 
+/* ════════════════ DECISION STRIP ════════════════ */
+
+function DecisionStrip() {
+  const linkStyle: React.CSSProperties = {
+    fontFamily: "var(--font-sans)",
+    fontWeight: 700,
+    fontSize: "13px",
+    letterSpacing: "0.08em",
+    textTransform: "uppercase",
+    color: "#00AEEF",
+    textDecoration: "none",
+    borderBottom: "1px solid rgba(0,174,239,0.5)",
+    paddingBottom: "3px",
+  };
+
+  return (
+    <Section bg="#0D0D0D" style={{ padding: "64px 0" }}>
+      <Reveal>
+        <div
+          className="decision-strip"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            gap: "28px",
+            flexWrap: "wrap",
+            border: "1px solid #1E1E1E",
+            borderRadius: "12px",
+            background: "#141414",
+            padding: "32px 40px",
+          }}
+        >
+          <div>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "22px",
+                color: "var(--bone)",
+                margin: 0,
+              }}
+            >
+              Not sure which you need?
+            </h2>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "14px",
+                color: "var(--mist)",
+                lineHeight: 1.6,
+                margin: "8px 0 0",
+                maxWidth: "520px",
+              }}
+            >
+              See how an installation actually works, or meet the agents first
+              and decide from there.
+            </p>
+          </div>
+          <div style={{ display: "flex", gap: "28px", flexWrap: "wrap", alignItems: "center" }}>
+            <Link to="/how-it-works" data-cursor="cta" style={linkStyle}>
+              How It Works →
+            </Link>
+            <Link to="/ai-agents" data-cursor="cta" style={linkStyle}>
+              Meet the Agents →
+            </Link>
+          </div>
+        </div>
+      </Reveal>
       <style>{`
-        @media (max-width: 768px) {
-          .bs-services-grid {
-            grid-template-columns: 1fr !important;
-            gap: 40px !important;
-          }
+        @media (max-width: 540px) {
+          .decision-strip { padding: 28px 24px !important; }
         }
       `}</style>
-    </>
+    </Section>
   );
 }

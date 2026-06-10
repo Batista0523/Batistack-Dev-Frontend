@@ -1,106 +1,245 @@
-import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
+import Seo, { serviceSchema } from "../components/Seo";
+import { Section, Reveal, CTABanner } from "../components/ui";
+import { INDUSTRIES } from "../data/industries";
 
 export default function Industries() {
   return (
-    <>
-      <Helmet>
-        <title>Industries | Batistack — Built for NYC Service Businesses</title>
-        <meta name="description" content="Batistack AI workforce solutions built for HVAC, plumbing, electrical, real estate, gyms, legal, cleaning, and insurance businesses in New York City." />
-      </Helmet>
+    <main style={{ background: "var(--void)", paddingTop: "72px" }}>
+      <Seo
+        title="AI Automation by Industry in NYC | Batistack"
+        description="Purpose-built AI agent rosters for NYC service businesses — HVAC, plumbing, electrical, real estate, gyms, legal, cleaning, and insurance. Installed on-site."
+        path="/industries"
+        jsonLd={serviceSchema(
+          "AI Automation by Industry",
+          "Purpose-built AI agent rosters for NYC service businesses — HVAC, plumbing, electrical, real estate, gyms, legal, cleaning, and insurance.",
+          "/industries"
+        )}
+      />
+      <IndustriesHero />
+      <IndustryGrid />
+      <CTABanner
+        title="Don't See Your Industry?"
+        sub="If your business runs on calls, appointments, and invoices, the playbook still applies. Tell us what you do."
+        cta="Talk to Us"
+      />
+    </main>
+  );
+}
 
+/* ════════════════ HERO ════════════════ */
+
+function IndustriesHero() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,174,239,0.08) 0%, transparent 60%), #0A0A0A",
+        borderBottom: "1px solid #1E1E1E",
+      }}
+    >
       <div
-        style={{
-          background:      "#0A0A0A",
-          minHeight:       "100vh",
-          paddingTop:      "120px",
-          display:         "flex",
-          alignItems:      "center",
-          justifyContent:  "center",
-        }}
+        className="section-container ind-hero"
+        style={{ padding: "96px 60px 72px", textAlign: "center" }}
       >
-        <div style={{ textAlign: "center", maxWidth: "640px", padding: "0 24px" }}>
+        <Reveal>
           <span
             style={{
-              display:       "inline-block",
-              background:    "rgba(0,174,239,0.1)",
-              border:        "1px solid rgba(0,174,239,0.3)",
-              borderRadius:  "20px",
-              padding:       "6px 18px",
-              fontFamily:    "'Raleway', sans-serif",
-              fontWeight:    600,
-              fontSize:      "11px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              border: "1px solid rgba(0,174,239,0.4)",
+              borderRadius: "100px",
+              padding: "8px 18px",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 600,
+              fontSize: "11px",
               letterSpacing: "0.18em",
               textTransform: "uppercase",
-              color:         "#00AEEF",
-              marginBottom:  "28px",
+              color: "var(--silver)",
+              background: "rgba(0,174,239,0.05)",
             }}
           >
-            ● NYC Service Businesses
+            <span className="status-dot" />
+            Eight Industries. One Playbook.
           </span>
+        </Reveal>
 
+        <Reveal delay={0.1}>
           <h1
             style={{
-              fontFamily:  "'Raleway', sans-serif",
-              fontWeight:  700,
-              fontSize:    "clamp(40px, 8vw, 72px)",
-              color:       "#FFFFFF",
-              marginBottom:"16px",
-              lineHeight:  1.1,
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "clamp(34px, 5.5vw, 60px)",
+              lineHeight: 1.08,
+              color: "var(--bone)",
+              letterSpacing: "-0.015em",
+              margin: "26px auto 0",
+              maxWidth: "820px",
             }}
           >
-            Built for<br />
-            <span style={{ color: "#00AEEF" }}>NYC Industries</span>
+            AI Automation by Industry{" "}
+            <span style={{ color: "#00AEEF" }}>in NYC</span>
           </h1>
+        </Reveal>
 
+        <Reveal delay={0.2}>
           <p
             style={{
-              fontFamily:  "'Raleway', sans-serif",
-              fontWeight:  400,
-              color:       "#888888",
-              fontSize:    "18px",
-              lineHeight:  1.7,
-              marginBottom:"32px",
+              fontFamily: "var(--font-sans)",
+              fontSize: "16.5px",
+              color: "var(--mist)",
+              lineHeight: 1.75,
+              maxWidth: "620px",
+              margin: "22px auto 0",
             }}
           >
-            HVAC · Plumbing · Electrical · Real Estate<br />
-            Gyms · Legal · Cleaning · Insurance
+            Every industry leaks revenue in its own way. We build purpose-built
+            rosters of{" "}
+            <Link to="/ai-agents" style={{ color: "#00AEEF", textDecoration: "none", fontWeight: 600 }}>
+              AI agents
+            </Link>{" "}
+            for each one — installed on real hardware in your office, running
+            24/7. Pick your industry to see{" "}
+            <Link to="/how-it-works" style={{ color: "#00AEEF", textDecoration: "none", fontWeight: 600 }}>
+              how it works
+            </Link>{" "}
+            for businesses like yours.
           </p>
-
-          <p
-            style={{
-              fontFamily:  "'Raleway', sans-serif",
-              color:       "#555555",
-              fontSize:    "15px",
-              lineHeight:  1.7,
-              marginBottom:"40px",
-            }}
-          >
-            Each industry page is coming soon with specific
-            automation use cases, agent configurations,
-            and real examples from NYC businesses.
-          </p>
-
-          <Link
-            to="/contact"
-            style={{
-              display:       "inline-block",
-              fontFamily:    "'Raleway', sans-serif",
-              fontWeight:    700,
-              fontSize:      "13px",
-              letterSpacing: "0.08em",
-              textTransform: "uppercase",
-              color:         "#0A0A0A",
-              background:    "#00AEEF",
-              padding:       "14px 32px",
-              textDecoration:"none",
-              borderRadius:  "6px",
-            }}
-          >
-            Schedule Free Assessment
-          </Link>
-        </div>
+        </Reveal>
       </div>
-    </>
+      <style>{`
+        @media (max-width: 960px) {
+          .ind-hero { padding: 72px 24px 56px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ════════════════ INDUSTRY GRID ════════════════ */
+
+function IndustryGrid() {
+  return (
+    <Section>
+      <div
+        className="ind-hub-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(2, 1fr)",
+          gap: "20px",
+          alignItems: "stretch",
+        }}
+      >
+        {INDUSTRIES.map((ind, i) => (
+          <Reveal key={ind.slug} delay={0.06 * i} style={{ height: "100%" }}>
+            <Link
+              to={`/industries/${ind.slug}`}
+              className="glow-card"
+              data-cursor="cta"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                gap: "14px",
+                height: "100%",
+                background: "#141414",
+                border: "1px solid #1E1E1E",
+                borderRadius: "12px",
+                padding: "32px",
+                textDecoration: "none",
+                transition:
+                  "border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  justifyContent: "space-between",
+                  gap: "16px",
+                  flexWrap: "wrap",
+                }}
+              >
+                <h2
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 800,
+                    fontSize: "22px",
+                    color: "var(--bone)",
+                    margin: 0,
+                    lineHeight: 1.2,
+                  }}
+                >
+                  {ind.name}
+                </h2>
+                <div style={{ textAlign: "right" }}>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 800,
+                      fontSize: "22px",
+                      color: "#00AEEF",
+                      lineHeight: 1,
+                    }}
+                  >
+                    {ind.stat.value}
+                  </span>
+                  <span
+                    style={{
+                      display: "block",
+                      fontFamily: "var(--font-sans)",
+                      fontSize: "11px",
+                      letterSpacing: "0.04em",
+                      color: "var(--mist)",
+                      marginTop: "4px",
+                    }}
+                  >
+                    {ind.stat.label}
+                  </span>
+                </div>
+              </div>
+
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "14.5px",
+                  color: "var(--mist)",
+                  lineHeight: 1.65,
+                  margin: 0,
+                  flexGrow: 1,
+                  display: "-webkit-box",
+                  WebkitLineClamp: 2,
+                  WebkitBoxOrient: "vertical",
+                  overflow: "hidden",
+                }}
+              >
+                {ind.tagline}
+              </p>
+
+              <span
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                  fontSize: "12px",
+                  letterSpacing: "0.1em",
+                  textTransform: "uppercase",
+                  color: "#00AEEF",
+                }}
+              >
+                See the playbook →
+              </span>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .ind-hub-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </Section>
   );
 }

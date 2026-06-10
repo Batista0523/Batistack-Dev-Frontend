@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import BrandLogo from "../components/BrandLogo";
 
 export default function NotFound() {
   return (
@@ -21,7 +20,11 @@ export default function NotFound() {
         <meta name="robots" content="noindex" />
       </Helmet>
 
-      <BrandLogo size="md" />
+      <img
+        src="/brand/batistack-mark.png"
+        alt="Batistack"
+        style={{ height: "72px", width: "auto", display: "block" }}
+      />
 
       <h1
         style={{

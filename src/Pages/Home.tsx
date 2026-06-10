@@ -1,687 +1,657 @@
-import { useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
-import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import { Helmet } from 'react-helmet-async'
-import emailjs from '@emailjs/browser'
-import { useTrafficTracker } from '../hook/useTrafficTracker'
-import { localBusinessSchema, homeFaqSchema, generatePageMeta } from '../lib/seoSchema'
+import { useState } from "react";
+import { Link } from "react-router-dom";
+import emailjs from "@emailjs/browser";
+import Seo, { ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../components/Seo";
+import { Section, SectionHeading, GlowCard, Reveal, PrimaryLink, GhostLink, CTABanner } from "../components/ui";
+import { CAPABILITIES } from "../data/agents";
+import { INDUSTRIES } from "../data/industries";
 
-// ─── SECTION 1: Hero ─────────────────────────────────────────────────────────
-const TERMINAL_LINES = [
-  '> initializing batistack.ai...',
-  '> scanning your market...',
-  '> loading conversion engine...',
-  '✓ your new website is ready.',
-  '✓ AI assistant deployed.',
-  '✓ leads incoming.',
-]
-
-function TerminalBlock() {
-  const [displayed, setDisplayed] = useState('')
-  const fullText = TERMINAL_LINES.join('\n')
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null)
-  const indexRef = useRef(0)
-
-  useEffect(() => {
-    intervalRef.current = setInterval(() => {
-      if (indexRef.current >= fullText.length) {
-        if (intervalRef.current) clearInterval(intervalRef.current)
-        return
-      }
-      indexRef.current += 1
-      setDisplayed(fullText.slice(0, indexRef.current))
-    }, 20)
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current)
-    }
-  }, [fullText])
-
+export default function Home() {
   return (
-    <div style={styles.terminal}>
-      <div style={styles.terminalChrome}>
-        <span style={{ ...styles.dot, background: '#ff5f57' }} />
-        <span style={{ ...styles.dot, background: '#febc2e' }} />
-        <span style={{ ...styles.dot, background: '#28c840' }} />
-      </div>
-      <pre style={styles.terminalText}>
-        {displayed}
-        <span style={styles.cursor}>|</span>
-      </pre>
-    </div>
-  )
+    <main style={{ background: "var(--void)", paddingTop: "72px" }}>
+      <Seo
+        title="AI Agents for Your Business | Batistack — AI Infrastructure & Agent Services NYC"
+        description="We install AI workforces in NYC businesses. Mac mini and Mac Studio powered AI agents working 24/7 — lead gen, invoicing, scheduling. Schedule a free assessment."
+        path="/"
+        jsonLd={[ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA]}
+      />
+      <Hero />
+      <StatsBar />
+      <HardwareSection />
+      <CapabilitiesSection />
+      <IndustriesSection />
+      <ProcessPreview />
+      <LeadCapture />
+      <CTABanner />
+    </main>
+  );
 }
 
-function HeroSection() {
-  const reduced = useReducedMotion()
-  const words = [
-    { text: 'WE BUILD', color: 'var(--bone)' },
-    { text: 'WEBSITES', color: 'var(--bone)' },
-    { text: 'THAT CLOSE', color: 'var(--gold)' },
-  ]
+/* ════════════════ HERO ════════════════ */
 
+const PARTICLES = Array.from({ length: 16 }, (_, i) => ({
+  left: `${(i * 61) % 100}%`,
+  top: `${(i * 37) % 100}%`,
+  size: 2 + (i % 3),
+  duration: 7 + (i % 5) * 2,
+  delay: (i % 7) * 1.3,
+  dx: `${((i % 5) - 2) * 30}px`,
+  dy: `${-40 - (i % 4) * 25}px`,
+}));
+
+function Hero() {
   return (
-    <section className="home-hero-section" style={styles.hero}>
-      <div className="section-container home-hero-inner" style={styles.heroInner}>
-        {/* Left */}
-        <div style={styles.heroLeft}>
-          <p style={styles.heroLabel}>NEW YORK CITY · EST. 2024</p>
-
-          <div>
-            {words.map((w, i) => (
-              <motion.div
-                key={w.text}
-                initial={reduced ? {} : { opacity: 0, y: 60 }}
-                animate={reduced ? {} : { opacity: 1, y: 0 }}
-                transition={{ duration: 0.7, delay: i * 0.12, ease: 'easeOut' }}
-                style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'clamp(52px, 13vw, 140px)',
-                  lineHeight: 0.95,
-                  color: w.color,
-                }}
-              >
-                {w.text}
-              </motion.div>
-            ))}
-          </div>
-
-          <p style={styles.heroSub}>
-            Custom web design and AI integration for businesses that refuse to be ignored.
-          </p>
-
-          <div style={styles.heroCTAs}>
-            <Link
-              to="/contact"
-              className="btn-primary"
-              data-cursor="cta"
-              style={{ fontSize: 18 }}
-            >
-              START YOUR PROJECT →
-            </Link>
-            <Link to="/speedPage" className="btn-ghost" style={{ fontSize: 18 }}>
-              GET A FREE SITE AUDIT
-            </Link>
-          </div>
-
-          <div style={styles.heroStats}>
-            {[
-              { num: '48H', label: 'Average response time' },
-              { num: '$0', label: 'Hidden fees' },
-              { num: '100%', label: 'Custom built' },
-            ].map((s) => (
-              <div key={s.num}>
-                <div style={styles.statNum}>{s.num}</div>
-                <div style={styles.statLabel}>{s.label}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Right */}
-        <div className="home-hero-right" style={styles.heroRight}>
-          <TerminalBlock />
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── SECTION 2: Marquee ───────────────────────────────────────────────────────
-const ROW1 =
-  'WEB DESIGN · MOBILE APPS · AI INTEGRATION · REACT & NEXT.JS · AUTOMATION · NYC BASED'
-const ROW2 =
-  'LEAD GENERATION · CONVERSION FOCUSED · CUSTOM BUILT · FAST DELIVERY · NO TEMPLATES · YOUR GROWTH'
-
-function MarqueeStrip() {
-  const repeat = (text: string) => Array(3).fill(text).join('  ·  ')
-  return (
-    <div style={{ background: 'var(--gold)', overflow: 'hidden' }}>
-      {[
-        { text: ROW1, reverse: false },
-        { text: ROW2, reverse: true },
-      ].map((row, i) => (
-        <div
+    <section
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        minHeight: "calc(100vh - 72px)",
+        display: "flex",
+        alignItems: "center",
+        background:
+          "radial-gradient(ellipse 80% 60% at 70% 30%, rgba(0,174,239,0.07) 0%, transparent 60%), #0A0A0A",
+      }}
+    >
+      {/* Circuit grid backdrop */}
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(0,174,239,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,174,239,0.04) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)",
+          WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)",
+        }}
+      />
+      {/* Drifting particles */}
+      {PARTICLES.map((p, i) => (
+        <span
           key={i}
-          style={{ padding: '14px 0', overflow: 'hidden' }}
-        >
-          <div
-            className={`marquee-track${row.reverse ? ' marquee-track-reverse' : ''}`}
-          >
-            {Array(3)
-              .fill(null)
-              .map((_, j) => (
-                <span key={j} className="marquee-item">
-                  {repeat(row.text)}
-                </span>
-              ))}
-          </div>
-        </div>
+          aria-hidden
+          style={{
+            position: "absolute",
+            left: p.left,
+            top: p.top,
+            width: p.size,
+            height: p.size,
+            borderRadius: "50%",
+            background: "#00AEEF",
+            opacity: 0,
+            animation: `drift ${p.duration}s linear ${p.delay}s infinite`,
+            ["--dx" as string]: p.dx,
+            ["--dy" as string]: p.dy,
+          }}
+        />
       ))}
-    </div>
-  )
-}
 
-// ─── SECTION 3: Services ──────────────────────────────────────────────────────
-const SERVICES = [
-  {
-    num: '01',
-    name: 'Custom Web Design',
-    desc: 'From landing pages to full platforms.',
-    tags: ['React', 'TypeScript', 'Vite'],
-  },
-  {
-    num: '02',
-    name: 'Mobile Applications',
-    desc: 'iOS and Android, built in React Native.',
-    tags: ['React Native', 'Expo'],
-  },
-  {
-    num: '03',
-    name: 'AI Integration',
-    desc: 'Make your site work smarter.',
-    tags: ['Claude API', 'OpenAI'],
-  },
-  {
-    num: '04',
-    name: 'Website Redesign',
-    desc: 'Turn an outdated site into a revenue machine.',
-    tags: ['Audit', 'UX', 'Migration'],
-  },
-]
-
-function ServicesSection() {
-  const reduced = useReducedMotion()
-  const [hovered, setHovered] = useState<string | null>(null)
-
-  return (
-    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>01 / WHAT WE BUILD</p>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 64, fontStyle: 'italic', color: 'var(--bone)', fontWeight: 400 }}>
-          Every pixel has a job to do.
-        </h2>
-
-        <div style={{ marginTop: 80 }}>
-          {SERVICES.map((svc, i) => {
-            const isHovered = hovered === svc.num
-            return (
-              <motion.div
-                key={svc.num}
-                initial={reduced ? {} : { opacity: 0, y: 40 }}
-                whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-100px' }}
-                transition={{ duration: 0.5, delay: i * 0.08 }}
-                onMouseEnter={() => setHovered(svc.num)}
-                onMouseLeave={() => setHovered(null)}
-                className="home-svc-row"
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '40px 0',
-                  borderBottom: '1px solid var(--smoke)',
-                  background: isHovered ? 'var(--ash)' : 'transparent',
-                  transition: 'background 0.3s',
-                  paddingLeft: isHovered ? 16 : 0,
-                  paddingRight: isHovered ? 16 : 0,
-                }}
-              >
-                <span
-                  className="svc-num-col"
-                  style={{
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 'clamp(64px, 10vw, 160px)',
-                    lineHeight: 1,
-                    marginRight: 40,
-                    color: isHovered ? 'var(--gold-dim)' : 'var(--smoke)',
-                    transition: 'color 0.3s',
-                    flexShrink: 0,
-                  }}
-                >
-                  {svc.num}
-                </span>
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: 'var(--font-serif)', fontSize: 44, color: 'var(--bone)', marginBottom: 8, fontWeight: 400 }}>
-                    {svc.name}
-                  </div>
-                  <div style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--mist)' }}>
-                    {svc.desc}
-                  </div>
-                </div>
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: 8 }}>
-                  <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', justifyContent: 'flex-end' }}>
-                    {svc.tags.map((t) => (
-                      <span key={t} className="tag">{t}</span>
-                    ))}
-                  </div>
-                  <span
-                    style={{
-                      fontFamily: 'var(--font-display)',
-                      fontSize: 24,
-                      color: 'var(--gold)',
-                      transition: 'transform 0.2s',
-                      transform: isHovered ? 'translateX(4px)' : 'translateX(0)',
-                      display: 'inline-block',
-                    }}
-                  >
-                    →
-                  </span>
-                </div>
-              </motion.div>
-            )
-          })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── SECTION 4: Social Proof ──────────────────────────────────────────────────
-function SocialProofSection() {
-  const reduced = useReducedMotion()
-  const stats = [
-    { stat: '14 Days', label: 'Average delivery time' },
-    { stat: '3×', label: 'Average traffic increase' },
-    { stat: '24/7', label: 'AI works while you don\'t' },
-  ]
-
-  return (
-    <section style={{ background: 'var(--bone)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>02 / WHY US</p>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--void)', fontWeight: 400, maxWidth: 700 }}>
-          The agency that treats your ROI like it's our paycheck.
-        </h2>
-
-        <div className="home-stats-row" style={{ display: 'flex', marginTop: 60, borderTop: '1px solid #ccc', borderBottom: '1px solid #ccc' }}>
-          {stats.map((s, i) => (
-            <motion.div
-              key={s.stat}
-              initial={reduced ? {} : { opacity: 0, y: 40 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              style={{
-                flex: 1,
-                padding: 40,
-                borderRight: i < stats.length - 1 ? '1px solid #ccc' : 'none',
-              }}
-            >
-              <div style={{ fontFamily: 'var(--font-display)', fontSize: 80, color: 'var(--void)', lineHeight: 1 }}>
-                {s.stat}
-              </div>
-              <div style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: '#555', textTransform: 'uppercase', letterSpacing: '0.15em', marginTop: 8 }}>
-                {s.label}
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="home-why-cols" style={{ display: 'flex', gap: 60, marginTop: 80 }}>
-          <div style={{ flex: 1 }}>
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: 28, fontWeight: 700, color: 'var(--void)' }}>
-              We don't do templates. We don't do cookie-cutter.
-            </h3>
-          </div>
-          <div style={{ flex: 1 }}>
-            <p style={{ fontFamily: 'var(--font-sans)', fontSize: 16, lineHeight: 1.7, color: '#444' }}>
-              Every Batistack project starts with a real conversation about your goals, your customers, and what's actually holding back your growth. Then we build something that works.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── SECTION 5: AI Spotlight ──────────────────────────────────────────────────
-const AI_FEATURES = [
-  {
-    name: 'AI Chat Assistant',
-    desc: 'Trained on your business, captures leads 24/7',
-    icon: <path d="M2 2h12v8H7l-5 4V2z" stroke="currentColor" strokeWidth="1.5" fill="none" />,
-  },
-  {
-    name: 'Smart Lead Scoring',
-    desc: 'AI qualifies leads before they hit your inbox',
-    icon: <path d="M12 2l2 4-8 6-4-6 10-4z" stroke="currentColor" strokeWidth="1.5" fill="none" />,
-  },
-  {
-    name: 'Workflow Automation',
-    desc: 'Booking, follow-ups, CRM — fully automated',
-    icon: <path d="M2 8h4M10 8h4M8 4v8" stroke="currentColor" strokeWidth="1.5" />,
-  },
-  {
-    name: 'SEO Intelligence',
-    desc: 'AI content and keyword tools built into your site',
-    icon: (
-      <>
-        <circle cx="7" cy="7" r="5" stroke="currentColor" strokeWidth="1.5" fill="none" />
-        <path d="M11 11l3 3" stroke="currentColor" strokeWidth="1.5" />
-      </>
-    ),
-  },
-]
-
-function AISpotlightSection() {
-  const reduced = useReducedMotion()
-
-  return (
-    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>03 / AI INTEGRATION</p>
-        <div className="home-ai-flex" style={{ display: 'flex', gap: 80 }}>
-          {/* Rotated label */}
-          <div style={{ flexShrink: 0, display: 'flex', alignItems: 'center' }}>
+      <div
+        className="section-container hero-grid"
+        style={{
+          position: "relative",
+          display: "grid",
+          gridTemplateColumns: "1.15fr 1fr",
+          gap: "48px",
+          alignItems: "center",
+          width: "100%",
+          padding: "80px 60px",
+        }}
+      >
+        {/* Left — copy */}
+        <div>
+          <Reveal>
             <span
               style={{
-                fontFamily: 'var(--font-display)',
-                fontSize: 12,
-                color: 'var(--gold-dim)',
-                letterSpacing: '0.3em',
-                textTransform: 'uppercase',
-                transform: 'rotate(-90deg)',
-                transformOrigin: 'center',
-                whiteSpace: 'nowrap',
-                display: 'block',
+                display: "inline-flex",
+                alignItems: "center",
+                gap: "10px",
+                border: "1px solid rgba(0,174,239,0.4)",
+                borderRadius: "100px",
+                padding: "8px 18px",
+                fontFamily: "var(--font-sans)",
+                fontWeight: 600,
+                fontSize: "11px",
+                letterSpacing: "0.18em",
+                textTransform: "uppercase",
+                color: "var(--silver)",
+                background: "rgba(0,174,239,0.05)",
               }}
             >
-              ARTIFICIAL INTELLIGENCE
+              <span className="status-dot" />
+              AI Workforce Solutions — NYC
             </span>
-          </div>
+          </Reveal>
 
-          {/* Content */}
-          <div style={{ flex: 1 }}>
-            <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 64, color: 'var(--bone)', lineHeight: 1.1, fontWeight: 400 }}>
-              Your website should work harder than your team.
-            </h2>
-
-            <div style={{ marginTop: 64 }}>
-              {AI_FEATURES.map((feat, i) => (
-                <motion.div
-                  key={feat.name}
-                  initial={reduced ? {} : { opacity: 0, y: 40 }}
-                  whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: '-100px' }}
-                  transition={{ duration: 0.5, delay: i * 0.1 }}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'flex-start',
-                    gap: 24,
-                    padding: '28px 0',
-                    borderBottom: '1px solid var(--smoke)',
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 40,
-                      height: 40,
-                      border: '1px solid var(--smoke)',
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 16 16" style={{ color: 'var(--gold)' }}>
-                      {feat.icon}
-                    </svg>
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: 'var(--font-sans)', fontSize: 16, fontWeight: 600, color: 'var(--bone)' }}>
-                      {feat.name}
-                    </div>
-                    <div style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 4 }}>
-                      {feat.desc}
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-// ─── SECTION 6: Process ───────────────────────────────────────────────────────
-const STEPS = [
-  {
-    num: '01',
-    title: 'Discovery',
-    desc: 'We learn your business, your customers, and your goals in a 30-min call. No jargon, no fluff — just clarity.',
-  },
-  {
-    num: '02',
-    title: 'Design',
-    desc: 'We design in the open. You see wireframes and mockups early and often. No surprises at the end.',
-  },
-  {
-    num: '03',
-    title: 'Build',
-    desc: 'We build fast. Most projects are in your hands within 14 days. TypeScript, React, performance-first.',
-  },
-  {
-    num: '04',
-    title: 'Launch',
-    desc: "Go live with SEO config, analytics, and a handoff so clean you'll never need to call us for basic changes.",
-  },
-]
-
-function ProcessSection() {
-  const reduced = useReducedMotion()
-  const [openStep, setOpenStep] = useState<number | null>(null)
-
-  return (
-    <section style={{ background: 'var(--void)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>04 / HOW WE WORK</p>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400 }}>
-          Four steps from idea to live.
-        </h2>
-
-        <div style={{ marginTop: 64 }}>
-          {STEPS.map((step, i) => {
-            const isOpen = openStep === i
-            return (
-              <div key={step.num} style={{ borderBottom: '1px solid var(--smoke)' }}>
-                <button
-                  onClick={() => setOpenStep(isOpen ? null : i)}
-                  style={{
-                    width: '100%',
-                    background: 'none',
-                    border: 'none',
-                    display: 'flex',
-                    alignItems: 'center',
-                    padding: '32px 0',
-                    cursor: 'pointer',
-                    textAlign: 'left',
-                  }}
-                >
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--gold)', width: 80, flexShrink: 0 }}>
-                    {step.num}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-serif)', fontSize: 36, color: 'var(--bone)', flex: 1, fontWeight: 400 }}>
-                    {step.title}
-                  </span>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 28, color: 'var(--gold)' }}>
-                    {isOpen ? '−' : '+'}
-                  </span>
-                </button>
-
-                <AnimatePresence initial={false}>
-                  {isOpen && (
-                    <motion.div
-                      key="body"
-                      initial={reduced ? {} : { height: 0, opacity: 0 }}
-                      animate={reduced ? {} : { height: 'auto', opacity: 1 }}
-                      exit={reduced ? {} : { height: 0, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: 'easeInOut' }}
-                      style={{ overflow: 'hidden' }}
-                    >
-                      <p className="process-step-desc" style={{ fontFamily: 'var(--font-sans)', fontSize: 16, color: 'var(--mist)', maxWidth: 600, lineHeight: 1.7, padding: '0 0 32px 104px' }}>
-                        {step.desc}
-                      </p>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            )
-          })}
-        </div>
-
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: 'var(--mist)', marginTop: 40 }}>
-          Most projects ship in 14–21 days.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-// ─── SECTION 7: Client Growth ─────────────────────────────────────────────────
-const CLIENT_DRIVERS = [
-  {
-    label: 'Local Search',
-    headline: 'Show up when buyers are ready.',
-    detail: 'Service pages, metadata, schema, and Google-ready structure built around the terms your customers actually search.',
-    proof: 'More qualified discovery from people already looking for your service.',
-  },
-  {
-    label: 'Trust Signals',
-    headline: 'Make visitors feel safe choosing you.',
-    detail: 'Reviews, project proof, service guarantees, founder story, and clear contact paths placed where hesitation happens.',
-    proof: 'More calls from visitors who need confidence before they reach out.',
-  },
-  {
-    label: 'Conversion Flow',
-    headline: 'Turn attention into booked calls.',
-    detail: 'Sharper copy, stronger CTAs, short forms, mobile-first sections, and pages designed around one clear next step.',
-    proof: 'Less browsing, fewer dead ends, more submitted leads.',
-  },
-  {
-    label: 'AI Follow-Up',
-    headline: 'Respond before leads go cold.',
-    detail: 'AI chat, intake prompts, automated email alerts, and lead routing that help capture demand after hours.',
-    proof: 'More conversations from visitors who are not ready to call yet.',
-  },
-  {
-    label: 'Speed & Mobile',
-    headline: 'Keep impatient visitors on the page.',
-    detail: 'Fast-loading pages, stable layouts, clean mobile spacing, and fewer distractions between landing and contacting you.',
-    proof: 'More visitors stay long enough to understand why you are the better choice.',
-  },
-  {
-    label: 'Tracking',
-    headline: 'Know what is actually working.',
-    detail: 'Analytics events, form tracking, page insights, and simple reporting so marketing decisions are based on behavior.',
-    proof: 'Clearer decisions on which pages, offers, and campaigns bring clients.',
-  },
-]
-
-function ClientGrowthSection() {
-  const reduced = useReducedMotion()
-
-  return (
-    <section style={{ background: 'var(--ash)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>05 / CLIENTS</p>
-        <h2 style={{ fontFamily: 'var(--font-serif)', fontSize: 56, color: 'var(--bone)', fontWeight: 400, maxWidth: 840 }}>
-          Built around the moments that bring clients.
-        </h2>
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 17, color: 'var(--mist)', marginTop: 18, lineHeight: 1.7, maxWidth: 720 }}>
-          Your website should not just look finished. It should help people find you, trust you, contact you, and remember why you are the obvious choice.
-        </p>
-
-        <div className="home-client-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, marginTop: 60, border: '1px solid var(--smoke)', background: 'var(--smoke)' }}>
-          {CLIENT_DRIVERS.map((driver, i) => (
-            <motion.div
-              key={driver.label}
-              initial={reduced ? {} : { opacity: 0, y: 40 }}
-              whileInView={reduced ? {} : { opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-100px' }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
+          <Reveal delay={0.1}>
+            <h1
               style={{
-                background: i === 2 ? 'var(--gold)' : 'var(--void)',
-                padding: '38px 34px',
-                display: 'flex',
-                flexDirection: 'column',
-                minHeight: 320,
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "clamp(38px, 6vw, 68px)",
+                lineHeight: 1.06,
+                color: "var(--bone)",
+                margin: "28px 0 0",
+                letterSpacing: "-0.015em",
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', gap: 20, alignItems: 'flex-start', marginBottom: 28 }}>
-                <p style={{
-                  fontFamily: 'var(--font-sans)',
-                  fontSize: 11,
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.16em',
-                  color: i === 2 ? 'var(--void)' : 'var(--gold)',
-                  margin: 0,
-                }}>
-                  {driver.label}
-                </p>
-                <span style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 36,
-                  lineHeight: 1,
-                  color: i === 2 ? 'rgba(8,8,8,0.28)' : 'rgba(201,168,76,0.32)',
-                }}>
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-              </div>
+              We Build Your AI Workforce.
+              <br />
+              <span style={{ color: "#00AEEF" }}>You Grow Your Business.</span>
+            </h1>
+          </Reveal>
 
-              <h3 style={{ fontFamily: 'var(--font-sans)', fontSize: 24, color: i === 2 ? 'var(--void)' : 'var(--bone)', lineHeight: 1.2, margin: '0 0 18px', fontWeight: 650 }}>
-                {driver.headline}
-              </h3>
-              <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: i === 2 ? 'rgba(8,8,8,0.78)' : 'var(--mist)', lineHeight: 1.75, margin: '0 0 28px' }}>
-                {driver.detail}
-              </p>
+          <Reveal delay={0.2}>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontSize: "17px",
+                color: "var(--mist)",
+                lineHeight: 1.75,
+                maxWidth: "520px",
+                margin: "26px 0 0",
+              }}
+            >
+              AI agents physically installed in your business on Mac mini or Mac
+              Studio. Working 24/7. Lead generation, invoicing, scheduling — all
+              automated. You control everything from your phone.
+            </p>
+          </Reveal>
 
-              <div style={{ borderTop: `1px solid ${i === 2 ? 'rgba(8,8,8,0.22)' : 'var(--smoke)'}`, paddingTop: 20, marginTop: 'auto' }}>
-                <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: i === 2 ? 'var(--void)' : 'var(--bone)', lineHeight: 1.6, margin: 0 }}>
-                  <span style={{ color: i === 2 ? 'var(--void)' : 'var(--gold)', marginRight: 8 }}>→</span>
-                  {driver.proof}
-                </p>
-              </div>
-            </motion.div>
-          ))}
+          <Reveal delay={0.3}>
+            <div style={{ display: "flex", gap: "16px", flexWrap: "wrap", marginTop: "40px" }}>
+              <PrimaryLink to="/contact">Schedule Free Assessment</PrimaryLink>
+              <GhostLink to="/how-it-works">See How It Works</GhostLink>
+            </div>
+          </Reveal>
         </div>
 
-        <p style={{ fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)', marginTop: 40, maxWidth: 760, lineHeight: 1.7 }}>
-          Start with a website audit or tell us where leads are dropping off.{' '}
-          <Link to="/speedPage" style={{ color: 'var(--gold)', textDecoration: 'none' }}>
-            Find the gaps →
-          </Link>
-        </p>
+        {/* Right — Autopilot Station */}
+        <Reveal delay={0.25}>
+          <AutopilotStation />
+        </Reveal>
       </div>
+
+      <style>{`
+        @media (max-width: 960px) {
+          .hero-grid {
+            grid-template-columns: 1fr !important;
+            padding: 64px 24px !important;
+            gap: 64px !important;
+          }
+        }
+      `}</style>
     </section>
-  )
+  );
 }
 
-// ─── SECTION 8: Contact ───────────────────────────────────────────────────────
-type FormState = 'idle' | 'sending' | 'success' | 'error'
+function AutopilotStation() {
+  return (
+    <div style={{ position: "relative", display: "flex", justifyContent: "center", padding: "32px 0" }}>
+      <svg
+        width="340"
+        height="360"
+        viewBox="0 0 340 360"
+        fill="none"
+        role="img"
+        aria-label="Batistack Autopilot Station — AI agent hardware installed in NYC businesses"
+        style={{ maxWidth: "100%", height: "auto" }}
+      >
+        <defs>
+          <linearGradient id="cubeTop" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stopColor="#1c1c1c" />
+            <stop offset="100%" stopColor="#101010" />
+          </linearGradient>
+          <linearGradient id="cubeLeft" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#141414" />
+            <stop offset="100%" stopColor="#0c0c0c" />
+          </linearGradient>
+          <linearGradient id="cubeRight" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#181818" />
+            <stop offset="100%" stopColor="#0e0e0e" />
+          </linearGradient>
+          <radialGradient id="floorGlow" cx="0.5" cy="0.5" r="0.5">
+            <stop offset="0%" stopColor="rgba(0,174,239,0.35)" />
+            <stop offset="100%" stopColor="rgba(0,174,239,0)" />
+          </radialGradient>
+          <linearGradient id="bChrome" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#FFFFFF" />
+            <stop offset="45%" stopColor="#D9D9D9" />
+            <stop offset="100%" stopColor="#8A8A8A" />
+          </linearGradient>
+        </defs>
 
-function ContactSection() {
-  const reduced = useReducedMotion()
-  const [formState, setFormState] = useState<FormState>('idle')
-  const [errorMsg, setErrorMsg] = useState('')
-  const formRef = useRef<HTMLFormElement>(null)
+        {/* Floor glow */}
+        <ellipse cx="170" cy="318" rx="150" ry="34" fill="url(#floorGlow)" />
 
-  const [fields, setFields] = useState({
-    name: '',
-    email: '',
-    service: '',
-    budget: '',
-    message: '',
-  })
+        {/* Cube — isometric */}
+        <polygon points="170,60 290,120 170,180 50,120" fill="url(#cubeTop)" stroke="#262626" strokeWidth="1" />
+        <polygon points="50,120 170,180 170,310 50,250" fill="url(#cubeLeft)" stroke="#1E1E1E" strokeWidth="1" />
+        <polygon points="290,120 170,180 170,310 290,250" fill="url(#cubeRight)" stroke="#1E1E1E" strokeWidth="1" />
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }))
-  }
+        {/* Blue seam lines */}
+        <polyline points="50,120 170,180 290,120" fill="none" stroke="rgba(0,174,239,0.5)" strokeWidth="1.2" />
+        <line x1="170" y1="180" x2="170" y2="310" stroke="rgba(0,174,239,0.35)" strokeWidth="1.2" />
+
+        {/* Glowing B on right face */}
+        <g transform="translate(196 200) skewY(-26.5) scale(0.85)" style={{ animation: "pulseGlow 3.2s ease-in-out infinite" }}>
+          <rect x="0" y="0" width="7" height="64" rx="2" fill="url(#bChrome)" />
+          <path d="M7 0 L26 0 C38 0 44 7 44 15 C44 23 38 30 26 30 L7 30 Z" fill="url(#bChrome)" />
+          <path d="M7 30 L29 30 C42 30 48 38 48 46 C48 56 42 64 29 64 L7 64 Z" fill="url(#bChrome)" />
+          <circle cx="30" cy="14" r="6" fill="#00AEEF" />
+          <circle cx="32" cy="46" r="6" fill="#00AEEF" />
+        </g>
+
+        {/* Status LED strip on left face */}
+        <g transform="translate(66 218) skewY(26.5)">
+          {[0, 1, 2, 3].map((i) => (
+            <rect
+              key={i}
+              x={i * 16}
+              y="0"
+              width="8"
+              height="3"
+              rx="1.5"
+              fill="#00AEEF"
+              opacity={0.9 - i * 0.18}
+            />
+          ))}
+        </g>
+      </svg>
+
+      {/* Floating stat chips */}
+      <FloatChip text="24/7 Operation" style={{ top: "8%", left: "-2%", animationDelay: "0s" }} />
+      <FloatChip text="98% Task Success" style={{ top: "38%", right: "-4%", animationDelay: "1.4s" }} />
+      <FloatChip text="Agents Always On" style={{ bottom: "6%", left: "6%", animationDelay: "2.6s" }} />
+    </div>
+  );
+}
+
+function FloatChip({ text, style }: { text: string; style: React.CSSProperties }) {
+  return (
+    <span
+      style={{
+        position: "absolute",
+        display: "inline-flex",
+        alignItems: "center",
+        gap: "8px",
+        background: "rgba(13,13,13,0.92)",
+        border: "1px solid rgba(0,174,239,0.4)",
+        borderRadius: "8px",
+        padding: "9px 14px",
+        fontFamily: "var(--font-sans)",
+        fontWeight: 600,
+        fontSize: "12px",
+        letterSpacing: "0.05em",
+        color: "var(--bone)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
+        animation: "floatChip 5.5s ease-in-out infinite",
+        ...style,
+      }}
+    >
+      <span className="status-dot" />
+      {text}
+    </span>
+  );
+}
+
+/* ════════════════ STATS BAR ════════════════ */
+
+function StatsBar() {
+  const stats = [
+    { value: "Installed", label: "in NYC businesses" },
+    { value: "Plug & Play", label: "live in days, not months" },
+    { value: "Secure", label: "encrypted, local processing" },
+  ];
+  return (
+    <section style={{ borderTop: "1px solid #1E1E1E", borderBottom: "1px solid #1E1E1E", background: "#0D0D0D" }}>
+      <div
+        className="section-container stats-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.2fr repeat(3, 1fr)",
+          gap: "32px",
+          padding: "40px 60px",
+          alignItems: "center",
+        }}
+      >
+        <Reveal>
+          <p
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "20px",
+              color: "var(--bone)",
+              margin: 0,
+              letterSpacing: "0.02em",
+            }}
+          >
+            AI Employees. <span style={{ color: "#00AEEF" }}>Real Results.</span> 24/7.
+          </p>
+        </Reveal>
+        {stats.map((s, i) => (
+          <Reveal key={s.value} delay={0.1 * (i + 1)}>
+            <div>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "18px", color: "#00AEEF", margin: 0 }}>
+                {s.value}
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "13px", color: "var(--mist)", margin: "4px 0 0" }}>
+                {s.label}
+              </p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .stats-grid { grid-template-columns: 1fr 1fr !important; padding: 32px 24px !important; }
+        }
+        @media (max-width: 540px) {
+          .stats-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ════════════════ HARDWARE ════════════════ */
+
+function HardwareSection() {
+  const tiers = [
+    {
+      name: "Mac mini",
+      audience: "Small Business",
+      desc: "The entry point to your AI workforce. Compact, silent, sits on a shelf — and runs lead gen, scheduling, and invoicing for your whole operation.",
+      points: ["Up to 4 AI agents", "Whisper-quiet operation", "Fits anywhere in your office"],
+      featured: false,
+    },
+    {
+      name: "Mac Studio",
+      audience: "Growing Operations",
+      desc: "Serious compute for serious volume. Runs your full agent roster simultaneously — voice calls, campaigns, dispatch — without breaking a sweat.",
+      points: ["Full 7-agent workforce", "Concurrent voice + email + billing", "Headroom to scale for years"],
+      featured: true,
+    },
+    {
+      name: "Custom Enterprise",
+      audience: "Multi-Location",
+      desc: "Multiple stations, custom integrations, and agents purpose-built for your workflows across every location you operate.",
+      points: ["Multi-site deployments", "Custom agent development", "Dedicated support channel"],
+      featured: false,
+    },
+  ];
+
+  return (
+    <Section>
+      <SectionHeading
+        label="The Hardware"
+        title={<>Your AI Team. <em style={{ color: "#00AEEF", fontStyle: "normal" }}>Physically Installed.</em></>}
+        sub="No cloud subscriptions you don't control. We install real Apple Silicon hardware in your business — your data, your machine, your workforce."
+      />
+      <div
+        className="cards-3"
+        style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "stretch" }}
+      >
+        {tiers.map((t, i) => (
+          <Reveal key={t.name} delay={0.1 * i}>
+            <GlowCard featured={t.featured}>
+              {t.featured && (
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "-12px",
+                    left: "50%",
+                    transform: "translateX(-50%)",
+                    background: "#00AEEF",
+                    color: "#0A0A0A",
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 700,
+                    fontSize: "10px",
+                    letterSpacing: "0.14em",
+                    textTransform: "uppercase",
+                    padding: "5px 14px",
+                    borderRadius: "100px",
+                    whiteSpace: "nowrap",
+                  }}
+                >
+                  Most Popular
+                </span>
+              )}
+              <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#00AEEF", margin: 0 }}>
+                {t.audience}
+              </p>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "26px", color: "var(--bone)", margin: "10px 0 14px" }}>
+                {t.name}
+              </h3>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--mist)", lineHeight: 1.7, margin: "0 0 22px" }}>
+                {t.desc}
+              </p>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+                {t.points.map((p) => (
+                  <li key={p} style={{ display: "flex", gap: "10px", alignItems: "flex-start", marginBottom: "10px" }}>
+                    <CheckIcon />
+                    <span style={{ fontFamily: "var(--font-sans)", fontSize: "13.5px", color: "var(--silver)", lineHeight: 1.5 }}>{p}</span>
+                  </li>
+                ))}
+              </ul>
+            </GlowCard>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .cards-3 { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+/* ════════════════ CAPABILITIES ════════════════ */
+
+const CAP_ICONS: Record<string, React.ReactNode> = {
+  "Lead Generation": (
+    <path d="M12 3v3m0 12v3m9-9h-3M6 12H3m13.5 7.5 6-6m-15-9-6 6m18 0a8.5 8.5 0 1 1-17 0 8.5 8.5 0 0 1 17 0Zm-5.5 0a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+  ),
+  "Voice Calls": (
+    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2Z" />
+  ),
+  "Invoice Automation": (
+    <path d="M7 3h10a1 1 0 0 1 1 1v17l-3-2-3 2-3-2-3 2V4a1 1 0 0 1 1-1Zm3 6h4m-4 4h4" />
+  ),
+  "Appointment Scheduling": (
+    <path d="M8 2v4m8-4v4M4 8h16M5 4h14a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1Zm4 9 2 2 4-4" />
+  ),
+  "Email Campaigns": (
+    <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Zm0 1 8 6 8-6" />
+  ),
+  "Field Coordination": (
+    <path d="m21.5 4.5-19 7.5 6.5 2.5L11.5 21l3-6.5 7-10Zm-12.5 10 12.5-10" />
+  ),
+};
+
+function CapIcon({ name }: { name: string }) {
+  return (
+    <svg
+      width="26"
+      height="26"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="#00AEEF"
+      strokeWidth="1.6"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      {CAP_ICONS[name]}
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden style={{ flexShrink: 0, marginTop: "3px" }}>
+      <path d="m4 12 5 5L20 6" />
+    </svg>
+  );
+}
+
+function CapabilitiesSection() {
+  return (
+    <Section bg="#0D0D0D">
+      <SectionHeading
+        label="The Workforce"
+        title="What Your AI Agents Do"
+        sub="Each agent owns one job and does it relentlessly. Together, they run the operations side of your business."
+      />
+      <div
+        className="cards-3"
+        style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "20px" }}
+      >
+        {CAPABILITIES.map((c, i) => (
+          <Reveal key={c.title} delay={0.08 * i}>
+            <GlowCard accentBorder>
+              <CapIcon name={c.title} />
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "18px", color: "var(--bone)", margin: "16px 0 8px" }}>
+                {c.title}
+              </h3>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--mist)", lineHeight: 1.65, margin: 0 }}>
+                {c.text}
+              </p>
+            </GlowCard>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delay={0.3}>
+        <div style={{ textAlign: "center", marginTop: "44px" }}>
+          <GhostLink to="/ai-agents">Meet All 7 Agents</GhostLink>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ════════════════ INDUSTRIES ════════════════ */
+
+function IndustriesSection() {
+  return (
+    <Section>
+      <SectionHeading
+        label="Who It's For"
+        title="Built for NYC Service Businesses"
+        sub="If your business runs on calls, appointments, and invoices, an AI workforce pays for itself."
+      />
+      <div
+        className="ind-grid"
+        style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "16px" }}
+      >
+        {INDUSTRIES.map((ind, i) => (
+          <Reveal key={ind.slug} delay={0.06 * i}>
+            <Link
+              to={`/industries/${ind.slug}`}
+              className="glow-card"
+              data-cursor="cta"
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                gap: "20px",
+                background: "#141414",
+                border: "1px solid #1E1E1E",
+                borderRadius: "12px",
+                padding: "24px",
+                textDecoration: "none",
+                minHeight: "130px",
+                transition: "border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease",
+              }}
+            >
+              <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "16px", color: "var(--bone)", lineHeight: 1.3 }}>
+                {ind.name}
+              </span>
+              <span style={{ fontFamily: "var(--font-sans)", fontWeight: 600, fontSize: "12px", letterSpacing: "0.08em", textTransform: "uppercase", color: "#00AEEF" }}>
+                Explore →
+              </span>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .ind-grid { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 540px) {
+          .ind-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+/* ════════════════ PROCESS PREVIEW ════════════════ */
+
+function ProcessPreview() {
+  const steps = [
+    { n: "01", title: "Free Assessment", text: "We map where your business loses time and money — calls, follow-ups, paperwork." },
+    { n: "02", title: "Physical Installation", text: "We configure your agents and install the hardware on site, in your office." },
+    { n: "03", title: "You're Operational", text: "Your workforce goes live. You approve and command everything from Telegram." },
+  ];
+  return (
+    <Section bg="#0D0D0D">
+      <SectionHeading
+        label="The Process"
+        title="From Contract to Operational in Days"
+        sub="No six-month software projects. We install, train, and hand you the controls."
+      />
+      <div className="cards-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px" }}>
+        {steps.map((s, i) => (
+          <Reveal key={s.n} delay={0.1 * i}>
+            <div style={{ position: "relative", padding: "0 8px" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "64px",
+                  color: "transparent",
+                  WebkitTextStroke: "1px rgba(0,174,239,0.5)",
+                  lineHeight: 1,
+                }}
+              >
+                {s.n}
+              </span>
+              <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "20px", color: "var(--bone)", margin: "16px 0 10px" }}>
+                {s.title}
+              </h3>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--mist)", lineHeight: 1.7, margin: 0 }}>
+                {s.text}
+              </p>
+            </div>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delay={0.3}>
+        <div style={{ textAlign: "center", marginTop: "48px" }}>
+          <GhostLink to="/how-it-works">See the Full 8-Step Process</GhostLink>
+        </div>
+      </Reveal>
+    </Section>
+  );
+}
+
+/* ════════════════ LEAD CAPTURE (EmailJS — functionality preserved) ════════════════ */
+
+type FormState = "idle" | "sending" | "success" | "error";
+
+function LeadCapture() {
+  const [formState, setFormState] = useState<FormState>("idle");
+  const [fields, setFields] = useState({ name: "", email: "", service: "", budget: "", message: "" });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => setFields((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setFormState('sending')
-    setErrorMsg('')
+    e.preventDefault();
+    setFormState("sending");
     try {
       await emailjs.send(
         import.meta.env.VITE_EMAILJS_SERVICE_ID,
@@ -689,571 +659,140 @@ function ContactSection() {
         {
           from_name: fields.name,
           from_email: fields.email,
-          service: fields.service,
-          budget: fields.budget,
+          service: fields.service || "AI Workforce Assessment",
+          budget: fields.budget || "Not specified",
           message: fields.message,
         },
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      )
-      setFormState('success')
+      );
+      setFormState("success");
     } catch {
-      setFormState('error')
-      setErrorMsg('Something went wrong. Please try again or email us directly.')
+      setFormState("error");
     }
-  }
+  };
 
   const inputStyle: React.CSSProperties = {
-    width: '100%',
-    background: 'transparent',
-    border: 'none',
-    borderBottom: '1px solid var(--smoke)',
-    padding: '12px 0',
-    fontFamily: 'var(--font-sans)',
-    fontSize: 15,
-    color: 'var(--bone)',
-    outline: 'none',
-    transition: 'border-color 0.2s',
-    appearance: 'none',
-  }
-
-  const labelStyle: React.CSSProperties = {
-    display: 'block',
-    fontFamily: 'var(--font-sans)',
-    fontSize: 10,
-    textTransform: 'uppercase',
-    letterSpacing: '0.2em',
-    color: 'var(--mist)',
-    marginBottom: 8,
-  }
+    width: "100%",
+    background: "#0A0A0A",
+    border: "1px solid #1E1E1E",
+    borderRadius: "8px",
+    padding: "14px 16px",
+    fontFamily: "var(--font-sans)",
+    fontSize: "15px",
+    color: "var(--bone)",
+    outline: "none",
+    transition: "border-color 0.2s ease",
+  };
 
   return (
-    <section style={{ background: 'var(--ash)', padding: '120px 0' }}>
-      <div className="section-container">
-        <p style={{ ...styles.sectionMarker, color: 'var(--gold-dim)' }}>06 / LET'S BUILD</p>
-
-        <h2
-          className="home-contact-headline"
-          style={{
-            fontFamily: 'var(--font-display)',
-            fontSize: 'clamp(48px, 10vw, 120px)',
-            color: 'var(--bone)',
-            lineHeight: 1,
-            whiteSpace: 'pre-line',
-            marginBottom: 80,
-          }}
-        >
-          {'READY WHEN\nYOU ARE.'}
-        </h2>
-
-        <div className="home-contact-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 80 }}>
-          {/* Left */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, x: -40 }}
-            whileInView={reduced ? {} : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6 }}
-          >
-            <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 22, color: 'var(--mist)' }}>
-              No gatekeepers. No account managers. Just results.
+    <Section>
+      <div
+        className="lead-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1fr 1fr",
+          gap: "64px",
+          alignItems: "center",
+          background: "#141414",
+          border: "1px solid #1E1E1E",
+          borderRadius: "16px",
+          padding: "clamp(32px, 5vw, 64px)",
+        }}
+      >
+        <Reveal>
+          <div>
+            <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#00AEEF", marginBottom: "14px" }}>
+              Free Assessment
             </p>
-
-            <ul style={{ listStyle: 'none', marginTop: 40 }}>
+            <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(28px, 3.5vw, 40px)", color: "var(--bone)", lineHeight: 1.15, margin: 0 }}>
+              Find Out What an AI Workforce Would Do for Your Business.
+            </h2>
+            <ul style={{ listStyle: "none", padding: 0, margin: "28px 0 0" }}>
               {[
-                'Fast turnaround — most sites ship in 2–3 weeks',
-                'Direct communication — you work with the builder, not a middleman',
-                'AI-first approach — every site can have intelligence built in',
-                'NYC based — available for in-person meetings',
+                "30-minute call, zero obligation",
+                "We map your biggest time drains",
+                "You get a concrete automation plan",
               ].map((item) => (
-                <li key={item} style={{ display: 'flex', gap: 16, marginBottom: 20, alignItems: 'flex-start' }}>
-                  <span style={{ fontFamily: 'var(--font-display)', fontSize: 16, color: 'var(--gold)', flexShrink: 0, marginTop: 2 }}>✓</span>
-                  <span style={{ fontFamily: 'var(--font-sans)', fontSize: 15, color: 'var(--bone)', lineHeight: 1.5 }}>{item}</span>
+                <li key={item} style={{ display: "flex", gap: "10px", marginBottom: "12px" }}>
+                  <CheckIcon />
+                  <span style={{ fontFamily: "var(--font-sans)", fontSize: "14.5px", color: "var(--silver)" }}>{item}</span>
                 </li>
               ))}
             </ul>
+          </div>
+        </Reveal>
 
-            <div style={{ marginTop: 48, fontFamily: 'var(--font-sans)', fontSize: 14, color: 'var(--mist)' }}>
-              <a
-                href="mailto:elisaul@batistack.com"
-                style={{ color: 'var(--gold)', textDecoration: 'none', display: 'block', marginBottom: 8 }}
-                onMouseEnter={(e) => (e.currentTarget.style.textDecoration = 'underline')}
-                onMouseLeave={(e) => (e.currentTarget.style.textDecoration = 'none')}
-              >
-                elisaul@batistack.com
-              </a>
-              <span>New York City, NY</span>
+        <Reveal delay={0.15}>
+          {formState === "success" ? (
+            <div style={{ textAlign: "center", padding: "32px 0" }}>
+              <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#00AEEF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                <circle cx="12" cy="12" r="10" />
+                <path d="m8 12 3 3 5-6" />
+              </svg>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "20px", color: "var(--bone)", margin: "18px 0 8px" }}>
+                Message received.
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--mist)" }}>
+                We'll be in touch within 24 hours.
+              </p>
             </div>
-          </motion.div>
-
-          {/* Right — Form */}
-          <motion.div
-            initial={reduced ? {} : { opacity: 0, x: 40 }}
-            whileInView={reduced ? {} : { opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-100px' }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-          >
-            {formState === 'success' ? (
-              <div style={{ textAlign: 'center', paddingTop: 60 }}>
-                <svg width="48" height="48" viewBox="0 0 48 48" fill="none" style={{ margin: '0 auto 24px', display: 'block' }}>
-                  <circle cx="24" cy="24" r="23" stroke="var(--gold)" strokeWidth="1.5" />
-                  <path d="M14 24l8 8 12-16" stroke="var(--gold)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-                <p style={{ fontFamily: 'var(--font-serif)', fontStyle: 'italic', fontSize: 24, color: 'var(--bone)' }}>
-                  We'll be in touch within 24 hours.
+          ) : (
+            <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              <label htmlFor="lead-name" style={{ display: "none" }}>Name</label>
+              <input id="lead-name" name="name" required placeholder="Your name" value={fields.name} onChange={handleChange} style={inputStyle} />
+              <label htmlFor="lead-email" style={{ display: "none" }}>Email</label>
+              <input id="lead-email" name="email" type="email" required placeholder="Work email" value={fields.email} onChange={handleChange} style={inputStyle} />
+              <label htmlFor="lead-message" style={{ display: "none" }}>Message</label>
+              <textarea
+                id="lead-message"
+                name="message"
+                required
+                placeholder="What's eating your time? (missed calls, invoicing, follow-ups…)"
+                rows={3}
+                value={fields.message}
+                onChange={handleChange}
+                style={{ ...inputStyle, resize: "vertical" }}
+              />
+              <button
+                type="submit"
+                disabled={formState === "sending"}
+                data-cursor="cta"
+                className="ui-btn-primary"
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                  fontSize: "13px",
+                  letterSpacing: "0.08em",
+                  textTransform: "uppercase",
+                  color: "#0A0A0A",
+                  background: "#00AEEF",
+                  border: "none",
+                  borderRadius: "6px",
+                  padding: "15px 34px",
+                  cursor: "pointer",
+                  opacity: formState === "sending" ? 0.7 : 1,
+                  transition: "background 0.2s ease, box-shadow 0.2s ease",
+                }}
+              >
+                {formState === "sending" ? "Sending…" : "Get My Free Assessment"}
+              </button>
+              {formState === "error" && (
+                <p role="alert" style={{ fontFamily: "var(--font-sans)", fontSize: "13px", color: "#f87171", margin: 0 }}>
+                  Failed to send your message. Please try again later.
                 </p>
-              </div>
-            ) : (
-              <form ref={formRef} onSubmit={handleSubmit}>
-                <div style={{ marginBottom: 32 }}>
-                  <label style={labelStyle}>Name</label>
-                  <input
-                    name="name"
-                    required
-                    value={fields.name}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
-                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
-                  />
-                </div>
-
-                <div style={{ marginBottom: 32 }}>
-                  <label style={labelStyle}>Email</label>
-                  <input
-                    name="email"
-                    type="email"
-                    required
-                    value={fields.email}
-                    onChange={handleChange}
-                    style={inputStyle}
-                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
-                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
-                  />
-                </div>
-
-                <div style={{ marginBottom: 32 }}>
-                  <label style={labelStyle}>Service</label>
-                  <select
-                    name="service"
-                    value={fields.service}
-                    onChange={handleChange}
-                    style={{ ...inputStyle, appearance: 'none' as const }}
-                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
-                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
-                  >
-                    <option value="" style={{ background: 'var(--ash)' }}>Select a service</option>
-                    <option value="Custom Web Design" style={{ background: 'var(--ash)' }}>Custom Web Design</option>
-                    <option value="Mobile App" style={{ background: 'var(--ash)' }}>Mobile App</option>
-                    <option value="AI Integration" style={{ background: 'var(--ash)' }}>AI Integration</option>
-                    <option value="Website Redesign" style={{ background: 'var(--ash)' }}>Website Redesign</option>
-                    <option value="Other" style={{ background: 'var(--ash)' }}>Other</option>
-                  </select>
-                </div>
-
-                <div style={{ marginBottom: 32 }}>
-                  <label style={labelStyle}>Budget</label>
-                  <select
-                    name="budget"
-                    value={fields.budget}
-                    onChange={handleChange}
-                    style={{ ...inputStyle, appearance: 'none' as const }}
-                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
-                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
-                  >
-                    <option value="" style={{ background: 'var(--ash)' }}>Select a budget range</option>
-                    <option value="Under $2,000" style={{ background: 'var(--ash)' }}>Under $2,000</option>
-                    <option value="$2,000–$5,000" style={{ background: 'var(--ash)' }}>$2,000–$5,000</option>
-                    <option value="$5,000–$15,000" style={{ background: 'var(--ash)' }}>$5,000–$15,000</option>
-                    <option value="$15,000+" style={{ background: 'var(--ash)' }}>$15,000+</option>
-                    <option value="Not sure yet" style={{ background: 'var(--ash)' }}>Not sure yet</option>
-                  </select>
-                </div>
-
-                <div style={{ marginBottom: 32 }}>
-                  <label style={labelStyle}>Message</label>
-                  <textarea
-                    name="message"
-                    required
-                    rows={4}
-                    value={fields.message}
-                    onChange={handleChange}
-                    style={{ ...inputStyle, resize: 'vertical' }}
-                    onFocus={(e) => (e.currentTarget.style.borderBottomColor = 'var(--gold)')}
-                    onBlur={(e) => (e.currentTarget.style.borderBottomColor = 'var(--smoke)')}
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={formState === 'sending'}
-                  style={{
-                    width: '100%',
-                    fontFamily: 'var(--font-display)',
-                    fontSize: 20,
-                    background: 'var(--gold)',
-                    color: 'var(--void)',
-                    border: 'none',
-                    padding: 20,
-                    cursor: formState === 'sending' ? 'not-allowed' : 'pointer',
-                    opacity: formState === 'sending' ? 0.7 : 1,
-                    letterSpacing: '0.08em',
-                  }}
-                >
-                  {formState === 'sending' ? 'SENDING...' : 'SEND IT →'}
-                </button>
-
-                {formState === 'error' && (
-                  <p style={{ fontFamily: 'var(--font-sans)', fontSize: 13, color: '#e05c5c', marginTop: 12 }}>
-                    {errorMsg}
-                  </p>
-                )}
-              </form>
-            )}
-          </motion.div>
-        </div>
+              )}
+            </form>
+          )}
+        </Reveal>
       </div>
-    </section>
-  )
-}
-
-// ─── Shared style objects ─────────────────────────────────────────────────────
-const styles = {
-  hero: {
-    minHeight: '100vh',
-    background: 'var(--void)',
-    paddingTop: 80,
-    display: 'flex',
-    alignItems: 'center',
-  } as React.CSSProperties,
-
-  heroInner: {
-    display: 'grid',
-    gridTemplateColumns: '55% 45%',
-    gap: 60,
-    alignItems: 'center',
-  } as React.CSSProperties,
-
-  heroLeft: {
-    display: 'flex',
-    flexDirection: 'column',
-  } as React.CSSProperties,
-
-  heroRight: {
-    display: 'flex',
-    alignItems: 'center',
-  } as React.CSSProperties,
-
-  heroLabel: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: 10,
-    letterSpacing: '0.2em',
-    color: 'var(--gold)',
-    textTransform: 'uppercase',
-    marginBottom: 32,
-  } as React.CSSProperties,
-
-  heroSub: {
-    fontFamily: 'var(--font-serif)',
-    fontStyle: 'italic',
-    fontSize: 'clamp(16px, 2.5vw, 22px)',
-    color: 'var(--mist)',
-    maxWidth: 460,
-    margin: '32px 0',
-  } as React.CSSProperties,
-
-  heroCTAs: {
-    display: 'flex',
-    gap: 20,
-    flexWrap: 'wrap',
-  } as React.CSSProperties,
-
-  heroStats: {
-    display: 'flex',
-    gap: 40,
-    marginTop: 48,
-    flexWrap: 'wrap',
-  } as React.CSSProperties,
-
-  statNum: {
-    fontFamily: 'var(--font-display)',
-    fontSize: 40,
-    color: 'var(--gold)',
-  } as React.CSSProperties,
-
-  statLabel: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: 11,
-    color: 'var(--mist)',
-    textTransform: 'uppercase',
-    letterSpacing: '0.15em',
-  } as React.CSSProperties,
-
-  terminal: {
-    background: 'var(--ash)',
-    border: '1px solid var(--smoke)',
-    borderRadius: 4,
-    padding: 32,
-    width: '100%',
-  } as React.CSSProperties,
-
-  terminalChrome: {
-    display: 'flex',
-    gap: 6,
-    marginBottom: 20,
-  } as React.CSSProperties,
-
-  dot: {
-    width: 8,
-    height: 8,
-    borderRadius: '50%',
-    display: 'inline-block',
-  } as React.CSSProperties,
-
-  terminalText: {
-    fontFamily: 'monospace',
-    fontSize: 14,
-    color: 'var(--gold)',
-    lineHeight: 1.8,
-    whiteSpace: 'pre-wrap',
-    wordBreak: 'break-word',
-  } as React.CSSProperties,
-
-  cursor: {
-    display: 'inline-block',
-    animation: 'blink 1s infinite',
-    color: 'var(--gold)',
-  } as React.CSSProperties,
-
-  sectionMarker: {
-    fontFamily: 'var(--font-sans)',
-    fontSize: 11,
-    letterSpacing: '0.2em',
-    textTransform: 'uppercase',
-    marginBottom: 24,
-  } as React.CSSProperties,
-}
-
-// ─── Home Page ────────────────────────────────────────────────────────────────
-export default function Home() {
-  useTrafficTracker('page_view', '/')
-
-  return (
-    <>
-      {(() => {
-        const meta = generatePageMeta(
-          'Batistack — Web Design & AI Chatbots for NYC Businesses',
-          'NYC web design agency specializing in custom websites and AI chatbots that generate leads 24/7. 2–3 week delivery. Money-back guarantee.',
-          '/'
-        )
-        return (
-          <Helmet>
-            <title>{meta.title}</title>
-            <meta name="description" content={meta.description} />
-            <link rel="canonical" href={meta.canonical} />
-            <meta property="og:title" content={meta.ogTitle} />
-            <meta property="og:description" content={meta.ogDescription} />
-            <meta property="og:url" content={meta.canonical} />
-            <meta property="og:image" content={meta.ogImage} />
-            <meta property="og:image:width" content="1200" />
-            <meta property="og:image:height" content="630" />
-            <meta property="og:type" content="website" />
-            <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
-            <script type="application/ld+json">{JSON.stringify(homeFaqSchema)}</script>
-          </Helmet>
-        )
-      })()}
-
-      <HeroSection />
-      <MarqueeStrip />
-      <ServicesSection />
-      <SocialProofSection />
-      <AISpotlightSection />
-      <ProcessSection />
-      <ClientGrowthSection />
-      <ContactSection />
-
-      {/* ── Global responsive overrides ── */}
       <style>{`
-        /* ── Section container ── */
-        .section-container {
-          max-width: 1200px;
-          margin: 0 auto;
-          padding: 0 60px;
+        @media (max-width: 960px) {
+          .lead-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
         }
-
-        /* ── Hero ── */
-        .home-hero-inner {
-          grid-template-columns: 55% 45%;
-          gap: 60px;
-          align-items: center;
-        }
-
-        /* ── Services ── */
-        .home-svc-num {
-          font-size: clamp(100px, 12vw, 160px);
-        }
-
-        /* ── Client drivers ── */
-        .home-client-grid {
-          grid-template-columns: repeat(3, 1fr);
-        }
-
-        /* ── Contact ── */
-        .home-contact-grid {
-          grid-template-columns: 1fr 1fr;
-          gap: 80px;
-        }
-
-        /* ── Marquee reverse ── */
-        .marquee-track-reverse {
-          animation-direction: reverse;
-        }
-
-        /* ═══════════════════════════════
-           TABLET  ≤ 900px
-           ═══════════════════════════════ */
-        @media (max-width: 900px) {
-          .section-container {
-            padding: 0 28px;
-          }
-
-          /* Hero: stack cols, hide terminal, reduce padding */
-          .home-hero-section {
-            padding-top: 100px !important;
-            padding-bottom: 60px !important;
-            align-items: flex-start !important;
-          }
-          .home-hero-inner {
-            grid-template-columns: 1fr !important;
-            gap: 0 !important;
-          }
-          .home-hero-right {
-            display: none !important;
-          }
-
-          /* Service rows: compress */
-          .home-svc-row {
-            padding: 24px 0 !important;
-          }
-          .svc-num-col {
-            font-size: clamp(48px, 10vw, 80px) !important;
-            margin-right: 20px !important;
-          }
-
-          /* Stats: wrap */
-          .home-stats-row {
-            flex-wrap: wrap !important;
-          }
-          .home-stats-row > * {
-            flex: 1 1 calc(50% - 1px) !important;
-            min-width: 140px !important;
-            padding: 24px 20px !important;
-            border-right: none !important;
-            border-bottom: 1px solid #ccc !important;
-          }
-
-          /* Why-us text cols */
-          .home-why-cols {
-            flex-direction: column !important;
-            gap: 32px !important;
-          }
-
-          /* AI section h2 */
-          .home-ai-flex h2 {
-            font-size: clamp(32px, 6vw, 56px) !important;
-          }
-
-          /* AI flex: hide rotated label, stack content */
-          .home-ai-flex {
-            flex-direction: column !important;
-            gap: 40px !important;
-          }
-          .home-ai-flex > div:first-child {
-            display: none !important;
-          }
-
-          /* Client drivers: single column */
-          .home-client-grid {
-            grid-template-columns: 1fr !important;
-          }
-
-          /* Contact headline */
-          .home-contact-grid ~ * .contact-heading,
-          .home-contact-headline {
-            font-size: clamp(48px, 10vw, 80px) !important;
-            white-space: normal !important;
-          }
-
-          /* Contact: single column */
-          .home-contact-grid {
-            grid-template-columns: 1fr !important;
-            gap: 48px !important;
-          }
-
-          /* Sections: reduce padding on tablet */
-          section {
-            padding-top: 80px !important;
-            padding-bottom: 80px !important;
-          }
-        }
-
-        /* ═══════════════════════════════
-           MOBILE  ≤ 600px
-           ═══════════════════════════════ */
-        @media (max-width: 600px) {
-          .section-container {
-            padding: 0 20px;
-          }
-
-          /* Hero */
-          .home-hero-section {
-            min-height: auto !important;
-            padding-top: 96px !important;
-            padding-bottom: 48px !important;
-          }
-
-          /* Service numbers: smaller on phone */
-          .svc-num-col {
-            font-size: 56px !important;
-            margin-right: 16px !important;
-          }
-
-          /* Service tags: hide on very small screens */
-          .home-svc-row > div:last-child {
-            display: none !important;
-          }
-
-          /* Stats: fully stacked */
-          .home-stats-row {
-            flex-direction: column !important;
-          }
-          .home-stats-row > * {
-            flex: 1 1 100% !important;
-            border-right: none !important;
-          }
-
-          /* Client driver padding tighter */
-          .home-client-grid > * {
-            padding: 32px 24px !important;
-          }
-
-          /* Process step: reduce indent for desc */
-          .process-step-desc {
-            padding-left: 0 !important;
-          }
-
-          /* Sections: reduce padding further */
-          section {
-            padding-top: 64px !important;
-            padding-bottom: 64px !important;
-          }
-        }
-
-        /* ── Cursor blink ── */
-        @keyframes blink {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0; }
+        .lead-grid input:focus, .lead-grid textarea:focus {
+          border-color: #00AEEF !important;
         }
       `}</style>
-    </>
-  )
+    </Section>
+  );
 }

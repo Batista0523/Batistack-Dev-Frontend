@@ -1,501 +1,394 @@
-import { useTrafficTracker } from "../hook/useTrafficTracker";
-import { localBusinessSchema, generatePageMeta } from "../lib/seoSchema";
-import { Helmet } from "react-helmet-async";
-import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Seo from "../components/Seo";
+import { Section, SectionHeading, GlowCard, Reveal, CTABanner, GhostLink } from "../components/ui";
 
-// ─── Values data ──────────────────────────────────────────────────────────────
+/* ════════════════ DATA ════════════════ */
 
-const values = [
+const VALUES = [
   {
-    number: "01",
-    name: "Speed",
-    description:
-      "We respect your time. Projects are scoped tightly and delivered fast. If it's taking forever, something's wrong.",
+    title: "Physical Installation",
+    text: "Real hardware in your office. You own the machine, the data never leaves your building.",
+    icon: (
+      <path d="M4 7h16a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Zm3 13h10M12 17v3M7 11h6m-6 3h3" />
+    ),
   },
   {
-    number: "02",
-    name: "Honesty",
-    description:
-      "We quote what it actually costs. We tell you when something won't work. We don't upsell what you don't need.",
+    title: "Business First",
+    text: "We speak revenue and saved hours, not tech jargon. Every agent must pay for itself.",
+    icon: (
+      <path d="M3 20h18M5 20V10m4.5 10V6m4.5 14v-8m4.5 8V4M5 10l4.5-4L14 9l5-5" />
+    ),
   },
   {
-    number: "03",
-    name: "Results",
-    description:
-      "The goal is never a beautiful website. The goal is a website that gets you more customers.",
+    title: "Always On",
+    text: "Your workforce doesn't sleep, call in sick, or quit. 24/7, every day of the year.",
+    icon: (
+      <path d="M12 6v6l4 2m6-2a10 10 0 1 1-20 0 10 10 0 0 1 20 0Z" />
+    ),
   },
 ];
 
-// ─── SVG icons ────────────────────────────────────────────────────────────────
+const STATS = [
+  { value: "2023", label: "Founded in New York City" },
+  { value: "24/7", label: "Your agents never clock out" },
+  { value: "100%", label: "You own the hardware and data" },
+];
 
-function IconLocation() {
-  return (
-    <svg
-      aria-hidden="true"
-      focusable="false"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      style={{ flexShrink: 0 }}
-    >
-      <path
-        d="M12 2C8.69 2 6 4.69 6 8c0 5.25 6 14 6 14s6-8.75 6-14c0-3.31-2.69-6-6-6zm0 8a2 2 0 110-4 2 2 0 010 4z"
-        fill="currentColor"
-      />
-    </svg>
-  );
-}
-
-function IconEmail() {
-  return (
-    <svg
-      aria-hidden="true"
-      focusable="false"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      style={{ flexShrink: 0 }}
-    >
-      <path
-        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
-        stroke="currentColor"
-        fill="none"
-        strokeWidth="1.5"
-      />
-      <polyline
-        points="22,6 12,13 2,6"
-        stroke="currentColor"
-        fill="none"
-        strokeWidth="1.5"
-      />
-    </svg>
-  );
-}
-
-// ─── Page ─────────────────────────────────────────────────────────────────────
+/* ════════════════ PAGE ════════════════ */
 
 export default function About() {
-  useTrafficTracker("page_view", "/about");
-
   return (
-    <>
-      <Helmet>
-        {(() => {
-          const meta = generatePageMeta(
-            "About Batistack — NYC Web Designer & AI Developer",
-            "Batistack is an NYC-based web design studio building conversion-focused websites and AI tools for small businesses.",
-            "/about"
-          );
-          return (
-            <>
-              <title>{meta.title}</title>
-              <meta name="description" content={meta.description} />
-              <link rel="canonical" href={meta.canonical} />
-              <meta property="og:title" content={meta.ogTitle} />
-              <meta property="og:description" content={meta.ogDescription} />
-              <meta property="og:url" content={meta.canonical} />
-              <meta property="og:image" content={meta.ogImage} />
-              <meta property="og:image:width" content="1200" />
-              <meta property="og:image:height" content="630" />
-              <meta property="og:type" content="website" />
-              <script type="application/ld+json">{JSON.stringify(localBusinessSchema)}</script>
-            </>
-          );
-        })()}
-      </Helmet>
+    <main style={{ background: "var(--void)", paddingTop: "72px" }}>
+      <Seo
+        title="About Batistack — NYC AI Agency Since 2023"
+        description="Founded in NYC in 2023, Batistack installs complete AI workforces that small businesses own — real hardware, real agents, leveling the field with big corporations."
+        path="/about"
+      />
+      <Hero />
+      <StorySection />
+      <ValuesSection />
+      <CTABanner title="Meet the Future of Your Business." />
+    </main>
+  );
+}
 
-      <div style={{ background: "var(--void)", color: "var(--bone)", overflowX: "hidden" }}>
+/* ════════════════ HERO ════════════════ */
 
-        {/* ── HERO ─────────────────────────────────────────────────────── */}
-        <section style={{ background: "var(--void)", padding: "160px 0 80px" }}>
-          <div className="about-container">
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
+function Hero() {
+  return (
+    <section
+      style={{
+        position: "relative",
+        overflow: "hidden",
+        background:
+          "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,174,239,0.08) 0%, transparent 60%), #0A0A0A",
+        borderBottom: "1px solid #1E1E1E",
+      }}
+    >
+      <div
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          backgroundImage:
+            "linear-gradient(rgba(0,174,239,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,174,239,0.04) 1px, transparent 1px)",
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 70%)",
+          WebkitMaskImage: "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 70%)",
+        }}
+      />
+      <div
+        className="section-container about-hero"
+        style={{ position: "relative", textAlign: "center", padding: "96px 60px 88px" }}
+      >
+        <Reveal>
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "10px",
+              border: "1px solid rgba(0,174,239,0.4)",
+              borderRadius: "100px",
+              padding: "8px 18px",
+              fontFamily: "var(--font-sans)",
+              fontWeight: 600,
+              fontSize: "11px",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              color: "var(--silver)",
+              background: "rgba(0,174,239,0.05)",
+            }}
+          >
+            <span className="status-dot" />
+            Batistack Development Corp — NYC
+          </span>
+        </Reveal>
+        <Reveal delay={0.1}>
+          <h1
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 800,
+              fontSize: "clamp(34px, 5.5vw, 60px)",
+              lineHeight: 1.08,
+              color: "var(--bone)",
+              margin: "26px auto 0",
+              maxWidth: "820px",
+              letterSpacing: "-0.015em",
+            }}
+          >
+            We Install <span style={{ color: "#00AEEF" }}>AI Workforces</span> in NYC Businesses.
+          </h1>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <p
+            style={{
+              fontFamily: "var(--font-sans)",
+              fontSize: "17px",
+              color: "var(--mist)",
+              lineHeight: 1.75,
+              maxWidth: "560px",
+              margin: "20px auto 0",
+            }}
+          >
+            Instead of hiring another employee, install an AI workforce — real
+            hardware, real agents, working for you around the clock.
+          </p>
+        </Reveal>
+      </div>
+      <style>{`
+        @media (max-width: 960px) {
+          .about-hero { padding: 72px 24px 64px !important; }
+        }
+      `}</style>
+    </section>
+  );
+}
+
+/* ════════════════ STORY ════════════════ */
+
+function StorySection() {
+  return (
+    <Section>
+      <div
+        className="about-story-grid"
+        style={{
+          display: "grid",
+          gridTemplateColumns: "1.2fr 1fr",
+          gap: "64px",
+          alignItems: "center",
+        }}
+      >
+        {/* Narrative */}
+        <Reveal>
+          <div>
+            <p
+              style={{
+                fontFamily: "var(--font-sans)",
+                fontWeight: 700,
+                fontSize: "11px",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "#00AEEF",
+                marginBottom: "14px",
+              }}
+            >
+              Our Story
+            </p>
+            <h2
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 800,
+                fontSize: "clamp(28px, 4vw, 42px)",
+                lineHeight: 1.15,
+                color: "var(--bone)",
+                margin: "0 0 24px",
+                letterSpacing: "-0.01em",
+              }}
+            >
+              Built to Level the Field.
+            </h2>
+            <p style={storyP}>
+              Batistack was founded in New York City in 2023 with one
+              conviction: the businesses that built this city deserve the same
+              weapons the giants use. Large corporations deploy AI to
+              outcompete small businesses every single day — answering faster,
+              following up relentlessly, never missing a lead.
+            </p>
+            <p style={storyP}>
+              We exist to put that power on the other side of the counter. We
+              don't sell software subscriptions that rent you a feature and
+              hold your data hostage. We install complete{" "}
+              <Link to="/ai-agents" style={inlineLink}>
+                AI workforces
+              </Link>{" "}
+              — agents that generate leads, send invoices, book appointments,
+              answer calls, and coordinate your field crews — on hardware that
+              lives in your office and belongs to you.
+            </p>
+            <p style={{ ...storyP, marginBottom: 0 }}>
+              The result: a small business that operates like a large one,
+              without the payroll. You command everything from Telegram, and{" "}
+              <Link to="/how-it-works" style={inlineLink}>
+                you're live in days
+              </Link>
+              , not months.
+            </p>
+          </div>
+        </Reveal>
+
+        {/* Visual — quote + stat stack */}
+        <Reveal delay={0.15}>
+          <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+            <blockquote
+              style={{
+                margin: 0,
+                background:
+                  "linear-gradient(160deg, rgba(0,174,239,0.08) 0%, #141414 50%)",
+                border: "1px solid rgba(0,174,239,0.45)",
+                borderLeft: "3px solid #00AEEF",
+                borderRadius: "12px",
+                padding: "28px 30px",
+              }}
             >
               <p
                 style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  marginBottom: "24px",
-                }}
-              >
-                ABOUT
-              </p>
-
-              <h1
-                style={{
                   fontFamily: "var(--font-display)",
-                  fontSize: "clamp(80px, 14vw, 150px)",
-                  lineHeight: 0.9,
+                  fontWeight: 700,
+                  fontSize: "19px",
+                  lineHeight: 1.5,
+                  color: "var(--bone)",
                   margin: 0,
                 }}
               >
-                <span style={{ color: "var(--bone)" }}>BUILT IN</span>
-                <br />
-                <span style={{ color: "var(--gold)" }}>NEW YORK.</span>
-              </h1>
-
-              <p
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontStyle: "italic",
-                  fontSize: "24px",
-                  color: "var(--mist)",
-                  maxWidth: "560px",
-                  marginTop: "32px",
-                  lineHeight: 1.5,
-                }}
-              >
-                A small team with a big obsession: building websites that actually move the needle.
+                "Instead of hiring another employee, install an AI workforce."
               </p>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── STORY SECTION ────────────────────────────────────────────── */}
-        <section style={{ background: "var(--bone)", color: "var(--void)", padding: "120px 0" }}>
-          <div className="about-container">
-            <div
-              className="about-story-grid"
-              style={{
-                display: "grid",
-                gridTemplateColumns: "60fr 40fr",
-                gap: "80px",
-                alignItems: "start",
-              }}
-            >
-              {/* Left */}
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8 }}
-              >
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "10px",
-                    letterSpacing: "0.2em",
-                    textTransform: "uppercase",
-                    color: "var(--gold-dim)",
-                    marginBottom: "24px",
-                  }}
-                >
-                  THE STORY
-                </p>
-                <h2
-                  style={{
-                    fontFamily: "var(--font-serif)",
-                    fontSize: "44px",
-                    fontWeight: 300,
-                    color: "var(--void)",
-                    lineHeight: 1.2,
-                    marginBottom: "32px",
-                  }}
-                >
-                  Started because we were tired of overpriced mediocrity.
-                </h2>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "16px",
-                    color: "#333",
-                    lineHeight: 1.8,
-                    marginBottom: "20px",
-                  }}
-                >
-                  Batistack was built in New York City by Elisaul Batista — a developer who spent years watching businesses overpay for websites that didn't convert, didn't load fast, and didn't grow with them.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "16px",
-                    color: "#333",
-                    lineHeight: 1.8,
-                    marginBottom: "20px",
-                  }}
-                >
-                  The mission is simple: deliver agency-quality work at a price that makes sense for real businesses. Custom-built in React, AI-integrated from day one, shipped fast.
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "16px",
-                    color: "#333",
-                    lineHeight: 1.8,
-                    marginBottom: "20px",
-                  }}
-                >
-                  No subcontractors. No templates. No account managers between you and the person doing the work.
-                </p>
-              </motion.div>
-
-              {/* Right — founder card */}
-              <motion.div
-                initial={{ opacity: 0, y: 32 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-80px" }}
-                transition={{ duration: 0.8, delay: 0.15 }}
-              >
-                <div
-                  style={{
-                    border: "1px solid var(--smoke)",
-                    padding: "40px",
-                    background: "var(--void)",
-                  }}
-                >
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "28px",
-                      fontWeight: 300,
-                      color: "var(--bone)",
-                      marginBottom: "8px",
-                    }}
-                  >
-                    Elisaul Batista
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "11px",
-                      letterSpacing: "0.15em",
-                      textTransform: "uppercase",
-                      color: "var(--mist)",
-                      marginBottom: "0",
-                    }}
-                  >
-                    Founder &amp; Lead Developer
-                  </p>
-
-                  <div
-                    style={{
-                      height: "1px",
-                      background: "var(--smoke)",
-                      margin: "24px 0",
-                    }}
-                  />
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      color: "var(--mist)",
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "14px",
-                      marginBottom: "16px",
-                    }}
-                  >
-                    <IconLocation />
-                    New York City
-                  </div>
-
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      color: "var(--mist)",
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "14px",
-                    }}
-                  >
-                    <IconEmail />
-                    elisaul@batistack.com
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* ── VALUES SECTION ───────────────────────────────────────────── */}
-        <section style={{ background: "var(--void)", padding: "120px 0" }}>
-          <div className="about-container">
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
-              style={{ marginBottom: "60px" }}
-            >
-              <p
+              <footer
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: "11px",
-                  letterSpacing: "0.2em",
-                  textTransform: "uppercase",
-                  color: "var(--gold)",
-                  marginBottom: "16px",
-                }}
-              >
-                HOW WE WORK
-              </p>
-              <h2
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "52px",
-                  fontWeight: 300,
-                  color: "var(--bone)",
-                  lineHeight: 1.15,
-                }}
-              >
-                Three things we never compromise on.
-              </h2>
-            </motion.div>
-
-            {/* Value cards */}
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8, delay: 0.1 }}
-              className="about-values-cards"
-              style={{
-                display: "flex",
-                gap: "1px",
-                background: "var(--smoke)",
-              }}
-            >
-              {values.map((v) => (
-                <div
-                  key={v.number}
-                  style={{
-                    background: "var(--ash)",
-                    padding: "48px 40px",
-                    flex: 1,
-                  }}
-                >
-                  <div
-                    style={{
-                      fontFamily: "var(--font-display)",
-                      fontSize: "48px",
-                      color: "var(--gold-dim)",
-                      lineHeight: 1,
-                    }}
-                  >
-                    {v.number}
-                  </div>
-                  <h3
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "32px",
-                      fontWeight: 300,
-                      color: "var(--bone)",
-                      margin: "16px 0 12px",
-                    }}
-                  >
-                    {v.name}
-                  </h3>
-                  <p
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "15px",
-                      color: "var(--mist)",
-                      lineHeight: 1.7,
-                      margin: 0,
-                    }}
-                  >
-                    {v.description}
-                  </p>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ── CTA SECTION ──────────────────────────────────────────────── */}
-        <section style={{ background: "var(--ash)", padding: "120px 0" }}>
-          <div className="about-container" style={{ textAlign: "center" }}>
-            <motion.div
-              initial={{ opacity: 0, y: 32 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-80px" }}
-              transition={{ duration: 0.8 }}
-            >
-              <h2
-                style={{
-                  fontFamily: "var(--font-display)",
-                  fontSize: "80px",
-                  color: "var(--bone)",
-                  lineHeight: 0.9,
-                  marginBottom: "24px",
-                }}
-              >
-                LET'S BUILD
-                <br />
-                SOMETHING.
-              </h2>
-              <p
-                style={{
-                  fontFamily: "var(--font-serif)",
-                  fontStyle: "italic",
-                  fontSize: "22px",
-                  color: "var(--mist)",
-                  marginBottom: "40px",
-                }}
-              >
-                No application needed. Just a conversation.
-              </p>
-              <Link
-                to="/contact"
-                data-cursor="cta"
-                style={{
-                  display: "inline-block",
-                  fontFamily: "var(--font-sans)",
+                  fontWeight: 600,
                   fontSize: "12px",
-                  letterSpacing: "0.15em",
+                  letterSpacing: "0.12em",
                   textTransform: "uppercase",
-                  background: "var(--gold)",
-                  color: "var(--void)",
-                  padding: "18px 48px",
-                  textDecoration: "none",
-                  fontWeight: 500,
+                  color: "#00AEEF",
+                  marginTop: "16px",
                 }}
               >
-                START THE CONVERSATION →
-              </Link>
-            </motion.div>
+                The Batistack Principle
+              </footer>
+            </blockquote>
+
+            {STATS.map((s) => (
+              <div
+                key={s.value}
+                style={{
+                  display: "flex",
+                  alignItems: "baseline",
+                  gap: "18px",
+                  background: "#141414",
+                  border: "1px solid #1E1E1E",
+                  borderRadius: "12px",
+                  padding: "20px 26px",
+                }}
+              >
+                <span
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 800,
+                    fontSize: "26px",
+                    color: "#00AEEF",
+                    minWidth: "78px",
+                  }}
+                >
+                  {s.value}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "var(--font-sans)",
+                    fontSize: "14px",
+                    color: "var(--mist)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  {s.label}
+                </span>
+              </div>
+            ))}
           </div>
-        </section>
-
+        </Reveal>
       </div>
-
       <style>{`
-        .about-container {
-          max-width: 1280px;
-          margin: 0 auto;
-          padding: 0 60px;
-        }
-
-        @media (max-width: 900px) {
-          .about-container {
-            padding: 0 32px;
-          }
-
-          .about-story-grid {
-            grid-template-columns: 1fr !important;
-            gap: 48px !important;
-          }
-
-          .about-values-cards {
-            flex-direction: column !important;
-          }
-        }
-
-        @media (max-width: 768px) {
-          .about-container {
-            padding: 0 24px;
-          }
+        @media (max-width: 960px) {
+          .about-story-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
         }
       `}</style>
-    </>
+    </Section>
+  );
+}
+
+const storyP: React.CSSProperties = {
+  fontFamily: "var(--font-sans)",
+  fontSize: "15.5px",
+  color: "var(--mist)",
+  lineHeight: 1.8,
+  margin: "0 0 18px",
+};
+
+const inlineLink: React.CSSProperties = {
+  color: "#00AEEF",
+  textDecoration: "none",
+  fontWeight: 600,
+};
+
+/* ════════════════ VALUES ════════════════ */
+
+function ValuesSection() {
+  return (
+    <Section bg="#0D0D0D">
+      <SectionHeading
+        label="What We Stand For"
+        title={
+          <>
+            Three Things We <em style={{ color: "#00AEEF", fontStyle: "normal" }}>Never Compromise</em>
+          </>
+        }
+        sub="Every installation, every agent, every client relationship is built on the same three commitments."
+      />
+      <div
+        className="about-values-grid"
+        style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "stretch" }}
+      >
+        {VALUES.map((v, i) => (
+          <Reveal key={v.title} delay={0.1 * i}>
+            <GlowCard accentBorder>
+              <svg
+                width="28"
+                height="28"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#00AEEF"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden
+              >
+                {v.icon}
+              </svg>
+              <h3
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 700,
+                  fontSize: "20px",
+                  color: "var(--bone)",
+                  margin: "18px 0 10px",
+                }}
+              >
+                {v.title}
+              </h3>
+              <p
+                style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "14.5px",
+                  color: "var(--mist)",
+                  lineHeight: 1.7,
+                  margin: 0,
+                }}
+              >
+                {v.text}
+              </p>
+            </GlowCard>
+          </Reveal>
+        ))}
+      </div>
+      <Reveal delay={0.3}>
+        <div style={{ textAlign: "center", marginTop: "48px" }}>
+          <GhostLink to="/contact">Talk to Us</GhostLink>
+        </div>
+      </Reveal>
+      <style>{`
+        @media (max-width: 960px) {
+          .about-values-grid { grid-template-columns: 1fr !important; }
+        }
+      `}</style>
+    </Section>
   );
 }

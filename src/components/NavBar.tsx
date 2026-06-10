@@ -1,7 +1,24 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import BrandLogo from "./BrandLogo";
+
+function LogoLockup({ markHeight = 38 }: { markHeight?: number }) {
+  return (
+    <span style={{ display: "inline-flex", alignItems: "center", gap: "11px" }}>
+      <img
+        src="/brand/batistack-mark.png"
+        alt=""
+        height={markHeight}
+        style={{ height: `${markHeight}px`, width: "auto", display: "block" }}
+      />
+      <img
+        src="/brand/batistack-wordmark.png"
+        alt="Batistack"
+        style={{ height: `${Math.round(markHeight * 0.38)}px`, width: "auto", display: "block" }}
+      />
+    </span>
+  );
+}
 
 const NAV_LINKS = [
   { label: "Home",         to: "/"              },
@@ -72,7 +89,7 @@ export default function NavBar() {
             style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
             aria-label="Batistack home"
           >
-            <BrandLogo size="sm" />
+            <LogoLockup markHeight={38} />
           </Link>
 
           {/* Desktop nav links */}
@@ -162,7 +179,7 @@ export default function NavBar() {
           >
             {/* Logo in mobile overlay */}
             <div style={{ position: "absolute", top: "20px", left: "24px" }}>
-              <BrandLogo size="sm" />
+              <LogoLockup markHeight={34} />
             </div>
 
             {/* Close button */}

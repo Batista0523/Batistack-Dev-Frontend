@@ -16,6 +16,7 @@ import BlogPost from "./Pages/BlogPost";
 import AIAgents from "./Pages/AIAgents";
 import HowItWorks from "./Pages/HowItWorks";
 import Industries from "./Pages/Industries";
+import IndustryPage from "./Pages/IndustryPage";
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import "./global.css";
@@ -47,9 +48,10 @@ function App() {
         <Route path="/ai-agents"        element={<AIAgents />} />
         <Route path="/how-it-works"     element={<HowItWorks />} />
         <Route path="/industries"       element={<Industries />} />
+        <Route path="/industries/:slug" element={<IndustryPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
-      {!hideFooter && <Footer />}
+      <Footer />
       <ChatBot />
     </>
   );
