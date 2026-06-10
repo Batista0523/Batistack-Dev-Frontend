@@ -509,30 +509,141 @@
 }
 
 /* ── Mobile ── */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .chatbot-trigger {
     right: 16px;
-    bottom: 16px;
-    width: 56px;
-    height: 56px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    width: 52px;
+    height: 52px;
   }
 
+  .chatbot-trigger-ring {
+    inset: 6px;
+  }
+
+  /* Full-screen panel — sits inside the safe area */
   .chatbot-panel {
+    position: fixed;
+    inset: 0;
     right: 0;
     bottom: 0;
-    width: 100vw;
-    height: 92vh;
-    border-left: none;
-    border-right: none;
-    border-bottom: none;
+    left: 0;
+    top: 0;
+    width: 100%;
+    /* dvh = dynamic viewport height — shrinks when browser chrome appears */
+    height: 100dvh;
+    /* fallback for older Safari */
+    height: -webkit-fill-available;
+    border: none;
     border-top: 2px solid var(--gold);
+    border-radius: 0;
+    box-shadow: none;
+    /* ensure flex column fills the height */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Header: slightly tighter on mobile */
+  .chatbot-header {
+    padding: 14px 16px 12px;
+    flex-shrink: 0;
+  }
+
+  .chatbot-header-title {
+    font-size: 16px;
+  }
+
+  /* Intro / intake form: scrollable, flexes to fill */
+  .chatbot-intro {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 20px 16px;
   }
 
   .chatbot-intro-title {
-    font-size: 28px;
+    font-size: 26px;
+  }
+
+  .chatbot-intro-copy {
+    font-size: 13px;
+  }
+
+  /* Messages area: fills remaining space, scrollable */
+  .chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0; /* critical: allows flex child to shrink below content size */
+  }
+
+  .chatbot-messages-inner {
+    padding: 16px 14px;
+    gap: 10px;
   }
 
   .chatbot-message-bubble {
-    max-width: 88%;
+    max-width: 90%;
+    font-size: 13px;
+    padding: 10px 12px;
+  }
+
+  /* Quick replies: horizontal scroll on very small screens */
+  .chatbot-quick-replies {
+    padding: 8px 14px 10px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .chatbot-quick-replies::-webkit-scrollbar { display: none; }
+
+  .chatbot-quick-reply-chip {
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 6px 12px;
+    flex-shrink: 0;
+  }
+
+  /* Input bar: always visible above iOS home indicator */
+  .chatbot-input-bar {
+    flex-shrink: 0;
+    padding: 12px 14px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .chatbot-input-field {
+    font-size: 16px; /* prevents iOS auto-zoom on focus */
+  }
+
+  .chatbot-send-button {
+    padding: 12px 14px;
+    font-size: 11px;
+  }
+
+  /* Intake form: larger touch targets */
+  .chatbot-field input {
+    font-size: 16px; /* prevents iOS auto-zoom */
+    padding-bottom: 12px;
+  }
+
+  .chatbot-start-button {
+    padding: 16px 20px;
+    font-size: 13px;
+  }
+
+  /* Backdrop: full screen on mobile */
+  .chatbot-backdrop {
+    display: none; /* panel is already full-screen — backdrop isn't needed */
+  }
+}
+
+/* Tablets 601–960px: medium panel */
+@media (min-width: 601px) and (max-width: 960px) {
+  .chatbot-panel {
+    width: min(380px, calc(100vw - 32px));
+    height: min(640px, calc(100vh - 48px));
+    right: 16px;
+    bottom: 16px;
   }
 }
