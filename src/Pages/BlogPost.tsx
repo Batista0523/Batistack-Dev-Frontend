@@ -281,7 +281,7 @@ export default function BlogPost() {
                 SEO gaps, and conversion opportunities — within 24 hours. No sales call required.
               </p>
               <Link
-                to="/speedPage"
+                to="/contact"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontSize: "13px",

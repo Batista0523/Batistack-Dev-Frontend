@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /dashboardPage
-Disallow: /login
+
 Sitemap: https://batistack.com/sitemap.xml
