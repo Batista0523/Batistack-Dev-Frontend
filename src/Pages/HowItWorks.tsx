@@ -96,6 +96,7 @@ export default function HowItWorks() {
       />
       <Hero />
       <TimelineSection />
+      <InstallationShowcase />
       <FAQSection />
       <CTABanner title="See It Mapped to Your Business." />
     </main>
@@ -362,6 +363,67 @@ function TimelineSection() {
           .hiw-line { left: 21px !important; }
           .hiw-step { grid-template-columns: 44px 1fr !important; gap: 16px !important; padding-bottom: 36px !important; }
           .hiw-node { width: 44px !important; height: 44px !important; font-size: 14px !important; }
+        }
+      `}</style>
+    </Section>
+  );
+}
+
+/* ════════════════ INSTALLATION SHOWCASE ════════════════ */
+
+function InstallationShowcase() {
+  return (
+    <Section bg="#0D0D0D" style={{ padding: "72px 0" }}>
+      <Reveal>
+        <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#00AEEF", textAlign: "center", margin: "0 0 14px" }}>
+          Real Installations
+        </p>
+        <h2 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(24px, 3.5vw, 36px)", color: "var(--bone)", textAlign: "center", margin: "0 0 40px", letterSpacing: "-0.01em" }}>
+          This Is What Gets Installed in Your Business
+        </h2>
+      </Reveal>
+      <div
+        className="showcase-grid"
+        style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px" }}
+      >
+        <Reveal delay={0.1}>
+          <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid #1E1E1E", position: "relative" }}>
+            <img
+              src="/brand/stations.PNG"
+              alt="Mac mini AI station installed on shelf in NYC business"
+              style={{ width: "100%", display: "block", aspectRatio: "4/3", objectFit: "cover", objectPosition: "center" }}
+            />
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(10,10,10,0.88))", padding: "40px 24px 20px" }}>
+              <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "13px", color: "var(--bone)", margin: 0 }}>
+                Mac mini — on-site install
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "12px", color: "var(--mist)", margin: "4px 0 0" }}>
+                Sits on a shelf. Runs 24/7. You never touch it.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+        <Reveal delay={0.2}>
+          <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid rgba(0,174,239,0.25)", position: "relative", boxShadow: "0 0 40px rgba(0,174,239,0.08)" }}>
+            <img
+              src="/brand/moreReal.png"
+              alt="Batistack Autopilot station — the complete AI workforce setup"
+              style={{ width: "100%", display: "block", aspectRatio: "4/3", objectFit: "cover", objectPosition: "center" }}
+            />
+            <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(10,10,10,0.88))", padding: "40px 24px 20px" }}>
+              <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "13px", color: "var(--bone)", margin: 0 }}>
+                Batistack Autopilot setup
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "12px", color: "var(--mist)", margin: "4px 0 0" }}>
+                Your complete AI workforce, ready on Day 8.
+              </p>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+      <style>{`
+        @media (max-width: 720px) {
+          .showcase-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </Section>

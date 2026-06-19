@@ -1,28 +1,19 @@
-import { useRef } from "react";
 import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
-import { motion, useInView } from "framer-motion";
 import { blogPosts } from "../data/blogPosts";
 import { generatePageMeta, localBusinessSchema, generateBlogIndexSchema } from "../lib/seoSchema";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
-
-const EASE = [0.25, 0.46, 0.45, 0.94] as const;
+import { Reveal, GlowCard } from "../components/ui";
 
 export default function Blog() {
   useTrafficTracker("page_view", "/blog");
 
   const meta = generatePageMeta(
-    "Web Design & AI Blog for NYC Businesses | Batistack",
-    "Tips, guides, and insights on web design, AI chatbots, and growing your NYC business online.",
+    "AI & Automation Blog for NYC Businesses | Batistack",
+    "Insights on AI agents, automation, and growing your NYC business with technology that works 24/7.",
     "/blog"
   );
   const blogSchema = generateBlogIndexSchema(blogPosts);
-
-  const headerRef = useRef(null);
-  const headerInView = useInView(headerRef, { once: true, margin: "-80px" });
-
-  const gridRef = useRef(null);
-  const gridInView = useInView(gridRef, { once: true, margin: "-80px" });
 
   return (
     <>
@@ -41,185 +32,239 @@ export default function Blog() {
         <script type="application/ld+json">{JSON.stringify(blogSchema)}</script>
       </Helmet>
 
-      <div style={{ background: "var(--void)", color: "var(--bone)", minHeight: "100vh" }}>
+      <main style={{ background: "var(--void)", paddingTop: "72px" }}>
 
-        {/* ── Header ── */}
-        <section style={{ paddingTop: "160px", paddingBottom: "80px" }}>
-          <div className="section-container">
-            <motion.div
-              ref={headerRef}
-              initial={{ opacity: 0, y: 32 }}
-              animate={headerInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, ease: EASE }}
-            >
-              <p
+        {/* ── Hero ── */}
+        <section
+          style={{
+            position: "relative",
+            overflow: "hidden",
+            background:
+              "radial-gradient(ellipse 70% 60% at 50% 0%, rgba(0,174,239,0.07) 0%, transparent 60%), #0A0A0A",
+            borderBottom: "1px solid #1E1E1E",
+            padding: "80px 0 72px",
+          }}
+        >
+          <div
+            aria-hidden
+            style={{
+              position: "absolute",
+              inset: 0,
+              backgroundImage:
+                "linear-gradient(rgba(0,174,239,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,174,239,0.03) 1px, transparent 1px)",
+              backgroundSize: "56px 56px",
+              maskImage: "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 75%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse 80% 90% at 50% 0%, black 20%, transparent 75%)",
+            }}
+          />
+          <div
+            className="section-container"
+            style={{ position: "relative", textAlign: "center" }}
+          >
+            <Reveal>
+              <span
                 style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "10px",
+                  border: "1px solid rgba(0,174,239,0.4)",
+                  borderRadius: "100px",
+                  padding: "7px 16px",
                   fontFamily: "var(--font-sans)",
-                  fontSize: "10px",
-                  letterSpacing: "0.2em",
+                  fontWeight: 600,
+                  fontSize: "11px",
+                  letterSpacing: "0.18em",
                   textTransform: "uppercase",
-                  color: "var(--gold)",
-                  fontWeight: 500,
-                  marginBottom: "20px",
+                  color: "var(--silver)",
+                  background: "rgba(0,174,239,0.05)",
                 }}
               >
-                Insights
-              </p>
+                <span className="status-dot" />
+                Intelligence Report — NYC
+              </span>
+            </Reveal>
+
+            <Reveal delay={0.1}>
               <h1
                 style={{
-                  fontFamily: "var(--font-serif)",
-                  fontSize: "clamp(40px, 6vw, 80px)",
-                  fontWeight: 300,
-                  lineHeight: 1.05,
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "clamp(34px, 5vw, 58px)",
+                  lineHeight: 1.08,
                   color: "var(--bone)",
-                  margin: "0 0 24px 0",
+                  margin: "24px auto 0",
+                  maxWidth: "720px",
+                  letterSpacing: "-0.015em",
                 }}
               >
-                Built for NYC.<br />
-                <em>Written for growth.</em>
+                AI, Automation &{" "}
+                <span style={{ color: "#00AEEF" }}>Business Growth</span>
               </h1>
+            </Reveal>
+
+            <Reveal delay={0.2}>
               <p
                 style={{
                   fontFamily: "var(--font-sans)",
-                  fontSize: "16px",
+                  fontSize: "17px",
                   color: "var(--mist)",
-                  lineHeight: 1.7,
+                  lineHeight: 1.75,
                   maxWidth: "520px",
-                  margin: 0,
+                  margin: "20px auto 0",
                 }}
               >
-                Web design, AI, and conversion strategy for NYC small businesses.
+                Practical insights on AI agents, automation, and growing your
+                NYC business with technology that works 24/7.
               </p>
-            </motion.div>
+            </Reveal>
           </div>
         </section>
 
-        {/* Gold divider */}
-        <div style={{ height: "1px", background: "var(--smoke)", margin: "0 60px" }} />
-
         {/* ── Post grid ── */}
-        <section style={{ padding: "80px 0 140px" }}>
+        <section style={{ padding: "80px 0 120px" }}>
           <div className="section-container">
             <div
-              ref={gridRef}
               className="blog-grid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, 1fr)",
-                gap: "2px",
+                gap: "24px",
+                alignItems: "start",
               }}
             >
               {blogPosts.map((post, i) => (
-                <motion.article
-                  key={post.slug}
-                  initial={{ opacity: 0, y: 40 }}
-                  animate={gridInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.7, delay: i * 0.1, ease: EASE }}
-                  style={{
-                    borderLeft: "1px solid var(--smoke)",
-                    padding: "40px 40px 48px",
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 0,
-                  }}
-                >
-                  {/* Category + date */}
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      marginBottom: "20px",
-                    }}
-                  >
-                    <span
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "9px",
-                        letterSpacing: "0.18em",
-                        textTransform: "uppercase",
-                        color: "var(--gold)",
-                        fontWeight: 600,
-                      }}
-                    >
-                      {post.category}
-                    </span>
-                    <span style={{ color: "var(--smoke)", fontSize: "10px" }}>·</span>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "10px",
-                        color: "var(--mist)",
-                        letterSpacing: "0.05em",
-                      }}
-                    >
-                      {post.readTime}
-                    </span>
-                  </div>
-
-                  {/* Title */}
-                  <h2
-                    style={{
-                      fontFamily: "var(--font-serif)",
-                      fontSize: "clamp(20px, 2vw, 26px)",
-                      fontWeight: 300,
-                      lineHeight: 1.25,
-                      color: "var(--bone)",
-                      margin: "0 0 16px 0",
-                    }}
-                  >
-                    {post.title}
-                  </h2>
-
-                  {/* Description */}
-                  <p
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "14px",
-                      color: "var(--mist)",
-                      lineHeight: 1.7,
-                      margin: "0 0 32px 0",
-                      flex: 1,
-                    }}
-                  >
-                    {post.description}
-                  </p>
-
-                  {/* Read link */}
+                <Reveal key={post.slug} delay={0.07 * (i % 3)}>
                   <Link
                     to={`/blog/${post.slug}`}
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontSize: "11px",
-                      letterSpacing: "0.14em",
-                      textTransform: "uppercase",
-                      color: "var(--gold)",
-                      textDecoration: "none",
-                      display: "inline-flex",
-                      alignItems: "center",
-                      gap: "8px",
-                      transition: "gap 0.2s ease",
-                    }}
+                    style={{ textDecoration: "none", display: "block", height: "100%" }}
                   >
-                    Read article <span style={{ fontSize: "14px" }}>→</span>
+                    <GlowCard
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        height: "100%",
+                        cursor: "pointer",
+                      }}
+                    >
+                      {/* Category pill */}
+                      <div style={{ marginBottom: "18px" }}>
+                        <span
+                          style={{
+                            display: "inline-block",
+                            fontFamily: "var(--font-sans)",
+                            fontWeight: 700,
+                            fontSize: "10px",
+                            letterSpacing: "0.2em",
+                            textTransform: "uppercase",
+                            color: "#00AEEF",
+                            border: "1px solid rgba(0,174,239,0.3)",
+                            borderRadius: "100px",
+                            padding: "4px 12px",
+                          }}
+                        >
+                          {post.category}
+                        </span>
+                      </div>
+
+                      {/* Title */}
+                      <h2
+                        style={{
+                          fontFamily: "var(--font-display)",
+                          fontWeight: 800,
+                          fontSize: "clamp(18px, 1.6vw, 22px)",
+                          lineHeight: 1.25,
+                          color: "var(--bone)",
+                          margin: "0 0 14px",
+                        }}
+                      >
+                        {post.title}
+                      </h2>
+
+                      {/* Description */}
+                      <p
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "14px",
+                          color: "var(--mist)",
+                          lineHeight: 1.75,
+                          margin: "0 0 24px",
+                          flex: 1,
+                        }}
+                      >
+                        {post.description}
+                      </p>
+
+                      {/* Footer row */}
+                      <div
+                        style={{
+                          borderTop: "1px solid #1E1E1E",
+                          paddingTop: "16px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          gap: "12px",
+                        }}
+                      >
+                        <span
+                          style={{
+                            fontFamily: "var(--font-sans)",
+                            fontSize: "11px",
+                            color: "var(--mist)",
+                            letterSpacing: "0.04em",
+                          }}
+                        >
+                          {post.readTime} ·{" "}
+                          {new Date(post.date + "T12:00:00").toLocaleDateString(
+                            "en-US",
+                            { month: "short", year: "numeric" }
+                          )}
+                        </span>
+                        <span
+                          style={{
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            fontFamily: "var(--font-sans)",
+                            fontWeight: 700,
+                            fontSize: "11px",
+                            letterSpacing: "0.1em",
+                            textTransform: "uppercase",
+                            color: "#00AEEF",
+                            flexShrink: 0,
+                          }}
+                        >
+                          Read
+                          <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.4"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden
+                          >
+                            <path d="M5 12h14m-7-7 7 7-7 7" />
+                          </svg>
+                        </span>
+                      </div>
+                    </GlowCard>
                   </Link>
-                </motion.article>
+                </Reveal>
               ))}
             </div>
           </div>
         </section>
-      </div>
+      </main>
 
       <style>{`
-        @media (max-width: 900px) {
-          .blog-grid {
-            grid-template-columns: 1fr !important;
-          }
+        @media (max-width: 960px) {
+          .blog-grid { grid-template-columns: 1fr 1fr !important; }
         }
-        @media (max-width: 1100px) and (min-width: 901px) {
-          .blog-grid {
-            grid-template-columns: 1fr 1fr !important;
-          }
+        @media (max-width: 640px) {
+          .blog-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
     </>

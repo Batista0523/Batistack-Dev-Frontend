@@ -26,6 +26,7 @@ const NAV_LINKS = [
   { label: "How It Works", to: "/how-it-works"  },
   { label: "Industries",   to: "/industries"    },
   { label: "Services",     to: "/services"      },
+  { label: "Blog",         to: "/blog"          },
   { label: "About",        to: "/about"         },
   { label: "Contact",      to: "/contact"       },
 ];
@@ -316,7 +317,10 @@ export default function NavBar() {
 
 function NavLink({ to, label }: { to: string; label: string }) {
   const location = useLocation();
-  const active = location.pathname === to || (to !== "/" && location.pathname.startsWith(to));
+  const active =
+    location.pathname === to ||
+    (to !== "/" && location.pathname.startsWith(to)) ||
+    (to === "/ai-agents" && location.pathname.startsWith("/agents"));
 
   return (
     <Link

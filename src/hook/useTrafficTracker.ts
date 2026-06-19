@@ -40,17 +40,12 @@ export const useTrafficTracker = (event_type: string, path: string) => {
         await axios.post(`${API_BASE_URL}/traffic`, eventPayload);
 
         hasTracked.current = true;
-        console.log("✅ Traffic event captured:", eventPayload);
-      } catch (error) {
-        console.error("❌ Error capturing traffic event:", error);
+      } catch {
+        // silently ignore tracking failures in production
       }
     };
 
     captureTrafficEvent();
-
-    return () => {
-      hasTracked.current = false;
-    };
   }, [event_type, path]);
 };
 
@@ -59,8 +54,7 @@ const getIPAddress = async (): Promise<string> => {
   try {
     const response = await axios.get("https://api.ipify.org?format=json");
     return response.data.ip;
-  } catch (error) {
-    console.error("❌ Error getting IP address:", error);
+  } catch {
     return "Unknown IP";
   }
 };

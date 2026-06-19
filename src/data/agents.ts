@@ -1,5 +1,6 @@
 export type Agent = {
   name: string;
+  slug: string;
   role: string;
   description: string;
   today: string;
@@ -8,6 +9,7 @@ export type Agent = {
 export const AGENTS: Agent[] = [
   {
     name: "CEO Agent",
+    slug: "ceo",
     role: "Operations Brain",
     description:
       "The coordinator. Watches every other agent, prioritizes the day's work, and compiles what happened into a morning briefing you actually read.",
@@ -15,6 +17,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Scout Agent",
+    slug: "scout",
     role: "Lead Generation",
     description:
       "Hunts for your next customer around the clock — qualifying website inquiries, watching lead sources, and building prospect lists that match your best clients.",
@@ -22,6 +25,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Voice Agent",
+    slug: "voice",
     role: "Calls & Intake",
     description:
       "Answers your phone with a natural voice, 24/7. Qualifies callers, books appointments, and escalates real emergencies straight to your cell.",
@@ -29,6 +33,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Email Agent",
+    slug: "email",
     role: "Campaigns & Follow-up",
     description:
       "Writes and sends the follow-ups humans forget: quote chasers, renewal sequences, win-back campaigns, and replies to routine inquiries.",
@@ -36,6 +41,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Billing Agent",
+    slug: "billing",
     role: "Invoices & Payments",
     description:
       "Generates invoices the moment work completes, sends payment reminders on schedule, and reconciles what's been paid — without you opening QuickBooks.",
@@ -43,6 +49,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Scheduler Agent",
+    slug: "scheduler",
     role: "Calendar & Dispatch",
     description:
       "Books jobs, confirms appointments, sends reminders that kill no-shows, and keeps crews or consultations routed sensibly across your week.",
@@ -50,6 +57,7 @@ export const AGENTS: Agent[] = [
   },
   {
     name: "Commander Agent",
+    slug: "commander",
     role: "Telegram Control",
     description:
       "Your remote control. Lives in Telegram on your phone — sends you approvals, daily digests, and lets you command the entire workforce with a message.",

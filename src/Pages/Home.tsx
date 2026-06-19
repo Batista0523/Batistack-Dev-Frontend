@@ -45,9 +45,6 @@ function Hero() {
       style={{
         position: "relative",
         overflow: "hidden",
-        minHeight: "calc(100vh - 72px)",
-        display: "flex",
-        alignItems: "center",
         background:
           "radial-gradient(ellipse 80% 60% at 70% 30%, rgba(0,174,239,0.07) 0%, transparent 60%), #0A0A0A",
       }}
@@ -63,6 +60,23 @@ function Hero() {
           backgroundSize: "56px 56px",
           maskImage: "radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)",
           WebkitMaskImage: "radial-gradient(ellipse 90% 80% at 50% 40%, black 30%, transparent 75%)",
+        }}
+      />
+      {/* Brand watermark */}
+      <img
+        src="/brand/batistack-mark.png"
+        alt=""
+        aria-hidden
+        style={{
+          position: "absolute",
+          right: "-60px",
+          top: "50%",
+          transform: "translateY(-50%)",
+          width: "520px",
+          height: "auto",
+          opacity: 0.035,
+          pointerEvents: "none",
+          userSelect: "none",
         }}
       />
       {/* Drifting particles */}
@@ -91,11 +105,11 @@ function Hero() {
         style={{
           position: "relative",
           display: "grid",
-          gridTemplateColumns: "1.15fr 1fr",
-          gap: "48px",
+          gridTemplateColumns: "1.1fr 1fr",
+          gap: "64px",
           alignItems: "center",
           width: "100%",
-          padding: "80px 60px",
+          padding: "120px 60px 100px",
         }}
       >
         {/* Left — copy */}
@@ -193,8 +207,8 @@ function AutopilotStation() {
         aria-hidden
         style={{
           position: "absolute",
-          width: "320px",
-          height: "320px",
+          width: "400px",
+          height: "400px",
           borderRadius: "50%",
           background: "radial-gradient(circle, rgba(0,174,239,0.13) 0%, rgba(0,174,239,0.04) 50%, transparent 72%)",
           animation: "pulseGlow 4s ease-in-out infinite",
@@ -205,7 +219,7 @@ function AutopilotStation() {
       <div
         style={{
           position: "relative",
-          width: "300px",
+          width: "360px",
           background: "linear-gradient(160deg, #141414 0%, #0e0e0e 100%)",
           border: "1px solid rgba(0,174,239,0.35)",
           borderRadius: "20px",
@@ -232,18 +246,38 @@ function AutopilotStation() {
           }}
         />
 
-        {/* Real logo */}
-        <img
-          src="/brand/batistack-logo.png"
-          alt="Batistack"
-          style={{
-            width: "200px",
-            height: "auto",
-            display: "block",
-            filter: "drop-shadow(0 0 18px rgba(0,174,239,0.45))",
-            animation: "pulseGlow 4s ease-in-out infinite",
-          }}
-        />
+        {/* Logo lockup */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "10px" }}>
+          <img
+            src="/brand/batistack-mark.png"
+            alt=""
+            style={{
+              height: "72px",
+              width: "auto",
+              display: "block",
+              filter: "drop-shadow(0 0 18px rgba(0,174,239,0.45))",
+              animation: "pulseGlow 4s ease-in-out infinite",
+            }}
+          />
+          <img
+            src="/brand/batistack-wordmark.png"
+            alt="Batistack"
+            style={{ height: "18px", width: "auto", display: "block" }}
+          />
+          <p
+            style={{
+              fontFamily: "'Raleway', sans-serif",
+              fontWeight: 600,
+              fontSize: "10px",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#888888",
+              margin: 0,
+            }}
+          >
+            AI Infrastructure &amp; Agent Services
+          </p>
+        </div>
 
         {/* Divider */}
         <div style={{ width: "100%", height: "1px", background: "#1E1E1E" }} />
@@ -429,6 +463,43 @@ function HardwareSection() {
         title={<>Your AI Team. <em style={{ color: "#00AEEF", fontStyle: "normal" }}>Physically Installed.</em></>}
         sub="No cloud subscriptions you don't control. We install real Apple Silicon hardware in your business — your data, your machine, your workforce."
       />
+      <Reveal>
+        <div
+          style={{
+            borderRadius: "12px",
+            overflow: "hidden",
+            border: "1px solid #1E1E1E",
+            marginBottom: "40px",
+            position: "relative",
+          }}
+        >
+          <img
+            src="/brand/stations.PNG"
+            alt="Batistack AI station installed on site — Mac mini on shelf with blue LED"
+            style={{ width: "100%", display: "block", height: "280px", objectFit: "cover", objectPosition: "center 40%" }}
+          />
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(90deg, rgba(10,10,10,0.72) 0%, transparent 55%)",
+              display: "flex",
+              alignItems: "center",
+              padding: "0 40px",
+            }}
+          >
+            <div>
+              <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.2em", textTransform: "uppercase", color: "#00AEEF", margin: "0 0 8px" }}>
+                Real Installation
+              </p>
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "clamp(18px, 2.5vw, 26px)", color: "var(--bone)", margin: 0, lineHeight: 1.25 }}>
+                Your hardware. Your office.<br />Your AI workforce.
+              </p>
+            </div>
+          </div>
+        </div>
+      </Reveal>
+
       <div
         className="cards-3"
         style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "24px", alignItems: "stretch" }}
@@ -742,6 +813,22 @@ function LeadCapture() {
       >
         <Reveal>
           <div>
+            <div
+              style={{
+                borderRadius: "10px",
+                overflow: "hidden",
+                border: "1px solid #1E1E1E",
+                background: "#0D0D0D",
+                aspectRatio: "4/3",
+                marginBottom: "28px",
+              }}
+            >
+              <img
+                src="/brand/autopilot-closeup.png"
+                alt="Batistack Autopilot AI station"
+                style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+              />
+            </div>
             <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.22em", textTransform: "uppercase", color: "#00AEEF", marginBottom: "14px" }}>
               Free Assessment
             </p>

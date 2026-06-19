@@ -208,6 +208,22 @@ export function CTABanner({
             padding: "clamp(56px, 8vw, 96px) 24px",
           }}
         >
+          <img
+            src="/brand/batistack-mark.png"
+            alt=""
+            aria-hidden
+            style={{
+              position: "absolute",
+              right: "clamp(16px, 5%, 80px)",
+              top: "50%",
+              transform: "translateY(-50%)",
+              width: "220px",
+              height: "auto",
+              opacity: 0.05,
+              pointerEvents: "none",
+              userSelect: "none",
+            }}
+          />
           <h2
             style={{
               fontFamily: "var(--font-display)",

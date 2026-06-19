@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Seo, { serviceSchema } from "../components/Seo";
 import {
   Section,
@@ -148,7 +149,20 @@ function Hero() {
 
 /* ════════════════ AGENT ROSTER ════════════════ */
 
+const AGENT_IMAGES: Record<string, string> = {
+  "CEO Agent":       "/brand/brainsAgent.png",
+  "Scout Agent":     "/brand/scoutAgents.PNG",
+  "Voice Agent":     "/brand/voiceAgent.png",
+  "Email Agent":     "/brand/emailAgents.PNG",
+  "Billing Agent":   "/brand/billingAgent.png",
+  "Scheduler Agent": "/brand/schedulerAgent.png",
+  "Commander Agent": "/brand/comanderAgent.png",
+};
+
 function AgentRoster() {
+  const ceo      = AGENTS[0];
+  const rest     = AGENTS.slice(1);
+
   return (
     <Section>
       <SectionHeading
@@ -160,128 +174,148 @@ function AgentRoster() {
         }
         sub="Each agent owns one job and does it relentlessly. Below is a live look at what a working roster handles in a single day."
       />
+
+      {/* ── CEO: featured full-width card ── */}
+      <Reveal>
+        <Link to={`/agents/${ceo.slug}`} style={{ textDecoration: "none", display: "block" }}>
+          <GlowCard featured style={{ cursor: "pointer" }}>
+            <div
+              className="ceo-card-inner"
+              style={{ display: "grid", gridTemplateColumns: "1.35fr 1fr", gap: "40px", alignItems: "center" }}
+            >
+              {/* left: content */}
+              <div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    marginBottom: "12px",
+                  }}
+                >
+                  <h3
+                    style={{
+                      fontFamily: "var(--font-display)",
+                      fontWeight: 800,
+                      fontSize: "clamp(22px, 2.5vw, 30px)",
+                      color: "var(--bone)",
+                      margin: 0,
+                    }}
+                  >
+                    {ceo.name}
+                  </h3>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0 }}>
+                    <span className="status-dot" />
+                    <span style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#22c55e" }}>
+                      Active
+                    </span>
+                  </span>
+                </div>
+                <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#00AEEF", margin: "0 0 16px" }}>
+                  {ceo.role}
+                </p>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: "15px", color: "var(--mist)", lineHeight: 1.75, margin: "0 0 24px" }}>
+                  {ceo.description}
+                </p>
+                <div style={{ background: "#0A0A0A", border: "1px solid #1E1E1E", borderLeft: "2px solid #00AEEF", borderRadius: "6px", padding: "14px 16px", marginBottom: "28px" }}>
+                  <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "10px", letterSpacing: "0.24em", textTransform: "uppercase", color: "#00AEEF", margin: "0 0 6px" }}>Today</p>
+                  <p style={{ fontFamily: "var(--font-sans)", fontSize: "12.5px", letterSpacing: "0.03em", color: "var(--silver)", lineHeight: 1.65, margin: 0 }}>
+                    <span style={{ color: "#00AEEF" }}>&gt;_</span> {ceo.today}
+                  </p>
+                </div>
+                <span
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: "8px",
+                    fontFamily: "var(--font-sans)",
+                    fontWeight: 700,
+                    fontSize: "12px",
+                    letterSpacing: "0.1em",
+                    textTransform: "uppercase",
+                    color: "#00AEEF",
+                  }}
+                >
+                  View Full Profile
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M5 12h14m-7-7 7 7-7 7" />
+                  </svg>
+                </span>
+              </div>
+
+              {/* right: image */}
+              <div style={{ position: "relative", borderRadius: "10px", overflow: "hidden", border: "1px solid rgba(0,174,239,0.2)", background: "#0A0A0A" }}>
+                <img
+                  src={AGENT_IMAGES[ceo.name]}
+                  alt={`${ceo.name} visualization`}
+                  style={{ width: "100%", display: "block", aspectRatio: "16/9", objectFit: "contain" }}
+                />
+              </div>
+            </div>
+          </GlowCard>
+        </Link>
+      </Reveal>
+
+      {/* ── Remaining 6: 3+3 grid ── */}
       <div
         className="roster-grid"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(3, 1fr)",
           gap: "24px",
-          alignItems: "stretch",
+          alignItems: "start",
+          marginTop: "24px",
         }}
       >
-        {AGENTS.map((agent, i) => (
-          <Reveal key={agent.name} delay={0.07 * i} style={{ height: "100%" }}>
-            <GlowCard style={{ display: "flex", flexDirection: "column" }}>
-              {/* Header row: name + status */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  gap: "12px",
-                  marginBottom: "10px",
-                }}
-              >
-                <h3
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 800,
-                    fontSize: "20px",
-                    color: "var(--bone)",
-                    margin: 0,
-                  }}
-                >
-                  {agent.name}
-                </h3>
-                <span
-                  style={{ display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0 }}
-                >
-                  <span className="status-dot" />
-                  <span
-                    style={{
-                      fontFamily: "var(--font-sans)",
-                      fontWeight: 700,
-                      fontSize: "10px",
-                      letterSpacing: "0.18em",
-                      textTransform: "uppercase",
-                      color: "#22c55e",
-                    }}
-                  >
-                    Active
+        {rest.map((agent, i) => (
+          <Reveal key={agent.name} delay={0.07 * i}>
+            <Link to={`/agents/${agent.slug}`} style={{ textDecoration: "none", display: "block", height: "100%" }}>
+              <GlowCard style={{ display: "flex", flexDirection: "column", cursor: "pointer", height: "100%" }}>
+                {AGENT_IMAGES[agent.name] && (
+                  <div style={{ marginBottom: "18px", borderRadius: "8px", overflow: "hidden", border: "1px solid #1E1E1E" }}>
+                    <img
+                      src={AGENT_IMAGES[agent.name]}
+                      alt={`${agent.name} visualization`}
+                      style={{ width: "100%", display: "block", aspectRatio: "16/9", objectFit: "cover" }}
+                    />
+                  </div>
+                )}
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "12px", marginBottom: "10px" }}>
+                  <h3 style={{ fontFamily: "var(--font-display)", fontWeight: 800, fontSize: "20px", color: "var(--bone)", margin: 0 }}>
+                    {agent.name}
+                  </h3>
+                  <span style={{ display: "inline-flex", alignItems: "center", gap: "7px", flexShrink: 0 }}>
+                    <span className="status-dot" />
+                    <span style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "10px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#22c55e" }}>
+                      Active
+                    </span>
                   </span>
+                </div>
+                <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.18em", textTransform: "uppercase", color: "#00AEEF", margin: "0 0 14px" }}>
+                  {agent.role}
+                </p>
+                <p style={{ fontFamily: "var(--font-sans)", fontSize: "14px", color: "var(--mist)", lineHeight: 1.7, margin: "0 0 20px", flexGrow: 1 }}>
+                  {agent.description}
+                </p>
+                <div style={{ background: "#0A0A0A", border: "1px solid #1E1E1E", borderLeft: "2px solid #00AEEF", borderRadius: "6px", padding: "14px 16px", marginBottom: "20px" }}>
+                  <p style={{ fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "10px", letterSpacing: "0.24em", textTransform: "uppercase", color: "#00AEEF", margin: "0 0 6px" }}>Today</p>
+                  <p style={{ fontFamily: "var(--font-sans)", fontSize: "12.5px", letterSpacing: "0.03em", color: "var(--silver)", lineHeight: 1.65, margin: 0 }}>
+                    <span style={{ color: "#00AEEF" }}>&gt;_</span> {agent.today}
+                  </p>
+                </div>
+                <span style={{ display: "inline-flex", alignItems: "center", gap: "6px", fontFamily: "var(--font-sans)", fontWeight: 700, fontSize: "11px", letterSpacing: "0.1em", textTransform: "uppercase", color: "#00AEEF" }}>
+                  View Profile
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+                    <path d="M5 12h14m-7-7 7 7-7 7" />
+                  </svg>
                 </span>
-              </div>
-
-              {/* Role label */}
-              <p
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontWeight: 700,
-                  fontSize: "11px",
-                  letterSpacing: "0.18em",
-                  textTransform: "uppercase",
-                  color: "#00AEEF",
-                  margin: "0 0 14px",
-                }}
-              >
-                {agent.role}
-              </p>
-
-              {/* Description */}
-              <p
-                style={{
-                  fontFamily: "var(--font-sans)",
-                  fontSize: "14px",
-                  color: "var(--mist)",
-                  lineHeight: 1.7,
-                  margin: "0 0 20px",
-                  flexGrow: 1,
-                }}
-              >
-                {agent.description}
-              </p>
-
-              {/* TODAY — console log line */}
-              <div
-                style={{
-                  background: "#0A0A0A",
-                  border: "1px solid #1E1E1E",
-                  borderLeft: "2px solid #00AEEF",
-                  borderRadius: "6px",
-                  padding: "14px 16px",
-                  boxShadow: "inset 0 2px 8px rgba(0,0,0,0.5)",
-                }}
-              >
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontWeight: 700,
-                    fontSize: "10px",
-                    letterSpacing: "0.24em",
-                    textTransform: "uppercase",
-                    color: "#00AEEF",
-                    margin: "0 0 6px",
-                  }}
-                >
-                  Today
-                </p>
-                <p
-                  style={{
-                    fontFamily: "var(--font-sans)",
-                    fontSize: "12.5px",
-                    letterSpacing: "0.03em",
-                    color: "var(--silver)",
-                    lineHeight: 1.65,
-                    margin: 0,
-                  }}
-                >
-                  <span style={{ color: "#00AEEF" }}>&gt;_</span> {agent.today}
-                </p>
-              </div>
-            </GlowCard>
+              </GlowCard>
+            </Link>
           </Reveal>
         ))}
       </div>
+
       <Reveal delay={0.3}>
         <div style={{ textAlign: "center", marginTop: "48px" }}>
           <GhostLink to="/services">Explore All Services</GhostLink>
@@ -289,6 +323,10 @@ function AgentRoster() {
       </Reveal>
       <style>{`
         @media (max-width: 960px) {
+          .roster-grid { grid-template-columns: 1fr 1fr !important; }
+          .ceo-card-inner { grid-template-columns: 1fr !important; gap: 28px !important; }
+        }
+        @media (max-width: 640px) {
           .roster-grid { grid-template-columns: 1fr !important; }
         }
       `}</style>
@@ -370,6 +408,16 @@ function HardwareSection() {
         }
         sub="Your agents don't live in someone else's cloud. They run on dedicated Apple hardware we physically install in your business — your data stays on your machine."
       />
+      <Reveal>
+        <div style={{ maxWidth: "560px", margin: "0 auto 44px", borderRadius: "16px", overflow: "hidden", border: "1px solid rgba(0,174,239,0.25)", boxShadow: "0 0 60px rgba(0,174,239,0.10)" }}>
+          <img
+            src="/brand/autopilot-station.png"
+            alt="Batistack Autopilot station — Apple Silicon AI workforce hardware"
+            style={{ width: "100%", display: "block", objectFit: "cover", aspectRatio: "3/4" }}
+          />
+        </div>
+      </Reveal>
+
       <div
         className="hw-grid"
         style={{

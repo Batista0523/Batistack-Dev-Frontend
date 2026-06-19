@@ -1,6 +1,4 @@
-import { useState } from "react";
 import { Link } from "react-router-dom";
-import { FaLinkedinIn, FaInstagram, FaYoutube, FaFacebookF } from "react-icons/fa";
 
 const COMPANY_LINKS = [
   { label: "About",         to: "/about"    },
@@ -29,12 +27,6 @@ const INDUSTRIES_LINKS = [
   { label: "Insurance",           to: "/industries/insurance"           },
 ];
 
-const SOCIAL = [
-  { icon: <FaLinkedinIn />, label: "LinkedIn",  href: "https://www.linkedin.com/company/batistack" },
-  { icon: <FaInstagram />,  label: "Instagram", href: "https://www.instagram.com/batistack"        },
-  { icon: <FaYoutube />,    label: "YouTube",   href: "https://www.youtube.com/@batistack"          },
-  { icon: <FaFacebookF />,  label: "Facebook",  href: "https://www.facebook.com/batistack"         },
-];
 
 export default function Footer() {
   return (
@@ -47,7 +39,7 @@ export default function Footer() {
     >
       <div
         className="footer-container"
-        style={{ maxWidth: "1280px", margin: "0 auto", padding: "0 60px" }}
+        style={{ maxWidth: "1400px", margin: "0 auto", padding: "0 60px" }}
       >
         {/* Blue accent line */}
         <div
@@ -71,14 +63,35 @@ export default function Footer() {
         >
           {/* Col 1 — Brand */}
           <div>
-            <Link to="/" style={{ textDecoration: "none", display: "inline-flex" }}>
+            <Link to="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "11px" }}>
               <img
-                src="/brand/batistack-logo.png"
-                alt="Batistack Development Corp — AI Infrastructure & Agent Services, New York City"
+                src="/brand/batistack-mark.png"
+                alt=""
                 loading="lazy"
-                style={{ width: "220px", maxWidth: "100%", height: "auto", display: "block" }}
+                style={{ height: "44px", width: "auto", display: "block" }}
+              />
+              <img
+                src="/brand/batistack-wordmark.png"
+                alt="Batistack"
+                loading="lazy"
+                style={{ height: "17px", width: "auto", display: "block" }}
               />
             </Link>
+
+            <p
+              style={{
+                fontFamily:    "'Raleway', sans-serif",
+                fontWeight:    700,
+                fontSize:      "10px",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color:         "#555555",
+                marginTop:     "10px",
+                marginBottom:  0,
+              }}
+            >
+              AI Infrastructure &amp; Agent Services
+            </p>
 
             <p
               style={{
@@ -86,7 +99,7 @@ export default function Footer() {
                 fontWeight:  400,
                 fontSize:    "14px",
                 color:       "#888888",
-                marginTop:   "16px",
+                marginTop:   "12px",
                 lineHeight:  1.7,
                 maxWidth:    "280px",
               }}
@@ -95,12 +108,6 @@ export default function Footer() {
               You Grow Your Business.
             </p>
 
-            {/* Social icons */}
-            <div style={{ display: "flex", gap: "10px", marginTop: "24px" }}>
-              {SOCIAL.map((s) => (
-                <SocialIcon key={s.label} {...s} />
-              ))}
-            </div>
           </div>
 
           {/* Col 2 — Company */}
@@ -194,7 +201,7 @@ export default function Footer() {
               letterSpacing: "0.02em",
             }}
           >
-            © 2023 Batistack Development Corp. All rights reserved.
+            © {new Date().getFullYear()} Batistack Development Corp. All rights reserved.
           </span>
 
           <span
@@ -280,33 +287,3 @@ function FooterNavLink({ to, label }: { to: string; label: string }) {
   );
 }
 
-function SocialIcon({ icon, label, href }: { icon: React.ReactNode; label: string; href: string }) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <a
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={label}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display:        "inline-flex",
-        alignItems:     "center",
-        justifyContent: "center",
-        width:          "36px",
-        height:         "36px",
-        borderRadius:   "8px",
-        border:         `1px solid ${hovered ? "#00AEEF" : "#1E1E1E"}`,
-        color:          hovered ? "#00AEEF" : "#888888",
-        background:     hovered ? "rgba(0,174,239,0.08)" : "transparent",
-        fontSize:       "14px",
-        transition:     "border-color 0.2s ease, color 0.2s ease, background 0.2s ease",
-        textDecoration: "none",
-      }}
-    >
-      {icon}
-    </a>
-  );
-}

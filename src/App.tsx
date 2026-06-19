@@ -4,7 +4,7 @@ import Home from "./Pages/Home";
 import NavBar from "./components/NavBar";
 import ScrollToTop from "./hook/scrollToTop";
 import { trackPageView } from "./ga";
-import ChatBot from "./components/ChatBot";
+// import ChatBot from "./components/ChatBot"; // temporarily disabled — re-enable after Render is fixed
 import CustomCursor from "./components/CustomCursor";
 import Footer from "./components/Footer";
 import "./global.css";
@@ -19,6 +19,7 @@ const CaseStudyPage = lazy(() => import("./Pages/CaseStudyPage"));
 const Blog          = lazy(() => import("./Pages/Blog"));
 const BlogPost      = lazy(() => import("./Pages/BlogPost"));
 const AIAgents      = lazy(() => import("./Pages/AIAgents"));
+const AgentPage     = lazy(() => import("./Pages/AgentPage"));
 const HowItWorks    = lazy(() => import("./Pages/HowItWorks"));
 const Industries    = lazy(() => import("./Pages/Industries"));
 const IndustryPage  = lazy(() => import("./Pages/IndustryPage"));
@@ -60,6 +61,7 @@ function App() {
           <Route path="/blog/:slug"       element={<BlogPost />} />
           <Route path="/digital-presence" element={<Navigate to="/services" replace />} />
           <Route path="/ai-agents"        element={<AIAgents />} />
+          <Route path="/agents/:slug"     element={<AgentPage />} />
           <Route path="/how-it-works"     element={<HowItWorks />} />
           <Route path="/industries"       element={<Industries />} />
           <Route path="/industries/:slug" element={<IndustryPage />} />
@@ -67,7 +69,7 @@ function App() {
         </Routes>
       </Suspense>
       <Footer />
-      <ChatBot />
+      {/* ChatBot temporarily hidden — re-enable after Render is fixed: <ChatBot /> */}
     </>
   );
 }

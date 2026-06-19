@@ -1,12 +1,12 @@
 const SITE_URL = "https://batistack.com";
-const OG_IMAGE = `${SITE_URL}/og-image.svg`;
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
   name: "Batistack",
   description:
-    "Custom web design and AI chatbot integration for NYC businesses. We build websites that convert and automate lead generation.",
+    "AI infrastructure and agent services for NYC businesses. We install AI workforces on Apple hardware — lead gen, calls, invoicing, scheduling, running 24/7.",
   url: SITE_URL,
   address: {
     "@type": "PostalAddress",
