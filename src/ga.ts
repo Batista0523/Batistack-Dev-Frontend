@@ -9,7 +9,7 @@ declare global {
 const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
 
 export const initGA = () => {
-  if (!GA_ID) return;
+  if (!GA_ID || window.location.hostname !== "batistack.com") return;
   ReactGA.initialize(GA_ID);
 };
 
