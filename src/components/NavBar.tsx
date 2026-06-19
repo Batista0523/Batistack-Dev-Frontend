@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { fireConversionEvent } from "../ga";
 
 function LogoLockup({ markHeight = 38 }: { markHeight?: number }) {
   return (
@@ -254,6 +255,7 @@ export default function NavBar() {
             >
               <Link
                 to="/contact"
+                onClick={fireConversionEvent}
                 style={{
                   display:       "block",
                   width:         "100%",
@@ -353,6 +355,7 @@ function GetStartedButton() {
     <Link
       to="/contact"
       data-cursor="cta"
+      onClick={fireConversionEvent}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{

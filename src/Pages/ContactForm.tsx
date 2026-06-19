@@ -4,6 +4,7 @@ import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { motion } from "framer-motion";
 import Seo, { ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../components/Seo";
 import { INDUSTRIES } from "../data/industries";
+import { fireConversionEvent } from "../ga";
 
 // ─── Types (preserved) ────────────────────────────────────────────────────────
 
@@ -210,6 +211,8 @@ function ContactForm() {
     setError("");
 
     if (Object.keys(validationErrors).length > 0) return;
+
+    fireConversionEvent();
 
     if (!serviceId || !templateId || !publicKey) {
       setError("Email service is not configured. Add your EmailJS IDs and try again.");

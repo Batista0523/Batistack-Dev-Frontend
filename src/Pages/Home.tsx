@@ -5,6 +5,7 @@ import Seo, { ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../compon
 import { Section, SectionHeading, GlowCard, Reveal, PrimaryLink, GhostLink, CTABanner } from "../components/ui";
 import { CAPABILITIES } from "../data/agents";
 import { INDUSTRIES } from "../data/industries";
+import { fireConversionEvent } from "../ga";
 
 export default function Home() {
   return (
@@ -763,6 +764,7 @@ function LeadCapture() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    fireConversionEvent();
     setFormState("sending");
     try {
       await emailjs.send(
@@ -804,7 +806,7 @@ function LeadCapture() {
           display: "grid",
           gridTemplateColumns: "1fr 1fr",
           gap: "64px",
-          alignItems: "center",
+          alignItems: "start",
           background: "#141414",
           border: "1px solid #1E1E1E",
           borderRadius: "16px",
@@ -866,6 +868,40 @@ function LeadCapture() {
             </div>
           ) : (
             <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "14px" }}>
+              {/* Form header */}
+              <div style={{ marginBottom: "10px" }}>
+                <p style={{
+                  fontFamily: "var(--font-sans)",
+                  fontWeight: 700,
+                  fontSize: "10px",
+                  letterSpacing: "0.22em",
+                  textTransform: "uppercase",
+                  color: "#00AEEF",
+                  margin: "0 0 12px",
+                }}>
+                  Reply within 24 hours
+                </p>
+                <h3 style={{
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 800,
+                  fontSize: "clamp(20px, 2.2vw, 26px)",
+                  color: "var(--bone)",
+                  lineHeight: 1.2,
+                  margin: "0 0 10px",
+                  letterSpacing: "-0.01em",
+                }}>
+                  Start the conversation.
+                </h3>
+                <p style={{
+                  fontFamily: "var(--font-sans)",
+                  fontSize: "14px",
+                  color: "var(--mist)",
+                  lineHeight: 1.65,
+                  margin: 0,
+                }}>
+                  No pitch. Just a clear map of what an AI workforce would take off your plate.
+                </p>
+              </div>
               <label htmlFor="lead-name" style={{ display: "none" }}>Name</label>
               <input id="lead-name" name="name" required placeholder="Your name" value={fields.name} onChange={handleChange} style={inputStyle} />
               <label htmlFor="lead-email" style={{ display: "none" }}>Email</label>

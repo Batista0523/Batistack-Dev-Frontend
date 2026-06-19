@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { fireConversionEvent } from "../ga";
 
 /* ── Scroll reveal wrapper ── */
 export function Reveal({
@@ -158,6 +159,7 @@ export function PrimaryLink({ to, children }: { to: string; children: ReactNode 
       data-cursor="cta"
       className="ui-btn-primary"
       style={{ ...btnBase, color: "#0A0A0A", background: "#00AEEF" }}
+      onClick={to === "/contact" ? fireConversionEvent : undefined}
     >
       {children}
     </Link>
@@ -177,6 +179,7 @@ export function GhostLink({ to, children }: { to: string; children: ReactNode })
         border: "1px solid rgba(0,174,239,0.5)",
         padding: "14px 34px",
       }}
+      onClick={to === "/contact" ? fireConversionEvent : undefined}
     >
       {children}
     </Link>

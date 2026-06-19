@@ -4,6 +4,7 @@ import { getPostBySlug } from "../data/blogPosts";
 import { generatePageMeta, generateArticleSchema } from "../lib/seoSchema";
 import { useTrafficTracker } from "../hook/useTrafficTracker";
 import { Reveal } from "../components/ui";
+import { fireConversionEvent } from "../ga";
 
 export default function BlogPost() {
   const { slug } = useParams<{ slug: string }>();
@@ -352,6 +353,7 @@ export default function BlogPost() {
                 </p>
                 <Link
                   to="/contact"
+                  onClick={fireConversionEvent}
                   style={{
                     display: "inline-block",
                     alignSelf: "flex-start",
