@@ -6,11 +6,15 @@ declare global {
   }
 }
 
+const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+
 export const initGA = () => {
-  ReactGA.initialize("G-WTJ63BBML5");
+  if (!GA_ID) return;
+  ReactGA.initialize(GA_ID);
 };
 
 export const trackPageView = (url: string) => {
+  if (!GA_ID) return;
   ReactGA.send({ hitType: "pageview", page: url });
 };
 
