@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Seo, { faqSchema } from "../components/Seo";
+import Image from "next/image";
 import { Section, SectionHeading, Reveal, CTABanner, GhostLink } from "../components/ui";
 import FAQAccordion from "../components/FAQAccordion";
 
@@ -88,12 +88,6 @@ const FAQS = [
 export default function HowItWorks() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="How AI Agent Installation Works — From Assessment to Live in Days | Batistack"
-        description="Our 8-step process: free assessment, plain-English proposal, on-site Mac mini installation, Telegram training, and go-live in about 8 days. NYC businesses."
-        path="/how-it-works"
-        jsonLd={faqSchema(FAQS)}
-      />
       <Hero />
       <TimelineSection />
       <InstallationShowcase />
@@ -388,9 +382,11 @@ function InstallationShowcase() {
       >
         <Reveal delay={0.1}>
           <div style={{ borderRadius: "12px", overflow: "hidden", border: "1px solid #1E1E1E", position: "relative" }}>
-            <img
+            <Image
               src="/brand/stations.PNG"
               alt="Mac mini AI station installed on shelf in NYC business"
+              width={800}
+              height={600}
               style={{ width: "100%", display: "block", aspectRatio: "4/3", objectFit: "cover", objectPosition: "center" }}
             />
             <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, background: "linear-gradient(transparent, rgba(10,10,10,0.88))", padding: "40px 24px 20px" }}>

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Seo, { ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA } from "../components/Seo";
+import Image from "next/image";
 import { Section, SectionHeading, GlowCard, Reveal, PrimaryLink, GhostLink, CTABanner } from "../components/ui";
 import { CAPABILITIES } from "../data/agents";
 import { INDUSTRIES } from "../data/industries";
@@ -8,18 +8,13 @@ import HomeLeadCapture from "../components/HomeLeadCapture";
 export default function Home() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="AI Agents for Your Business | Batistack — AI Infrastructure & Agent Services NYC"
-        description="We install AI workforces in NYC businesses. Mac mini and Mac Studio powered AI agents working 24/7 — lead gen, invoicing, scheduling. Schedule a free assessment."
-        path="/"
-        jsonLd={[ORGANIZATION_SCHEMA, PROFESSIONAL_SERVICE_SCHEMA]}
-      />
       <Hero />
       <StatsBar />
       <HardwareSection />
       <CapabilitiesSection />
       <IndustriesSection />
       <ProcessPreview />
+      <ExploreStrip />
       <HomeLeadCapture />
       <CTABanner />
     </main>
@@ -472,9 +467,12 @@ function HardwareSection() {
             position: "relative",
           }}
         >
-          <img
+          <Image
             src="/brand/stations.PNG"
             alt="Batistack AI station installed on site — Mac mini on shelf with blue LED"
+            width={1200}
+            height={280}
+            priority
             style={{ width: "100%", display: "block", height: "280px", objectFit: "cover", objectPosition: "center 40%" }}
           />
           <div
@@ -699,6 +697,54 @@ function IndustriesSection() {
 }
 
 /* ════════════════ PROCESS PREVIEW ════════════════ */
+
+function ExploreStrip() {
+  const links = [
+    { to: "/services", label: "Our Services", desc: "See the full Autopilot product and pricing." },
+    { to: "/about", label: "About Batistack", desc: "Who we are and why we build this way." },
+    { to: "/blog", label: "AI Blog", desc: "Practical automation insights for NYC trades." },
+  ];
+  return (
+    <Section bg="#0A0A0A" style={{ borderTop: "1px solid #1E1E1E", borderBottom: "1px solid #1E1E1E", padding: "48px 0" }}>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(3, 1fr)",
+          gap: "24px",
+          maxWidth: "900px",
+          margin: "0 auto",
+        }}
+        className="explore-grid"
+      >
+        {links.map((l) => (
+          <Reveal key={l.to}>
+            <Link
+              href={l.to}
+              style={{
+                display: "block",
+                padding: "24px",
+                border: "1px solid #1E1E1E",
+                borderRadius: "10px",
+                textDecoration: "none",
+                background: "#0D0D0D",
+                transition: "border-color 0.2s ease",
+              }}
+            >
+              <p style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: "18px", color: "var(--bone)", margin: "0 0 8px" }}>
+                {l.label}{" "}
+                <span style={{ color: "#00AEEF", fontSize: "16px" }}>→</span>
+              </p>
+              <p style={{ fontFamily: "var(--font-sans)", fontSize: "13px", color: "var(--mist)", margin: 0, lineHeight: 1.6 }}>
+                {l.desc}
+              </p>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+      <style>{`@media (max-width: 720px) { .explore-grid { grid-template-columns: 1fr !important; } }`}</style>
+    </Section>
+  );
+}
 
 function ProcessPreview() {
   const steps = [

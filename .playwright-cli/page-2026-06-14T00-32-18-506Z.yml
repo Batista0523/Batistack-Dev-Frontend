@@ -1,0 +1,230 @@
+- generic [ref=e2]:
+  - navigation [ref=e3]:
+    - generic [ref=e4]:
+      - link "Batistack home" [ref=e5]:
+        - /url: /
+        - img "Batistack" [ref=e7]
+      - list [ref=e8]:
+        - listitem [ref=e9]:
+          - link "Home" [ref=e10]:
+            - /url: /
+        - listitem [ref=e11]:
+          - link "AI Agents" [ref=e12]:
+            - /url: /ai-agents
+        - listitem [ref=e13]:
+          - link "How It Works" [ref=e14]:
+            - /url: /how-it-works
+        - listitem [ref=e15]:
+          - link "Industries" [ref=e16]:
+            - /url: /industries
+        - listitem [ref=e17]:
+          - link "Services" [ref=e18]:
+            - /url: /services
+        - listitem [ref=e19]:
+          - link "About" [ref=e20]:
+            - /url: /about
+        - listitem [ref=e21]:
+          - link "Contact" [ref=e22]:
+            - /url: /contact
+      - link "Get Started" [ref=e24]:
+        - /url: /contact
+  - main [ref=e25]:
+    - generic [ref=e28]:
+      - generic [ref=e30]: What We Build — NYC
+      - heading "AI Infrastructure, Websites & Custom Applications" [level=1] [ref=e33]
+      - paragraph [ref=e35]: "Three ways we move your business forward. One is the flagship: an AI workforce physically installed in your office, working 24/7. The other two make sure the rest of your operation keeps up."
+    - generic [ref=e37]:
+      - generic [ref=e39]:
+        - paragraph [ref=e40]: The Services
+        - heading "Start With the Workforce. Build Around It." [level=2] [ref=e41]:
+          - text: Start With the
+          - emphasis [ref=e42]: Workforce
+          - text: . Build Around It.
+        - paragraph [ref=e43]: Most clients begin with an AI infrastructure install — then add digital presence and custom apps as their operation grows.
+      - generic [ref=e45]:
+        - generic [ref=e46]: Primary Service
+        - generic [ref=e47]:
+          - generic [ref=e48]:
+            - img [ref=e49]
+            - paragraph [ref=e53]: The Flagship
+            - heading "AI Infrastructure & Agents" [level=3] [ref=e54]
+            - paragraph [ref=e55]: Instead of hiring another employee, install an AI workforce. We physically deliver and configure Apple Silicon hardware in your business, deploy custom agents trained on your operation, and hand you the controls — all from Telegram on your phone.
+            - generic [ref=e56]:
+              - link "Schedule Free Assessment" [ref=e57]:
+                - /url: /contact
+              - link "Meet the 7 Agents" [ref=e58]:
+                - /url: /ai-agents
+          - generic [ref=e59]:
+            - figure [ref=e60]:
+              - img "Four Mac Studio units connected as Batistack AI infrastructure" [ref=e61]
+            - paragraph [ref=e62]: What's Included
+            - list [ref=e63]:
+              - listitem [ref=e64]:
+                - img [ref=e65]
+                - generic [ref=e67]: Mac mini or Mac Studio hardware, installed on site
+              - listitem [ref=e68]:
+                - img [ref=e69]
+                - generic [ref=e71]: Custom AI agents built for your workflows
+              - listitem [ref=e72]:
+                - img [ref=e73]
+                - generic [ref=e75]: Telegram command center — approve from anywhere
+              - listitem [ref=e76]:
+                - img [ref=e77]
+                - generic [ref=e79]: 24/7 monitoring and performance reporting
+              - listitem [ref=e80]:
+                - img [ref=e81]
+                - generic [ref=e83]: Ongoing updates as your business evolves
+      - generic [ref=e84]:
+        - generic [ref=e86]:
+          - figure [ref=e87]:
+            - img "NYC lead map showing Batistack Scout Agent coverage" [ref=e88]
+          - img [ref=e89]
+          - paragraph [ref=e92]: Be Found Everywhere
+          - heading "Digital Presence" [level=3] [ref=e93]
+          - paragraph [ref=e94]: Your AI agents generate leads — your digital presence converts them. We build the storefront your business deserves across every channel customers actually check.
+          - list [ref=e96]:
+            - listitem [ref=e97]:
+              - img [ref=e98]
+              - generic [ref=e100]: Professional website, designed and built
+            - listitem [ref=e101]:
+              - img [ref=e102]
+              - generic [ref=e104]: Google Business Profile, fully optimized
+            - listitem [ref=e105]:
+              - img [ref=e106]
+              - generic [ref=e108]: Social media profiles set up and branded
+            - listitem [ref=e109]:
+              - img [ref=e110]
+              - generic [ref=e112]: WhatsApp Business configured for customers
+          - link "Get Started" [ref=e114]:
+            - /url: /contact
+        - generic [ref=e116]:
+          - figure [ref=e117]:
+            - img "Batistack dashboard close-up on installed infrastructure" [ref=e118]
+          - img [ref=e119]
+          - paragraph [ref=e123]: Built for Your Workflow
+          - heading "Custom Applications" [level=3] [ref=e124]
+          - paragraph [ref=e125]: When off-the-shelf software doesn't fit, we build web and mobile applications around your exact operation — with AI agents embedded directly inside them.
+          - list [ref=e127]:
+            - listitem [ref=e128]:
+              - img [ref=e129]
+              - generic [ref=e131]: Web and mobile apps, built from scratch
+            - listitem [ref=e132]:
+              - img [ref=e133]
+              - generic [ref=e135]: AI agents embedded in the product
+            - listitem [ref=e136]:
+              - img [ref=e137]
+              - generic [ref=e139]: Integrations with your existing tools
+            - listitem [ref=e140]:
+              - img [ref=e141]
+              - generic [ref=e143]: Designed, shipped, and maintained by us
+          - link "Get Started" [ref=e145]:
+            - /url: /contact
+    - generic [ref=e149]:
+      - generic [ref=e150]:
+        - heading "Not sure which you need?" [level=2] [ref=e151]
+        - paragraph [ref=e152]: See how an installation actually works, or meet the agents first and decide from there.
+      - generic [ref=e153]:
+        - link "How It Works →" [ref=e154]:
+          - /url: /how-it-works
+        - link "Meet the Agents →" [ref=e155]:
+          - /url: /ai-agents
+    - generic [ref=e159]:
+      - img [ref=e160]
+      - heading "One Conversation. A Clear Plan." [level=2] [ref=e161]
+      - paragraph [ref=e162]: Tell us what's slowing you down — we'll tell you exactly what to install.
+      - link "Schedule Free Assessment" [ref=e164]:
+        - /url: /contact
+  - contentinfo [ref=e165]:
+    - generic [ref=e166]:
+      - generic [ref=e168]:
+        - generic [ref=e169]:
+          - link "Batistack Development Corp — AI Infrastructure & Agent Services, New York City" [ref=e170]:
+            - /url: /
+            - img "Batistack Development Corp — AI Infrastructure & Agent Services, New York City" [ref=e171]
+          - paragraph [ref=e172]: We Build Your AI Workforce. You Grow Your Business.
+          - generic [ref=e173]:
+            - link "LinkedIn" [ref=e174]:
+              - /url: https://www.linkedin.com/company/batistack
+              - img [ref=e175]
+            - link "Instagram" [ref=e177]:
+              - /url: https://www.instagram.com/batistack
+              - img [ref=e178]
+            - link "YouTube" [ref=e180]:
+              - /url: https://www.youtube.com/@batistack
+              - img [ref=e181]
+            - link "Facebook" [ref=e183]:
+              - /url: https://www.facebook.com/batistack
+              - img [ref=e184]
+        - generic [ref=e186]:
+          - paragraph [ref=e187]: Company
+          - list [ref=e188]:
+            - listitem [ref=e189]:
+              - link "About" [ref=e190]:
+                - /url: /about
+            - listitem [ref=e191]:
+              - link "Services" [ref=e192]:
+                - /url: /services
+            - listitem [ref=e193]:
+              - link "Blog" [ref=e194]:
+                - /url: /blog
+            - listitem [ref=e195]:
+              - link "Contact" [ref=e196]:
+                - /url: /contact
+            - listitem [ref=e197]:
+              - link "Privacy Policy" [ref=e198]:
+                - /url: /policy
+        - generic [ref=e199]:
+          - paragraph [ref=e200]: Services
+          - list [ref=e201]:
+            - listitem [ref=e202]:
+              - link "AI Infrastructure" [ref=e203]:
+                - /url: /services
+            - listitem [ref=e204]:
+              - link "AI Agents" [ref=e205]:
+                - /url: /ai-agents
+            - listitem [ref=e206]:
+              - link "How It Works" [ref=e207]:
+                - /url: /how-it-works
+            - listitem [ref=e208]:
+              - link "Digital Presence" [ref=e209]:
+                - /url: /services
+            - listitem [ref=e210]:
+              - link "Custom Applications" [ref=e211]:
+                - /url: /services
+        - generic [ref=e212]:
+          - paragraph [ref=e213]: Industries
+          - list [ref=e214]:
+            - listitem [ref=e215]:
+              - link "HVAC & Mechanical" [ref=e216]:
+                - /url: /industries/hvac
+            - listitem [ref=e217]:
+              - link "Plumbing Services" [ref=e218]:
+                - /url: /industries/plumbing
+            - listitem [ref=e219]:
+              - link "Electrical" [ref=e220]:
+                - /url: /industries/electrical
+            - listitem [ref=e221]:
+              - link "Real Estate" [ref=e222]:
+                - /url: /industries/real-estate
+            - listitem [ref=e223]:
+              - link "Gyms & Fitness" [ref=e224]:
+                - /url: /industries/gyms-fitness
+            - listitem [ref=e225]:
+              - link "Legal Services" [ref=e226]:
+                - /url: /industries/legal
+            - listitem [ref=e227]:
+              - link "Cleaning Services" [ref=e228]:
+                - /url: /industries/commercial-cleaning
+            - listitem [ref=e229]:
+              - link "Insurance" [ref=e230]:
+                - /url: /industries/insurance
+          - paragraph [ref=e231]: Contact
+          - generic [ref=e232]:
+            - link "elisaul@batistack.com" [ref=e233]:
+              - /url: mailto:elisaul@batistack.com
+            - generic [ref=e234]: New York City, NY
+            - generic [ref=e235]: Mon–Fri 9AM–6PM EST
+      - generic [ref=e236]:
+        - generic [ref=e237]: © 2023 Batistack Development Corp. All rights reserved.
+        - generic [ref=e238]: Batistack Development Corp — New York, NY
+  - button "Open Batistack AI chat" [ref=e239] [cursor=pointer]

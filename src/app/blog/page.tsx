@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Blog from "../../views/Blog";
 
 export const metadata: Metadata = {
-  title: "AI & Automation Blog for NYC Service Businesses | Batistack",
+  title: "AI & Automation Blog for NYC Service Businesses",
   description:
     "Practical insights on AI agents, automation, and growing your NYC HVAC, plumbing, electrical, roofing, or trade business with technology that works 24/7.",
   openGraph: {
@@ -21,6 +21,29 @@ export const metadata: Metadata = {
   },
 };
 
+const blogSchema = {
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Batistack AI Automation Blog",
+  url: "https://batistack.com/blog",
+  description:
+    "AI automation insights for NYC service businesses — HVAC, plumbing, electrical, roofing, and more.",
+  publisher: {
+    "@type": "Organization",
+    name: "Batista AI Infrastructure and Agent Services",
+    url: "https://batistack.com",
+    logo: "https://batistack.com/brand/batistack-mark.png",
+  },
+};
+
 export default function Page() {
-  return <Blog />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogSchema) }}
+      />
+      <Blog />
+    </>
+  );
 }

@@ -19,14 +19,21 @@ const SERVICES_LINKS = [
 ];
 
 const INDUSTRIES_LINKS = [
-  { label: "HVAC & Mechanical",   to: "/industries/hvac"                },
-  { label: "Plumbing Services",   to: "/industries/plumbing"            },
-  { label: "Electrical",          to: "/industries/electrical"          },
-  { label: "Real Estate",         to: "/industries/real-estate"         },
-  { label: "Gyms & Fitness",      to: "/industries/gyms-fitness"        },
-  { label: "Legal Services",      to: "/industries/legal"               },
-  { label: "Cleaning Services",   to: "/industries/commercial-cleaning" },
-  { label: "Insurance",           to: "/industries/insurance"           },
+  { label: "All Industries",       to: "/industries"                     },
+  { label: "HVAC & Mechanical",    to: "/industries/hvac"                },
+  { label: "Plumbing Services",    to: "/industries/plumbing"            },
+  { label: "Electrical",           to: "/industries/electrical"          },
+  { label: "Roofing",              to: "/industries/roofing"             },
+  { label: "Landscaping",          to: "/industries/landscaping"         },
+  { label: "Pool Service",         to: "/industries/pool-repair"         },
+  { label: "Pest Control",         to: "/industries/pest-control"        },
+  { label: "Auto Repair",          to: "/industries/auto-repair"         },
+  { label: "General Contracting",  to: "/industries/general-contractor"  },
+  { label: "Real Estate",          to: "/industries/real-estate"         },
+  { label: "Gyms & Fitness",       to: "/industries/gyms-fitness"        },
+  { label: "Legal Services",       to: "/industries/legal"               },
+  { label: "Cleaning Services",    to: "/industries/commercial-cleaning" },
+  { label: "Insurance",            to: "/industries/insurance"           },
 ];
 
 

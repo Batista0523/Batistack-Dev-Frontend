@@ -2,7 +2,6 @@
 
 import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
-import Seo, { serviceSchema, breadcrumbSchema } from "../components/Seo";
 import {
   Section,
   SectionHeading,
@@ -23,25 +22,8 @@ export default function IndustryPage() {
     return notFound();
   }
 
-  const path = `/industries/${ind.slug}`;
-  const description =
-    `AI agents for ${ind.name} businesses in NYC. ${ind.tagline}`.slice(0, 155);
-
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title={`AI Automation for ${ind.name} in NYC | Batistack`}
-        description={description}
-        path={path}
-        jsonLd={[
-          serviceSchema(`AI Automation for ${ind.name}`, description, path),
-          breadcrumbSchema([
-            { name: "Home", path: "/" },
-            { name: "Industries", path: "/industries" },
-            { name: ind.name, path },
-          ]),
-        ]}
-      />
       <Breadcrumbs name={ind.name} />
       <IndustryHero ind={ind} />
       <ProblemSection ind={ind} />
@@ -486,11 +468,29 @@ function AgentRoster({ ind }: { ind: Industry }) {
 
 /* ════════════════ ALSO SERVING ════════════════ */
 
+const RELATED_TRADES: Record<string, string[]> = {
+  hvac:                 ["plumbing", "electrical", "general-contractor"],
+  plumbing:             ["hvac", "general-contractor", "pool-repair"],
+  electrical:           ["hvac", "general-contractor", "roofing"],
+  "pool-repair":        ["landscaping", "general-contractor", "plumbing"],
+  roofing:              ["general-contractor", "pest-control", "hvac"],
+  landscaping:          ["pool-repair", "general-contractor", "pest-control"],
+  "pest-control":       ["roofing", "commercial-cleaning", "landscaping"],
+  "general-contractor": ["hvac", "electrical", "plumbing"],
+  "real-estate":        ["legal", "insurance", "commercial-cleaning"],
+  legal:                ["insurance", "real-estate", "gyms-fitness"],
+  insurance:            ["legal", "real-estate", "commercial-cleaning"],
+  "commercial-cleaning":["real-estate", "pest-control", "gyms-fitness"],
+  "gyms-fitness":       ["commercial-cleaning", "insurance", "real-estate"],
+  "auto-repair":        ["general-contractor", "pest-control", "roofing"],
+};
+
 function AlsoServing({ current }: { current: Industry }) {
-  const idx = INDUSTRIES.findIndex((i) => i.slug === current.slug);
-  const siblings = [1, 2, 3].map(
-    (offset) => INDUSTRIES[(idx + offset) % INDUSTRIES.length]
-  );
+  const related = RELATED_TRADES[current.slug] ?? [];
+  const siblings = related
+    .map((slug) => INDUSTRIES.find((i) => i.slug === slug))
+    .filter((i): i is Industry => i !== undefined)
+    .slice(0, 3);
 
   return (
     <Section bg="#0D0D0D" style={{ padding: "72px 0" }}>

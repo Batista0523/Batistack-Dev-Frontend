@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Seo, { serviceSchema } from "../components/Seo";
 import {
   Section,
   SectionHeading,
@@ -10,18 +9,9 @@ import {
   CTABanner,
 } from "../components/ui";
 
-const SEO_DESCRIPTION =
-  "Three ways Batistack moves your business forward: AI infrastructure & agents installed on Apple hardware, professional digital presence, and custom apps.";
-
 export default function Services() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="AI Infrastructure, Websites & Custom Apps | Batistack NYC"
-        description={SEO_DESCRIPTION}
-        path="/services"
-        jsonLd={serviceSchema("AI Infrastructure & Agent Services", SEO_DESCRIPTION, "/services")}
-      />
       <Hero />
       <ServiceTiers />
       <DecisionStrip />

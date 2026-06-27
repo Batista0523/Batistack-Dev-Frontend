@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Seo, { serviceSchema } from "../components/Seo";
+import Image from "next/image";
 import {
   Section,
   SectionHeading,
@@ -11,18 +11,9 @@ import {
 } from "../components/ui";
 import { AGENTS } from "../data/agents";
 
-const SEO_DESCRIPTION =
-  "Meet the 7-agent AI workforce Batistack installs on Apple hardware in NYC businesses — lead gen, calls, invoicing, scheduling, all running 24/7.";
-
 export default function AIAgents() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="AI Agent Installation in NYC | Meet Your AI Workforce | Batistack"
-        description={SEO_DESCRIPTION}
-        path="/ai-agents"
-        jsonLd={serviceSchema("AI Agent Installation", SEO_DESCRIPTION, "/ai-agents")}
-      />
       <Hero />
       <AgentRoster />
       <HardwareSection />
@@ -246,9 +237,12 @@ function AgentRoster() {
 
               {/* right: image */}
               <div style={{ position: "relative", borderRadius: "10px", overflow: "hidden", border: "1px solid rgba(0,174,239,0.2)", background: "#0A0A0A" }}>
-                <img
+                <Image
                   src={AGENT_IMAGES[ceo.name]}
                   alt={`${ceo.name} visualization`}
+                  width={640}
+                  height={360}
+                  priority
                   style={{ width: "100%", display: "block", aspectRatio: "16/9", objectFit: "contain" }}
                 />
               </div>

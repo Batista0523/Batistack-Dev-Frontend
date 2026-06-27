@@ -2,9 +2,9 @@
 
 import { useParams, notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { AGENTS } from "../data/agents";
 import type { Agent } from "../data/agents";
-import Seo from "../components/Seo";
 import {
   Section,
   SectionHeading,
@@ -209,11 +209,6 @@ export default function AgentPage() {
 
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title={`${agent.name} — ${agent.role} | Batistack AI Workforce`}
-        description={agent.description}
-        path={`/agents/${slug}`}
-      />
       <AgentHero agent={agent} data={data} image={image} />
       <MetricsStrip metrics={data.metrics} />
       <CapabilitiesSection capabilities={data.capabilities} agentName={agent.name} />
@@ -414,9 +409,12 @@ function AgentHero({ agent, data, image }: { agent: Agent; data: AgentPageData; 
               background: "#0A0A0A",
             }}
           >
-            <img
+            <Image
               src={image}
               alt={`${agent.name} — ${agent.role}`}
+              width={800}
+              height={600}
+              priority
               style={{ width: "100%", display: "block", objectFit: "contain", aspectRatio: "4/3" }}
             />
           </div>

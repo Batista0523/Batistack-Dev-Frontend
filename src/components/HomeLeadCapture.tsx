@@ -1,5 +1,6 @@
 'use client';
 import { useState } from "react";
+import Image from "next/image";
 import emailjs from "@emailjs/browser";
 import { fireConversionEvent } from "../ga";
 
@@ -84,9 +85,11 @@ export default function HomeLeadCapture() {
                 marginBottom: "28px",
               }}
             >
-              <img
+              <Image
                 src="/brand/autopilot-closeup.png"
                 alt="Batistack Autopilot AI station"
+                width={600}
+                height={450}
                 style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
               />
             </div>

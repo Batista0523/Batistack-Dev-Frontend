@@ -1,21 +1,10 @@
 import Link from "next/link";
-import Seo, { serviceSchema } from "../components/Seo";
 import { Section, Reveal, CTABanner } from "../components/ui";
 import { INDUSTRIES } from "../data/industries";
 
 export default function Industries() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="AI Automation by Industry in NYC | Batistack"
-        description="Purpose-built AI agent rosters for NYC service businesses — HVAC, plumbing, electrical, real estate, gyms, legal, cleaning, and insurance. Installed on-site."
-        path="/industries"
-        jsonLd={serviceSchema(
-          "AI Automation by Industry",
-          "Purpose-built AI agent rosters for NYC service businesses — HVAC, plumbing, electrical, real estate, gyms, legal, cleaning, and insurance.",
-          "/industries"
-        )}
-      />
       <IndustriesHero />
       <IndustryGrid />
       <CTABanner

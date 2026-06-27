@@ -4,7 +4,7 @@ import About from "../../views/About";
 export const metadata: Metadata = {
   title: "About | Batista AI Infrastructure and Agent Services",
   description:
-    "Elisaul Batista founded Batistack to put AI agent workforces inside NYC service businesses. Learn who we are, what we believe, and why on-premise AI beats software subscriptions.",
+    "Elisaul Batista founded Batistack to put AI agent workforces inside NYC service businesses. Why on-premise AI beats software subscriptions.",
   openGraph: {
     title: "About | Batista AI Infrastructure and Agent Services",
     description:
@@ -24,12 +24,22 @@ export const metadata: Metadata = {
 
 const organizationSchema = {
   "@context": "https://schema.org",
-  "@type": "Organization",
+  "@type": "LocalBusiness",
   name: "Batista AI Infrastructure and Agent Services",
   alternateName: "Batistack",
   url: "https://batistack.com",
   logo: "https://batistack.com/brand/batistack-mark.png",
-  foundingLocation: { "@type": "Place", address: { "@type": "PostalAddress", addressLocality: "New York", addressRegion: "NY", addressCountry: "US" } },
+  telephone: "+1-929-733-1600",
+  email: "elisaul@batistack.com",
+  foundingDate: "2023",
+  address: {
+    "@type": "PostalAddress",
+    addressLocality: "New York City",
+    addressRegion: "NY",
+    addressCountry: "US",
+  },
+  areaServed: "New York City",
+  serviceType: "AI Agent Installation",
   description: "AI agent workforce installation on Apple Silicon hardware for NYC service businesses.",
   contactPoint: { "@type": "ContactPoint", contactType: "sales", url: "https://batistack.com/contact" },
 };

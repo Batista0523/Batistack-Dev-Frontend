@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import ContactForm from "../../views/ContactForm";
 
 export const metadata: Metadata = {
-  title: "Schedule a Free AI Assessment | Batistack NYC",
+  title: "Schedule a Free AI Assessment | NYC",
   description:
-    "Book a free 30-minute AI assessment for your NYC business. We'll map exactly what an AI workforce can automate — calls, invoices, scheduling, lead gen. Response within 24 hours.",
+    "Book a free 30-minute AI assessment for your NYC business. We'll map exactly what an AI workforce can automate — calls, invoices, scheduling. Response within 24 hours.",
   openGraph: {
     title: "Schedule a Free AI Assessment | Batistack NYC",
     description:

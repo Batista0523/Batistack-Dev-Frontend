@@ -1,5 +1,4 @@
 import Link from "next/link";
-import Seo from "../components/Seo";
 import { Section, SectionHeading, GlowCard, Reveal, CTABanner, GhostLink } from "../components/ui";
 
 /* ════════════════ DATA ════════════════ */
@@ -39,11 +38,6 @@ const STATS = [
 export default function About() {
   return (
     <main style={{ background: "var(--void)", paddingTop: "72px" }}>
-      <Seo
-        title="About Batistack — NYC AI Agency Since 2023"
-        description="Founded in NYC in 2023, Batistack installs complete AI workforces that small businesses own — real hardware, real agents, leveling the field with big corporations."
-        path="/about"
-      />
       <Hero />
       <StorySection />
       <ValuesSection />

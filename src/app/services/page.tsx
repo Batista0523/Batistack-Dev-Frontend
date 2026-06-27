@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Services from "../../views/Services";
 
 export const metadata: Metadata = {
-  title: "AI Agent Services for NYC Small Businesses | Batistack",
+  title: "AI Agent Services for NYC Small Businesses",
   description:
-    "Batistack Autopilot — a 7-agent AI workforce (CEO, Scout, Voice, Email, Billing, Scheduler, Commander) installed on Mac mini or Mac Studio in your NYC business. 24/7 automation for service trades.",
+    "Batistack Autopilot — a 7-agent AI workforce installed on Mac mini or Mac Studio in your NYC business. CEO, Scout, Voice, Email, Billing, Scheduler, Commander. 24/7.",
   openGraph: {
     title: "AI Agent Services for NYC Small Businesses | Batistack",
     description:

@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import AIAgents from "../../views/AIAgents";
+import { AGENTS } from "../../data/agents";
 
 export const metadata: Metadata = {
-  title: "Meet Your AI Workforce | Batistack Agent Services NYC",
+  title: "Meet Your AI Workforce | Agent Services NYC",
   description:
-    "7 specialized AI agents — CEO, Scout, Voice, Email, Billing, Scheduler, Commander — installed on Apple Silicon hardware in your NYC business. Each agent runs 24/7 and handles one domain perfectly.",
+    "7 specialized AI agents — CEO, Scout, Voice, Email, Billing, Scheduler, Commander — installed on Apple Silicon hardware in your NYC business. Each agent runs 24/7."
+    .slice(0, 155),
   openGraph: {
     title: "Meet Your AI Workforce | Batistack Agent Services NYC",
     description:
@@ -21,6 +23,29 @@ export const metadata: Metadata = {
   },
 };
 
+const agentListSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Batistack AI Agent Workforce",
+  description:
+    "7 specialized AI agents installed on Apple Silicon hardware in NYC businesses.",
+  numberOfItems: AGENTS.length,
+  itemListElement: AGENTS.map((a, i) => ({
+    "@type": "ListItem",
+    position: i + 1,
+    name: a.name,
+    url: `https://batistack.com/agents/${a.slug}`,
+  })),
+};
+
 export default function Page() {
-  return <AIAgents />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(agentListSchema) }}
+      />
+      <AIAgents />
+    </>
+  );
 }
