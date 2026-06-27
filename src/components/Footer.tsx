@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Script from "next/script";
 
 const COMPANY_LINKS = [
   { label: "About",         to: "/about"    },
@@ -225,6 +226,27 @@ export default function Footer() {
           </span>
         </div>
       </div>
+
+      {/* DesignRush reviews widget */}
+      <Script
+        src="https://www.designrush.com/topbest/js/widgets/agency-reviews.js"
+        strategy="lazyOnload"
+      />
+      <div
+        data-designrush-widget
+        data-agency-id="119774"
+        data-style="dark"
+        aria-label="DesignRush agency reviews section"
+      />
+      <noscript>
+        <a
+          href="https://www.designrush.com/agency/profile/batista-ai-infrastructure-agent-services#reviews"
+          target="_blank"
+          aria-label="Visit Batista AI Infrastructure & Agent Services reviews on DesignRush"
+        >
+          REVIEW US ON DESIGNRUSH
+        </a>
+      </noscript>
 
       {/* Responsive styles */}
       <style>{`
