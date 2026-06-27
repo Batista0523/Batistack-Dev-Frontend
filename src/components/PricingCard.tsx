@@ -1,5 +1,7 @@
+'use client';
+
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { fireConversionEvent } from "../ga";
 
 interface PricingCardProps {
@@ -106,7 +108,7 @@ export default function PricingCard({ tier, price, period, features, featured, b
       </ul>
 
       <Link
-        to="/contact"
+        href="/contact"
         onClick={fireConversionEvent}
         style={{
           display: "block",

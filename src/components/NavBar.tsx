@@ -1,5 +1,7 @@
+'use client';
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { fireConversionEvent } from "../ga";
 
@@ -35,7 +37,7 @@ const NAV_LINKS = [
 export default function NavBar() {
   const [scrolled,  setScrolled]  = useState(false);
   const [menuOpen,  setMenuOpen]  = useState(false);
-  const location                  = useLocation();
+  const pathname                  = usePathname();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -43,7 +45,7 @@ export default function NavBar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setMenuOpen(false), [location]);
+  useEffect(() => setMenuOpen(false), [pathname]);
 
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
@@ -87,7 +89,7 @@ export default function NavBar() {
         >
           {/* Logo */}
           <Link
-            to="/"
+            href="/"
             style={{ textDecoration: "none", display: "inline-flex", alignItems: "center" }}
             aria-label="Batistack home"
           >
@@ -228,12 +230,12 @@ export default function NavBar() {
                   style={{ borderBottom: "1px solid #1E1E1E" }}
                 >
                   <Link
-                    to={link.to}
+                    href={link.to}
                     style={{
                       fontFamily:    "'Raleway', sans-serif",
                       fontWeight:    600,
                       fontSize:      "clamp(22px, 5vw, 32px)",
-                      color:         location.pathname === link.to ? "#00AEEF" : "#FFFFFF",
+                      color:         pathname === link.to ? "#00AEEF" : "#FFFFFF",
                       textDecoration:"none",
                       letterSpacing: "0.04em",
                       display:       "block",
@@ -254,7 +256,7 @@ export default function NavBar() {
               style={{ marginTop: "32px", padding: "0 24px", width: "100%" }}
             >
               <Link
-                to="/contact"
+                href="/contact"
                 onClick={fireConversionEvent}
                 style={{
                   display:       "block",
@@ -318,15 +320,15 @@ export default function NavBar() {
 /* ── Sub-components ── */
 
 function NavLink({ to, label }: { to: string; label: string }) {
-  const location = useLocation();
+  const pathname = usePathname();
   const active =
-    location.pathname === to ||
-    (to !== "/" && location.pathname.startsWith(to)) ||
-    (to === "/ai-agents" && location.pathname.startsWith("/agents"));
+    pathname === to ||
+    (to !== "/" && (pathname ?? "").startsWith(to)) ||
+    (to === "/ai-agents" && (pathname ?? "").startsWith("/agents"));
 
   return (
     <Link
-      to={to}
+      href={to}
       className="nav-link-pill"
       style={{
         fontFamily:    "'Raleway', sans-serif",
@@ -353,7 +355,7 @@ function GetStartedButton() {
 
   return (
     <Link
-      to="/contact"
+      href="/contact"
       data-cursor="cta"
       onClick={fireConversionEvent}
       onMouseEnter={() => setHovered(true)}

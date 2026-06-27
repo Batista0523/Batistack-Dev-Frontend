@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 // ── Checkmark SVG ─────────────────────────────────────────────────────────────
@@ -212,7 +214,7 @@ export default function FounderSection() {
 
           {/* CTA */}
           <Link
-            to="/contact"
+            href="/contact"
             className="founder-btn-text"
             style={{
               fontSize: "12px",

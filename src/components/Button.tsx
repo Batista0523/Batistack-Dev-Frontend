@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+'use client';
+
+import Link from "next/link";
 
 interface ButtonProps {
   variant: "primary" | "ghost";
@@ -46,7 +48,7 @@ export default function Button({ variant, children, to, href, onClick, type = "b
   const s = variant === "primary" ? primaryStyle : ghostStyle;
 
   if (to) {
-    return <Link to={to} style={s} className={variant === "ghost" ? "btn-ghost-bs" : "btn-primary-bs"}>{children}</Link>;
+    return <Link href={to} style={s} className={variant === "ghost" ? "btn-ghost-bs" : "btn-primary-bs"}>{children}</Link>;
   }
   if (href) {
     return <a href={href} style={s} className={variant === "ghost" ? "btn-ghost-bs" : "btn-primary-bs"}>{children}</a>;

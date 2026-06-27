@@ -1,4 +1,6 @@
-import { Link } from "react-router-dom";
+'use client';
+
+import Link from "next/link";
 
 const COMPANY_LINKS = [
   { label: "About",         to: "/about"    },
@@ -63,7 +65,7 @@ export default function Footer() {
         >
           {/* Col 1 — Brand */}
           <div>
-            <Link to="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "11px" }}>
+            <Link href="/" style={{ textDecoration: "none", display: "inline-flex", alignItems: "center", gap: "11px" }}>
               <img
                 src="/brand/batistack-mark.png"
                 alt=""
@@ -201,7 +203,7 @@ export default function Footer() {
               letterSpacing: "0.02em",
             }}
           >
-            © {new Date().getFullYear()} Batistack Development Corp. All rights reserved.
+            © {new Date().getFullYear()} Batista AI Infrastructure and Agent Services. All rights reserved.
           </span>
 
           <span
@@ -212,7 +214,7 @@ export default function Footer() {
               letterSpacing: "0.04em",
             }}
           >
-            Batistack Development Corp — New York, NY
+            Batista AI Infrastructure and Agent Services — New York, NY
           </span>
         </div>
       </div>
@@ -269,7 +271,7 @@ function FooterColTitle({ children }: { children: React.ReactNode }) {
 function FooterNavLink({ to, label }: { to: string; label: string }) {
   return (
     <Link
-      to={to}
+      href={to}
       style={{
         fontFamily:    "'Raleway', sans-serif",
         fontWeight:    400,

@@ -1,4 +1,4 @@
-import { Container, Row, Col } from "react-bootstrap";
+'use client';
 import { motion } from "framer-motion";
 
 interface Feature {
@@ -27,7 +27,7 @@ function FeatureSection({
 }: FeatureSectionProps) {
   return (
     <section className={sectionClass}>
-      <Container>
+      <div className="container">
         <motion.div
           className="text-center mb-5"
           initial={{ opacity: 0, y: 20 }}
@@ -35,14 +35,14 @@ function FeatureSection({
           transition={{ duration: 0.6 }}
         >
           <h2 className="fw-bold display-5 text-white">
-            {title} <span className="text-primary">Batistack</span>
+            {title} <span className="text-primary">Batista AI</span>
           </h2>
           <p className="text-light fs-5">{subtitle}</p>
         </motion.div>
 
-        <Row className="g-4 mb-5">
+        <div className="row g-4 mb-5">
           {features.map((feature, i) => (
-            <Col md={4} key={i}>
+            <div className="col-md-4" key={i}>
               <motion.div
                 className="text-center px-4 py-5 bg-dark rounded-4 h-100 shadow-sm border border-secondary"
                 initial={{ opacity: 0, y: 30 }}
@@ -58,9 +58,9 @@ function FeatureSection({
                 <h5 className="fw-bold text-white">{feature.title}</h5>
                 <p className="text-light">{feature.desc}</p>
               </motion.div>
-            </Col>
+            </div>
           ))}
-        </Row>
+        </div>
 
         {extraValues && (
           <motion.div
@@ -72,9 +72,9 @@ function FeatureSection({
             <h4 className="text-white fw-bold mb-4 text-center display-6">
               {extraTitle}
             </h4>
-            <Row className="g-4">
+            <div className="row g-4">
               {extraValues.map((item, i) => (
-                <Col md={6} lg={4} key={i}>
+                <div className="col-md-6 col-lg-4" key={i}>
                   <motion.div
                     className="bg-dark border border-secondary rounded-4 p-4 h-100 text-light"
                     initial={{ opacity: 0, y: 30 }}
@@ -89,12 +89,12 @@ function FeatureSection({
                     </div>
                     <p className="mb-0 text-light">{item.desc}</p>
                   </motion.div>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           </motion.div>
         )}
-      </Container>
+      </div>
     </section>
   );
 }

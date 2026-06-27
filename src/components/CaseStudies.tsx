@@ -1,6 +1,8 @@
+'use client';
+
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { caseStudies, type CaseStudy } from "../data/caseStudies";
 import SectionLabel from "./SectionLabel";
 
@@ -321,7 +323,7 @@ export default function CaseStudies() {
           >
             Your business could be next.
           </p>
-          <Link to="/contact" className="btn-primary-bs">
+          <Link href="/contact" className="btn-primary-bs">
             See how we can do this for you
           </Link>
         </div>

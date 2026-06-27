@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 // ── Step data ─────────────────────────────────────────────────────────────────
@@ -241,7 +243,7 @@ export default function ProcessSection() {
             }}
           >
             <Link
-              to="/contact"
+              href="/contact"
               style={{
                 display: "inline-block",
                 padding: "16px 40px",
@@ -260,7 +262,7 @@ export default function ProcessSection() {
               Book a Free Call
             </Link>
             <Link
-              to="/services"
+              href="/services"
               style={{
                 display: "inline-block",
                 padding: "16px 40px",

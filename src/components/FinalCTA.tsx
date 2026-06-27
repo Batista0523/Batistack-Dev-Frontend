@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import SectionLabel from "./SectionLabel";
 
@@ -70,14 +72,14 @@ export default function FinalCTA() {
           }}
         >
           <Link
-            to="/contact"
+            href="/contact"
             className="btn-primary-bs"
             style={{ background: "var(--gold)", color: "var(--black)" }}
           >
             Start a Project
           </Link>
           <Link
-            to="/services"
+            href="/services"
             className="btn-ghost-bs"
             style={{ color: "var(--gray-light)" }}
           >

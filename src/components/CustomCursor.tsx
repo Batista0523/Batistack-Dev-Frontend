@@ -1,12 +1,19 @@
-import { useEffect, useRef } from "react";
+'use client';
+import { useEffect, useRef, useState } from "react";
 
 export default function CustomCursor() {
-  const dotRef  = useRef<HTMLDivElement>(null);
-  const ringRef = useRef<HTMLDivElement>(null);
+  const dotRef    = useRef<HTMLDivElement>(null);
+  const ringRef   = useRef<HTMLDivElement>(null);
+  const [mounted,    setMounted]    = useState(false);
+  const [hasPointer, setHasPointer] = useState(false);
 
   useEffect(() => {
-    // Render nothing on touch/mobile devices
-    if (window.matchMedia("(hover: none)").matches) return;
+    setMounted(true);
+    setHasPointer(!window.matchMedia("(hover: none)").matches);
+  }, []);
+
+  useEffect(() => {
+    if (!hasPointer) return;
 
     let mx = 0, my = 0;
     let rx = 0, ry = 0;
@@ -29,12 +36,12 @@ export default function CustomCursor() {
         clearRingModes();
         return;
       }
-      const ctaEl   = target.closest("[data-cursor='cta']");
-      const textEl  = target.closest("[data-cursor='text']");
+      const ctaEl  = target.closest("[data-cursor='cta']");
+      const textEl = target.closest("[data-cursor='text']");
 
       clearRingModes();
-      if (ctaEl)        ringRef.current?.classList.add("crosshair");
-      else if (textEl)  ringRef.current?.classList.add("text-bar");
+      if (ctaEl)       ringRef.current?.classList.add("crosshair");
+      else if (textEl) ringRef.current?.classList.add("text-bar");
     };
 
     const onMove = (e: MouseEvent) => {
@@ -51,7 +58,6 @@ export default function CustomCursor() {
     const onMouseEnter = () => setVisible(true);
 
     const animate = () => {
-      // Lerp ring toward dot position
       rx += (mx - rx) * 0.08;
       ry += (my - ry) * 0.08;
       if (ringRef.current) {
@@ -71,12 +77,9 @@ export default function CustomCursor() {
       document.removeEventListener("mouseenter", onMouseEnter);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [hasPointer]);
 
-  // Don't render on touch devices at all
-  if (typeof window !== "undefined" && window.matchMedia("(hover: none)").matches) {
-    return null;
-  }
+  if (!mounted || !hasPointer) return null;
 
   return (
     <>

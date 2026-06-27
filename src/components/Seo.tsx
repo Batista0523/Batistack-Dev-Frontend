@@ -1,8 +1,3 @@
-import { Helmet } from "react-helmet-async";
-
-const SITE_URL = "https://batistack.com";
-const OG_IMAGE = `${SITE_URL}/og-image.png`;
-
 type SeoProps = {
   title: string;
   description: string;
@@ -11,36 +6,11 @@ type SeoProps = {
   noindex?: boolean;
 };
 
-export default function Seo({ title, description, path, jsonLd, noindex }: SeoProps) {
-  const url = `${SITE_URL}${path === "/" ? "" : path}` || SITE_URL;
-  const schemas = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+const SITE_URL = "https://batistack.com";
+const OG_IMAGE = `${SITE_URL}/og-image.png`;
 
-  return (
-    <Helmet>
-      <title>{title}</title>
-      <meta name="description" content={description} />
-      <link rel="canonical" href={url || SITE_URL} />
-      {noindex && <meta name="robots" content="noindex" />}
-
-      <meta property="og:title" content={title} />
-      <meta property="og:description" content={description} />
-      <meta property="og:type" content="website" />
-      <meta property="og:url" content={url || SITE_URL} />
-      <meta property="og:image" content={OG_IMAGE} />
-      <meta property="og:site_name" content="Batistack Development Corp" />
-
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:title" content={title} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={OG_IMAGE} />
-
-      {schemas.map((schema, i) => (
-        <script key={i} type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      ))}
-    </Helmet>
-  );
+export default function Seo(_props: SeoProps) {
+  return null;
 }
 
 /* ── JSON-LD builders ── */
@@ -48,7 +18,7 @@ export default function Seo({ title, description, path, jsonLd, noindex }: SeoPr
 export const ORGANIZATION_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "Batistack Development Corp",
+  name: "Batista AI Infrastructure and Agent Services",
   url: SITE_URL,
   logo: OG_IMAGE,
   foundingDate: "2023",
@@ -70,7 +40,7 @@ export const ORGANIZATION_SCHEMA = {
 export const PROFESSIONAL_SERVICE_SCHEMA = {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  name: "Batistack Development Corp",
+  name: "Batista AI Infrastructure and Agent Services",
   description:
     "AI Infrastructure & Agent Services — physically installed AI agent systems on Mac mini and Mac Studio hardware for NYC businesses.",
   url: SITE_URL,
@@ -98,7 +68,7 @@ export function serviceSchema(name: string, description: string, path: string) {
     name,
     description,
     url: `${SITE_URL}${path}`,
-    provider: { "@type": "Organization", name: "Batistack Development Corp", url: SITE_URL },
+    provider: { "@type": "Organization", name: "Batista AI Infrastructure and Agent Services", url: SITE_URL },
     areaServed: "New York City",
   };
 }

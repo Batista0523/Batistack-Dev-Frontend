@@ -1,14 +1,44 @@
-import { Container, Row, Col } from "react-bootstrap";
+'use client';
 import { motion } from "framer-motion";
-import { useLocation } from "react-router-dom";
 import AnimatedButton from "./Button";
 import images from "../images";
+
+const PARTICLE_CONFIGS: Array<{
+  top: string;
+  left: string;
+  duration: number;
+  delay: number;
+}> = [
+  { top: "8%",  left: "14%",  duration: 7.2,  delay: 0.3  },
+  { top: "15%", left: "73%",  duration: 9.8,  delay: 1.1  },
+  { top: "23%", left: "38%",  duration: 6.4,  delay: 0.7  },
+  { top: "31%", left: "91%",  duration: 11.3, delay: 1.6  },
+  { top: "42%", left: "5%",   duration: 8.1,  delay: 0.0  },
+  { top: "48%", left: "57%",  duration: 10.5, delay: 0.9  },
+  { top: "56%", left: "29%",  duration: 6.9,  delay: 1.4  },
+  { top: "63%", left: "82%",  duration: 12.0, delay: 0.2  },
+  { top: "71%", left: "46%",  duration: 7.7,  delay: 1.7  },
+  { top: "79%", left: "11%",  duration: 9.1,  delay: 0.5  },
+  { top: "87%", left: "67%",  duration: 8.6,  delay: 1.2  },
+  { top: "92%", left: "35%",  duration: 6.2,  delay: 0.8  },
+  { top: "12%", left: "52%",  duration: 11.7, delay: 1.5  },
+  { top: "27%", left: "88%",  duration: 7.4,  delay: 0.1  },
+  { top: "39%", left: "21%",  duration: 9.3,  delay: 1.0  },
+  { top: "53%", left: "96%",  duration: 6.7,  delay: 1.8  },
+  { top: "66%", left: "63%",  duration: 10.2, delay: 0.4  },
+  { top: "74%", left: "7%",   duration: 8.8,  delay: 1.3  },
+  { top: "82%", left: "44%",  duration: 7.1,  delay: 0.6  },
+  { top: "18%", left: "31%",  duration: 11.0, delay: 1.6  },
+  { top: "44%", left: "79%",  duration: 6.5,  delay: 0.2  },
+  { top: "95%", left: "55%",  duration: 9.6,  delay: 1.4  },
+];
 
 interface HeroSectionProps {
   title: string;
   description: string;
   buttonText?: string;
   buttonHref?: string;
+  isContactPage?: boolean;
 }
 
 function HeroSection({
@@ -16,10 +46,8 @@ function HeroSection({
   description,
   buttonText,
   buttonHref,
+  isContactPage = false,
 }: HeroSectionProps) {
-  const location = useLocation();
-  const isContactPage = location.pathname === "/contact";
-
   return (
     <section
       style={{
@@ -31,7 +59,6 @@ function HeroSection({
         color: "#fff",
       }}
     >
-     
       <motion.div
         style={{
           position: "absolute",
@@ -48,8 +75,7 @@ function HeroSection({
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
 
-     
-      {Array.from({ length: 22 }).map((_, i) => (
+      {PARTICLE_CONFIGS.map((p, i) => (
         <motion.div
           key={i}
           style={{
@@ -58,8 +84,8 @@ function HeroSection({
             height: 4,
             borderRadius: "50%",
             background: "rgba(255,255,255,0.45)",
-            top: `${Math.random() * 100}%`,
-            left: `${Math.random() * 100}%`,
+            top: p.top,
+            left: p.left,
             filter: "blur(1.5px)",
           }}
           animate={{
@@ -67,19 +93,17 @@ function HeroSection({
             opacity: [0.3, 0.85, 0.35],
           }}
           transition={{
-            duration: 6 + Math.random() * 6,
+            duration: p.duration,
             repeat: Infinity,
             ease: "easeInOut",
-            delay: Math.random() * 1.8,
+            delay: p.delay,
           }}
         />
       ))}
 
-      <Container style={{ position: "relative", zIndex: 10 }}>
-        <Row className="align-items-center gy-5">
-          
-        
-          <Col md={6} className="text-center">
+      <div className="container" style={{ position: "relative", zIndex: 10 }}>
+        <div className="row align-items-center gy-5">
+          <div className="col-md-6 text-center">
             <motion.div
               initial={{ opacity: 0, scale: 0.8, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -98,7 +122,7 @@ function HeroSection({
               }}
             >
               <motion.img
-                src={images.logo2}
+                src={images.logo2.src}
                 alt="Batistack Logo"
                 className="w-100 h-100"
                 style={{ objectFit: "cover" }}
@@ -110,10 +134,9 @@ function HeroSection({
                 }}
               />
             </motion.div>
-          </Col>
+          </div>
 
-          {/* TEXT CONTENT */}
-          <Col md={6} className="text-center text-md-start">
+          <div className="col-md-6 text-center text-md-start">
             <motion.h1
               className="fw-bold mb-4"
               style={{
@@ -142,7 +165,6 @@ function HeroSection({
               {description}
             </motion.p>
 
-            {/* BUTTON (not in contact page) */}
             {buttonText && buttonHref && !isContactPage && (
               <div>
                 <AnimatedButton variant="primary" href={buttonHref}>
@@ -150,9 +172,9 @@ function HeroSection({
                 </AnimatedButton>
               </div>
             )}
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

@@ -1,3 +1,4 @@
+'use client';
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
@@ -43,7 +44,7 @@ function ChatBotWidget() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
-  const url = import.meta.env.VITE_BASE_URL;
+  const url = process.env.NEXT_PUBLIC_BASE_URL;
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

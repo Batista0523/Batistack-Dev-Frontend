@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 // ── SVG Icons ──────────────────────────────────────────────────────────────
@@ -222,7 +224,7 @@ export default function WhatIBuild() {
             Want something specific? Let's talk.
           </p>
           <Link
-            to="/contact"
+            href="/contact"
             style={{
               fontSize: "12px",
               letterSpacing: "0.1em",

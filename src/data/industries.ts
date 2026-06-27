@@ -187,6 +187,138 @@ export const INDUSTRIES: Industry[] = [
     ],
     stat: { value: "0", label: "renewals missed" },
   },
+  {
+    slug: "pool-repair",
+    name: "Pool Service & Repair",
+    shortName: "Pool Service",
+    tagline: "Spring backlog season is 8 weeks long. Most owners waste 4 of them on the phone.",
+    pain: "Pool season in the New York metro is short and unforgiving. From April through June, every pool owner wants their water ready at the same time — and if your crew can't get to the phone while they're opening pools, those jobs go to whoever answers first. Emergency equipment calls don't wait, and recurring service customers drift to the next flyer they find if you go quiet between visits.",
+    painPoints: [
+      "Spring-rush calls going unanswered while techs are on site",
+      "Emergency equipment failures losing jobs to faster competitors",
+      "Recurring service customers skipped or forgotten between visits",
+      "Invoice delays because office admin is managing the chaos",
+    ],
+    solution:
+      "Batistack installs an AI workforce that handles every inbound call, books service windows by zone, sends recurring visit reminders to your customers, and invoices the moment a job is logged. Your techs stay in the water; your Telegram stays full of booked jobs.",
+    keyAgents: [
+      { name: "Voice Agent", why: "Answers every spring-rush call and books emergency repairs 24/7" },
+      { name: "Scheduler Agent", why: "Routes crews by neighborhood and books recurring service visits" },
+      { name: "Billing Agent", why: "Invoices automatically on job completion — no admin delay" },
+      { name: "Scout Agent", why: "Reaches out to HOAs and property managers with commercial pools" },
+    ],
+    stat: { value: "0", label: "missed calls during spring rush" },
+  },
+  {
+    slug: "general-contractor",
+    name: "General Contracting",
+    shortName: "General Contractor",
+    tagline: "You can't manage a NYC job site and chase bids at the same time.",
+    pain: "NYC general contractors operate on thin margins where every unbilled change order and every slow bid response is money left on the table. Subcontractors need coordination, DOB schedules need tracking, and bid requests from developers and property managers arrive while you're three floors up in Bushwick. The office work piles up while the field work never stops.",
+    painPoints: [
+      "Bid requests unanswered while the owner is on-site",
+      "Change orders completed but never formally invoiced",
+      "Subcontractor coordination running on group text",
+      "DOB inspection dates and permit deadlines tracked on paper",
+    ],
+    solution:
+      "Batistack gives your contracting business an AI office that responds to bid requests the same hour, converts every change order into a line-itemed invoice, and keeps project milestones in front of you on Telegram. Sub coordination goes from group text to tracked, timestamped messages — with a paper trail when disputes arise.",
+    keyAgents: [
+      { name: "Email Agent", why: "Same-hour bid responses to developers, PMs, and property owners" },
+      { name: "Billing Agent", why: "Every change order becomes a signed, sent invoice automatically" },
+      { name: "CEO Agent", why: "Daily digest of open bids, project milestones, and deadlines" },
+      { name: "Commander Agent", why: "Sub coordination and approvals dispatched from your phone" },
+    ],
+    stat: { value: "100%", label: "of change orders invoiced" },
+  },
+  {
+    slug: "landscaping",
+    name: "Landscaping & Grounds",
+    shortName: "Landscaping",
+    tagline: "Maintenance contracts go to whoever sends the proposal in 48 hours. Not 5 days.",
+    pain: "Landscaping in the New York metro runs on recurring maintenance contracts — and those contracts go to whoever sends the proposal fastest in late winter. While you're running crews through Queens and Staten Island in peak season, new customers call and get voicemail, recurring accounts complain about missed visits, and invoicing falls weeks behind because office time disappears from May through October.",
+    painPoints: [
+      "Spring proposal requests going unanswered during crew season",
+      "Recurring maintenance customers double-booked or quietly dropped",
+      "Seasonal invoice delays stretching into the following month",
+      "No systematic outreach to property managers and HOAs",
+    ],
+    solution:
+      "Your Batistack AI workforce sends proposals within hours of an inquiry, routes crews by borough with zero double-booking, invoices recurring accounts automatically on their schedule, and runs outreach to property managers and HOAs across your target zip codes — all while you're running operations in the field.",
+    keyAgents: [
+      { name: "Scheduler Agent", why: "Routes crews by borough, eliminates double-booking entirely" },
+      { name: "Email Agent", why: "Instant proposals and seasonal service outreach to PMs and HOAs" },
+      { name: "Billing Agent", why: "Recurring maintenance invoices sent on schedule, automatically" },
+      { name: "Scout Agent", why: "Finds commercial property contracts in your target neighborhoods" },
+    ],
+    stat: { value: "48 hr", label: "proposal-to-signed contract window" },
+  },
+  {
+    slug: "roofing",
+    name: "Roofing",
+    shortName: "Roofing",
+    tagline: "The 48 hours after a NYC storm close more jobs than the rest of the month combined.",
+    pain: "NYC roofing is a storm-driven business. When a nor'easter rolls through, every flat roof in the Bronx and Brooklyn needs inspection — and the contractors who answer the phone in the 48 hours after the storm capture the season. Between storms, bids pile up unanswered, insurance documentation takes hours you don't have, and crews idle while dispatch runs on phone tag.",
+    painPoints: [
+      "Post-storm surge calls missed while crews are already deployed",
+      "Insurance documentation consuming hours of admin time per job",
+      "Bid requests sitting unanswered until competitors take the work",
+      "Crew dispatch across boroughs running on manual phone tag",
+    ],
+    solution:
+      "Batistack puts an AI workforce in your office that captures every storm-surge call, triages by urgency, and dispatches your nearest crew from Telegram. Insurance documentation gets organized from job notes automatically, bids go out the same day inquiries arrive, and your schedule fills itself.",
+    keyAgents: [
+      { name: "Voice Agent", why: "Captures every post-storm call, triages urgency, books inspection" },
+      { name: "Commander Agent", why: "Crew dispatch and job approvals from Telegram in seconds" },
+      { name: "Billing Agent", why: "Insurance claim documentation and invoicing on job close" },
+      { name: "Scout Agent", why: "Outreach to property managers and HOAs for preventive contract work" },
+    ],
+    stat: { value: "48 hr", label: "post-storm response window" },
+  },
+  {
+    slug: "pest-control",
+    name: "Pest Control",
+    shortName: "Pest Control",
+    tagline: "In NYC, every HPD violation is an emergency call you cannot miss.",
+    pain: "New York City has the highest pest pressure in the country — bedbugs, cockroaches, and rodents don't follow business hours. Multi-family landlords call for HPD violation response at 7 AM; restaurant owners call the moment the health inspector leaves. If your line goes to voicemail, they're calling the next exterminator on Yelp. Recurring accounts drift away when treatment reports don't arrive on time.",
+    painPoints: [
+      "HPD violation and emergency calls missed outside business hours",
+      "Recurring account treatment reports sent late or forgotten",
+      "Multi-family property managers needing same-day scheduling",
+      "New lead follow-up lost to faster-responding competitors",
+    ],
+    solution:
+      "Your Batistack AI workforce answers every call — day or night — qualifies the pest type and urgency, books the service window, and sends treatment reports automatically when your tech closes the job. Recurring accounts get reminders and documentation without touching your inbox, and landlords get the paper trail their city inspectors require.",
+    keyAgents: [
+      { name: "Voice Agent", why: "24/7 emergency intake for HPD violations and urgent pest calls" },
+      { name: "Scheduler Agent", why: "Same-day booking and routing for multi-family and restaurant accounts" },
+      { name: "Email Agent", why: "Automated treatment reports and recurring service reminders" },
+      { name: "Billing Agent", why: "Invoicing on job close, recurring billing on schedule" },
+    ],
+    stat: { value: "24/7", label: "HPD violation response coverage" },
+  },
+  {
+    slug: "auto-repair",
+    name: "Auto Repair",
+    shortName: "Auto Repair",
+    tagline: "An empty bay costs you $400 an hour. Your schedule shouldn't have gaps.",
+    pain: "Auto repair shops in NYC live and die by bay utilization. Customers call for estimates and don't hear back until the next day — so they drop it off somewhere else. Service reminders never go out, so regular customers forget you exist between oil changes. Insurance work piles up documentation that keeps your service writer off the floor instead of writing tickets.",
+    painPoints: [
+      "Estimate inquiries unanswered until the customer books elsewhere",
+      "Service reminders never sent — regular customers quietly drift away",
+      "Insurance documentation keeping the service writer off the floor",
+      "Empty bays from no-shows with no appointment confirmation system",
+    ],
+    solution:
+      "Batistack installs an AI workforce that answers every estimate call, books appointments to fill your bays with confirmation texts that kill no-shows, sends service reminders to past customers, and handles insurance documentation — so your service writer stays with customers, not on hold with adjusters. Bay status and daily revenue show up in your Telegram in real time.",
+    keyAgents: [
+      { name: "Voice Agent", why: "Answers estimate calls and books appointments to fill every bay" },
+      { name: "Scheduler Agent", why: "Bay scheduling with confirmation texts that eliminate no-shows" },
+      { name: "Email Agent", why: "Service reminders bring back oil change and seasonal customers" },
+      { name: "Billing Agent", why: "Insurance estimates and invoicing without tying up the service writer" },
+    ],
+    stat: { value: "0", label: "empty bays from scheduling gaps" },
+  },
 ];
 
 export function getIndustry(slug: string): Industry | undefined {

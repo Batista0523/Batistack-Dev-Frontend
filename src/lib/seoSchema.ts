@@ -4,7 +4,7 @@ const OG_IMAGE = `${SITE_URL}/og-image.png`;
 export const localBusinessSchema = {
   "@context": "https://schema.org",
   "@type": "LocalBusiness",
-  name: "Batistack",
+  name: "Batista AI Infrastructure and Agent Services",
   description:
     "AI infrastructure and agent services for NYC businesses. We install AI workforces on Apple hardware — lead gen, calls, invoicing, scheduling, running 24/7.",
   url: SITE_URL,
@@ -28,10 +28,10 @@ export const localBusinessSchema = {
 export const servicePageSchema = {
   "@context": "https://schema.org",
   "@type": "Service",
-  serviceType: "Web Design & AI Integration",
+  serviceType: "AI Infrastructure & Agent Services",
   provider: {
     "@type": "LocalBusiness",
-    name: "Batistack",
+    name: "Batista AI Infrastructure and Agent Services",
     url: SITE_URL,
   },
   areaServed: {
@@ -40,32 +40,32 @@ export const servicePageSchema = {
   },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
-    name: "Batistack Services",
+    name: "Batista AI Infrastructure and Agent Services",
     itemListElement: [
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Custom Web Design",
-          description: "Fully custom websites built in 2–3 weeks. No templates.",
+          name: "Batistack Autopilot Installation",
+          description: "AI agent workforce physically installed in your business on Apple Silicon hardware. Runs 24/7 handling calls, leads, invoicing, and scheduling.",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "AI Chatbot Integration",
+          name: "AI Agent Lead Generation",
           description:
-            "AI-powered chatbots that qualify leads and answer questions 24/7.",
+            "AI agents that answer calls, qualify leads, follow up automatically, and book appointments — around the clock without additional staff.",
         },
       },
       {
         "@type": "Offer",
         itemOffered: {
           "@type": "Service",
-          name: "Lead Generation Automation",
+          name: "Operations Automation",
           description:
-            "Automated lead capture and follow-up systems built into your website.",
+            "AI agents that handle invoicing, scheduling, dispatch, and customer communication so your team focuses on the work, not the admin.",
         },
       },
     ],
@@ -151,12 +151,12 @@ export function generateArticleSchema(post: {
     url: `${SITE_URL}/blog/${post.slug}`,
     author: {
       "@type": "Person",
-      name: "Batista",
+      name: "Elisaul Batista",
       url: SITE_URL,
     },
     publisher: {
       "@type": "Organization",
-      name: "Batistack",
+      name: "Batista AI Infrastructure and Agent Services",
       url: SITE_URL,
       logo: {
         "@type": "ImageObject",
@@ -175,7 +175,7 @@ export function generateBlogIndexSchema(posts: Array<{ title: string; slug: stri
   return {
     "@context": "https://schema.org",
     "@type": "Blog",
-    name: "Batistack Blog",
+    name: "Batista AI Blog",
     url: `${SITE_URL}/blog`,
     blogPost: posts.map((p) => ({
       "@type": "BlogPosting",

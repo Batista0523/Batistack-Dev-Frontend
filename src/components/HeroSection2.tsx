@@ -1,5 +1,7 @@
+'use client';
+
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 
 // ── Animation variants ──────────────────────────────────────────────────────
 const EASE = [0.25, 0.46, 0.45, 0.94] as const;
@@ -238,11 +240,11 @@ export default function HeroSection2() {
               justifyContent: "center",
             }}
           >
-            <Link to="/contact" className="btn-primary">
+            <Link href="/contact" className="btn-primary">
               Start a Project
               <ArrowRight size={13} color="var(--black)" />
             </Link>
-            <Link to="/services" className="btn-ghost">
+            <Link href="/services" className="btn-ghost">
               See What I Build
             </Link>
           </motion.div>

@@ -1,5 +1,7 @@
+'use client';
+
 import { useRef } from "react";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 
 // ── Types ──────────────────────────────────────────────────────────────────────
@@ -262,14 +264,14 @@ function PricingCard({
       {/* CTA */}
       {card.ctaVariant === "primary" ? (
         <Link
-          to="/contact"
+          href="/contact"
           className="btn-primary"
           style={{ justifyContent: "center", textAlign: "center" }}
         >
           {card.ctaLabel}
         </Link>
       ) : (
-        <Link to="/contact" className="btn-text pricing-btn-text">
+        <Link href="/contact" className="btn-text pricing-btn-text">
           {card.ctaLabel}
           <ArrowIcon />
         </Link>
