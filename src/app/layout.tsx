@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
+import CustomCursor from "../components/CustomCursor";
 import ScrollToTop from "../hook/scrollToTop";
 import GoogleAnalyticsTracker from "../components/GoogleAnalyticsTracker";
 import "../global.css";
@@ -25,6 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Suspense fallback={null}>
           <GoogleAnalyticsTracker />
         </Suspense>
+        <CustomCursor />
         <NavBar />
         {children}
         <Footer />
