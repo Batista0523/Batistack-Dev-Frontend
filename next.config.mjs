@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  transpilePackages: ["react-markdown"],
   images: {
     formats: ["image/avif", "image/webp"],
     minimumCacheTTL: 60,

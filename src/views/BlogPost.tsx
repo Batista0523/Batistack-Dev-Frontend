@@ -1,9 +1,123 @@
 'use client';
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import ReactMarkdown from "react-markdown";
+import type { Components } from "react-markdown";
 import { getPostBySlug } from "../data/blogPosts";
 import { Reveal } from "../components/ui";
 import BlogPostCTA from "../components/BlogPostCTA";
+
+const mdComponents: Components = {
+  h1: () => null,
+  h2: ({ children }) => (
+    <h2
+      style={{
+        fontFamily: "var(--font-display)",
+        fontWeight: 800,
+        fontSize: "clamp(20px, 2.2vw, 26px)",
+        color: "#00AEEF",
+        margin: "40px 0 18px",
+        lineHeight: 1.25,
+        letterSpacing: "-0.01em",
+      }}
+    >
+      {children}
+    </h2>
+  ),
+  h3: ({ children }) => (
+    <h3
+      style={{
+        fontFamily: "var(--font-display)",
+        fontWeight: 700,
+        fontSize: "clamp(16px, 1.8vw, 20px)",
+        color: "var(--bone)",
+        margin: "28px 0 12px",
+        lineHeight: 1.3,
+      }}
+    >
+      {children}
+    </h3>
+  ),
+  p: ({ children }) => (
+    <p
+      style={{
+        fontFamily: "var(--font-sans)",
+        fontSize: "clamp(15px, 1.4vw, 17px)",
+        fontWeight: 400,
+        lineHeight: 1.85,
+        color: "var(--silver)",
+        margin: "0 0 22px",
+      }}
+    >
+      {children}
+    </p>
+  ),
+  ul: ({ children }) => (
+    <ul style={{ listStyle: "none", padding: 0, margin: "0 0 22px" }}>
+      {children}
+    </ul>
+  ),
+  ol: ({ children }) => (
+    <ol style={{ paddingLeft: "22px", margin: "0 0 22px" }}>
+      {children}
+    </ol>
+  ),
+  li: ({ children }) => (
+    <li style={{ display: "flex", gap: "10px", marginBottom: "10px", alignItems: "flex-start" }}>
+      <span
+        style={{
+          color: "#00AEEF",
+          flexShrink: 0,
+          marginTop: "10px",
+          fontSize: "5px",
+          lineHeight: 1,
+        }}
+      >
+        ●
+      </span>
+      <span
+        style={{
+          fontFamily: "var(--font-sans)",
+          fontSize: "clamp(15px, 1.4vw, 17px)",
+          lineHeight: 1.85,
+          color: "var(--silver)",
+        }}
+      >
+        {children}
+      </span>
+    </li>
+  ),
+  strong: ({ children }) => (
+    <strong style={{ color: "var(--bone)", fontWeight: 700 }}>{children}</strong>
+  ),
+  a: ({ href, children }) =>
+    href?.startsWith("/") ? (
+      <Link
+        href={href}
+        style={{ color: "#00AEEF", textDecoration: "underline", textDecorationColor: "rgba(0,174,239,0.4)" }}
+      >
+        {children}
+      </Link>
+    ) : (
+      <a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{ color: "#00AEEF", textDecoration: "underline", textDecorationColor: "rgba(0,174,239,0.4)" }}
+      >
+        {children}
+      </a>
+    ),
+  hr: () => (
+    <hr
+      style={{
+        border: "none",
+        borderTop: "1px solid #1E1E1E",
+        margin: "40px 0",
+      }}
+    />
+  ),
+};
 
 export default function BlogPost() {
   const params = useParams();
@@ -218,40 +332,44 @@ export default function BlogPost() {
         <section style={{ padding: "56px 0 72px" }}>
           <div className="blog-post-container">
             <Reveal>
-              {(post.sections ?? []).map((section, i) => (
-                <div key={section.heading ?? `section-${i}`} style={{ marginBottom: "40px" }}>
-                  {section.heading && (
-                    <h2
-                      style={{
-                        fontFamily: "var(--font-display)",
-                        fontWeight: 800,
-                        fontSize: "clamp(20px, 2.2vw, 26px)",
-                        color: "#00AEEF",
-                        margin: "0 0 18px",
-                        lineHeight: 1.25,
-                        letterSpacing: "-0.01em",
-                      }}
-                    >
-                      {section.heading}
-                    </h2>
-                  )}
-                  {section.paragraphs.map((para) => (
-                    <p
-                      key={para.slice(0, 32)}
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "clamp(15px, 1.4vw, 17px)",
-                        fontWeight: 400,
-                        lineHeight: 1.85,
-                        color: "var(--silver)",
-                        margin: "0 0 22px",
-                      }}
-                    >
-                      {para}
-                    </p>
-                  ))}
-                </div>
-              ))}
+              {post.content ? (
+                <ReactMarkdown components={mdComponents}>{post.content}</ReactMarkdown>
+              ) : (
+                (post.sections ?? []).map((section, i) => (
+                  <div key={section.heading ?? `section-${i}`} style={{ marginBottom: "40px" }}>
+                    {section.heading && (
+                      <h2
+                        style={{
+                          fontFamily: "var(--font-display)",
+                          fontWeight: 800,
+                          fontSize: "clamp(20px, 2.2vw, 26px)",
+                          color: "#00AEEF",
+                          margin: "0 0 18px",
+                          lineHeight: 1.25,
+                          letterSpacing: "-0.01em",
+                        }}
+                      >
+                        {section.heading}
+                      </h2>
+                    )}
+                    {section.paragraphs.map((para) => (
+                      <p
+                        key={para.slice(0, 32)}
+                        style={{
+                          fontFamily: "var(--font-sans)",
+                          fontSize: "clamp(15px, 1.4vw, 17px)",
+                          fontWeight: 400,
+                          lineHeight: 1.85,
+                          color: "var(--silver)",
+                          margin: "0 0 22px",
+                        }}
+                      >
+                        {para}
+                      </p>
+                    ))}
+                  </div>
+                ))
+              )}
             </Reveal>
           </div>
         </section>
