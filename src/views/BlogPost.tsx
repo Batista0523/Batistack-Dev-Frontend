@@ -218,7 +218,7 @@ export default function BlogPost() {
         <section style={{ padding: "56px 0 72px" }}>
           <div className="blog-post-container">
             <Reveal>
-              {post.sections.map((section, i) => (
+              {(post.sections ?? []).map((section, i) => (
                 <div key={section.heading ?? `section-${i}`} style={{ marginBottom: "40px" }}>
                   {section.heading && (
                     <h2

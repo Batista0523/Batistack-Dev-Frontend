@@ -11,10 +11,10 @@ export async function generateMetadata({
   if (!post) return { title: "Post Not Found" };
   return {
     title: post.title,
-    description: post.description.slice(0, 155),
+    description: (post.description ?? post.excerpt ?? "").slice(0, 155),
     openGraph: {
       title: `${post.title} | Batistack`,
-      description: post.description.slice(0, 155),
+      description: (post.description ?? post.excerpt ?? "").slice(0, 155),
       url: `https://batistack.com/blog/${post.slug}`,
       siteName: "Batistack",
       images: [{ url: "https://batistack.com/og-image.png", width: 1200, height: 630 }],
@@ -23,7 +23,7 @@ export async function generateMetadata({
     twitter: {
       card: "summary_large_image",
       title: post.title,
-      description: post.description.slice(0, 155),
+      description: (post.description ?? post.excerpt ?? "").slice(0, 155),
     },
   };
 }
@@ -39,7 +39,7 @@ export default function Page({ params }: { params: { slug: string } }) {
         "@context": "https://schema.org",
         "@type": "BlogPosting",
         headline: post.title,
-        description: post.description.slice(0, 155),
+        description: (post.description ?? post.excerpt ?? "").slice(0, 155),
         url: `https://batistack.com/blog/${post.slug}`,
         datePublished: post.date,
         author: {
