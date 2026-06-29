@@ -833,6 +833,172 @@ Minimal changes. We integrate with your existing calendar and invoicing tools. W
 Visit our [services page](/services) or [contact us](/contact) for current pricing.
     `,
   },
+  {
+    slug: "contractor-website-cost-nyc-2026",
+    title: "How Much Does a Website Cost for a Contractor in NYC in 2026?",
+    date: "2026-10-01",
+    author: "Elisaul Batista",
+    category: "Web Design",
+    excerpt:
+      "HVAC, plumbing, roofing — what does a real contractor website cost in NYC in 2026? We break down every option from DIY to full agency so you know exactly what you are paying for.",
+    readTime: "7 min read",
+    content: `
+# How Much Does a Website Cost for a Contractor in NYC in 2026?
+
+If you run a contracting business in New York City — HVAC, plumbing, electrical, roofing, general contracting, landscaping — you already know you need a website. The question is what it actually costs and whether what you are paying for is worth it.
+
+This is the honest breakdown. No fluff. No upselling. Just the real numbers and what you get at each level.
+
+## Option 1 — DIY Website Builders ($0 to $50/month)
+
+Platforms like Wix, Squarespace, and GoDaddy Website Builder let you build a site yourself for free or close to it.
+
+**What you get:**
+- A site that looks decent on a template
+- Basic contact form
+- Mobile responsive layout
+
+**What you do not get:**
+- Local SEO optimization for NYC contractor searches
+- Fast load times (these platforms are notoriously slow)
+- A site that converts visitors into calls
+- Any competitive advantage over other contractors
+
+**The real cost:** Your time. If you spend 20 hours building a Wix site and your hourly rate as a contractor is $150, you just spent $3,000 in time to build something that probably will not rank on Google or convert leads effectively.
+
+**Best for:** Brand new businesses with zero budget that just need something online.
+
+## Option 2 — Freelance Designer ($500 to $3,000)
+
+A freelance web designer can build a custom site at a lower cost than an agency.
+
+**What you get:**
+- Custom design tailored to your brand
+- Faster than doing it yourself
+- Usually WordPress or similar CMS
+
+**What you do not get:**
+- Ongoing support when something breaks
+- SEO expertise specific to contractor industries
+- Integration with your scheduling or CRM systems
+- Someone who understands the NYC contractor market
+
+**The real cost:** Freelancers vary wildly in quality. A $500 freelancer and a $3,000 freelancer deliver very different results. The $500 version often looks like a $500 website.
+
+**Best for:** Contractors who need something custom but have a limited budget and some tolerance for follow-up work.
+
+## Option 3 — Marketing Agency ($3,000 to $15,000+)
+
+Traditional marketing agencies build websites as part of broader campaigns.
+
+**What you get:**
+- Professional design
+- Copywriting included
+- SEO setup
+- Ongoing retainer support
+
+**What you do not get:**
+- Specialization in contractor businesses
+- Understanding of what HVAC or plumbing customers actually search for
+- AI-ready infrastructure
+- Fast turnaround (agencies often take 3 to 6 months)
+
+**The real cost:** High monthly retainers on top of the build cost. Many NYC contractors are paying $2,000 to $5,000 per month to agencies for results that do not justify the spend.
+
+**Best for:** Established contracting businesses with marketing budgets and patience for a long build process.
+
+## Option 4 — Contractor-Specialized Agency ($2,500 to $8,000)
+
+This is where Batista AI sits. We build websites specifically for NYC contractors — HVAC, plumbing, electrical, roofing, landscaping, pest control, pool service, general contracting, auto repair, cleaning, legal, real estate, gyms, and insurance.
+
+**What you get:**
+- Fast build — live in 2 to 3 weeks, not months
+- Mobile-first design built to convert calls
+- Local SEO optimized for NYC contractor searches
+- Industry-specific content and copy
+- Schema markup so Google understands exactly what you do
+- Speed-optimized — passes Core Web Vitals
+- Contact forms and click-to-call on every page
+- Optional: AI agent integration for lead capture and follow-up
+
+**What makes this different:**
+We are not a generic web agency. We know what an HVAC customer in the Bronx searches for. We know what a roofing lead in Brooklyn looks like. We build pages that rank for those searches and convert those visitors into calls.
+
+**The real cost:** One-time build fee with clear scope. No surprise retainer. Optional ongoing support if you want it.
+
+**Best for:** NYC contractors who want a professional site that actually generates leads, built fast, by people who understand the trades.
+
+## What Should a Contractor Website Actually Include?
+
+Regardless of who builds it, a contractor website in NYC needs:
+
+**1. Click-to-call on every page**
+Most contractor searches happen on mobile. If your phone number is not clickable and at the top of every page, you are losing calls.
+
+**2. Service area pages**
+Not just "we serve NYC" — specific pages for each borough and neighborhood you work in. Brooklyn HVAC repair. Queens plumber. Bronx electrician. These pages rank for local searches.
+
+**3. Fast load speed**
+Google measures how fast your site loads. Slow sites rank lower. A contractor site should load in under 2 seconds on mobile.
+
+**4. Reviews and social proof**
+Your Google reviews should be visible on your website. A contractor with 50 five-star reviews and no website is missing massive conversion opportunity.
+
+**5. Clear CTA on every page**
+Every page should have one job: get the visitor to call or submit a form. If your site has five different buttons pointing in five different directions, you are confusing people into leaving.
+
+**6. Service-specific pages**
+Not just "HVAC Services" — "HVAC Repair in Brooklyn," "AC Installation Queens," "Furnace Replacement Bronx." Each one is a separate page that can rank for a separate search.
+
+## The Question You Should Actually Be Asking
+
+The wrong question is: how much does a website cost?
+
+The right question is: how many leads per month will this website generate, and what is each lead worth to my business?
+
+If your average HVAC job is $800 and a properly built website generates 10 additional leads per month with a 30% close rate, that is 3 additional jobs per month. That is $2,400 in additional monthly revenue. That is $28,800 per year.
+
+A website that costs $5,000 and generates $28,800 per year in additional revenue pays for itself in two months.
+
+A free Wix site that generates zero additional leads costs you nothing to build and everything in lost revenue.
+
+## What Batista AI Builds for NYC Contractors
+
+We build contractor websites on Next.js — the same framework used by companies like Hulu and TikTok — which means your site is fast, server-rendered, and fully crawlable by Google from day one.
+
+Every site includes:
+
+- Homepage with clear value proposition and primary CTA
+- Individual service pages for every service you offer
+- Borough and neighborhood landing pages for local SEO
+- About page with your story and credentials
+- Contact page with form and click-to-call
+- Blog section for ongoing SEO content
+- Schema markup for LocalBusiness and Service
+- Google Analytics 4 with conversion tracking
+
+Optional add-on: AI agent system that answers your calls, books appointments, and sends invoices automatically — installed on-premise at your location.
+
+[Schedule a free website assessment.](/contact)
+
+## Frequently Asked Questions
+
+**How long does it take to build a contractor website?**
+With Batista AI, most contractor websites are live within 2 to 3 weeks of signing. We move fast because we specialize — we are not building your site from scratch conceptually.
+
+**Do I need to provide content and photos?**
+We write the copy. Photos help — even phone photos of your work, your truck, or your team make a significant difference in conversion. If you have nothing, we work with what we have.
+
+**Will my website rank on Google?**
+We build every site with SEO as a primary requirement, not an afterthought. Ranking takes time — typically 3 to 6 months for competitive terms — but we give you the technical foundation to rank.
+
+**Can you add AI agents later if I just want the website now?**
+Yes. The website and AI agent system are separate services. Many clients start with the website and add the AI workforce once they see the results.
+
+**Do you work with contractors outside NYC?**
+Our primary market is New York City and the surrounding metro area. Contact us and we can discuss your specific situation.
+    `,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
