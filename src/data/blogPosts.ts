@@ -596,6 +596,117 @@ No. We bring the hardware. A Mac mini is installed at your location. All you nee
 Visit our [services page](/services) or [contact us](/contact) for current pricing. We offer both installation packages and monthly support plans.
     `,
   },
+  {
+    slug: "ai-automation-plumbers-nyc",
+    title: "The NYC Plumber's Guide to AI Automation — More Jobs, Less Phone Tag",
+    date: "2026-08-01",
+    author: "Elisaul Batista",
+    category: "Industry",
+    excerpt:
+      "Plumbers are on job sites all day and cannot answer phones. Here is how AI automation handles calls, scheduling, and invoicing so you never lose a job to phone tag again.",
+    readTime: "6 min read",
+    content: `
+# The NYC Plumber's Guide to AI Automation — More Jobs, Less Phone Tag
+
+You are under a sink in Flatbush. Both hands are full. Your phone rings. You let it go to voicemail.
+
+That caller needed an emergency pipe repair. They called three plumbers. You were the second. The third one answered. They got the job.
+
+This happens dozens of times a week for plumbing companies across New York City. Not because you are bad at your job. Because you are good at your job — and being good at plumbing means your hands are always busy.
+
+The solution is not hiring someone to answer phones. The solution is building a system that never lets a call go unanswered — no matter what.
+
+## Why Plumbers Lose More Leads Than Any Other Trade
+
+Plumbing is one of the most demand-driven service businesses in New York City. When a pipe bursts, a toilet overflows, or a water heater fails, the customer needs help immediately. They are not going to wait for a callback. They are calling every plumber on the list until someone answers.
+
+Studies show that 78% of customers choose the first business that responds. In plumbing, where emergencies drive most of the call volume, speed of response is everything.
+
+The problem is structural. Plumbers work with their hands. You cannot answer a call while soldering a pipe. You cannot schedule an appointment while clearing a drain. The work itself prevents you from capturing the leads the work generates.
+
+## What AI Automation Does for a Plumbing Business
+
+AI automation for a plumbing company is not complicated. It solves one core problem: every call gets answered, every lead gets captured, every job gets scheduled — without you lifting a finger.
+
+Here is exactly what happens when a customer calls your plumbing company after AI automation is installed:
+
+**The call comes in.** The AI Voice Agent answers within two rings using your company name. The caller hears a professional, natural-sounding voice — not a robotic menu system.
+
+**The AI qualifies the call.** Is this an emergency or a scheduled service? Residential or commercial? What borough are they in? The AI collects this information conversationally, the same way a skilled receptionist would.
+
+**The appointment gets booked.** The AI checks your real-time availability and books the job directly into your calendar. The customer receives a confirmation text and email immediately.
+
+**You get notified.** A Telegram message arrives on your phone with the lead details — name, address, job type, appointment time. You see it between jobs. No voicemail to check. No callback required.
+
+**The follow-up is automatic.** The Scheduler Agent sends the customer a reminder 24 hours before the appointment and again 2 hours before. No-show rates drop dramatically.
+
+## The Invoice Problem Plumbers Never Talk About
+
+Here is something most plumbing business owners do not track: how much money is sitting in unpaid invoices right now.
+
+Most plumbing companies send invoices manually — after the job, when they get back to the office, when they remember. That delay costs money. Customers forget. Cash flow suffers.
+
+The Billing Agent changes this completely. When you mark a job complete on your phone, the invoice goes out automatically. If it is not paid within 48 hours, the agent sends a polite reminder. If it is still unpaid after 7 days, it escalates. All of this happens without you thinking about it.
+
+For a plumbing company doing 15 to 20 jobs per week, this alone recovers thousands of dollars per month in faster payments.
+
+## What a Day Looks Like With AI Automation
+
+**6:30am** — You get a Telegram briefing from your CEO Agent. Four appointments today, two in Brooklyn, two in Queens. Three open invoices from last week. One new lead that came in at 11pm — an emergency water heater replacement in Staten Island. The Voice Agent already booked a morning estimate.
+
+**8:00am** — You are on your first job. Two calls come in. The Voice Agent answers both, books one estimate for tomorrow, tells the other caller you are fully booked this week but can handle their non-emergency next Monday.
+
+**12:30pm** — You finish a job. Your phone shows a notification: invoice sent automatically, $485. You did not touch it.
+
+**5:00pm** — End of the day. The Billing Agent has sent invoices for all three jobs you completed. The Scheduler Agent has confirmed tomorrow's appointments with all four customers.
+
+You answered zero administrative calls today. You sent zero invoices manually. You lost zero leads.
+
+## How Batista AI Installs This System for NYC Plumbers
+
+We physically install the AI system on Apple Silicon hardware at your business location — a Mac mini or Mac Studio that sits in your office or shop. The system runs locally. It does not depend on cloud services. It does not go down.
+
+The installation covers everything:
+
+- Voice Agent configured with your company name, services, and pricing
+- Calendar integration with your existing scheduling system
+- Billing Agent connected to your invoicing workflow
+- CEO Agent delivering daily briefings via Telegram
+- Staff training so your team knows how the system works
+
+From contract to live system: 8 days.
+
+## Is This Right for Your Plumbing Company?
+
+This system works best for plumbing companies that:
+
+- Receive more than 15 inbound calls per week
+- Miss calls regularly because technicians are on jobs
+- Have unpaid invoices sitting longer than 7 days
+- Want to grow revenue without adding office staff
+
+If that describes your business, schedule a free assessment. We will look at your current call volume and invoice cycle and show you exactly how much revenue the system would recover for your specific operation.
+
+[Schedule your free assessment.](/contact)
+
+## Frequently Asked Questions
+
+**Will the AI know about my specific services and pricing?**
+Yes. During setup we train the Voice Agent on your exact services, service areas, pricing ranges, and availability. It speaks to your customers the way you would.
+
+**What if a customer calls about something complex?**
+The AI handles standard intake and scheduling. For technical questions it cannot answer, it tells the customer a licensed plumber will call them back and flags it for your attention.
+
+**Do I need to change my phone number?**
+No. We forward your existing business number to the AI system. Your number stays the same.
+
+**What happens if the internet goes down?**
+The system runs on local hardware. Core functions continue operating. For full redundancy options, ask us during your assessment.
+
+**How much does it cost?**
+Visit our [services page](/services) or [contact us](/contact) for current pricing and package options.
+    `,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
