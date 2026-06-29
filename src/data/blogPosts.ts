@@ -1278,6 +1278,136 @@ High-urgency situations — someone just arrested, someone just served — trigg
 Visit our [services page](/services) or [contact us](/contact) for current pricing.
     `,
   },
+  {
+    slug: "what-is-geo-ai-search-nyc-businesses",
+    title: "What Is GEO? How AI-Powered Search Is Changing How NYC Businesses Get Found",
+    date: "2027-01-01",
+    author: "Elisaul Batista",
+    category: "SEO",
+    excerpt:
+      "ChatGPT, Perplexity, and Google AI Mode are the new search. Here is what Generative Engine Optimization means for NYC small businesses and how to show up when AI recommends services.",
+    readTime: "7 min read",
+    content: `
+# What Is GEO? How AI-Powered Search Is Changing How NYC Businesses Get Found
+
+Something changed in how people find businesses.
+
+A homeowner in Queens needs an HVAC company. Two years ago they opened Google and typed "HVAC repair Queens NY." They clicked the first result.
+
+Today that same homeowner opens ChatGPT and asks: "Who are the best HVAC companies in Queens that offer same-day service and have good reviews?"
+
+ChatGPT gives them a direct answer. Three company names. A brief description of each. Why each one might be a good fit.
+
+That homeowner never saw your website. They never looked at Google search results. They asked an AI and the AI decided who to recommend.
+
+If your business is not in that recommendation — you do not exist to that customer.
+
+This is the new reality of local business discovery. And most NYC small business owners have no idea it is happening.
+
+## What Is GEO?
+
+GEO stands for Generative Engine Optimization. It is the practice of making your business visible and citable by AI systems — ChatGPT, Perplexity, Google AI Mode, Claude, Gemini, and the AI assistants that are increasingly the first stop for consumer research.
+
+Traditional SEO optimizes for search engine crawlers. You structure your content so Google understands what your page is about and ranks it for relevant searches.
+
+GEO optimizes for AI language models. You structure your content, your online presence, and your citations so AI systems have accurate, comprehensive information about your business and include you in their recommendations.
+
+They are related but not identical. A business can rank well on Google and still be invisible to AI recommendations. A business can appear in AI recommendations without ranking on the first page of Google.
+
+The businesses that will win over the next five years are the ones that optimize for both.
+
+## Why AI Search Is Growing So Fast
+
+The numbers are hard to ignore.
+
+ChatGPT reached 100 million users faster than any platform in history. Perplexity is growing at a rate that concerns Google's leadership enough that they released their own AI search product — AI Overviews — which now appears at the top of Google results for hundreds of millions of queries.
+
+In 2024, for the first time in history, Google's search volume declined year over year. People are not abandoning search. They are redirecting a significant portion of their searches to AI tools that give direct answers instead of a list of links.
+
+For local businesses — HVAC companies, plumbers, electricians, law firms, cleaning services, real estate agencies — this shift matters because local service queries are exactly the type of questions people are taking to AI.
+
+"What is the best HVAC company in Brooklyn?"
+"Find me a plumber in Staten Island available this weekend."
+"Which NYC law firms specialize in personal injury cases?"
+"Is there a cleaning service in the Bronx that does same-day appointments?"
+
+These are not technical queries. They are the everyday questions of people who need a local service provider. And increasingly, they are being answered by AI — not by a Google search results page.
+
+## How AI Systems Decide Who to Recommend
+
+AI language models do not crawl the web in real time the way Google does. They are trained on massive datasets of text — websites, directories, reviews, articles, structured data — and they develop an understanding of which businesses exist, what they do, where they are, and how credible they are.
+
+When someone asks an AI which HVAC company to use in Queens, the AI draws on everything it has learned about HVAC companies in Queens. The businesses with the most comprehensive, consistent, and credible information across multiple sources get recommended. The businesses that exist only in a few places — or whose information is inconsistent — get ignored.
+
+This means several things matter for GEO:
+
+**Citation consistency.** Your business name, address, and phone number must be identical across every directory, every listing, every platform. Inconsistency confuses AI systems and reduces your chances of being cited.
+
+**Content depth.** AI systems favor businesses with comprehensive information about what they do, who they serve, and how they work. A thin website with minimal content is less likely to be cited than a site with detailed service pages, industry-specific blog posts, and clear descriptions of your process.
+
+**Structured data.** Schema markup — the technical code that tells search engines and AI crawlers exactly what your business is — makes it easier for AI systems to understand and cite you correctly.
+
+**Third-party citations.** The more reputable external sources mention your business — directories, news articles, industry sites — the more credible you appear to AI systems.
+
+**Specialized content.** AI systems are more likely to cite a business as an expert when that business has published detailed, useful content about their industry. A roofing company with a blog post about post-storm roof inspection is more likely to be recommended for storm damage calls than a roofing company with no content.
+
+## What NYC Small Businesses Need to Do Right Now
+
+The window to get ahead of this is open right now. Most NYC small businesses are not thinking about GEO. Most of your competitors have no idea this shift is happening.
+
+Here is what positions you to be recommended by AI systems:
+
+**1. Claim and complete every major directory listing.**
+Google Business Profile, Yelp, BBB, Yelp, Clutch, GoodFirms, Apple Maps, industry-specific directories. Every listing where your business appears with accurate, complete information is a data point AI systems use to understand and recommend you.
+
+**2. Publish industry-specific content.**
+Blog posts, service descriptions, FAQ pages — written specifically about what you do and who you serve. An HVAC company in the Bronx that publishes a detailed post about emergency AC repair in the Bronx is building the kind of content AI systems draw on when answering local queries.
+
+**3. Add structured data to your website.**
+Schema markup for LocalBusiness, Service, FAQPage. This is the machine-readable layer that tells AI crawlers exactly what your business does and where.
+
+**4. Create a public llms.txt file.**
+This is a newer standard — a simple text file on your website that describes your business in a format optimized for AI crawlers. Think of it as a business card for AI systems.
+
+**5. Get consistent reviews.**
+Reviews appear across multiple platforms and contribute to AI systems understanding that your business is credible and well-regarded. Five reviews on Google and nothing anywhere else is weaker than consistent reviews across Google, Yelp, and industry directories.
+
+**6. Build real backlinks.**
+When reputable websites link to you — local news, industry associations, business directories — AI systems treat this as a signal of credibility and include you more readily in recommendations.
+
+## How Batista AI Builds GEO Into Everything We Do
+
+Every website we build for NYC contractors and local businesses includes the full GEO layer from day one:
+
+- Schema markup for LocalBusiness, Service, and FAQ structured data
+- public/llms.txt file describing the business for AI crawlers
+- robots.txt allowing all AI crawlers
+- Industry-specific blog content targeting the exact queries AI systems answer
+- Citation consistency across all major directories
+- Google Search Console setup and sitemap submission
+
+We do not build websites and hope they get found. We build websites engineered to be discovered by both search engines and AI systems from the moment they go live.
+
+[Schedule a free GEO assessment for your NYC business.](/contact)
+
+## Frequently Asked Questions
+
+**Is GEO replacing SEO?**
+No. GEO and SEO work together. Google still drives massive traffic and will for years. But AI-powered search is a growing channel that requires specific optimization. Smart businesses optimize for both.
+
+**How long does it take to show up in AI recommendations?**
+It varies. AI systems update their training data on different schedules. Building a comprehensive presence — directories, content, structured data, reviews — typically shows results within 3 to 6 months. Some businesses appear in AI recommendations faster when they fill a gap in a specific local market.
+
+**Can I check if my business shows up in AI recommendations?**
+Yes. Open ChatGPT or Perplexity and ask: "What are the best [your service] companies in [your city/neighborhood]?" If your business appears, you are being cited. If it does not, you have work to do.
+
+**Does the size of my business matter?**
+No. AI systems recommend businesses based on information quality and consistency, not business size. A solo plumber with a well-optimized presence can be recommended ahead of a larger company with poor information consistency.
+
+**Where do I start?**
+Start with Google Business Profile — make sure it is complete, accurate, and has your primary service keywords in the description. Then build out your directory presence and add structured data to your website. Contact us for a full GEO audit of your current presence.
+    `,
+  },
 ];
 
 export function getPostBySlug(slug: string): BlogPost | undefined {
